@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocale } from "next-intl";
 import type { City } from "@/lib/astrology/cities";
+import { timeZoneForPlace } from "@/lib/astrology/timezone";
 import type { CalculatorMeta } from "@/lib/calculators/catalog";
 import { getFormConfig } from "@/lib/calculators/form-config";
 import { Button } from "@/components/ui/Button";
@@ -464,7 +465,11 @@ export function CalculatorClient({
           payload.lat = city.lat;
           payload.lon = city.lon;
           payload.timezoneOffsetMinutes = city.timezoneOffsetMinutes ?? 330;
-          payload.timeZone = "Asia/Kolkata";
+          payload.timeZone = timeZoneForPlace({
+            lat: city.lat,
+            lon: city.lon,
+            offsetMinutes: city.timezoneOffsetMinutes ?? 330,
+          });
         } else {
           payload.lat = 28.6139;
           payload.lon = 77.209;
@@ -480,6 +485,8 @@ export function CalculatorClient({
         if (boyCity) {
           payload.boyLat = boyCity.lat;
           payload.boyLon = boyCity.lon;
+          payload.boyTimezoneOffsetMinutes =
+            boyCity.timezoneOffsetMinutes ?? 330;
         }
         payload.girlName = girl.name.trim() || "Partner B";
         payload.girlDate = girl.date;
@@ -488,6 +495,8 @@ export function CalculatorClient({
         if (girlCity) {
           payload.girlLat = girlCity.lat;
           payload.girlLon = girlCity.lon;
+          payload.girlTimezoneOffsetMinutes =
+            girlCity.timezoneOffsetMinutes ?? 330;
         }
         break;
       case "names":

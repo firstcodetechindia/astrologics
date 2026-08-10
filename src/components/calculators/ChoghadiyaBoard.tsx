@@ -17,6 +17,7 @@ import {
   weekChoghadiya,
   type MuhuratWindow,
 } from "@/lib/astrology/muhurat-now";
+import { timeZoneForPlace } from "@/lib/astrology/timezone";
 import { cn } from "@/lib/utils";
 
 function tx(locale: string, v: { en: string; hi: string }) {
@@ -174,14 +175,24 @@ export function ChoghadiyaBoard() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ymd, tick]);
 
+  const tz = useMemo(
+    () =>
+      timeZoneForPlace({
+        lat: city.lat,
+        lon: city.lon,
+        offsetMinutes: city.timezoneOffsetMinutes ?? 330,
+      }),
+    [city.lat, city.lon, city.timezoneOffsetMinutes]
+  );
+
   const data = useMemo(
-    () => dailyMuhuratFor(when, "Asia/Kolkata", city.lat, city.lon),
-    [when, city.lat, city.lon]
+    () => dailyMuhuratFor(when, tz, city.lat, city.lon),
+    [when, city.lat, city.lon, tz]
   );
 
   const week = useMemo(
-    () => weekChoghadiya(parseYmd(ymd), "Asia/Kolkata", city.lat, city.lon, 7),
-    [ymd, city.lat, city.lon]
+    () => weekChoghadiya(parseYmd(ymd), tz, city.lat, city.lon, 7),
+    [ymd, city.lat, city.lon, tz]
   );
 
   const isToday = ymd === ymdLocal(new Date());

@@ -105,7 +105,7 @@ const DEFAULTS: Record<
     nameRequired: false,
     dateLabel: L("Date", "तिथि"),
     timeLabel: L("Time (optional)", "समय (वैकल्पिक)"),
-    placeLabel: L("Place of birth", "जन्म स्थान"),
+    placeLabel: L("City / place", "शहर / स्थान"),
     valueLabel: L("Value", "मान"),
   },
   none: {

@@ -271,8 +271,11 @@ export function ChatClient() {
       setStarterSuggestions(data.suggestions || []);
       setFollowUps([]);
 
-      const used = readFreeUsed();
+      const serverUsed =
+        typeof data.freeUsed === "number" ? data.freeUsed : readFreeUsed();
+      const used = Math.max(serverUsed, readFreeUsed());
       setFreeUsed(used);
+      writeFreeUsed(used);
 
       // If free quota already used, still show suggestions — taps open signup gate
       if (used >= FREE_CHAT_LIMIT) {
@@ -330,10 +333,7 @@ export function ChatClient() {
     setFollowUps([]);
     setLoading(true);
     setError(null);
-
-    const nextUsed = freeUsed + 1;
-    setFreeUsed(nextUsed);
-    writeFreeUsed(nextUsed);
+    let nextUsed = freeUsed;
 
     try {
       const res = await fetch("/api/chat", {
@@ -347,10 +347,25 @@ export function ChatClient() {
         }),
       });
 
-      if (!res.ok || !res.body) {
+      if (res.status === 429) {
         const data = await res.json().catch(() => ({}));
-        throw new Error(data.error || "Chat failed");
+        const used =
+          typeof data.freeUsed === "number" ? data.freeUsed : FREE_CHAT_LIMIT;
+        setFreeUsed(used);
+        writeFreeUsed(used);
+        setMessages((m) => m.slice(0, -2));
+        showSignupGate(text);
+        setLoading(false);
+        return;
       }
+
+      if (!res.ok || !res.body) {
+        throw new Error("Chat failed");
+      }
+
+      nextUsed = freeUsed + 1;
+      setFreeUsed(nextUsed);
+      writeFreeUsed(nextUsed);
 
       const reader = res.body.getReader();
       const decoder = new TextDecoder();

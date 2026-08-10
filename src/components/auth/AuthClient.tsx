@@ -18,7 +18,9 @@ export function AuthClient() {
   const locale = useLocale();
   const hi = locale === "hi";
   const search = useSearchParams();
-  const next = search.get("next") || "/chat";
+  const rawNext = search.get("next") || "/chat";
+  const next =
+    rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : "/chat";
   const [mode, setMode] = useState<"login" | "signup">("signup");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

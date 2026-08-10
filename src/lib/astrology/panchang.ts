@@ -2,6 +2,7 @@ import { NAKSHATRAS, NAKSHATRA_SPAN } from "./constants";
 import { dateToJulianDay, lahiriAyanamsaFromDate, norm360 } from "./math";
 import { getSiderealPlanets } from "./planets";
 import { nakshatraFromLongitude } from "./nakshatra";
+import { weekdayFromOffset } from "./timezone";
 
 const TITHIS = [
   { en: "Pratipada", hi: "प्रतिपदा" },
@@ -82,7 +83,10 @@ function karanaIndex(tithiElongation: number): number {
   return (half - 1) % 7;
 }
 
-export function computePanchang(date: Date) {
+export function computePanchang(
+  date: Date,
+  opts?: { timezoneOffsetMinutes?: number }
+) {
   const ayanamsa = lahiriAyanamsaFromDate(date);
   const { planets } = getSiderealPlanets(date, ayanamsa);
   const sun = planets.find((p) => p.id === "sun")!;
@@ -97,8 +101,19 @@ export function computePanchang(date: Date) {
   const yogaIndex = Math.floor(yogaLon / NAKSHATRA_SPAN) % 27;
   const moonNak = nakshatraFromLongitude(moon.longitude);
 
-  // Approximate weekday from Julian day (0 = Mon in JS Date — use UTC day)
-  const weekday = date.getUTCDay();
+  // Civil weekday for the observer offset (default IST)
+  const weekday = weekdayFromOffset(
+    date,
+    opts?.timezoneOffsetMinutes ?? 330
+  );
+
+  let tithiName = TITHIS[tithiInPaksha] as { en: string; hi: string };
+  if (tithiInPaksha === 14) {
+    tithiName =
+      paksha === "Shukla"
+        ? { en: "Purnima", hi: "पूर्णिमा" }
+        : { en: "Amavasya", hi: "अमावस्या" };
+  }
 
   return {
     date: date.toISOString(),
@@ -111,7 +126,7 @@ export function computePanchang(date: Date) {
     },
     tithi: {
       index: tithiIndex + 1,
-      name: TITHIS[tithiInPaksha],
+      name: tithiName,
       degree: elongation % 12,
     },
     nakshatra: moonNak,
@@ -131,7 +146,7 @@ export function computeBirthPanchang(isoDate: string, time = "12:00", tz = 330) 
   const [y, m, d] = isoDate.split("-").map(Number);
   const [hh, mm] = time.split(":").map(Number);
   const utcMs = Date.UTC(y, m - 1, d, hh, mm, 0) - tz * 60 * 1000;
-  return computePanchang(new Date(utcMs));
+  return computePanchang(new Date(utcMs), { timezoneOffsetMinutes: tz });
 }
 
 export function julianDayHint(date: Date) {

@@ -415,7 +415,7 @@ export function computeTodayPanchang(opts: {
   );
 
   const moment = sunrise ?? noon;
-  const panchang = computePanchang(noon);
+  const panchang = computePanchang(moment, { timezoneOffsetMinutes: tzOff });
   const localParts = partsInTz(sunrise ?? noon, timeZone);
   const weekdayNames: Loc[] = [
     { en: "Sunday", hi: "रविवार" },
@@ -428,22 +428,15 @@ export function computeTodayPanchang(opts: {
   ];
   const weekday = weekdayNames[localParts.weekday];
 
-  // Fix Purnima / Amavasya label
-  let tithiName = panchang.tithi.name as Loc;
-  if (panchang.tithi.index === 15 || panchang.tithi.index === 30) {
-    tithiName =
-      panchang.paksha.id === "Shukla"
-        ? { en: "Purnima", hi: "पूर्णिमा" }
-        : { en: "Amavasya", hi: "अमावस्या" };
-  }
+  const tithiName = panchang.tithi.name as Loc;
 
-  const tithiEnd = findLimbEnd(noon, (d) => {
-    const p = computePanchang(d);
+  const tithiEnd = findLimbEnd(moment, (d) => {
+    const p = computePanchang(d, { timezoneOffsetMinutes: tzOff });
     return p.tithi.index;
   }, panchang.tithi.index);
 
-  const nakEnd = findLimbEnd(noon, (d) => {
-    const p = computePanchang(d);
+  const nakEnd = findLimbEnd(moment, (d) => {
+    const p = computePanchang(d, { timezoneOffsetMinutes: tzOff });
     return p.nakshatra.index;
   }, panchang.nakshatra.index);
 

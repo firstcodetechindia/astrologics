@@ -150,6 +150,10 @@ export function runCalculator(slug: string, payload: CalcPayload) {
           place: payload.boyPlace || payload.place,
           lat: payload.boyLat ?? payload.lat,
           lon: payload.boyLon ?? payload.lon,
+          timezoneOffsetMinutes:
+            payload.boyTimezoneOffsetMinutes ??
+            payload.timezoneOffsetMinutes ??
+            330,
         })
       );
       const girl = computeKundli(
@@ -161,6 +165,10 @@ export function runCalculator(slug: string, payload: CalcPayload) {
           place: payload.girlPlace || payload.place,
           lat: payload.girlLat ?? payload.lat,
           lon: payload.girlLon ?? payload.lon,
+          timezoneOffsetMinutes:
+            payload.girlTimezoneOffsetMinutes ??
+            payload.timezoneOffsetMinutes ??
+            330,
         })
       );
       const match = ashtakootMatch(boy.nakshatra.index, girl.nakshatra.index);

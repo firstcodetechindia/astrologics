@@ -61,12 +61,12 @@ const FEATURES = [
     },
   },
   {
-    href: "/calculators/birth-panchang",
+    href: "/panchang",
     icon: "📅",
-    title: { en: "Panchang Tools", hi: "पंचांग उपकरण" },
+    title: { en: "Today Panchang", hi: "आज का पंचांग" },
     text: {
-      en: "Tithi, nakshatra, yoga, karana and ayanamsa calculators.",
-      hi: "तिथि, नक्षत्र, योग, करण और अयनांश कैलकुलेटर।",
+      en: "Sunrise, tithi, nakshatra, yoga, karana and muhurat for any city.",
+      hi: "किसी भी शहर के सूर्योदय, तिथि, नक्षत्र, योग, करण व मुहूर्त।",
     },
   },
   {

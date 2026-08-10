@@ -18,6 +18,7 @@ import {
   computeTodayPanchang,
   type TodayPanchangResult,
 } from "@/lib/astrology/today-panchang";
+import { timeZoneForPlace } from "@/lib/astrology/timezone";
 import { PlaceAutocomplete } from "@/components/ui/PlaceAutocomplete";
 import { KundliChart } from "@/components/kundli/KundliChart";
 import { Button } from "@/components/ui/Button";
@@ -148,7 +149,11 @@ export function TodayPanchangView() {
         lat: city.lat,
         lon: city.lon,
         place: formatPlaceLabel(city),
-        timeZone: "Asia/Kolkata",
+        timeZone: timeZoneForPlace({
+          lat: city.lat,
+          lon: city.lon,
+          offsetMinutes: city.timezoneOffsetMinutes ?? 330,
+        }),
         timezoneOffsetMinutes: city.timezoneOffsetMinutes ?? 330,
       }),
     [date, city]

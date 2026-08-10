@@ -2,9 +2,18 @@ import { NextResponse } from "next/server";
 import { resolvePlace } from "@/lib/astrology/geocode";
 import { computeKundli } from "@/lib/astrology/compute";
 import { kundliRequestSchema } from "@/lib/astrology/schema";
+import {
+  clientIp,
+  rateLimit,
+  rateLimitResponse,
+} from "@/lib/security/rate-limit";
 
 export async function POST(req: Request) {
   try {
+    const ip = clientIp(req);
+    const rl = rateLimit(`kundli:${ip}`, 30, 60_000);
+    if (!rl.ok) return rateLimitResponse(rl.retryAfterSec);
+
     const body = await req.json();
     const parsed = kundliRequestSchema.safeParse(body);
     if (!parsed.success) {

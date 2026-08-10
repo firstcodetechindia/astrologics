@@ -812,18 +812,44 @@ export function explainCalculatorResult(
     }
 
     case "birth-panchang":
-    case "daily-panchang": {
-      const tithi = raw.tithi as { name?: Loc; index?: number };
-      const yoga = raw.yoga as { name?: Loc };
-      const karana = raw.karana as { name?: Loc };
-      const nak = raw.nakshatra as { name?: Loc; pada?: number };
+    case "daily-panchang":
+    case "today-panchang": {
+      const limbs = raw.limbs as
+        | {
+            tithi?: { name?: Loc };
+            nakshatra?: { name?: Loc; pada?: number };
+            yoga?: Loc;
+            karana?: Loc;
+            paksha?: Loc;
+            weekday?: Loc;
+          }
+        | undefined;
+      const tithi =
+        (raw.tithi as { name?: Loc; index?: number } | undefined) ||
+        limbs?.tithi;
+      const yoga =
+        (raw.yoga as { name?: Loc } | undefined)?.name ||
+        limbs?.yoga ||
+        (raw.yoga as Loc | undefined);
+      const karana =
+        (raw.karana as { name?: Loc } | undefined)?.name ||
+        limbs?.karana ||
+        (raw.karana as Loc | undefined);
+      const nak =
+        (raw.nakshatra as { name?: Loc; pada?: number } | undefined) ||
+        limbs?.nakshatra;
+      const timings = raw.timings as
+        | { sunrise?: string; sunset?: string }
+        | undefined;
       return {
         kind: "explained",
         slug,
         hero: {
           icon: "📜",
           title: L("Panchang snapshot", "पंचांग सार"),
-          badge: asLoc(raw.weekday) || L("Five limbs", "पाँच अंग"),
+          badge:
+            asLoc((raw.weekday as Loc) || limbs?.weekday) ||
+            L("Five limbs", "पाँच अंग"),
           badgeTone: "good",
           summary: L(
             "Panchang’s five limbs — weekday, tithi, nakshatra, yoga, karana — describe the day’s quality. Birth panchang colours the native’s lunar day imprint.",
@@ -831,19 +857,51 @@ export function explainCalculatorResult(
           ),
         },
         highlights: [
-          { label: L("Paksha", "पक्ष"), value: asLoc(raw.paksha) || "—" },
-          { label: L("Tithi", "तिथि"), value: asLoc(tithi?.name) || "—" },
-          { label: L("Nakshatra", "नक्षत्र"), value: asLoc(nak?.name) || "—" },
-          { label: L("Yoga", "योग"), value: asLoc(yoga?.name) || "—" },
-          { label: L("Karana", "करण"), value: asLoc(karana?.name) || "—" },
+          {
+            label: L("Paksha", "पक्ष"),
+            value: asLoc((raw.paksha as Loc) || limbs?.paksha) || "—",
+          },
+          {
+            label: L("Tithi", "तिथि"),
+            value: asLoc(tithi?.name || (tithi as Loc)) || "—",
+          },
+          {
+            label: L("Nakshatra", "नक्षत्र"),
+            value: asLoc(nak?.name) || "—",
+          },
+          {
+            label: L("Yoga", "योग"),
+            value: asLoc(yoga as Loc) || "—",
+          },
+          {
+            label: L("Karana", "करण"),
+            value: asLoc(karana as Loc) || "—",
+          },
+          ...(timings?.sunrise
+            ? [
+                {
+                  label: L("Sunrise", "सूर्योदय"),
+                  value: timings.sunrise,
+                },
+              ]
+            : []),
         ],
         sections: [
           {
             title: L("Quick meanings", "त्वरित अर्थ"),
             bullets: [
-              L("Tithi: lunar day energy (Shukla waxing / Krishna waning).", "तिथि: चंद्र दिन ऊर्जा (शुक्ल बढ़ता / कृष्ण घटता)।"),
-              L("Nakshatra: stellar mood of the Moon.", "नक्षत्र: चंद्र का तारकीय मूड।"),
-              L("Yoga & Karana: finer auspiciousness filters for muhurta.", "योग व करण: मुहूर्त हेतु सूक्ष्म शुभता फिल्टर।"),
+              L(
+                "Tithi: lunar day energy (Shukla waxing / Krishna waning).",
+                "तिथि: चंद्र दिन ऊर्जा (शुक्ल बढ़ता / कृष्ण घटता)।"
+              ),
+              L(
+                "Nakshatra: stellar mood of the Moon.",
+                "नक्षत्र: चंद्र का तारकीय मूड।"
+              ),
+              L(
+                "Yoga & Karana: finer auspiciousness filters for muhurta.",
+                "योग व करण: मुहूर्त हेतु सूक्ष्म शुभता फिल्टर।"
+              ),
             ],
           },
         ],
@@ -889,7 +947,11 @@ export function explainCalculatorResult(
     case "baby-name": {
       const letters = Array.isArray(raw.letters) ? (raw.letters as string[]) : [];
       const nak = raw.nakshatra as { name?: Loc; pada?: number };
-      const moon = raw.moonRashi as { name?: Loc } | undefined;
+      const moon = raw.moonRashi as Loc | { name?: Loc; en?: string; hi?: string } | undefined;
+      const moonVal =
+        asLoc(moon as Loc) ||
+        asLoc((moon as { name?: Loc })?.name) ||
+        "—";
       return {
         kind: "explained",
         slug,
@@ -904,7 +966,7 @@ export function explainCalculatorResult(
           ),
         },
         highlights: [
-          { label: L("Moon sign (Rashi)", "चंद्र राशि"), value: asLoc(moon?.name) || "—" },
+          { label: L("Moon sign (Rashi)", "चंद्र राशि"), value: moonVal },
           { label: L("Nakshatra", "नक्षत्र"), value: asLoc(nak?.name) || "—" },
           {
             label: L("Pada", "पद"),

@@ -2,6 +2,7 @@ import { NAKSHATRAS, NAKSHATRA_SPAN, SIGNS } from "./constants";
 import { lahiriAyanamsaFromDate, norm360, signIndexFromLongitude } from "./math";
 import { nakshatraFromLongitude } from "./nakshatra";
 import { calculateLagna, getSiderealPlanets } from "./planets";
+import { weekdayFromOffset } from "./timezone";
 
 /** KP uses finer ayanamsa; we approximate with Lahiri for free tools. */
 const SUB_LORDS = [
@@ -77,7 +78,7 @@ export function kpRulingPlanetsNow(asOf = new Date(), lat = 28.61, lon = 77.21) 
   const { planets } = getSiderealPlanets(asOf, ayanamsa);
   const moon = planets.find((p) => p.id === "moon")!;
   const lagnaLon = calculateLagna(asOf, lat, lon, ayanamsa);
-  const weekday = asOf.getUTCDay(); // 0 Sun
+  const weekday = weekdayFromOffset(asOf, 330); // default IST for “now” tools
   const dayLords = [
     { en: "Sun", hi: "सूर्य" },
     { en: "Moon", hi: "चंद्र" },

@@ -13,6 +13,13 @@ import {
   type AiProvider,
   type ChatMessage,
 } from "@/lib/ai/providers";
+import { assertChatQuota, consumeChatQuota } from "@/lib/ai/chat-quota";
+import { FREE_CHAT_LIMIT } from "@/lib/ai/chat-limits";
+import {
+  clientIp,
+  rateLimit,
+  rateLimitResponse,
+} from "@/lib/security/rate-limit";
 
 export const runtime = "nodejs";
 
@@ -68,6 +75,10 @@ async function resolveBirth(birth: BirthBody): Promise<{
 /** Prepare kundli context + suggestions before chat */
 export async function PUT(req: Request) {
   try {
+    const ip = clientIp(req);
+    const rl = rateLimit(`chat-put:${ip}`, 30, 60_000);
+    if (!rl.ok) return rateLimitResponse(rl.retryAfterSec);
+
     const body = await req.json();
     const locale = body.locale === "hi" ? "hi" : "en";
     const resolved = await resolveBirth(body.birth || {});
@@ -84,6 +95,7 @@ export async function PUT(req: Request) {
     }
 
     const k = computeKundli(resolved.input);
+    const quota = assertChatQuota(req.headers.get("cookie"));
 
     return NextResponse.json({
       ok: true,
@@ -92,6 +104,8 @@ export async function PUT(req: Request) {
       kundli: k,
       suggestions: suggestedQuestions(locale),
       aiReady: Boolean(resolveProvider()),
+      freeUsed: quota.used,
+      freeLimit: FREE_CHAT_LIMIT,
     });
   } catch (e) {
     console.error(e);
@@ -102,15 +116,34 @@ export async function PUT(req: Request) {
 /** Real-time streaming chat (SSE) — provider chosen server-side */
 export async function POST(req: Request) {
   try {
+    const ip = clientIp(req);
+    const rl = rateLimit(`chat-post:${ip}`, 20, 60_000);
+    if (!rl.ok) return rateLimitResponse(rl.retryAfterSec);
+
     const body = await req.json();
     const message = String(body.message || "").trim();
     const history = Array.isArray(body.history) ? body.history.slice(-10) : [];
     const locale = body.locale === "hi" ? "hi" : "en";
-    // Provider is chosen server-side only (best available + failover).
     const provider = resolveProvider();
 
     if (!message || message.length > 2000) {
       return NextResponse.json({ error: "Invalid message" }, { status: 400 });
+    }
+
+    const quota = assertChatQuota(req.headers.get("cookie"));
+    if (!quota.allowed) {
+      return NextResponse.json(
+        {
+          error:
+            locale === "hi"
+              ? `मुफ़्त सीमा (${FREE_CHAT_LIMIT}) पूरी हो गई। जारी रखने के लिए लॉगिन करें।`
+              : `Free limit (${FREE_CHAT_LIMIT}) reached. Please log in to continue.`,
+          code: "FREE_LIMIT",
+          freeUsed: quota.used,
+          freeLimit: FREE_CHAT_LIMIT,
+        },
+        { status: 429 }
+      );
     }
 
     const resolved = await resolveBirth(body.birth || {});
@@ -126,6 +159,8 @@ export async function POST(req: Request) {
       );
     }
 
+    const consumed = consumeChatQuota(req.headers.get("cookie"));
+
     if (!provider) {
       const fallback =
         locale === "hi"
@@ -140,7 +175,12 @@ export async function POST(req: Request) {
           );
           controller.enqueue(
             encoder.encode(
-              `data: ${JSON.stringify({ done: true, mode: "fallback" })}\n\n`
+              `data: ${JSON.stringify({
+                done: true,
+                mode: "fallback",
+                freeUsed: consumed.used,
+                freeLimit: FREE_CHAT_LIMIT,
+              })}\n\n`
             )
           );
           controller.close();
@@ -151,6 +191,7 @@ export async function POST(req: Request) {
           "Content-Type": "text/event-stream; charset=utf-8",
           "Cache-Control": "no-cache, no-transform",
           Connection: "keep-alive",
+          "Set-Cookie": consumed.setCookie,
         },
       });
     }
@@ -179,16 +220,12 @@ export async function POST(req: Request) {
           );
         };
         const tryProvider = async (p: AiProvider) => {
-          let produced = false;
           await streamAi(p, messages, (delta) => {
-            produced = true;
             send({ delta });
           });
-          return produced;
         };
 
         try {
-          let used: AiProvider = provider;
           try {
             await tryProvider(provider);
           } catch (primaryErr) {
@@ -196,9 +233,13 @@ export async function POST(req: Request) {
             const alt = fallbackProvider(provider);
             if (!alt) throw primaryErr;
             await tryProvider(alt);
-            used = alt;
           }
-          send({ done: true, mode: used });
+          send({
+            done: true,
+            mode: "ok",
+            freeUsed: consumed.used,
+            freeLimit: FREE_CHAT_LIMIT,
+          });
         } catch (err) {
           console.error(err);
           send({
@@ -207,7 +248,12 @@ export async function POST(req: Request) {
                 ? "हमारा एआई अभी उत्तर नहीं दे सका। कृपया थोड़ी देर बाद फिर कोशिश करें।"
                 : "Our AI could not reply just now. Please try again shortly.",
           });
-          send({ done: true, mode: "error" });
+          send({
+            done: true,
+            mode: "error",
+            freeUsed: consumed.used,
+            freeLimit: FREE_CHAT_LIMIT,
+          });
         } finally {
           controller.close();
         }
@@ -219,6 +265,7 @@ export async function POST(req: Request) {
         "Content-Type": "text/event-stream; charset=utf-8",
         "Cache-Control": "no-cache, no-transform",
         Connection: "keep-alive",
+        "Set-Cookie": consumed.setCookie,
       },
     });
   } catch (e) {
