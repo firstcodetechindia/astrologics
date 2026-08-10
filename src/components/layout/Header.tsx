@@ -132,7 +132,7 @@ function MegaGridPanel({
 
 function navItemClass(active: boolean, open?: boolean) {
   return cn(
-    "relative inline-flex items-center gap-1 rounded-full px-3.5 py-1.5 text-[13px] font-semibold transition-all",
+    "relative inline-flex items-center gap-1 rounded-full px-4 py-1.5 text-[13px] font-semibold transition-all",
     active || open
       ? "bg-gradient-to-r from-saffron via-[#ff8a1f] to-maroon text-white shadow-[0_6px_18px_-8px_rgba(240,106,0,0.65)]"
       : "text-ink-muted hover:bg-white/80 hover:text-saffron-deep"
