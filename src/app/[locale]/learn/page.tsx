@@ -2,25 +2,44 @@ import type { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { PageHero } from "@/components/ui/PageHero";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { LEARN_HUB_SECTIONS } from "@/lib/learn/catalog";
 import { pickLocale } from "@/lib/learn/types";
 import { siteConfig } from "@/lib/site-config";
+import {
+  breadcrumbJsonLd,
+  buildPageMetadata,
+} from "@/lib/seo/page-meta";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
-  return {
-    title:
-      locale === "hi"
-        ? `ज्योतिष सीखें | ${siteConfig.brandName}`
-        : `Learn Astrology | ${siteConfig.brandName}`,
-    description:
-      locale === "hi"
-        ? "Astrologics पर ज्योतिष सीखें — वैदिक व पश्चिमी मूल बातें, विषय गाइड और शब्दावली।"
-        : "Learn astrology on Astrologics — Vedic and Western foundations, practical topic guides, and a glossary.",
-    alternates: {
-      canonical: `${siteConfig.siteUrl}/${locale}/learn`,
-    },
-  };
+  const hi = locale === "hi";
+  return buildPageMetadata({
+    locale,
+    path: "/learn",
+    title: hi
+      ? `ज्योतिष सीखें — वैदिक कुंडली, राशि व ग्रह गाइड | ${siteConfig.brandName}`
+      : `Learn Astrology — Vedic Kundli, Rashi & Graha Guides | ${siteConfig.brandName}`,
+    description: hi
+      ? "Astrologics पर ज्योतिष सीखें — वैदिक कुंडली मूल बातें, राशि, ग्रह, भाव, दोष, गुण मिलान और शब्दावली हिंदी व अंग्रेज़ी में।"
+      : "Learn jyotish on Astrologics — Vedic kundli foundations, rashis, grahas, houses, doshas, gun milan and a glossary in English & Hindi.",
+    keywords: hi
+      ? [
+          "ज्योतिष सीखें",
+          "वैदिक ज्योतिष गाइड",
+          "राशि",
+          "कुंडली शिक्षा",
+          "learn astrology",
+        ]
+      : [
+          "learn astrology",
+          "Vedic jyotish guide",
+          "kundli basics",
+          "rashi meaning",
+          "gun milan explained",
+          "jyotish glossary",
+        ],
+  });
 }
 
 export default async function LearnHubPage() {
@@ -29,6 +48,12 @@ export default async function LearnHubPage() {
 
   return (
     <div className="bg-[#faf8f5]">
+      <JsonLd
+        data={breadcrumbJsonLd(locale, [
+          { name: hi ? "होम" : "Home", path: "" },
+          { name: hi ? "सीखें" : "Learn", path: "/learn" },
+        ])}
+      />
       <PageHero
         eyebrow={hi ? "शिक्षा केंद्र" : "Education hub"}
         title={hi ? "ज्योतिष सीखें" : "Learn about astrology"}

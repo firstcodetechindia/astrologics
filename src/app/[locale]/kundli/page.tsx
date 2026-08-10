@@ -2,7 +2,12 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import { BirthForm } from "@/components/kundli/BirthForm";
 import { PageHero } from "@/components/ui/PageHero";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { siteConfig } from "@/lib/site-config";
+import {
+  breadcrumbJsonLd,
+  buildPageMetadata,
+} from "@/lib/seo/page-meta";
 
 export async function generateMetadata({
   params,
@@ -10,18 +15,36 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "kundliForm" });
-  return {
-    title: `${t("title")} | ${siteConfig.brandName}`,
-    description: t("subtitle"),
-    alternates: {
-      canonical: `${siteConfig.siteUrl}/${locale}/kundli`,
-      languages: {
-        en: `${siteConfig.siteUrl}/en/kundli`,
-        hi: `${siteConfig.siteUrl}/hi/kundli`,
-      },
-    },
-  };
+  const hi = locale === "hi";
+  return buildPageMetadata({
+    locale,
+    path: "/kundli",
+    title: hi
+      ? `मुफ्त जन्म कुंडली ऑनलाइन — जनम कुंडली व बर्थ चार्ट | ${siteConfig.brandName}`
+      : `Free Kundli Online — Janam Kundali & Birth Chart | ${siteConfig.brandName}`,
+    description: hi
+      ? "मुफ्त वैदिक जन्म कुंडली ऑनलाइन बनाएँ — लग्न, ग्रह, भाव, दशा व योग। Janam kundali / birth chart हिंदी व अंग्रेज़ी में।"
+      : "Generate a free Vedic janam kundali online — Lagna, planets, houses, dasha & yogas. Instant birth chart in English & Hindi.",
+    keywords: hi
+      ? [
+          "मुफ्त कुंडली ऑनलाइन",
+          "जन्म कुंडली",
+          "जनम कुंडली",
+          "free kundli online",
+          "janam kundali",
+          "birth chart",
+          "वैदिक कुंडली",
+        ]
+      : [
+          "free kundli online",
+          "janam kundali",
+          "birth chart",
+          "Vedic kundli",
+          "janam kundli",
+          "online kundli free",
+          "jyotish birth chart",
+        ],
+  });
 }
 
 export default async function KundliPage({
@@ -37,6 +60,12 @@ export default async function KundliPage({
 
   return (
     <div className="bg-[#faf8f5]">
+      <JsonLd
+        data={breadcrumbJsonLd(locale, [
+          { name: hi ? "होम" : "Home", path: "" },
+          { name: tc("kundli"), path: "/kundli" },
+        ])}
+      />
       <PageHero
         eyebrow="Kundli"
         title={t("title")}

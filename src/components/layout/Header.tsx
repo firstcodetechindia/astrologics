@@ -257,9 +257,40 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur-xl">
       <div className="container-page flex items-center justify-between gap-3 py-3">
+        <nav className="sr-only" aria-label={hi ? "मुख्य लिंक" : "Primary links"}>
+          <ul>
+            <li>
+              <Link href="/kundli">{hi ? "मुफ़्त कुंडली" : "Free kundli"}</Link>
+            </li>
+            <li>
+              <Link href="/horoscope">{hi ? "राशिफल" : "Horoscope"}</Link>
+            </li>
+            <li>
+              <Link href="/calculators">{hi ? "कैलकुलेटर" : "Calculators"}</Link>
+            </li>
+            <li>
+              <Link href="/chat">{hi ? "एआई गुरु" : "AI Guru"}</Link>
+            </li>
+            <li>
+              <Link href="/learn">{hi ? "ज्योतिष सीखें" : "Learn astrology"}</Link>
+            </li>
+            <li>
+              <Link href="/blog">{t("blog")}</Link>
+            </li>
+            <li>
+              <Link href="/faq">{t("faq")}</Link>
+            </li>
+            <li>
+              <Link href="/about">{t("about")}</Link>
+            </li>
+            <li>
+              <Link href="/contact">{t("contact")}</Link>
+            </li>
+          </ul>
+        </nav>
         <Link href="/" className="group flex min-w-0 items-center gap-2.5">
           <AstrologicsLogo className="h-10 w-10 shrink-0 transition group-hover:scale-[1.04] sm:h-11 sm:w-11" />
-          <span className="truncate font-display text-lg font-semibold tracking-tight text-ink sm:text-xl">
+          <span className="truncate font-display text-base font-semibold tracking-tight text-ink sm:text-lg">
             {siteConfig.brandName}
           </span>
         </Link>

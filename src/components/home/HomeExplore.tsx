@@ -122,11 +122,11 @@ export function HomeExplore({
     <section className="border-y border-black/[0.05] bg-[#faf7f4] py-12 sm:py-16 md:py-20">
       <div className="container-page">
         <div className="mx-auto max-w-2xl text-center sm:mx-0 sm:max-w-xl sm:text-left">
-          <h2 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+          <h2 className="heading-1 font-display tracking-tight text-ink">
             {hi ? "खोजें" : "Explore"}{" "}
             <span className="text-saffron-deep">{brand}</span>
           </h2>
-          <p className="mt-3 text-[15px] leading-relaxed text-ink-muted sm:text-base">
+          <p className="text-muted mt-3">
             {hi
               ? "दैनिक पंचांग, मुफ्त कैलकुलेटर और मार्गदर्शिका — झलक देखें, फिर गहराई में जाएँ।"
               : "A daily almanac, free calculators, and guides — take a peek, then dive in."}
@@ -240,10 +240,10 @@ export function HomeExplore({
         <div className="mt-5 rounded-2xl border border-black/[0.06] bg-white p-5 shadow-[0_8px_24px_-20px_rgba(42,33,24,0.3)] sm:mt-6 sm:p-6 md:p-7">
           <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
             <div>
-              <h3 className="font-display text-xl font-bold text-ink sm:text-2xl">
+              <h3 className="heading-2 font-display text-ink">
                 {hi ? "आज की ज्योतिष भविष्यवाणी" : "Today’s Astrology Prediction"}
               </h3>
-              <p className="mt-1 text-sm text-ink-muted">
+              <p className="text-muted mt-1">
                 {hi
                   ? `आज चंद्र राशि: ${tx(locale, panchang.moonSign)} — अपनी जन्म राशि चुनें।`
                   : `Moon is in ${tx(locale, panchang.moonSign)} today — pick your birth sign.`}

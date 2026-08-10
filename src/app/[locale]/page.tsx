@@ -12,6 +12,7 @@ import { HomeToolsGrid } from "@/components/home/HomeToolsGrid";
 import { HomeConsultBand, HomeFaqStrip } from "@/components/home/HomeFaqStrip";
 import { siteConfig } from "@/lib/site-config";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { buildPageMetadata, absoluteUrl } from "@/lib/seo/page-meta";
 import { computePanchang } from "@/lib/astrology/panchang";
 import { SIGNS } from "@/lib/astrology/constants";
 import { signIndexFromLongitude } from "@/lib/astrology/math";
@@ -25,26 +26,34 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "meta" });
-  const path = `/${locale}`;
-  return {
+  return buildPageMetadata({
+    locale,
+    path: "",
     title: t("title"),
     description: t("description"),
-    alternates: {
-      canonical: `${siteConfig.siteUrl}${path}`,
-      languages: {
-        en: `${siteConfig.siteUrl}/en`,
-        hi: `${siteConfig.siteUrl}/hi`,
-      },
-    },
-    openGraph: {
-      title: t("title"),
-      description: t("description"),
-      url: `${siteConfig.siteUrl}${path}`,
-      siteName: siteConfig.brandName,
-      locale: locale === "hi" ? "hi_IN" : "en_IN",
-      type: "website",
-    },
-  };
+    keywords:
+      locale === "hi"
+        ? [
+            "मुफ्त कुंडली ऑनलाइन",
+            "जन्म कुंडली",
+            "आज का राशिफल",
+            "वैदिक ज्योतिष",
+            "गुण मिलान",
+            "एआई ज्योतिष",
+            "janam kundali",
+            "free kundli",
+          ]
+        : [
+            "free kundli online",
+            "janam kundali",
+            "Vedic kundli",
+            "aaj ka rashifal",
+            "gun milan",
+            "jyotish",
+            "AI astrology",
+            "daily horoscope",
+          ],
+  });
 }
 
 export default async function HomePage({
@@ -55,6 +64,7 @@ export default async function HomePage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("home");
+  const tm = await getTranslations("meta");
 
   const now = new Date();
   const p = computePanchang(now);
@@ -94,11 +104,41 @@ export default async function HomePage({
           "@context": "https://schema.org",
           "@type": "ProfessionalService",
           name: siteConfig.brandName,
-          description: t("subtitle"),
-          url: siteConfig.siteUrl,
+          alternateName: ["Astrologics AI Astrology", "Astrologics Jyotish"],
+          description: tm("description"),
+          url: absoluteUrl(locale, ""),
+          image: `${siteConfig.siteUrl}/astrologics-icon-512.png`,
+          logo: `${siteConfig.siteUrl}/astrologics-icon-512.png`,
           telephone: siteConfig.phone,
-          areaServed: "IN",
+          email: siteConfig.email,
+          priceRange: "₹0–consultation",
+          areaServed: {
+            "@type": "Country",
+            name: "India",
+          },
           availableLanguage: ["English", "Hindi"],
+          sameAs: [`https://wa.me/${siteConfig.whatsapp}`],
+          serviceType: [
+            "Vedic kundli",
+            "Janam kundali",
+            "Gun milan",
+            "Rashifal",
+            "AI astrology consultation",
+          ],
+          knowsAbout: [
+            "Vedic astrology",
+            "Jyotish",
+            "Birth chart",
+            "Kundli matching",
+            "Daily horoscope",
+          ],
+          contactPoint: {
+            "@type": "ContactPoint",
+            contactType: "customer support",
+            telephone: siteConfig.phone,
+            email: siteConfig.email,
+            availableLanguage: ["English", "Hindi"],
+          },
         }}
       />
 

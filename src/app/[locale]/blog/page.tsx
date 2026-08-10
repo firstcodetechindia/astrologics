@@ -3,8 +3,13 @@ import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PageHero } from "@/components/ui/PageHero";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getPosts } from "@/lib/blog";
 import { siteConfig } from "@/lib/site-config";
+import {
+  breadcrumbJsonLd,
+  buildPageMetadata,
+} from "@/lib/seo/page-meta";
 
 export async function generateMetadata({
   params,
@@ -12,18 +17,32 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "blog" });
-  return {
-    title: `${t("title")} | ${siteConfig.brandName}`,
-    description: t("subtitle"),
-    alternates: {
-      canonical: `${siteConfig.siteUrl}/${locale}/blog`,
-      languages: {
-        en: `${siteConfig.siteUrl}/en/blog`,
-        hi: `${siteConfig.siteUrl}/hi/blog`,
-      },
-    },
-  };
+  const hi = locale === "hi";
+  return buildPageMetadata({
+    locale,
+    path: "/blog",
+    title: hi
+      ? `ब्लॉग — वैदिक कुंडली, राशिफल व ज्योतिष गाइड | ${siteConfig.brandName}`
+      : `Blog — Vedic Kundli, Rashifal & Jyotish Guides | ${siteConfig.brandName}`,
+    description: hi
+      ? "जन्म कुंडली, गुण मिलान, दैनिक राशिफल, दोष व एआई ज्योतिष पर लेख — हिंदी व अंग्रेज़ी में Astrologics ब्लॉग।"
+      : "Articles on janam kundali, gun milan, daily rashifal, doshas and AI astrology — Astrologics blog in English & Hindi.",
+    keywords: hi
+      ? [
+          "ज्योतिष ब्लॉग",
+          "कुंडली गाइड",
+          "राशिफल लेख",
+          "वैदिक ज्योतिष",
+          "astrology blog",
+        ]
+      : [
+          "astrology blog",
+          "kundli guide",
+          "rashifal articles",
+          "Vedic jyotish blog",
+          "gun milan explained",
+        ],
+  });
 }
 
 export default async function BlogPage({
@@ -40,6 +59,12 @@ export default async function BlogPage({
 
   return (
     <div className="bg-[#faf8f5]">
+      <JsonLd
+        data={breadcrumbJsonLd(locale, [
+          { name: hi ? "होम" : "Home", path: "" },
+          { name: tn("blog"), path: "/blog" },
+        ])}
+      />
       <PageHero
         eyebrow={hi ? "ब्लॉग" : "Blog"}
         title={t("title")}

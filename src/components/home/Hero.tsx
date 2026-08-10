@@ -32,7 +32,7 @@ export function Hero() {
               </div>
             </div>
 
-            <h1 className="mx-auto mt-1 max-w-xl font-display text-[1.85rem] font-bold leading-[1.12] tracking-tight sm:text-[2.35rem] md:text-[2.75rem] lg:mx-0">
+            <h1 className="heading-hero mx-auto mt-1 max-w-xl font-display tracking-tight lg:mx-0">
               {hi ? (
                 <span className="bg-gradient-to-r from-saffron via-saffron-deep to-maroon bg-clip-text text-transparent">
                   भारत का AI ज्योतिष प्लेटफ़ॉर्म
@@ -44,29 +44,29 @@ export function Hero() {
               )}
             </h1>
 
-            <p className="mx-auto mt-3 max-w-lg text-[15px] leading-relaxed text-ink-muted sm:text-base lg:mx-0">
+            <p className="text-body mx-auto mt-3 max-w-lg text-ink-muted lg:mx-0">
               {t("subtitle")}
             </p>
 
             <div className="mt-5 flex flex-wrap items-center justify-center gap-2 sm:mt-6 sm:gap-3 lg:justify-start">
               <Link
                 href="/chat"
-                className="btn-grad inline-flex items-center justify-center gap-1.5 rounded-xl px-3.5 py-2.5 text-[13px] font-semibold text-ivory shadow-md shadow-saffron/20 sm:gap-2 sm:rounded-2xl sm:px-6 sm:py-3.5 sm:text-base"
+                className="btn-grad inline-flex items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-semibold text-ivory shadow-md shadow-saffron/20"
               >
-                <MessageCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                <MessageCircle className="h-4 w-4" />
                 {hi ? "एआई से पूछें" : "Ask AI Now"}
               </Link>
               <Link
                 href="/kundli"
-                className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-saffron/40 bg-white/95 px-3.5 py-2.5 text-[13px] font-semibold text-saffron-deep backdrop-blur-sm transition hover:bg-[#fff1e6] sm:gap-2 sm:rounded-2xl sm:px-6 sm:py-3.5 sm:text-base"
+                className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-saffron/40 bg-white/95 px-4 py-2.5 text-sm font-semibold text-saffron-deep backdrop-blur-sm transition hover:bg-[#fff1e6]"
               >
                 {t("ctaPrimary")}
-                <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                <ArrowRight className="h-4 w-4" />
               </Link>
               <ButtonLink
                 href={whatsappLink()}
                 variant="ghost"
-                className="rounded-xl px-3.5 py-2.5 text-[13px] sm:rounded-2xl sm:px-6 sm:py-3.5 sm:text-base"
+                className="rounded-xl px-4 py-2.5 text-sm"
                 target="_blank"
                 rel="noopener noreferrer"
               >

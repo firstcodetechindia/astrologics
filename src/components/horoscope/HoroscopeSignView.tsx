@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useLocale } from "next-intl";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Briefcase,
   Heart,
@@ -10,19 +11,26 @@ import {
   Compass,
   Wallet,
   Sparkles,
+  Bot,
+  CheckCircle2,
+  XCircle,
+  Gem,
+  Users,
+  Brain,
+  Shield,
+  ArrowRight,
 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
-import { GlassCard } from "@/components/ui/GlassCard";
 import { PageHero } from "@/components/ui/PageHero";
 import { ZodiacIcon } from "@/components/ui/ZodiacIcon";
 import {
-  HOROSCOPE_FAQS,
   HOROSCOPE_SIGNS,
   pickL,
   type HoroscopePeriod,
   type HoroscopeSign,
 } from "@/lib/horoscope/signs";
+import { getHoroscopeSeo } from "@/lib/horoscope/seo-content";
 import { cn } from "@/lib/utils";
 
 const PERIODS: { id: HoroscopePeriod; en: string; hi: string }[] = [
@@ -40,12 +48,45 @@ const SECTION_META = [
   { key: "outlook" as const, en: "Outlook", hi: "दृष्टिकोण", Icon: Compass },
 ];
 
+function GlassPanel({
+  children,
+  className,
+  strong,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  strong?: boolean;
+}) {
+  return (
+    <div
+      className={cn(
+        "relative overflow-hidden rounded-2xl border border-white/60 shadow-[0_12px_40px_-18px_rgba(240,106,0,0.28)] backdrop-blur-xl",
+        strong
+          ? "bg-gradient-to-br from-white/90 via-[#fffaf6]/85 to-[#ffe8d4]/55"
+          : "bg-white/55",
+        className
+      )}
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-saffron/15 blur-2xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-12 -left-8 h-28 w-28 rounded-full bg-gold/20 blur-2xl"
+      />
+      <div className="relative">{children}</div>
+    </div>
+  );
+}
+
 export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
   const locale = useLocale();
   const hi = locale === "hi";
   const [period, setPeriod] = useState<HoroscopePeriod>("daily");
   const name = pickL(locale, sign.name);
   const ruler = pickL(locale, sign.ruler);
+  const seo = getHoroscopeSeo(sign.slug);
 
   const lucky = useMemo(
     () => [
@@ -54,168 +95,408 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
       { label: hi ? "लकी दिन" : "Lucky day", value: pickL(locale, sign.luckyDay) },
       { label: hi ? "रत्न" : "Gemstone", value: pickL(locale, sign.gemstone) },
       { label: hi ? "धातु" : "Metal", value: pickL(locale, sign.metal) },
-      { label: hi ? "दिशा" : "Favourable direction", value: pickL(locale, sign.direction) },
-      { label: hi ? "देवता" : "Presiding deity", value: pickL(locale, sign.deity) },
+      { label: hi ? "दिशा" : "Direction", value: pickL(locale, sign.direction) },
+      { label: hi ? "देवता" : "Deity", value: pickL(locale, sign.deity) },
       { label: hi ? "मंत्र" : "Mantra", value: sign.mantra },
     ],
     [hi, locale, sign]
   );
 
+  const todayLabel = useMemo(() => {
+    try {
+      return new Intl.DateTimeFormat(hi ? "hi-IN" : "en-IN", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      }).format(new Date());
+    } catch {
+      return "";
+    }
+  }, [hi]);
+
   return (
-    <div className="bg-[#faf8f5]">
+    <div className="relative overflow-hidden bg-[#faf8f5]">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-[28rem] bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(255,138,31,0.22),transparent_70%)]"
+      />
+
       <PageHero
-        eyebrow={hi ? `${ruler} द्वारा शासित` : `Ruled by ${ruler}`}
+        eyebrow={hi ? `${ruler} द्वारा शासित · एआई ज्योतिष` : `Ruled by ${ruler} · AI Jyotish`}
         title={
           hi
             ? `${name} राशिफल — दैनिक, साप्ताहिक व मासिक`
             : `${name} Horoscope — Daily, Weekly & Monthly`
         }
-        description={pickL(locale, sign.summary)}
+        description={
+          seo
+            ? pickL(locale, seo.tagline)
+            : pickL(locale, sign.summary)
+        }
         crumbs={[
           { label: hi ? "होम" : "Home", href: "/" },
           { label: hi ? "राशिफल" : "Horoscope", href: "/horoscope" },
           { label: name },
         ]}
         actions={
-          <div className="flex items-center gap-2">
-            <ZodiacIcon
-              slug={sign.slug}
-              className="h-12 w-12 sm:h-14 sm:w-14"
-              colorClassName="bg-saffron"
-            />
+          <div className="flex items-center gap-3">
+            <div className="grid h-14 w-14 place-items-center rounded-2xl border border-white/70 bg-white/50 shadow-sm backdrop-blur-md">
+              <ZodiacIcon
+                slug={sign.slug}
+                className="h-10 w-10"
+                colorClassName="bg-saffron"
+              />
+            </div>
           </div>
         }
       />
 
-      <div className="container-page max-w-5xl py-6 sm:py-8">
-        {/* Period tabs */}
-        <div className="inline-flex rounded-xl border border-saffron/25 bg-white p-1">
-          {PERIODS.map((p) => (
-            <button
-              key={p.id}
-              type="button"
-              onClick={() => setPeriod(p.id)}
-              className={cn(
-                "rounded-lg px-3.5 py-1.5 text-[12px] font-semibold transition sm:px-4",
-                period === p.id
-                  ? "bg-gradient-to-r from-saffron to-maroon text-white"
-                  : "text-ink-muted hover:bg-[#fff1e6]"
-              )}
-            >
-              {hi ? p.hi : p.en}
-            </button>
-          ))}
-        </div>
-        <p className="mt-2 text-[12px] text-ink-muted">
-          {hi
-            ? "मार्गदर्शन सामान्य है — चंद्र राशि के आधार पर; दिन भर उपयोगी।"
-            : "Predictions are general guidance based on your Moon sign and update through the day."}
-        </p>
-
-        {/* Lucky grid */}
-        <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4">
-          {lucky.map((item) => (
-            <div
-              key={item.label}
-              className="rounded-xl border border-black/[0.06] bg-white px-3 py-2.5"
-            >
-              <p className="text-[10px] font-semibold uppercase tracking-wide text-ink-muted">
-                {item.label}
+      <div className="container-page relative max-w-6xl py-6 sm:py-8">
+        {/* AI status strip */}
+        <GlassPanel className="mb-5 flex flex-wrap items-center justify-between gap-3 px-4 py-3">
+          <div className="flex items-center gap-2.5">
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-saffron to-maroon text-white shadow-md">
+              <Bot className="h-4 w-4" />
+            </span>
+            <div>
+              <p className="text-[12px] font-bold text-ink">
+                {hi ? "एआई गुरु सिग्नल" : "AI Guru signal"}
               </p>
-              <p className="mt-0.5 text-[13px] font-semibold leading-snug text-ink">
-                {item.value}
+              <p className="text-[11px] text-ink-muted">
+                {hi
+                  ? `${name} · ${pickL(locale, sign.element)} · ${pickL(locale, sign.quality)} · ${todayLabel}`
+                  : `${name} · ${pickL(locale, sign.element)} · ${pickL(locale, sign.quality)} · ${todayLabel}`}
               </p>
             </div>
-          ))}
-        </div>
-
-        {/* Period lead + sections */}
-        <GlassCard strong className="mt-5 space-y-5 !p-4 sm:!p-5">
-          <p className="text-[13px] leading-relaxed text-ink">
-            {pickL(locale, sign.periodLead[period])}
-          </p>
-
-          <div className="space-y-4">
-            {SECTION_META.map(({ key, en, hi: hiLabel, Icon }) => (
-              <div key={key} className="border-t border-black/[0.05] pt-4 first:border-0 first:pt-0">
-                <h3 className="flex items-center gap-2 font-display text-[15px] font-bold text-ink">
-                  <span className="grid h-7 w-7 place-items-center rounded-full bg-[#ffe8d6] text-saffron-deep">
-                    <Icon className="h-3.5 w-3.5" />
-                  </span>
-                  {hi ? hiLabel : en}
-                </h3>
-                <p className="mt-2 text-[13px] leading-relaxed text-ink-muted">
-                  {pickL(locale, sign.sections[key])}
-                </p>
-              </div>
-            ))}
           </div>
-        </GlassCard>
+          <Link
+            href="/chat"
+            className="inline-flex items-center gap-1.5 rounded-full border border-saffron/30 bg-white/70 px-3 py-1.5 text-[11px] font-semibold text-saffron-deep backdrop-blur hover:bg-[#fff1e6]"
+          >
+            <Sparkles className="h-3 w-3" />
+            {hi ? "व्यक्तिगत प्रश्न पूछें" : "Ask a personal question"}
+            <ArrowRight className="h-3 w-3" />
+          </Link>
+        </GlassPanel>
 
-        {/* Ruling planet */}
-        <GlassCard className="mt-5 !p-4 sm:!p-5">
-          <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-saffron-deep">
-            {hi ? "शासक ग्रह" : "Ruling planet"}
-          </p>
-          <h3 className="mt-1 font-display text-lg font-bold text-ink">{ruler}</h3>
-          <p className="mt-2 text-[13px] leading-relaxed text-ink-muted">
-            {pickL(locale, sign.rulerBlurb)}
-          </p>
-        </GlassCard>
+        <div className="grid gap-5 lg:grid-cols-[minmax(0,1.55fr)_minmax(260px,0.85fr)]">
+          {/* Main column */}
+          <div className="space-y-5">
+            {/* Period tabs */}
+            <GlassPanel strong className="p-4 sm:p-5">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <h2 className="heading-3 font-display text-ink">
+                    {hi ? `${name} पूर्वानुमान` : `${name} forecast`}
+                  </h2>
+                  <p className="text-caption mt-0.5">
+                    {hi
+                      ? "चंद्र-राशि शैली सामान्य मार्गदर्शन — एआई द्वारा संरचित।"
+                      : "Moon-sign style general guidance — structured by AI."}
+                  </p>
+                </div>
+                <div className="inline-flex rounded-xl border border-saffron/20 bg-white/70 p-1 backdrop-blur">
+                  {PERIODS.map((p) => (
+                    <button
+                      key={p.id}
+                      type="button"
+                      onClick={() => setPeriod(p.id)}
+                      className={cn(
+                        "rounded-lg px-3 py-1.5 text-[11px] font-semibold transition sm:px-3.5",
+                        period === p.id
+                          ? "bg-gradient-to-r from-saffron to-maroon text-white shadow-sm"
+                          : "text-ink-muted hover:bg-[#fff1e6]"
+                      )}
+                    >
+                      {hi ? p.hi : p.en}
+                    </button>
+                  ))}
+                </div>
+              </div>
 
-        {/* Educate */}
-        <div className="mt-5 grid gap-3 sm:grid-cols-3">
-          {(
-            [
-              {
-                t: L2(
-                  hi,
-                  "What is a horoscope?",
-                  "राशिफल क्या है?",
-                  "A horoscope reads where planets sit against your sign — daily sky weather on top of who you are in the birth chart.",
-                  "राशिफल ग्रहों की स्थिति को आपकी राशि पर पढ़ता है — जन्म कुंडली के ऊपर आज का आकाशीय मौसम।"
-                ),
-              },
-              {
-                t: L2(
-                  hi,
-                  "How to read it",
-                  "कैसे पढ़ें",
-                  "Prefer your Moon sign in Vedic astrology. Treat it like a weather report — useful for timing, not as fixed fate.",
-                  "वैदिक ज्योतिष में चंद्र राशि प्राथमिक है। इसे मौसम रिपोर्ट की तरह लें — समय के लिए उपयोगी, तय किस्मत नहीं।"
-                ),
-              },
-              {
-                t: L2(
-                  hi,
-                  "Why it helps",
-                  "क्यों उपयोगी",
-                  "Use it to start important work on supportive days, pause before haste, and pair with panchang for muhurat.",
-                  "सहायक दिनों पर महत्वपूर्ण काम शुरू करने, जल्दबाज़ी रोकने और मुहूर्त के लिए पंचांग से जोड़ने में मदद।"
-                ),
-              },
-            ] as const
-          ).map((block) => (
-            <div
-              key={block.t.title}
-              className="rounded-xl border border-black/[0.06] bg-white p-4"
-            >
-              <h4 className="font-display text-[14px] font-bold text-ink">
-                {block.t.title}
-              </h4>
-              <p className="mt-1.5 text-[12px] leading-relaxed text-ink-muted">
-                {block.t.body}
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={period}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  transition={{ duration: 0.2 }}
+                  className="text-body mt-4 text-ink"
+                >
+                  {pickL(locale, sign.periodLead[period])}
+                </motion.p>
+              </AnimatePresence>
+
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                {SECTION_META.map(({ key, en, hi: hiLabel, Icon }) => (
+                  <div
+                    key={key}
+                    className="rounded-xl border border-white/70 bg-white/45 p-3.5 backdrop-blur-md transition hover:bg-white/70"
+                  >
+                    <h3 className="flex items-center gap-2 text-[13px] font-bold text-ink">
+                      <span className="grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-[#ffe8d6] to-[#ffd4a8] text-saffron-deep">
+                        <Icon className="h-3.5 w-3.5" />
+                      </span>
+                      {hi ? hiLabel : en}
+                    </h3>
+                    <p className="text-muted mt-2 text-[12.5px] leading-relaxed">
+                      {pickL(locale, sign.sections[key])}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </GlassPanel>
+
+            {/* Personality SEO block */}
+            {seo ? (
+              <GlassPanel strong className="p-4 sm:p-5">
+                <div className="mb-3 flex items-center gap-2">
+                  <Brain className="h-4 w-4 text-saffron-deep" />
+                  <h2 className="heading-3 font-display text-ink">
+                    {hi
+                      ? `${name} व्यक्तित्व व ज्योतिष प्रोफ़ाइल`
+                      : `${name} personality & Jyotish profile`}
+                  </h2>
+                </div>
+                <p className="text-body text-ink-muted">
+                  {pickL(locale, seo.personality)}
+                </p>
+
+                <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                  <div className="rounded-xl border border-emerald-500/15 bg-emerald-50/50 p-3.5">
+                    <p className="text-[11px] font-bold uppercase tracking-wide text-emerald-800">
+                      {hi ? "शक्तियाँ" : "Strengths"}
+                    </p>
+                    <ul className="mt-2 space-y-1.5">
+                      {seo.strengths.map((s) => (
+                        <li
+                          key={pickL(locale, s)}
+                          className="flex items-start gap-2 text-[12.5px] text-ink"
+                        >
+                          <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" />
+                          {pickL(locale, s)}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="rounded-xl border border-amber-500/15 bg-amber-50/40 p-3.5">
+                    <p className="text-[11px] font-bold uppercase tracking-wide text-amber-900">
+                      {hi ? "सावधानियाँ" : "Growth edges"}
+                    </p>
+                    <ul className="mt-2 space-y-1.5">
+                      {seo.challenges.map((s) => (
+                        <li
+                          key={pickL(locale, s)}
+                          className="flex items-start gap-2 text-[12.5px] text-ink"
+                        >
+                          <Shield className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-700" />
+                          {pickL(locale, s)}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                  <div className="rounded-xl border border-white/70 bg-white/50 p-3">
+                    <p className="text-[10px] font-bold uppercase tracking-wide text-ink-muted">
+                      {hi ? "शरीर फोकस" : "Body focus"}
+                    </p>
+                    <p className="mt-1 text-[12.5px] font-semibold text-ink">
+                      {pickL(locale, seo.bodyFocus)}
+                    </p>
+                  </div>
+                  <div className="rounded-xl border border-white/70 bg-white/50 p-3 sm:col-span-2">
+                    <p className="text-[10px] font-bold uppercase tracking-wide text-ink-muted">
+                      {hi ? "करियर क्षेत्र" : "Career fields"}
+                    </p>
+                    <p className="mt-1 text-[12.5px] font-semibold text-ink">
+                      {pickL(locale, seo.careerFields)}
+                    </p>
+                  </div>
+                </div>
+              </GlassPanel>
+            ) : null}
+
+            {/* Deep SEO guide */}
+            {seo ? (
+              <GlassPanel className="p-4 sm:p-5">
+                <h2 className="heading-3 font-display text-ink">
+                  {hi
+                    ? `${name} राशिफल कैसे पढ़ें — पूर्ण गाइड`
+                    : `How to read the ${name} horoscope — full guide`}
+                </h2>
+                <div className="mt-3 space-y-3">
+                  {seo.deepGuide.map((para, idx) => (
+                    <p key={idx} className="text-body text-ink-muted">
+                      {pickL(locale, para)}
+                    </p>
+                  ))}
+                </div>
+              </GlassPanel>
+            ) : null}
+
+            {/* FAQ */}
+            <GlassPanel strong className="p-4 sm:p-5">
+              <h2 className="heading-3 font-display text-ink">
+                {hi
+                  ? `${name} राशिफल — अक्सर पूछे गए प्रश्न`
+                  : `${name} horoscope — FAQs`}
+              </h2>
+              <div className="mt-3 space-y-2">
+                {(seo?.faqs ?? []).map((f) => (
+                  <details
+                    key={pickL(locale, f.q)}
+                    className="group rounded-xl border border-white/70 bg-white/50 px-3.5 py-2.5 backdrop-blur open:bg-white/80"
+                  >
+                    <summary className="cursor-pointer list-none text-[13px] font-semibold text-ink marker:content-none">
+                      {pickL(locale, f.q)}
+                    </summary>
+                    <p className="text-muted mt-2 text-[12.5px]">
+                      {pickL(locale, f.a)}
+                    </p>
+                  </details>
+                ))}
+              </div>
+            </GlassPanel>
+          </div>
+
+          {/* Sidebar */}
+          <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
+            <GlassPanel strong className="p-4">
+              <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-saffron-deep">
+                {hi ? "लकी मैट्रिक्स" : "Lucky matrix"}
               </p>
-            </div>
-          ))}
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                {lucky.map((item) => (
+                  <div
+                    key={item.label}
+                    className="rounded-xl border border-white/80 bg-white/55 px-2.5 py-2 backdrop-blur"
+                  >
+                    <p className="text-[9px] font-semibold uppercase tracking-wide text-ink-muted">
+                      {item.label}
+                    </p>
+                    <p className="mt-0.5 text-[12px] font-semibold leading-snug text-ink">
+                      {item.value}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </GlassPanel>
+
+            <GlassPanel className="p-4">
+              <div className="flex items-center gap-2">
+                <Gem className="h-4 w-4 text-saffron-deep" />
+                <h3 className="text-[13px] font-bold text-ink">
+                  {hi ? "शासक ग्रह" : "Ruling planet"}
+                </h3>
+              </div>
+              <p className="mt-1 font-display text-base font-bold text-saffron-deep">
+                {ruler}
+              </p>
+              <p className="text-muted mt-2 text-[12px]">
+                {pickL(locale, sign.rulerBlurb)}
+              </p>
+            </GlassPanel>
+
+            {seo ? (
+              <>
+                <GlassPanel className="p-4">
+                  <div className="flex items-center gap-2">
+                    <Users className="h-4 w-4 text-saffron-deep" />
+                    <h3 className="text-[13px] font-bold text-ink">
+                      {hi ? "अनुकूलता संकेत" : "Compatibility cues"}
+                    </h3>
+                  </div>
+                  <p className="mt-2 text-[11px] font-semibold text-ink-muted">
+                    {hi ? "अच्छा मेल" : "Supportive"}
+                  </p>
+                  <p className="text-[12.5px] font-semibold text-ink">
+                    {pickL(locale, seo.bestMatches)}
+                  </p>
+                  <p className="mt-2 text-[11px] font-semibold text-ink-muted">
+                    {hi ? "धैर्य चाहिए" : "Needs patience"}
+                  </p>
+                  <p className="text-[12.5px] font-semibold text-ink">
+                    {pickL(locale, seo.watchMatches)}
+                  </p>
+                </GlassPanel>
+
+                <GlassPanel className="p-4">
+                  <h3 className="text-[13px] font-bold text-ink">
+                    {hi ? "करें / न करें" : "Do / Don’t"}
+                  </h3>
+                  <ul className="mt-2 space-y-1.5">
+                    {seo.doList.map((d) => (
+                      <li
+                        key={pickL(locale, d)}
+                        className="flex gap-2 text-[12px] text-ink"
+                      >
+                        <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" />
+                        {pickL(locale, d)}
+                      </li>
+                    ))}
+                    {seo.dontList.map((d) => (
+                      <li
+                        key={pickL(locale, d)}
+                        className="flex gap-2 text-[12px] text-ink"
+                      >
+                        <XCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-maroon" />
+                        {pickL(locale, d)}
+                      </li>
+                    ))}
+                  </ul>
+                </GlassPanel>
+
+                <GlassPanel className="p-4">
+                  <h3 className="text-[13px] font-bold text-ink">
+                    {hi ? "सरल उपाय" : "Simple remedies"}
+                  </h3>
+                  <ul className="mt-2 space-y-2">
+                    {seo.remedies.map((r) => (
+                      <li
+                        key={pickL(locale, r)}
+                        className="rounded-lg border border-white/70 bg-white/50 px-2.5 py-2 text-[12px] leading-snug text-ink"
+                      >
+                        {pickL(locale, r)}
+                      </li>
+                    ))}
+                  </ul>
+                </GlassPanel>
+
+                <GlassPanel strong className="p-4">
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="h-4 w-4 text-saffron-deep" />
+                    <h3 className="text-[13px] font-bold text-ink">
+                      {hi ? "एआई गुरु अंतर्दृष्टि" : "AI Guru insight"}
+                    </h3>
+                  </div>
+                  <p className="text-muted mt-2 text-[12px]">
+                    {pickL(locale, seo.aiInsight)}
+                  </p>
+                  <Link href="/chat" className="mt-3 block">
+                    <Button type="button" className="w-full !py-2.5 !text-[13px]">
+                      {hi ? "एआई गुरु से पूछें" : "Ask AI Guru"}
+                    </Button>
+                  </Link>
+                </GlassPanel>
+              </>
+            ) : null}
+          </aside>
         </div>
 
         {/* Sign switcher */}
-        <div className="mt-8">
-          <h3 className="font-display text-base font-bold text-ink">
-            {hi ? "अपनी राशि चुनें" : "Choose your zodiac sign"}
-          </h3>
-          <div className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-6">
+        <GlassPanel strong className="mt-6 p-4 sm:p-5">
+          <h2 className="heading-3 font-display text-ink">
+            {hi ? "सभी 12 राशियाँ" : "All 12 zodiac signs"}
+          </h2>
+          <p className="text-muted mt-1">
+            {hi
+              ? "किसी भी राशि पर क्लिक कर दैनिक–मासिक राशिफल खोलें।"
+              : "Tap any sign for its daily–monthly horoscope."}
+          </p>
+          <div className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-6">
             {HOROSCOPE_SIGNS.map((s) => {
               const active = s.slug === sign.slug;
               return (
@@ -223,15 +504,15 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
                   key={s.slug}
                   href={`/horoscope/${s.slug}`}
                   className={cn(
-                    "flex flex-col items-center gap-1.5 rounded-xl border px-2 py-2.5 text-center transition",
+                    "flex flex-col items-center gap-1.5 rounded-2xl border px-2 py-3 text-center backdrop-blur transition",
                     active
-                      ? "border-saffron/50 bg-[#fff1e6]"
-                      : "border-black/[0.06] bg-white hover:border-saffron/30 hover:bg-[#fffaf6]"
+                      ? "border-saffron/45 bg-gradient-to-b from-[#fff1e6] to-white shadow-sm"
+                      : "border-white/70 bg-white/45 hover:border-saffron/30 hover:bg-white/80"
                   )}
                 >
                   <ZodiacIcon
                     slug={s.slug}
-                    className="h-10 w-10"
+                    className="h-9 w-9"
                     colorClassName={active ? "bg-saffron" : "bg-[#c45a12]/75"}
                   />
                   <span className="text-[11px] font-semibold text-ink">
@@ -241,71 +522,38 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
               );
             })}
           </div>
-        </div>
+        </GlassPanel>
 
-        {/* FAQ */}
-        <div className="mt-8 space-y-2">
-          <h3 className="font-display text-base font-bold text-ink">
-            {hi ? "अक्सर पूछे जाने वाले प्रश्न" : "Frequently asked questions"}
-          </h3>
-          {HOROSCOPE_FAQS.map((f) => (
-            <details
-              key={pickL(locale, f.q)}
-              className="group rounded-xl border border-black/[0.06] bg-white px-4 py-3"
-            >
-              <summary className="cursor-pointer list-none text-[13px] font-semibold text-ink marker:content-none">
-                {pickL(locale, f.q)}
-              </summary>
-              <p className="mt-2 text-[12px] leading-relaxed text-ink-muted">
-                {pickL(locale, f.a)}
-              </p>
-            </details>
-          ))}
-        </div>
-
-        {/* CTA */}
-        <GlassCard strong className="mt-8 space-y-3 !p-5 text-center">
-          <p className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-saffron-deep">
-            <Sparkles className="h-3.5 w-3.5" />
-            {hi ? "व्यक्तिगत पढ़ाई" : "Personalised reading"}
+        {/* Bottom CTA */}
+        <GlassPanel strong className="mt-6 space-y-3 p-5 text-center sm:p-6">
+          <p className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-saffron-deep">
+            <Bot className="h-3.5 w-3.5" />
+            {hi ? "व्यक्तिगत एआई ज्योतिष" : "Personal AI Jyotish"}
           </p>
-          <h3 className="font-display text-xl font-bold text-ink">
+          <h2 className="heading-2 font-display text-ink">
             {hi
-              ? `${name} के लिए व्यक्तिगत मार्गदर्शन लें`
-              : `Get your personalised ${name} reading`}
-          </h3>
-          <p className="mx-auto max-w-lg text-[13px] text-ink-muted">
+              ? `${name} से आगे — आपकी कुंडली पढ़ें`
+              : `Beyond ${name} — read your full kundli`}
+          </h2>
+          <p className="text-muted mx-auto max-w-xl">
             {hi
-              ? "सामान्य राशिफल शुरुआत है। एआई गुरु आपकी पूरी कुंडली — ग्रह, दशा और योग — पढ़कर आप पर केंद्रित सलाह देता है।"
-              : "A general horoscope is just the start. Our AI Guru reads your full birth chart — planets, dashas and yogas — for guidance made for you."}
+              ? "सामान्य राशिफल शुरुआत है। एआई गुरु लग्न, चंद्र, दशा और योग से आप पर केंद्रित उत्तर देता है।"
+              : "A sign horoscope is the start. AI Guru answers from your lagna, Moon, dasha and yogas."}
           </p>
           <div className="flex flex-wrap justify-center gap-2 pt-1">
             <Link href="/chat">
               <Button type="button" className="!px-5 !py-2.5">
-                {hi ? "एआई गुरु से बात करें" : "Talk to AI Guru"}
+                {hi ? "एआई गुरु चैट" : "AI Guru chat"}
               </Button>
             </Link>
             <Link href="/kundli">
               <Button type="button" variant="ghost" className="!px-5 !py-2.5">
-                {hi ? "पूर्ण कुंडली बनाएँ" : "Build full kundli"}
+                {hi ? "मुफ़्त कुंडली" : "Free kundli"}
               </Button>
             </Link>
           </div>
-        </GlassCard>
+        </GlassPanel>
       </div>
     </div>
   );
-}
-
-function L2(
-  hi: boolean,
-  enTitle: string,
-  hiTitle: string,
-  enBody: string,
-  hiBody: string
-) {
-  return {
-    title: hi ? hiTitle : enTitle,
-    body: hi ? hiBody : enBody,
-  };
 }

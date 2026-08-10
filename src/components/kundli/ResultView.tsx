@@ -83,7 +83,7 @@ export function ResultView() {
       >
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
         <GlassCard>
-          <h2 className="font-display text-xl text-maroon font-semibold">
+          <h2 className="heading-2 font-display text-maroon">
             {t("birthDetails")}
           </h2>
           <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
@@ -122,7 +122,7 @@ export function ResultView() {
       </GlassCard>
 
       <GlassCard>
-        <h2 className="font-display text-xl text-maroon font-semibold mb-4">
+        <h2 className="heading-2 mb-4 font-display text-maroon">
           {t("planets")}
         </h2>
         <div className="overflow-x-auto">
@@ -154,7 +154,7 @@ export function ResultView() {
       </GlassCard>
 
       <GlassCard>
-        <h2 className="font-display text-xl text-maroon font-semibold mb-4">
+        <h2 className="heading-2 mb-4 font-display text-maroon">
           {t("houses")}
         </h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -176,7 +176,7 @@ export function ResultView() {
       </GlassCard>
 
       <GlassCard>
-        <h2 className="font-display text-xl text-maroon font-semibold mb-4">
+        <h2 className="heading-2 mb-4 font-display text-maroon">
           {t("yogas")}
         </h2>
         <div className="space-y-3">
@@ -201,7 +201,7 @@ export function ResultView() {
       </GlassCard>
 
       <GlassCard>
-        <h2 className="font-display text-xl text-maroon font-semibold mb-4">
+        <h2 className="heading-2 mb-4 font-display text-maroon">
           {t("dasha")}
         </h2>
         <div className="grid sm:grid-cols-2 gap-4 mb-6">
@@ -233,7 +233,7 @@ export function ResultView() {
       </GlassCard>
 
       <GlassCard>
-        <h2 className="font-display text-xl text-maroon font-semibold mb-4">
+        <h2 className="heading-2 mb-4 font-display text-maroon">
           {t("insights")}
         </h2>
         <div className="space-y-4">

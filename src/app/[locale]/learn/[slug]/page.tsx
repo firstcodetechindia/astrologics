@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getLocale } from "next-intl/server";
 import { LearnGuideView } from "@/components/learn/LearnGuideView";
 import { PageHero } from "@/components/ui/PageHero";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Link } from "@/i18n/navigation";
 import {
   LEARN_GUIDE_SLUGS,
@@ -11,6 +12,11 @@ import {
 import { GLOSSARY_TERMS } from "@/lib/learn/glossary";
 import { pickLocale } from "@/lib/learn/types";
 import { siteConfig } from "@/lib/site-config";
+import {
+  absoluteUrl,
+  breadcrumbJsonLd,
+  buildPageMetadata,
+} from "@/lib/seo/page-meta";
 
 export function generateStaticParams() {
   return LEARN_GUIDE_SLUGS.map((slug) => ({ slug }));
@@ -25,18 +31,32 @@ export async function generateMetadata({
   const locale = await getLocale();
   const guide = getLearnGuide(slug);
   if (!guide) return {};
+  const title = pickLocale(locale, guide.title);
+  const description = pickLocale(locale, guide.description);
+  const hi = locale === "hi";
 
-  return {
-    title: `${pickLocale(locale, guide.title)} | ${siteConfig.brandName}`,
-    description: pickLocale(locale, guide.description),
-    alternates: {
-      canonical: `${siteConfig.siteUrl}/${locale}/learn/${slug}`,
-      languages: {
-        en: `${siteConfig.siteUrl}/en/learn/${slug}`,
-        hi: `${siteConfig.siteUrl}/hi/learn/${slug}`,
-      },
-    },
-  };
+  return buildPageMetadata({
+    locale,
+    path: `/learn/${slug}`,
+    title: `${title} | ${siteConfig.brandName}`,
+    description,
+    type: "article",
+    keywords: hi
+      ? [
+          title,
+          "ज्योतिष सीखें",
+          "वैदिक ज्योतिष",
+          "कुंडली गाइड",
+          "jyotish",
+        ]
+      : [
+          title,
+          "learn astrology",
+          "Vedic jyotish",
+          "kundli guide",
+          "rashifal basics",
+        ],
+  });
 }
 
 export default async function LearnGuidePage({
@@ -48,11 +68,46 @@ export default async function LearnGuidePage({
   const locale = await getLocale();
   const guide = getLearnGuide(slug);
   if (!guide) notFound();
+  const hi = locale === "hi";
+  const title = pickLocale(locale, guide.title);
+  const description = pickLocale(locale, guide.description);
+  const url = absoluteUrl(locale, `/learn/${slug}`);
+
+  const articleLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: title,
+    description,
+    inLanguage: hi ? "hi-IN" : "en-IN",
+    author: {
+      "@type": "Organization",
+      name: siteConfig.brandName,
+      url: siteConfig.siteUrl,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: siteConfig.brandName,
+      url: siteConfig.siteUrl,
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteConfig.siteUrl}/astrologics-icon-512.png`,
+      },
+    },
+    mainEntityOfPage: url,
+    url,
+  };
+
+  const crumbs = breadcrumbJsonLd(locale, [
+    { name: hi ? "होम" : "Home", path: "" },
+    { name: hi ? "सीखें" : "Learn", path: "/learn" },
+    { name: pickLocale(locale, guide.menuTitle), path: `/learn/${slug}` },
+  ]);
 
   if (slug === "glossary") {
-    const hi = locale === "hi";
     return (
       <div className="bg-[#faf8f5]">
+        <JsonLd data={articleLd} />
+        <JsonLd data={crumbs} />
         <PageHero
           eyebrow={hi ? "संदर्भ" : "Reference"}
           title={pickLocale(locale, guide.title)}
@@ -97,5 +152,11 @@ export default async function LearnGuidePage({
     );
   }
 
-  return <LearnGuideView guide={guide} locale={locale} />;
+  return (
+    <>
+      <JsonLd data={articleLd} />
+      <JsonLd data={crumbs} />
+      <LearnGuideView guide={guide} locale={locale} />
+    </>
+  );
 }

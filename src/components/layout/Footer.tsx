@@ -18,10 +18,10 @@ export function Footer() {
 
   const explore = [
     { href: "/kundli", label: n("kundli") },
+    { href: "/horoscope", label: hi ? "राशिफल" : "Horoscope" },
     { href: "/chat", label: n("chat") },
-    { href: "/features", label: n("features") },
-    { href: "/pricing", label: n("pricing") },
     { href: "/calculators", label: n("calculators") },
+    { href: "/features", label: n("features") },
   ] as const;
 
   const tools = [
@@ -34,8 +34,8 @@ export function Footer() {
       label: hi ? "चौघड़िया" : "Choghadiya",
     },
     {
-      href: "/calculators/baby-name",
-      label: hi ? "शिशु नाम" : "Baby names",
+      href: "/calculators/kundli-matching",
+      label: hi ? "गुण मिलान" : "Gun Milan",
     },
     {
       href: "/calculators/moon-sign",
@@ -50,12 +50,12 @@ export function Footer() {
   const learn = [
     { href: "/learn", label: hi ? "ज्योतिष सीखें" : "Learn astrology" },
     {
-      href: "/learn/zodiac",
-      label: hi ? "राशियाँ" : "Zodiac signs",
+      href: "/horoscope",
+      label: hi ? "आज का राशिफल" : "Today’s horoscope",
     },
     {
-      href: "/learn/planets",
-      label: hi ? "ग्रह" : "Planets",
+      href: "/learn/zodiac",
+      label: hi ? "राशियाँ" : "Zodiac signs",
     },
     {
       href: "/learn/glossary",
@@ -65,7 +65,9 @@ export function Footer() {
   ] as const;
 
   const company = [
+    { href: "/about", label: n("about") },
     { href: "/services", label: n("services") },
+    { href: "/faq", label: n("faq") },
     { href: "/contact", label: n("contact") },
     { href: "/pricing", label: n("pricing") },
   ] as const;
@@ -92,7 +94,7 @@ export function Footer() {
           <div className="flex min-w-0 items-center gap-2.5">
             <AstrologicsLogo className="h-10 w-10 shrink-0" />
             <div className="min-w-0">
-              <p className="font-display text-lg font-bold leading-tight text-ink">
+              <p className="font-display text-base font-bold leading-tight text-ink">
                 {siteConfig.brandName}
               </p>
               <p className="truncate text-[12px] text-ink-muted">{t("tagline")}</p>

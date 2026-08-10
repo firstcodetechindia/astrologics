@@ -2,6 +2,7 @@ import { setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import { ResultView } from "@/components/kundli/ResultView";
 
+/** Personalized chart output — keep noindex. */
 export const metadata: Metadata = {
   title: "Your Kundli Result",
   robots: { index: false, follow: false },

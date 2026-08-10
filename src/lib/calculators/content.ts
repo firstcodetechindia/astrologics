@@ -27,8 +27,8 @@ function genericContent(
   return {
     h1: title,
     intro: {
-      en: `Use this free ${topic.en} tool with clear Vedic method notes. Enter the details below, read the result, then explore related calculators in the sidebar.`,
-      hi: `यह मुफ्त ${topic.hi} उपकरण स्पष्ट वैदिक विधि के साथ है। नीचे विवरण भरें, परिणाम देखें, फिर साइडबार में संबंधित कैलकुलेटर आज़माएँ।`,
+      en: `Free online ${topic.en} calculator for Vedic astrology (Jyotish). Get a clear Lahiri-based result in seconds — then open your full janam kundali or ask Astrologics AI Guru for chart-specific guidance in English or Hindi.`,
+      hi: `वैदिक ज्योतिष हेतु मुफ़्त ऑनलाइन ${topic.hi} कैलकुलेटर। लाहिरी आधारित स्पष्ट परिणाम सेकंडों में — फिर पूर्ण जन्म कुंडली खोलें या Astrologics एआई गुरु से चार्ट-विशिष्ट मार्गदर्शन लें।`,
     },
     promo: {
       text: {
@@ -45,15 +45,25 @@ function genericContent(
           hi: `यह ${topic.hi} कैलकुलेटर क्या दिखाता है`,
         },
         body: {
-          en: `Results follow classical Jyotish conventions used on this site: Lahiri ayanamsa and whole-sign houses where birth time matters. Always treat online scores as a starting map — deepen with a personal reading when decisions matter.`,
-          hi: `परिणाम इस साइट की शास्त्रीय ज्योतिष पद्धति पर आधारित हैं: लाहिरी अयनांश और जहाँ समय ज़रूरी हो वहाँ एक-राशि भाव। ऑनलाइन अंक आरंभिक मानचित्र हैं — महत्वपूर्ण निर्णयों पर व्यक्तिगत परामर्श लें।`,
+          en: `This ${topic.en} page is for searchers who want fast, trustworthy Vedic answers. Results use Lahiri ayanamsa and whole-sign houses where birth time matters. Treat the reading as a starting map — deepen with kundli, dasha timing and AI chat for career, marriage or remedies.`,
+          hi: `यह ${topic.hi} पृष्ठ तेज़ और विश्वसनीय वैदिक उत्तर चाहने वालों के लिए है। परिणाम लाहिरी अयनांश और जहाँ समय ज़रूरी हो वहाँ एक-राशि भाव पर हैं। इसे आरंभिक मानचित्र मानें — करियर, विवाह या उपाय हेतु कुंडली, दशा और एआई चैट से गहराई लें।`,
+        },
+      },
+      {
+        title: {
+          en: `Why use an online ${topic.en} calculator?`,
+          hi: `ऑनलाइन ${topic.hi} कैलकुलेटर क्यों?`,
+        },
+        body: {
+          en: `People search ${topic.en} online for instant clarity before a consultation. Astrologics keeps tools free, bilingual (EN & HI), and linked to panchang, moon sign, gun milan, mangal dosha, sade sati and more.`,
+          hi: `लोग परामर्श से पहले तुरंत स्पष्टता हेतु ${topic.hi} खोजते हैं। Astrologics उपकरण मुफ़्त, द्विभाषी हैं और पंचांग, चंद्र राशि, गुण मिलान, मंगल दोष, साढ़े साती से जुड़े हैं।`,
         },
       },
       {
         title: { en: "How to use this page", hi: "इस पृष्ठ का उपयोग कैसे करें" },
         body: {
-          en: "Fill the form carefully. Spelling of place names and exact birth time improve accuracy for lagna-based tools.",
-          hi: "फ़ॉर्म ध्यान से भरें। स्थान की सही वर्तनी और सटीक जन्म समय लग्न आधारित उपकरणों की सटीकता बढ़ाते हैं।",
+          en: "Fill the form carefully. Exact birth time improves lagna-based tools. After calculating, read FAQs and related calculators in the sidebar.",
+          hi: "फ़ॉर्म ध्यान से भरें। सटीक जन्म समय लग्न उपकरणों की सटीकता बढ़ाता है। गणना के बाद FAQ और साइडबार के कैलकुलेटर देखें।",
         },
         steps: [
           {
@@ -78,8 +88,18 @@ function genericContent(
           hi: "क्या यह कैलकुलेटर मुफ्त है?",
         },
         a: {
-          en: "Yes. All calculators on this site are free — no account needed.",
-          hi: "हाँ। इस साइट के सभी कैलकुलेटर मुफ्त हैं — खाता ज़रूरी नहीं।",
+          en: `Yes. Astrologics ${topic.en} tools are free online. Optional personal readings are available via AI Guru chat or WhatsApp.`,
+          hi: `हाँ। Astrologics ${topic.hi} उपकरण ऑनलाइन मुफ़्त हैं। वैकल्पिक व्यक्तिगत पढ़ाई एआई गुरु चैट या व्हाट्सऐप पर उपलब्ध है।`,
+        },
+      },
+      {
+        q: {
+          en: "Is this Vedic astrology or Western sun-sign astrology?",
+          hi: "यह वैदिक ज्योतिष है या पश्चिमी सूर्य-राशि?",
+        },
+        a: {
+          en: "Vedic (Jyotish) with Lahiri ayanamsa. Moon sign is often preferred for daily life; Sun sign adds context. Full kundli needs exact birth time and place.",
+          hi: "वैदिक ज्योतिष — लाहिरी अयनांश। दैनिक जीवन हेतु अक्सर चंद्र राशि; सूर्य राशि सहायक। पूर्ण कुंडली हेतु सटीक जन्म समय-स्थान।",
         },
       },
       {

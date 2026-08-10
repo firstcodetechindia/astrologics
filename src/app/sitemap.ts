@@ -30,13 +30,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       entries.push({
         url: `${siteConfig.siteUrl}/${locale}${path}`,
         lastModified: new Date(),
-        changeFrequency: path === "" ? "weekly" : "monthly",
+        changeFrequency:
+          path === "" || path === "/horoscope" ? "daily" : path === "/kundli" || path === "/calculators" ? "weekly" : "monthly",
         priority:
           path === ""
             ? 1
-            : path === "/kundli" || path === "/calculators"
-              ? 0.9
-              : 0.7,
+            : path === "/kundli" || path === "/calculators" || path === "/horoscope"
+              ? 0.95
+              : path === "/chat"
+                ? 0.9
+                : 0.75,
         alternates: {
           languages: {
             en: `${siteConfig.siteUrl}/en${path}`,

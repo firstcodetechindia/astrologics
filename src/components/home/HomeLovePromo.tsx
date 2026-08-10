@@ -49,10 +49,10 @@ export function HomeLovePromo({ locale }: { locale: string }) {
             <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-saffron-deep">
               {hi ? "वैदिक नाम अनुकूलता" : "Vedic name compatibility"}
             </p>
-            <h2 className="mt-3 font-display text-3xl sm:text-4xl font-bold text-ink tracking-tight">
+            <h2 className="heading-1 mt-3 font-display tracking-tight text-ink">
               {hi ? "लव कैलकुलेटर" : "Love Calculator"}
             </h2>
-            <p className="mt-4 text-[15px] sm:text-base text-ink-muted leading-relaxed max-w-lg">
+            <p className="text-muted mt-3 max-w-lg">
               {hi
                 ? "केवल दो नाम पर्याप्त। हम प्रत्येक नाम में छिपी जन्म-नक्षत्र भावना पढ़कर देखते हैं कि मेल कितना गहरा है — बिना जन्म समय के।"
                 : "Two names are all it takes. We read the birth-star idea hidden in each name and show how closely they harmonise — no birth time required."}

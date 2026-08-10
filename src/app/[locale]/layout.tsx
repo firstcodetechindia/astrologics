@@ -10,6 +10,8 @@ import { routing } from "@/i18n/routing";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { StickyContactBar } from "@/components/kundli/ContactCTA";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { organizationJsonLd, websiteJsonLd } from "@/lib/seo/page-meta";
 import { cn } from "@/lib/utils";
 import "../globals.css";
 
@@ -49,7 +51,7 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  if (!hasLocale(routing.locales, locale)) notFound();
+  if (!hasLocale(routing.locales, locale as "en" | "hi")) notFound();
 
   setRequestLocale(locale);
   const messages = await getMessages();
@@ -64,6 +66,8 @@ export default async function LocaleLayout({
           "antialiased vedic-bg vedic-pattern"
         )}
       >
+        <JsonLd data={organizationJsonLd()} />
+        <JsonLd data={websiteJsonLd()} />
         <NextIntlClientProvider messages={messages}>
           <Header />
           <main className="min-h-[70vh] pb-16 sm:pb-3">{children}</main>

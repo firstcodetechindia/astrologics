@@ -3,6 +3,11 @@ import type { Metadata } from "next";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { siteConfig } from "@/lib/site-config";
 import { FaqPageClient } from "@/components/faq/FaqPageClient";
+import {
+  breadcrumbJsonLd,
+  buildPageMetadata,
+  faqPageJsonLd,
+} from "@/lib/seo/page-meta";
 
 export async function generateMetadata({
   params,
@@ -10,18 +15,32 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "faq" });
-  return {
-    title: `${t("title")} | ${siteConfig.brandName}`,
-    description: t("subtitle"),
-    alternates: {
-      canonical: `${siteConfig.siteUrl}/${locale}/faq`,
-      languages: {
-        en: `${siteConfig.siteUrl}/en/faq`,
-        hi: `${siteConfig.siteUrl}/hi/faq`,
-      },
-    },
-  };
+  const hi = locale === "hi";
+  return buildPageMetadata({
+    locale,
+    path: "/faq",
+    title: hi
+      ? `अक्सर पूछे जाने वाले प्रश्न — कुंडली, राशिफल व ज्योतिष | ${siteConfig.brandName}`
+      : `FAQ — Kundli, Rashifal & Jyotish Questions | ${siteConfig.brandName}`,
+    description: hi
+      ? "जन्म कुंडली, लग्न, वैदिक बनाम पश्चिमी ज्योतिष, गुण मिलान, उपचार व एआई गुरु पर स्पष्ट उत्तर — Astrologics FAQ।"
+      : "Clear answers on janam kundali, Lagna, Vedic vs Western astrology, gun milan, remedies and AI Guru — Astrologics FAQ.",
+    keywords: hi
+      ? [
+          "कुंडली FAQ",
+          "ज्योतिष प्रश्न",
+          "जन्म कुंडली",
+          "गुण मिलान",
+          "वैदिक ज्योतिष",
+        ]
+      : [
+          "kundli FAQ",
+          "jyotish questions",
+          "janam kundali help",
+          "gun milan FAQ",
+          "Vedic astrology FAQ",
+        ],
+  });
 }
 
 export default async function FaqPage({
@@ -32,6 +51,7 @@ export default async function FaqPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("faq");
+  const hi = locale === "hi";
 
   const faqs = [
     { q: t("q1"), a: t("a1") },
@@ -44,22 +64,18 @@ export default async function FaqPage({
 
   return (
     <>
+      <JsonLd data={faqPageJsonLd(faqs)} />
       <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: faqs.map((f) => ({
-            "@type": "Question",
-            name: f.q,
-            acceptedAnswer: { "@type": "Answer", text: f.a },
-          })),
-        }}
+        data={breadcrumbJsonLd(locale, [
+          { name: hi ? "होम" : "Home", path: "" },
+          { name: t("title"), path: "/faq" },
+        ])}
       />
       <FaqPageClient
         title={t("title")}
         subtitle={t("subtitle")}
         faqs={faqs}
-        homeLabel={locale === "hi" ? "होम" : "Home"}
+        homeLabel={hi ? "होम" : "Home"}
       />
     </>
   );

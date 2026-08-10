@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/*/kundli/result"],
+      disallow: ["/*/kundli/result", "/*/login"],
     },
     sitemap: `${siteConfig.siteUrl}/sitemap.xml`,
   };

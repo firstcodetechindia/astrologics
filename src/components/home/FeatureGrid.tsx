@@ -52,12 +52,10 @@ export function FeatureGrid({
                     <Icon className="h-5 w-5" />
                   </span>
                   <div className="min-w-0">
-                    <h3 className="font-display text-xl font-bold text-saffron-deep">
+                    <h3 className="heading-3 font-display text-saffron-deep">
                       {f.title}
                     </h3>
-                    <p className="mt-2 text-[0.95rem] text-ink-muted leading-relaxed">
-                      {f.text}
-                    </p>
+                    <p className="text-muted mt-2">{f.text}</p>
                   </div>
                 </div>
               </GlassCard>
@@ -103,7 +101,7 @@ export function WhySection({
                   <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-saffron to-saffron-deep text-ivory shadow-lg shadow-saffron/25">
                     <Icon className="h-6 w-6" />
                   </span>
-                  <h3 className="mt-4 font-display text-lg font-bold text-saffron-deep">
+                  <h3 className="heading-3 mt-4 font-display text-saffron-deep">
                     {item.title}
                   </h3>
                   <p className="mt-2 text-[0.95rem] text-ink-muted leading-relaxed">

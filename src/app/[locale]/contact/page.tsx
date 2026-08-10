@@ -4,7 +4,12 @@ import { MessageCircle, Phone, Mail } from "lucide-react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { ButtonLink } from "@/components/ui/Button";
 import { PageHero } from "@/components/ui/PageHero";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { siteConfig, telLink, whatsappLink } from "@/lib/site-config";
+import {
+  breadcrumbJsonLd,
+  buildPageMetadata,
+} from "@/lib/seo/page-meta";
 
 export async function generateMetadata({
   params,
@@ -12,18 +17,31 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "contact" });
-  return {
-    title: `${t("title")} | ${siteConfig.brandName}`,
-    description: t("subtitle"),
-    alternates: {
-      canonical: `${siteConfig.siteUrl}/${locale}/contact`,
-      languages: {
-        en: `${siteConfig.siteUrl}/en/contact`,
-        hi: `${siteConfig.siteUrl}/hi/contact`,
-      },
-    },
-  };
+  const hi = locale === "hi";
+  return buildPageMetadata({
+    locale,
+    path: "/contact",
+    title: hi
+      ? `संपर्क — कुंडली परामर्श व एआई ज्योतिष सहायता | ${siteConfig.brandName}`
+      : `Contact — Kundli Consultation & AI Astrology Help | ${siteConfig.brandName}`,
+    description: hi
+      ? "Astrologics से संपर्क करें — वैदिक कुंडली परामर्श, गुण मिलान, राशिफल व एआई गुरु सहायता हेतु व्हाट्सऐप, कॉल या ईमेल।"
+      : "Contact Astrologics — WhatsApp, call or email for Vedic kundli consultation, gun milan, rashifal and AI Guru support.",
+    keywords: hi
+      ? [
+          "कुंडली परामर्श संपर्क",
+          "ज्योतिष सलाह",
+          "Astrologics संपर्क",
+          "gun milan consultation",
+        ]
+      : [
+          "kundli consultation contact",
+          "jyotish advice",
+          "astrology WhatsApp",
+          "Astrologics contact",
+          "gun milan help",
+        ],
+  });
 }
 
 export default async function ContactPage({
@@ -38,6 +56,12 @@ export default async function ContactPage({
 
   return (
     <div className="bg-[#faf8f5]">
+      <JsonLd
+        data={breadcrumbJsonLd(locale, [
+          { name: hi ? "होम" : "Home", path: "" },
+          { name: t("title"), path: "/contact" },
+        ])}
+      />
       <PageHero
         eyebrow={hi ? "संपर्क" : "Contact"}
         title={t("title")}

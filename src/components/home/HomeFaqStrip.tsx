@@ -64,10 +64,10 @@ export function HomeFaqStrip({ locale }: { locale: string }) {
     <section className="container-page pb-3 pt-6 sm:pb-4 sm:pt-8">
       <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
         <div className="min-w-0 max-w-2xl">
-          <h2 className="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+          <h2 className="heading-1 font-display tracking-tight text-ink">
             {hi ? "अक्सर पूछे जाने वाले प्रश्न" : "Frequently asked questions"}
           </h2>
-          <p className="mt-1.5 text-[14px] text-ink-muted sm:text-[15px]">
+          <p className="text-muted mt-1.5">
             {hi
               ? "शुरू करने से पहले स्पष्ट उत्तर।"
               : "Clear answers before you dive in."}

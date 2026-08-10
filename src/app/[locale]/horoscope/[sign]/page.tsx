@@ -2,13 +2,20 @@ import type { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { HoroscopeSignView } from "@/components/horoscope/HoroscopeSignView";
+import { JsonLd } from "@/components/seo/JsonLd";
 import {
   getHoroscopeSign,
-  HOROSCOPE_SIGNS,
   pickL,
 } from "@/lib/horoscope/signs";
+import { getHoroscopeSeo } from "@/lib/horoscope/seo-content";
 import { siteConfig } from "@/lib/site-config";
 import { ZODIAC_SLUGS } from "@/lib/zodiac-icons";
+import {
+  absoluteUrl,
+  breadcrumbJsonLd,
+  buildPageMetadata,
+  faqPageJsonLd,
+} from "@/lib/seo/page-meta";
 
 type Props = { params: Promise<{ sign: string }> };
 
@@ -23,35 +30,101 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!sign) return { title: siteConfig.brandName };
 
   const name = pickL(locale, sign.name);
-  const title =
-    locale === "hi"
-      ? `${name} राशिफल — दैनिक, साप्ताहिक व मासिक | ${siteConfig.brandName}`
-      : `${name} Horoscope — Daily, Weekly & Monthly | ${siteConfig.brandName}`;
-  const description =
-    locale === "hi"
-      ? `${name} का दैनिक, साप्ताहिक और मासिक राशिफल — लकी नंबर, रंग, शासक ग्रह और मार्गदर्शन।`
-      : `${name} daily, weekly and monthly horoscope — lucky number, colour, ruling planet and guidance.`;
+  const ruler = pickL(locale, sign.ruler);
+  const hi = locale === "hi";
+  const title = hi
+    ? `${name} राशिफल आज — दैनिक, साप्ताहिक, मासिक | लकी नंबर व रंग | ${siteConfig.brandName}`
+    : `${name} Horoscope Today — Daily, Weekly, Monthly | Lucky Number & Colour | ${siteConfig.brandName}`;
+  const description = hi
+    ? `${name} (${sign.name.en}) राशिफल: दैनिक-साप्ताहिक-मासिक भविष्यवाणी, शासक ग्रह ${ruler}, लकी नंबर ${sign.luckyNumber}, प्रेम-करियर मार्गदर्शन, उपाय और एआई गुरु अंतर्दृष्टि।`
+    : `${name} horoscope: daily, weekly & monthly forecast, ruling planet ${ruler}, lucky number ${sign.luckyNumber}, love & career guidance, remedies and AI Guru insights.`;
 
-  return {
+  const keywords = hi
+    ? [
+        `${name} राशिफल`,
+        `${name} राशिफल आज`,
+        `${sign.name.en} horoscope`,
+        `दैनिक ${name} राशिफल`,
+        `${name} लकी नंबर`,
+        `${ruler} राशि`,
+        "आज का राशिफल",
+      ]
+    : [
+        `${name} horoscope`,
+        `${name} horoscope today`,
+        `${name} daily horoscope`,
+        `${name} weekly horoscope`,
+        `${name} monthly horoscope`,
+        `${name} lucky number`,
+        `${name} love horoscope`,
+        `Vedic ${name} rashi`,
+        "aaj ka rashifal",
+      ];
+
+  return buildPageMetadata({
+    locale,
+    path: `/horoscope/${slug}`,
     title,
     description,
-    alternates: {
-      canonical: `${siteConfig.siteUrl}/${locale}/horoscope/${slug}`,
-      languages: {
-        en: `${siteConfig.siteUrl}/en/horoscope/${slug}`,
-        hi: `${siteConfig.siteUrl}/hi/horoscope/${slug}`,
-      },
-    },
-  };
+    keywords,
+    type: "article",
+  });
 }
 
 export default async function HoroscopeSignPage({ params }: Props) {
   const { sign: slug } = await params;
+  const locale = await getLocale();
   const sign = getHoroscopeSign(slug);
+  const seo = getHoroscopeSeo(slug);
   if (!sign) notFound();
 
-  // Touch list so tree-shaking keeps full catalog available to client switcher data path
-  void HOROSCOPE_SIGNS.length;
+  const name = pickL(locale, sign.name);
+  const url = absoluteUrl(locale, `/horoscope/${slug}`);
+  const hi = locale === "hi";
 
-  return <HoroscopeSignView sign={sign} />;
+  const faqs = (seo?.faqs ?? []).map((f) => ({
+    q: pickL(locale, f.q),
+    a: pickL(locale, f.a),
+  }));
+
+  return (
+    <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: hi
+            ? `${name} राशिफल — दैनिक, साप्ताहिक व मासिक`
+            : `${name} Horoscope — Daily, Weekly & Monthly`,
+          description: pickL(locale, sign.summary),
+          author: {
+            "@type": "Organization",
+            name: siteConfig.brandName,
+            url: siteConfig.siteUrl,
+          },
+          publisher: {
+            "@type": "Organization",
+            name: siteConfig.brandName,
+            url: siteConfig.siteUrl,
+          },
+          mainEntityOfPage: url,
+          dateModified: new Date().toISOString().slice(0, 10),
+          inLanguage: hi ? "hi-IN" : "en-IN",
+          about: {
+            "@type": "Thing",
+            name: `${name} zodiac sign`,
+          },
+        }}
+      />
+      {faqs.length > 0 ? <JsonLd data={faqPageJsonLd(faqs)} /> : null}
+      <JsonLd
+        data={breadcrumbJsonLd(locale, [
+          { name: hi ? "होम" : "Home", path: "" },
+          { name: hi ? "राशिफल" : "Horoscope", path: "/horoscope" },
+          { name, path: `/horoscope/${slug}` },
+        ])}
+      />
+      <HoroscopeSignView sign={sign} />
+    </>
+  );
 }

@@ -4,21 +4,42 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { ButtonLink } from "@/components/ui/Button";
 import { PageHero } from "@/components/ui/PageHero";
 import { Link } from "@/i18n/navigation";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { siteConfig, whatsappLink } from "@/lib/site-config";
+import {
+  breadcrumbJsonLd,
+  buildPageMetadata,
+} from "@/lib/seo/page-meta";
 import { Check } from "lucide-react";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
-  return {
-    title:
-      locale === "hi"
-        ? `मूल्य सूची | ${siteConfig.brandName}`
-        : `Pricing | ${siteConfig.brandName}`,
-    description:
-      locale === "hi"
-        ? "मुफ्त उपकरण और व्यक्तिगत परामर्श पैकेज।"
-        : "Free tools and personal consultation packages.",
-  };
+  const hi = locale === "hi";
+  return buildPageMetadata({
+    locale,
+    path: "/pricing",
+    title: hi
+      ? `मूल्य सूची — मुफ्त कुंडली व ज्योतिष परामर्श | ${siteConfig.brandName}`
+      : `Pricing — Free Kundli & Jyotish Consultation | ${siteConfig.brandName}`,
+    description: hi
+      ? "मुफ्त वैदिक कुंडली, गुण मिलान व एआई चैट हमेशा खुले। विस्तृत ज्योतिष परामर्श व मिलान पैकेज व्यक्तिगत सत्र में।"
+      : "Free Vedic kundli, gun milan and AI chat stay open. Detailed jyotish consultation and matching packages in personal sessions.",
+    keywords: hi
+      ? [
+          "कुंडली परामर्श मूल्य",
+          "मुफ्त कुंडली",
+          "ज्योतिष परामर्श",
+          "गुण मिलान",
+          "astrology consultation pricing",
+        ]
+      : [
+          "kundli consultation pricing",
+          "free kundli online",
+          "jyotish consultation",
+          "gun milan package",
+          "AI astrology pricing",
+        ],
+  });
 }
 
 export default async function PricingPage() {
@@ -101,6 +122,12 @@ export default async function PricingPage() {
 
   return (
     <div className="bg-[#faf8f5]">
+      <JsonLd
+        data={breadcrumbJsonLd(locale, [
+          { name: hi ? "होम" : "Home", path: "" },
+          { name: hi ? "मूल्य सूची" : "Pricing", path: "/pricing" },
+        ])}
+      />
       <PageHero
         eyebrow={hi ? "मूल्य" : "Pricing"}
         title={hi ? "सरल मूल्य" : "Simple pricing"}

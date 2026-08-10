@@ -3,20 +3,42 @@ import { getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PageHero } from "@/components/ui/PageHero";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { siteConfig } from "@/lib/site-config";
+import {
+  breadcrumbJsonLd,
+  buildPageMetadata,
+} from "@/lib/seo/page-meta";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
-  return {
-    title:
-      locale === "hi"
-        ? `विशेषताएँ | ${siteConfig.brandName}`
-        : `Features | ${siteConfig.brandName}`,
-    description:
-      locale === "hi"
-        ? "एआई चैट, जन्म कुंडली, पंचांग, मिलान, कैलकुलेटर और प्रीमियम रिपोर्ट।"
-        : "AI chat, birth chart, panchang, matching, calculators and premium reports.",
-  };
+  const hi = locale === "hi";
+  return buildPageMetadata({
+    locale,
+    path: "/features",
+    title: hi
+      ? `विशेषताएँ — मुफ्त कुंडली, एआई गुरु व ज्योतिष उपकरण | ${siteConfig.brandName}`
+      : `Features — Free Kundli, AI Guru & Jyotish Tools | ${siteConfig.brandName}`,
+    description: hi
+      ? "Astrologics विशेषताएँ: मुफ्त जन्म कुंडली, एआई ज्योतिष चैट, गुण मिलान, राशिफल, पंचांग व 30+ वैदिक कैलकुलेटर।"
+      : "Astrologics features: free janam kundali, AI astrology chat, gun milan, rashifal, panchang and 30+ Vedic jyotish calculators.",
+    keywords: hi
+      ? [
+          "कुंडली विशेषताएँ",
+          "एआई ज्योतिष",
+          "गुण मिलान",
+          "मुफ्त कुंडली",
+          "AI astrology features",
+        ]
+      : [
+          "AI astrology features",
+          "free kundli online",
+          "gun milan",
+          "Vedic calculators",
+          "AI Guru chat",
+          "jyotish tools",
+        ],
+  });
 }
 
 const FEATURES = [
@@ -82,6 +104,12 @@ export default async function FeaturesPage() {
 
   return (
     <div className="bg-[#faf8f5]">
+      <JsonLd
+        data={breadcrumbJsonLd(locale, [
+          { name: hi ? "होम" : "Home", path: "" },
+          { name: hi ? "विशेषताएँ" : "Features", path: "/features" },
+        ])}
+      />
       <PageHero
         eyebrow={hi ? "उत्पाद" : "Product"}
         title={hi ? "प्लेटफ़ॉर्म विशेषताएँ" : "Platform features"}
@@ -128,6 +156,29 @@ export default async function FeaturesPage() {
             </Link>
           ))}
         </div>
+
+        <section className="mt-12 max-w-3xl space-y-4 text-[15px] leading-relaxed text-ink-muted">
+          <h2 className="font-display text-2xl font-bold text-ink">
+            {hi
+              ? "वैदिक कुंडली व एआई ज्योतिष एक प्लेटफ़ॉर्म पर"
+              : "Vedic kundli and AI astrology on one platform"}
+          </h2>
+          <p>
+            {hi
+              ? "Astrologics मुफ्त जन्म कुंडली (janam kundali), दैनिक राशिफल, गुण मिलान और एआई गुरु चैट को एक जगह लाता है — ताकि आप वैदिक ज्योतिष को सरल भाषा में समझ सकें।"
+              : "Astrologics brings free janam kundali, daily rashifal, gun milan and AI Guru chat together — so you can explore Vedic jyotish in plain English or Hindi."}
+          </p>
+          <p>
+            {hi
+              ? "लग्न, ग्रह, भाव, दशा और दोष जाँच से लेकर पंचांग व अंक ज्योतिष कैलकुलेटर तक — हर उपकरण SEO-अनुकूल मार्गदर्शन और स्पष्ट परिणाम के साथ आता है।"
+              : "From Lagna, planets, houses, dasha and dosha checks to panchang and numerology calculators — every tool includes clear guidance and actionable results."}
+          </p>
+          <p>
+            {hi
+              ? "जब आपको गहन पढ़ाई चाहिए, व्यक्तिगत परामर्श के लिए हमसे बात करें — ऑनलाइन उपकरण मुफ्त रहेंगे।"
+              : "When you need a deeper reading, talk with us for a personal session — free online kundli tools stay free."}
+          </p>
+        </section>
       </div>
     </div>
   );

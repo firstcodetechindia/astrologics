@@ -30,10 +30,10 @@ export function HomeToolsGrid({ locale }: { locale: string }) {
             <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-saffron-deep">
               {hi ? "और उपकरण" : "More tools"}
             </p>
-            <h2 className="mt-2 font-display text-3xl sm:text-4xl font-bold text-ink tracking-tight">
+            <h2 className="heading-1 mt-2 font-display tracking-tight text-ink">
               {hi ? "व्याख्या वाले लोकप्रिय कैलकुलेटर" : "Popular calculators, explained"}
             </h2>
-            <p className="mt-3 text-ink-muted leading-relaxed max-w-xl">
+            <p className="text-muted mt-3 max-w-xl">
               {hi
                 ? "ऊपर झलक थी — यहाँ परिणाम की पूरी व्याख्या, FAQ और संबंधित लिंक वाले उपकरण हैं।"
                 : "That was a quick peek above — these open full explained results, FAQs and related links."}

@@ -53,10 +53,10 @@ export function ContactCTA({
       <div className="pointer-events-none absolute -right-16 -top-16 h-44 w-44 rounded-full bg-saffron/20 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-20 -left-10 h-40 w-40 rounded-full bg-gold/25 blur-3xl" />
       <div className="relative">
-        <h3 className="font-display text-2xl sm:text-3xl font-semibold text-saffron-deep leading-tight">
+        <h3 className="heading-2 font-display text-saffron-deep">
           {heading}
         </h3>
-        <p className="mt-3 text-ink-muted text-[0.98rem] sm:text-base leading-relaxed max-w-2xl">
+        <p className="text-muted mt-2 max-w-2xl">
           {body}
         </p>
         <div className="mt-6 flex flex-col sm:flex-row flex-wrap gap-3">

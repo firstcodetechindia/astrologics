@@ -10,19 +10,45 @@ import {
 import { RelatedSidebar } from "@/components/calculators/RelatedSidebar";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { PageHero } from "@/components/ui/PageHero";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { siteConfig } from "@/lib/site-config";
+import {
+  breadcrumbJsonLd,
+  buildPageMetadata,
+  faqPageJsonLd,
+} from "@/lib/seo/page-meta";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
-  const title =
-    locale === "hi"
-      ? `मुफ्त ज्योतिष व अंक कैलकुलेटर | ${siteConfig.brandName}`
-      : `Free Astrology & Numerology Calculators | ${siteConfig.brandName}`;
-  const description =
-    locale === "hi"
-      ? "चंद्र राशि, लग्न, मंगल दोष, कुंडली मिलान, पंचांग, केपी और अंक ज्योतिष — सभी मुफ्त, स्पष्ट व्याख्या के साथ।"
-      : "Moon sign, lagna, Mangal dosha, kundli matching, panchang, KP and numerology — free tools with clear guides.";
-  return { title, description };
+  const hi = locale === "hi";
+  return buildPageMetadata({
+    locale,
+    path: "/calculators",
+    title: hi
+      ? `मुफ्त ज्योतिष व अंक कैलकुलेटर — कुंडली उपकरण | ${siteConfig.brandName}`
+      : `Free Astrology & Numerology Calculators — Kundli Tools | ${siteConfig.brandName}`,
+    description: hi
+      ? "चंद्र राशि, लग्न, मंगल दोष, गुण मिलान, पंचांग, केपी व अंक ज्योतिष — मुफ्त वैदिक कैलकुलेटर स्पष्ट व्याख्या के साथ।"
+      : "Moon sign, lagna, Mangal dosha, gun milan, panchang, KP & numerology — free Vedic jyotish calculators with clear guides.",
+    keywords: hi
+      ? [
+          "मुफ्त ज्योतिष कैलकुलेटर",
+          "कुंडली कैलकुलेटर",
+          "गुण मिलान",
+          "मंगल दोष",
+          "पंचांग",
+          "free astrology calculator",
+        ]
+      : [
+          "free astrology calculator",
+          "kundli calculator",
+          "gun milan calculator",
+          "mangal dosha checker",
+          "panchang calculator",
+          "jyotish tools",
+          "numerology calculator",
+        ],
+  });
 }
 
 const ORDER: CalcCategory[] = [
@@ -40,8 +66,53 @@ export default async function CalculatorsPage() {
   const byCat = calculatorsByCategory();
   const hi = locale === "hi";
 
+  const faqs = hi
+    ? [
+        {
+          q: "क्या सभी कैलकुलेटर मुफ्त हैं?",
+          a: "हाँ — बिना खाता बनाए उपयोग करें। गहन परामर्श व्हाट्सऐप पर उपलब्ध है।",
+        },
+        {
+          q: "कौन-सी गणना पद्धति?",
+          a: "वैदिक ज्योतिष — लाहिरी विधि; जहाँ लागू हो एक राशि = एक भाव।",
+        },
+        {
+          q: "नाम मिलान या जन्म मिलान?",
+          a: "त्वरित जाँच हेतु लव कैलकुलेटर; विवाह चर्चा हेतु कुंडली मिलान।",
+        },
+        {
+          q: "क्या मेरी जानकारी सुरक्षित है?",
+          a: "गणना आपके उपयोग के समय होती है। इन उपकरणों में स्थायी जन्म-रिकॉर्ड नहीं रखा जाता।",
+        },
+      ]
+    : [
+        {
+          q: "Are all calculators free?",
+          a: "Yes — use freely, no account needed. For deeper consultation, talk with us.",
+        },
+        {
+          q: "Which calculation method?",
+          a: "Vedic astrology with Lahiri method; one sign = one house where applicable.",
+        },
+        {
+          q: "Name match or birth match?",
+          a: "Love Calculator for a quick check; Kundli Matching for marriage talks.",
+        },
+        {
+          q: "Is my information private?",
+          a: "Your chart is calculated while you use the tool. These tools do not keep a permanent birth record.",
+        },
+      ];
+
   return (
     <div className="bg-[#faf8f5] min-h-screen">
+      <JsonLd
+        data={breadcrumbJsonLd(locale, [
+          { name: hi ? "होम" : "Home", path: "" },
+          { name: hi ? "कैलकुलेटर" : "Calculators", path: "/calculators" },
+        ])}
+      />
+      <JsonLd data={faqPageJsonLd(faqs)} />
       <PageHero
         eyebrow={hi ? "मुफ्त उपकरण" : "Free tools"}
         title={hi ? "सभी कैलकुलेटर" : "All Calculators"}
@@ -103,47 +174,7 @@ export default async function CalculatorsPage() {
               <h2 className="font-display text-2xl font-bold text-ink mb-4">
                 {hi ? "अक्सर पूछे जाने वाले प्रश्न" : "Frequently Asked Questions"}
               </h2>
-              <FaqAccordion
-                items={
-                  hi
-                    ? [
-                        {
-                          q: "क्या सभी कैलकुलेटर मुफ्त हैं?",
-                          a: "हाँ — बिना खाता बनाए उपयोग करें। गहन परामर्श व्हाट्सऐप पर उपलब्ध है।",
-                        },
-                        {
-                          q: "कौन-सी गणना पद्धति?",
-                          a: "वैदिक ज्योतिष — लाहिरी विधि; जहाँ लागू हो एक राशि = एक भाव।",
-                        },
-                        {
-                          q: "नाम मिलान या जन्म मिलान?",
-                          a: "त्वरित जाँच हेतु लव कैलकुलेटर; विवाह चर्चा हेतु कुंडली मिलान।",
-                        },
-                        {
-                          q: "क्या मेरी जानकारी सुरक्षित है?",
-                          a: "गणना आपके उपयोग के समय होती है। इन उपकरणों में स्थायी जन्म-रिकॉर्ड नहीं रखा जाता।",
-                        },
-                      ]
-                    : [
-                        {
-                          q: "Are all calculators free?",
-                          a: "Yes — use freely, no account needed. For deeper consultation, talk with us.",
-                        },
-                        {
-                          q: "Which calculation method?",
-                          a: "Vedic astrology with Lahiri method; one sign = one house where applicable.",
-                        },
-                        {
-                          q: "Name match or birth match?",
-                          a: "Love Calculator for a quick check; Kundli Matching for marriage talks.",
-                        },
-                        {
-                          q: "Is my information private?",
-                          a: "Your chart is calculated while you use the tool. These tools do not keep a permanent birth record.",
-                        },
-                      ]
-                }
-              />
+              <FaqAccordion items={faqs} />
             </section>
           </div>
 

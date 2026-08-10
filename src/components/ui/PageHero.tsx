@@ -216,7 +216,7 @@ export function PageHero({
             ) : null}
 
             <motion.h1
-              className="mx-auto font-display max-w-2xl text-xl font-bold tracking-tight text-ink sm:text-2xl lg:mx-0 lg:text-[1.75rem] lg:leading-tight"
+              className="heading-1 mx-auto max-w-2xl font-display tracking-tight text-ink lg:mx-0"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.35 }}
@@ -226,7 +226,7 @@ export function PageHero({
 
             {description ? (
               <motion.p
-                className="mx-auto mt-1.5 max-w-xl text-[13px] leading-snug text-ink-muted sm:text-[14px] lg:mx-0"
+                className="text-muted mx-auto mt-1.5 max-w-xl lg:mx-0"
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15, duration: 0.35 }}
