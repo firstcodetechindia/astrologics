@@ -393,8 +393,8 @@ export function TodayPanchangView() {
           </p>
           <p className="mt-1 text-[11px] text-ink-muted">
             {hi
-              ? `स्थानीय दोपहर · लाहिरी अयनांश ${data.ayanamsa}°`
-              : `Local noon · Lahiri ayanamsa ${data.ayanamsa}°`}
+              ? `${tx(locale, data.chartAt.label)} · लाहिरी अयनांश ${data.ayanamsa}°`
+              : `${tx(locale, data.chartAt.label)} · Lahiri ayanamsa ${data.ayanamsa}°`}
           </p>
           <table className="mt-3 w-full min-w-[32rem] text-left text-[13px]">
             <thead>
@@ -433,7 +433,7 @@ export function TodayPanchangView() {
             {hi ? "लग्न कुंडली" : "Lagna Chart"}
           </p>
           <p className="mt-1 text-[11px] text-ink-muted">
-            {hi ? "दोपहर 12:00 स्थानीय" : "Local noon snapshot"}
+            {tx(locale, data.chartAt.label)}
           </p>
           <div className="mt-3">
             <KundliChart kundli={data.kundli} compact />

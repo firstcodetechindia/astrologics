@@ -511,19 +511,23 @@ export function computeTodayPanchang(opts: {
   const tara = tarabalamForMoon(panchang.nakshatra.index);
   const chandra = chandrabalamForMoon(moonSignIndex);
 
+  const chartMoment = sunrise ?? noon;
+  const chartParts = partsInTz(chartMoment, timeZone);
+  const chartTime = `${String(chartParts.h).padStart(2, "0")}:${String(chartParts.min).padStart(2, "0")}`;
+
   const kundli: KundliResult = computeKundli({
     name: "Panchang",
     date: ymd,
-    time: "12:00",
+    time: chartTime,
     place,
     lat,
     lon,
     timezoneOffsetMinutes: tzOff,
   });
 
-  const ayanamsa = lahiriAyanamsaFromDate(noon);
-  const { planets: raw } = getSiderealPlanets(noon, ayanamsa);
-  const lagnaLon = calculateLagna(noon, lat, lon, ayanamsa);
+  const ayanamsa = lahiriAyanamsaFromDate(chartMoment);
+  const { planets: raw } = getSiderealPlanets(chartMoment, ayanamsa);
+  const lagnaLon = calculateLagna(chartMoment, lat, lon, ayanamsa);
   const lagnaNak = nakshatraFromLongitude(lagnaLon);
   const lagnaSign = signIndexFromLongitude(lagnaLon);
 
@@ -614,5 +618,12 @@ export function computeTodayPanchang(opts: {
     planets: planetRows,
     kundli,
     ayanamsa: Number(ayanamsa.toFixed(4)),
+    chartAt: {
+      label: {
+        en: `Sunrise · ${formatHmAmPm(chartMoment, timeZone)}`,
+        hi: `सूर्योदय · ${formatHmAmPm(chartMoment, timeZone)}`,
+      },
+      time: chartTime,
+    },
   };
 }
