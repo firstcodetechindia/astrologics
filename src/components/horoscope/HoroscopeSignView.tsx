@@ -19,6 +19,14 @@ import {
   Brain,
   Shield,
   ArrowRight,
+  Hash,
+  Palette,
+  CalendarDays,
+  CircleDot,
+  Navigation,
+  Flame,
+  Mic2,
+  type LucideIcon,
 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
@@ -80,6 +88,52 @@ function GlassPanel({
   );
 }
 
+/** Best-effort colour chip from lucky-colour text */
+function guessColour(raw: string): string | undefined {
+  const s = raw.toLowerCase();
+  if (
+    s.includes("red") ||
+    s.includes("लाल") ||
+    s.includes("maroon") ||
+    s.includes("मरून")
+  )
+    return "#e11d48";
+  if (
+    s.includes("gold") ||
+    s.includes("सुनहरा") ||
+    s.includes("orange") ||
+    s.includes("नारंगी") ||
+    s.includes("saffron") ||
+    s.includes("केसर")
+  )
+    return "#f59e0b";
+  if (s.includes("green") || s.includes("हरा") || s.includes("sea"))
+    return "#16a34a";
+  if (
+    s.includes("blue") ||
+    s.includes("नीला") ||
+    s.includes("turquoise") ||
+    s.includes("फ़िरोज़ी")
+  )
+    return "#2563eb";
+  if (s.includes("pink") || s.includes("गुलाबी")) return "#ec4899";
+  if (
+    s.includes("white") ||
+    s.includes("सफ़ेद") ||
+    s.includes("cream") ||
+    s.includes("क्रीम") ||
+    s.includes("silver") ||
+    s.includes("चाँदी")
+  )
+    return "#e5e7eb";
+  if (s.includes("black") || s.includes("काला") || s.includes("dark"))
+    return "#1f2937";
+  if (s.includes("yellow") || s.includes("पीला")) return "#eab308";
+  if (s.includes("grey") || s.includes("gray") || s.includes("धूसर"))
+    return "#9ca3af";
+  return undefined;
+}
+
 export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
   const locale = useLocale();
   const hi = locale === "hi";
@@ -89,16 +143,87 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
   const seo = getHoroscopeSeo(sign.slug);
 
   const lucky = useMemo(
-    () => [
-      { label: hi ? "लकी नंबर" : "Lucky number", value: sign.luckyNumber },
-      { label: hi ? "लकी रंग" : "Lucky colour", value: pickL(locale, sign.luckyColour) },
-      { label: hi ? "लकी दिन" : "Lucky day", value: pickL(locale, sign.luckyDay) },
-      { label: hi ? "रत्न" : "Gemstone", value: pickL(locale, sign.gemstone) },
-      { label: hi ? "धातु" : "Metal", value: pickL(locale, sign.metal) },
-      { label: hi ? "दिशा" : "Direction", value: pickL(locale, sign.direction) },
-      { label: hi ? "देवता" : "Deity", value: pickL(locale, sign.deity) },
-      { label: hi ? "मंत्र" : "Mantra", value: sign.mantra },
-    ],
+    () =>
+      [
+        {
+          id: "number",
+          label: hi ? "लकी नंबर" : "Lucky number",
+          value: sign.luckyNumber,
+          Icon: Hash,
+          accent: "from-[#ff8a1f]/25 to-[#f06a00]/10",
+          iconBg: "bg-saffron text-white",
+          featured: true,
+        },
+        {
+          id: "colour",
+          label: hi ? "लकी रंग" : "Lucky colour",
+          value: pickL(locale, sign.luckyColour),
+          Icon: Palette,
+          accent: "from-[#ffb347]/30 to-[#ffe0b8]/20",
+          iconBg: "bg-[#fff1e6] text-saffron-deep",
+          swatch: guessColour(pickL(locale, sign.luckyColour)),
+        },
+        {
+          id: "day",
+          label: hi ? "लकी दिन" : "Lucky day",
+          value: pickL(locale, sign.luckyDay),
+          Icon: CalendarDays,
+          accent: "from-sky-100/80 to-white/40",
+          iconBg: "bg-sky-50 text-sky-700",
+        },
+        {
+          id: "gem",
+          label: hi ? "रत्न" : "Gemstone",
+          value: pickL(locale, sign.gemstone),
+          Icon: Gem,
+          accent: "from-violet-100/70 to-white/40",
+          iconBg: "bg-violet-50 text-violet-700",
+        },
+        {
+          id: "metal",
+          label: hi ? "धातु" : "Metal",
+          value: pickL(locale, sign.metal),
+          Icon: CircleDot,
+          accent: "from-amber-100/80 to-white/40",
+          iconBg: "bg-amber-50 text-amber-800",
+        },
+        {
+          id: "direction",
+          label: hi ? "दिशा" : "Direction",
+          value: pickL(locale, sign.direction),
+          Icon: Navigation,
+          accent: "from-emerald-100/70 to-white/40",
+          iconBg: "bg-emerald-50 text-emerald-700",
+        },
+        {
+          id: "deity",
+          label: hi ? "देवता" : "Deity",
+          value: pickL(locale, sign.deity),
+          Icon: Flame,
+          accent: "from-orange-100/80 to-white/40",
+          iconBg: "bg-orange-50 text-orange-700",
+          wide: true,
+        },
+        {
+          id: "mantra",
+          label: hi ? "मंत्र" : "Mantra",
+          value: sign.mantra,
+          Icon: Mic2,
+          accent: "from-[#ffe8d6]/90 to-white/50",
+          iconBg: "bg-[#fff1e6] text-saffron-deep",
+          wide: true,
+        },
+      ] as {
+        id: string;
+        label: string;
+        value: string;
+        Icon: LucideIcon;
+        accent: string;
+        iconBg: string;
+        featured?: boolean;
+        wide?: boolean;
+        swatch?: string;
+      }[],
     [hi, locale, sign]
   );
 
@@ -365,24 +490,80 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
           {/* Sidebar */}
           <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
             <GlassPanel strong className="p-4">
-              <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-saffron-deep">
-                {hi ? "लकी मैट्रिक्स" : "Lucky matrix"}
-              </p>
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <p className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-saffron-deep">
+                    <Sparkles className="h-3 w-3" />
+                    {hi ? "एआई लकी मैट्रिक्स" : "AI Lucky Matrix"}
+                  </p>
+                  <p className="mt-1 text-[11px] leading-snug text-ink-muted">
+                    {hi
+                      ? `${name} के लिए शास्त्रीय संकेत — एआई द्वारा संरचित`
+                      : `Classical cues for ${name} — structured by AI`}
+                  </p>
+                </div>
+                <span className="shrink-0 rounded-full border border-saffron/25 bg-white/80 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-saffron-deep">
+                  {hi ? "लाइव" : "Live"}
+                </span>
+              </div>
+
               <div className="mt-3 grid grid-cols-2 gap-2">
                 {lucky.map((item) => (
                   <div
-                    key={item.label}
-                    className="rounded-xl border border-white/80 bg-white/55 px-2.5 py-2 backdrop-blur"
+                    key={item.id}
+                    className={cn(
+                      "relative overflow-hidden rounded-xl border border-white/80 bg-gradient-to-br p-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)] backdrop-blur-md",
+                      item.accent,
+                      item.wide && "col-span-2",
+                      item.featured && "ring-1 ring-saffron/25"
+                    )}
                   >
-                    <p className="text-[9px] font-semibold uppercase tracking-wide text-ink-muted">
-                      {item.label}
-                    </p>
-                    <p className="mt-0.5 text-[12px] font-semibold leading-snug text-ink">
-                      {item.value}
-                    </p>
+                    <div className="flex items-start gap-2">
+                      <span
+                        className={cn(
+                          "mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-lg shadow-sm",
+                          item.iconBg
+                        )}
+                      >
+                        <item.Icon className="h-3.5 w-3.5" />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-ink-muted/90">
+                          {item.label}
+                        </p>
+                        <div className="mt-0.5 flex items-center gap-1.5">
+                          {item.swatch ? (
+                            <span
+                              className="h-3 w-3 shrink-0 rounded-full border border-black/10 shadow-sm"
+                              style={{ background: item.swatch }}
+                              aria-hidden
+                            />
+                          ) : null}
+                          <p
+                            className={cn(
+                              "font-semibold leading-snug text-ink",
+                              item.featured
+                                ? "font-display text-xl tabular-nums text-saffron-deep"
+                                : item.wide
+                                  ? "text-[12.5px]"
+                                  : "text-[13px]"
+                            )}
+                          >
+                            {item.value}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
+
+              <p className="mt-3 flex items-center gap-1.5 text-[10px] text-ink-muted">
+                <Bot className="h-3 w-3 text-saffron-deep" />
+                {hi
+                  ? "सामान्य राशि संकेत · व्यक्तिगत कुंडली से और गहराई"
+                  : "General sign cues · deepen with your kundli"}
+              </p>
             </GlassPanel>
 
             <GlassPanel className="p-4">
