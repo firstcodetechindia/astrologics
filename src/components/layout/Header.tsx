@@ -157,7 +157,7 @@ export function Header() {
 
   const sectionActive = {
     features: pathMatches(pathname, ["/features", "/services"]),
-    tools: pathMatches(pathname, ["/kundli", "/chat", "/panchang"]),
+    tools: pathMatches(pathname, ["/kundli", "/chat"]),
     calculators: pathMatches(pathname, ["/calculators"]),
     learn: pathMatches(pathname, ["/learn", "/blog"]),
     pricing: pathMatches(pathname, ["/pricing"]),

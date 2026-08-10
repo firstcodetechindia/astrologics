@@ -283,21 +283,39 @@ function sunMoonForDay(
   return { sunrise, sunset, moonrise: moonriseDay, moonset, noon };
 }
 
+function formatFromTo(
+  start: Date,
+  end: Date,
+  timeZone: string,
+  ymd: string
+): { from: string; to: string; startHm: string; endHm: string; start: string; end: string } {
+  const [yy, mm, dd] = ymd.split("-");
+  const short = `${dd}-${mm}-${yy.slice(2)}`;
+  const startAmpm = formatHmAmPm(start, timeZone);
+  const endAmpm = formatHmAmPm(end, timeZone);
+  return {
+    from: `${short} ${startAmpm}`,
+    to: `${short} ${endAmpm}`,
+    start: startAmpm,
+    end: endAmpm,
+    startHm: formatHm(start, timeZone),
+    endHm: formatHm(end, timeZone),
+  };
+}
+
 function slotWindow(
   sunrise: Date,
   sunset: Date,
   slot1to8: number,
-  timeZone: string
+  timeZone: string,
+  ymd: string
 ) {
   const dayMs = Math.max(sunset.getTime() - sunrise.getTime(), 1);
   const slotMs = dayMs / 8;
   const start = new Date(sunrise.getTime() + (slot1to8 - 1) * slotMs);
   const end = new Date(start.getTime() + slotMs);
   return {
-    start: formatHmAmPm(start, timeZone),
-    end: formatHmAmPm(end, timeZone),
-    startHm: formatHm(start, timeZone),
-    endHm: formatHm(end, timeZone),
+    ...formatFromTo(start, end, timeZone, ymd),
     startMs: start.getTime(),
     endMs: end.getTime(),
   };
@@ -355,8 +373,8 @@ function formatDms(degInSign: number): string {
 function samvatForYear(gregYear: number) {
   const shaka = gregYear - 78;
   const vikram = gregYear + 57;
-  // 60-year cycle; 1987–88 ≈ Prabhava (index 0) is a common convention anchor
-  const name = SHAKA_YEAR_NAMES[((shaka % 60) + 60) % 60];
+  // Anchor: Shaka 1947 (CE 2025–26) = Vishvavasu (index 38)
+  const name = SHAKA_YEAR_NAMES[((shaka + 11) % 60 + 60) % 60];
   return {
     shaka: {
       year: shaka,
@@ -436,6 +454,8 @@ export function computeTodayPanchang(opts: {
   const ashubha: {
     id: string;
     name: Loc;
+    from: string;
+    to: string;
     start: string;
     end: string;
     startHm: string;
@@ -446,10 +466,12 @@ export function computeTodayPanchang(opts: {
     const rahuSlot =
       { 0: 8, 1: 2, 2: 7, 3: 5, 4: 6, 5: 4, 6: 3 }[wd] ?? 2;
     const add = (id: string, name: Loc, slot: number) => {
-      const w = slotWindow(sunrise, sunset, slot, timeZone);
+      const w = slotWindow(sunrise, sunset, slot, timeZone, ymd);
       ashubha.push({
         id,
         name,
+        from: w.from,
+        to: w.to,
         start: w.start,
         end: w.end,
         startHm: w.startHm,

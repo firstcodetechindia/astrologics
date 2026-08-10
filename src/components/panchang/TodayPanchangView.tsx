@@ -8,7 +8,7 @@ import {
   ChevronRight,
   MapPin,
   Moon,
-  Sparkles,
+  MoonStar,
   Sunrise,
   Sunset,
 } from "lucide-react";
@@ -30,7 +30,6 @@ function tx(locale: string, v: Loc) {
 }
 
 function ymdLocal(d = new Date()) {
-  // Prefer IST “today” for India-first product
   const parts = new Intl.DateTimeFormat("en-CA", {
     timeZone: "Asia/Kolkata",
     year: "numeric",
@@ -58,24 +57,33 @@ const DEFAULT_CITY: City = {
   timezoneOffsetMinutes: 330,
 };
 
-function Glass({
+function Panel({
   children,
   className,
+  accent = "gold",
 }: {
   children: React.ReactNode;
   className?: string;
+  accent?: "gold" | "red" | "none";
 }) {
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-2xl border border-white/70 bg-white/70 shadow-[0_12px_40px_-18px_rgba(240,106,0,0.22)] backdrop-blur-xl",
+        "relative overflow-hidden rounded-2xl border border-black/[0.06] bg-white shadow-[0_10px_30px_-16px_rgba(42,33,24,0.28)]",
         className
       )}
     >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-saffron/15 blur-2xl"
-      />
+      {accent !== "none" ? (
+        <div
+          aria-hidden
+          className={cn(
+            "absolute inset-x-0 top-0 h-[3px]",
+            accent === "red"
+              ? "bg-gradient-to-r from-rose-500 to-orange-400"
+              : "bg-gradient-to-r from-amber-400 to-saffron"
+          )}
+        />
+      ) : null}
       <div className="relative">{children}</div>
     </div>
   );
@@ -85,35 +93,21 @@ function TimingCard({
   icon: Icon,
   label,
   value,
-  tone,
 }: {
   icon: typeof Sunrise;
   label: string;
   value: string;
-  tone: "sun" | "moon";
 }) {
   return (
-    <div
-      className={cn(
-        "rounded-2xl border p-3.5 sm:p-4",
-        tone === "sun"
-          ? "border-amber-200/80 bg-gradient-to-br from-[#fff7eb] to-white"
-          : "border-indigo-100 bg-gradient-to-br from-[#f4f2ff] to-white"
-      )}
-    >
-      <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.12em] text-ink-muted">
-        <Icon
-          className={cn(
-            "h-4 w-4",
-            tone === "sun" ? "text-saffron-deep" : "text-indigo-500"
-          )}
-        />
-        {label}
+    <Panel accent="none" className="px-3 py-4 text-center sm:px-4">
+      <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-[#fff4e8] text-saffron-deep">
+        <Icon className="h-5 w-5" />
       </div>
-      <p className="mt-1.5 font-display text-xl font-semibold tabular-nums text-ink sm:text-2xl">
+      <p className="mt-2 text-[12px] font-semibold text-ink-muted">{label}</p>
+      <p className="mt-0.5 text-[17px] font-bold tabular-nums tracking-tight text-ink sm:text-[18px]">
         {value}
       </p>
-    </div>
+    </Panel>
   );
 }
 
@@ -127,16 +121,12 @@ function LimbRow({
   until?: string;
 }) {
   return (
-    <div className="flex items-start justify-between gap-3 border-b border-black/[0.05] py-2.5 last:border-0">
-      <p className="text-[12px] font-bold uppercase tracking-[0.1em] text-ink-muted">
-        {label}
-      </p>
-      <p className="max-w-[65%] text-right text-[14px] font-semibold text-ink">
+    <div className="flex items-center justify-between gap-3 border-b border-black/[0.06] py-3 last:border-0">
+      <p className="text-[14px] font-medium text-[#6b5c4c]">{label}</p>
+      <p className="max-w-[62%] text-right text-[14px] font-semibold text-ink">
         {value}
         {until && until !== "—" ? (
-          <span className="mt-0.5 block text-[11px] font-medium text-ink-muted">
-            upto {until}
-          </span>
+          <span className="font-medium text-ink-muted"> upto {until}</span>
         ) : null}
       </p>
     </div>
@@ -168,6 +158,12 @@ export function TodayPanchangView() {
     setDate(draftDate);
   }
 
+  function goDay(delta: number) {
+    const n = shiftYmd(date, delta);
+    setDate(n);
+    setDraftDate(n);
+  }
+
   const related = [
     { href: "/calculators/choghadiya", label: hi ? "चौघड़िया" : "Choghadiya" },
     { href: "/calculators/rahu-kaal", label: hi ? "राहु काल" : "Rahu Kaal" },
@@ -177,9 +173,9 @@ export function TodayPanchangView() {
   ];
 
   return (
-    <div className="space-y-5">
-      {/* Controls */}
-      <Glass className="p-4 sm:p-5">
+    <div className="space-y-4 sm:space-y-5">
+      {/* Date + place controls */}
+      <Panel accent="none" className="p-4 sm:p-5">
         <div className="flex flex-wrap items-end gap-3">
           <label className="min-w-[10rem] flex-1 space-y-1.5">
             <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-saffron-deep">
@@ -190,7 +186,7 @@ export function TodayPanchangView() {
               type="date"
               value={draftDate}
               onChange={(e) => setDraftDate(e.target.value)}
-              className="w-full rounded-xl border border-black/10 bg-white/90 px-3 py-2.5 text-sm font-medium text-ink outline-none focus:border-saffron/50 focus:ring-2 focus:ring-saffron/20"
+              className="w-full rounded-xl border border-black/10 bg-[#faf8f5] px-3 py-2.5 text-sm font-medium text-ink outline-none focus:border-saffron/50 focus:ring-2 focus:ring-saffron/20"
             />
           </label>
           <div className="min-w-[14rem] flex-[2] space-y-1.5">
@@ -200,9 +196,7 @@ export function TodayPanchangView() {
             </span>
             <PlaceAutocomplete
               value={placeText}
-              onChange={(v) => {
-                setPlaceText(v);
-              }}
+              onChange={setPlaceText}
               onCity={(c) => {
                 if (c) {
                   setCity(c);
@@ -224,12 +218,8 @@ export function TodayPanchangView() {
             <button
               type="button"
               aria-label="Previous day"
-              className="rounded-lg border border-black/10 bg-white/80 p-1.5 hover:bg-[#fff1e6]"
-              onClick={() => {
-                const n = shiftYmd(date, -1);
-                setDate(n);
-                setDraftDate(n);
-              }}
+              className="rounded-lg border border-black/10 bg-white p-1.5 hover:bg-[#fff1e6]"
+              onClick={() => goDay(-1)}
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
@@ -247,12 +237,8 @@ export function TodayPanchangView() {
             <button
               type="button"
               aria-label="Next day"
-              className="rounded-lg border border-black/10 bg-white/80 p-1.5 hover:bg-[#fff1e6]"
-              onClick={() => {
-                const n = shiftYmd(date, 1);
-                setDate(n);
-                setDraftDate(n);
-              }}
+              className="rounded-lg border border-black/10 bg-white p-1.5 hover:bg-[#fff1e6]"
+              onClick={() => goDay(1)}
             >
               <ChevronRight className="h-4 w-4" />
             </button>
@@ -263,44 +249,35 @@ export function TodayPanchangView() {
             {tx(locale, data.longDate)}
           </p>
         </div>
-      </Glass>
+      </Panel>
 
-      {/* Sun / Moon timings */}
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <TimingCard
-          icon={Sunrise}
-          label={hi ? "सूर्योदय" : "Sunrise"}
-          value={data.timings.sunrise}
-          tone="sun"
-        />
-        <TimingCard
-          icon={Sunset}
-          label={hi ? "सूर्यास्त" : "Sunset"}
-          value={data.timings.sunset}
-          tone="sun"
-        />
-        <TimingCard
-          icon={Moon}
-          label={hi ? "चंद्रोदय" : "Moonrise"}
-          value={data.timings.moonrise}
-          tone="moon"
-        />
-        <TimingCard
-          icon={Moon}
-          label={hi ? "चंद्रास्त" : "Moonset"}
-          value={data.timings.moonset}
-          tone="moon"
-        />
-      </div>
+      {/* Astrotalk-style core block */}
+      <div className="space-y-4">
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <TimingCard
+            icon={Sunrise}
+            label={hi ? "सूर्योदय" : "Sunrise"}
+            value={data.timings.sunrise.toLowerCase()}
+          />
+          <TimingCard
+            icon={Sunset}
+            label={hi ? "सूर्यास्त" : "Sunset"}
+            value={data.timings.sunset.toLowerCase()}
+          />
+          <TimingCard
+            icon={Moon}
+            label={hi ? "चंद्रोदय" : "Moonrise"}
+            value={data.timings.moonrise.toLowerCase()}
+          />
+          <TimingCard
+            icon={MoonStar}
+            label={hi ? "चंद्रास्त" : "Moonset"}
+            value={data.timings.moonset.toLowerCase()}
+          />
+        </div>
 
-      <div className="grid gap-5 lg:grid-cols-2">
-        {/* Five limbs */}
-        <Glass className="p-4 sm:p-5">
-          <p className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-saffron-deep">
-            <Sparkles className="h-3.5 w-3.5" />
-            {hi ? "पंचांग अंग" : "Panchang limbs"}
-          </p>
-          <div className="mt-2">
+        <div className="grid gap-4 lg:grid-cols-2">
+          <Panel className="px-4 pt-5 sm:px-5">
             <LimbRow
               label={hi ? "तिथि" : "Tithi"}
               value={tx(locale, data.limbs.tithi.name)}
@@ -308,7 +285,7 @@ export function TodayPanchangView() {
             />
             <LimbRow
               label={hi ? "नक्षत्र" : "Nakshatra"}
-              value={`${tx(locale, data.limbs.nakshatra.name)} (Pada ${data.limbs.nakshatra.pada})`}
+              value={tx(locale, data.limbs.nakshatra.name)}
               until={data.limbs.nakshatra.until}
             />
             <LimbRow
@@ -327,98 +304,92 @@ export function TodayPanchangView() {
               label={hi ? "वार" : "Weekday"}
               value={tx(locale, data.limbs.weekday)}
             />
-          </div>
-        </Glass>
+          </Panel>
 
-        {/* Samvat + Abhijit */}
-        <div className="space-y-5">
-          <Glass className="p-4 sm:p-5">
-            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-saffron-deep">
-              {hi ? "संवत्" : "Samvat"}
-            </p>
-            <div className="mt-2 space-y-2">
-              <div className="flex justify-between gap-3 rounded-xl bg-[#fff8f1] px-3 py-2.5">
-                <span className="text-[12px] font-semibold text-ink-muted">
-                  Shaka Samvat
-                </span>
-                <span className="text-[13px] font-semibold text-ink">
-                  {tx(locale, data.samvat.shaka.label)}
-                </span>
-              </div>
-              <div className="flex justify-between gap-3 rounded-xl bg-[#fff8f1] px-3 py-2.5">
-                <span className="text-[12px] font-semibold text-ink-muted">
-                  Vikram Samvat
-                </span>
-                <span className="text-[13px] font-semibold text-ink">
-                  {tx(locale, data.samvat.vikram.label)}
-                </span>
-              </div>
+          <Panel className="px-4 pt-5 sm:px-5">
+            <div className="flex items-center justify-between gap-3 border-b border-black/[0.06] py-3">
+              <p className="text-[14px] font-medium text-[#6b5c4c]">
+                Shaka Samvat
+              </p>
+              <p className="text-right text-[14px] font-semibold text-ink">
+                {tx(locale, data.samvat.shaka.label)}
+              </p>
             </div>
-          </Glass>
-
-          <Glass className="p-4 sm:p-5">
-            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-emerald-700">
-              {hi ? "अभिजित मुहूर्त" : "Abhijit muhurat"}
-            </p>
-            <p className="mt-2 font-display text-lg font-semibold tabular-nums text-ink">
-              {data.abhijit.start} – {data.abhijit.end}
-            </p>
-            <p className="mt-1 text-[12px] text-ink-muted">
-              {hi
-                ? "दिन के मध्य का शुभ मुहूर्त — सामान्य शुभ कार्यों हेतु।"
-                : "Midday auspicious window — good for ordinary shubh work."}
-            </p>
-          </Glass>
+            <div className="flex items-center justify-between gap-3 py-3">
+              <p className="text-[14px] font-medium text-[#6b5c4c]">
+                Vikram Samvat
+              </p>
+              <p className="text-right text-[14px] font-semibold text-ink">
+                {tx(locale, data.samvat.vikram.label)}
+              </p>
+            </div>
+            <div className="mt-2 rounded-xl bg-[#fff8f1] px-3 py-3">
+              <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-emerald-700">
+                {hi ? "अभिजित मुहूर्त" : "Abhijit muhurat"}
+              </p>
+              <p className="mt-1 text-[16px] font-semibold tabular-nums text-ink">
+                {data.abhijit.start} – {data.abhijit.end}
+              </p>
+            </div>
+          </Panel>
         </div>
+
+        <Panel accent="red" className="p-4 sm:p-5">
+          <h2 className="text-[16px] font-bold text-ink">
+            {hi
+              ? "अशुभ समय (अशुभ मुहूर्त)"
+              : "Inauspicious Timings (Ashubha Muhurat)"}
+          </h2>
+          <div className="mt-3 space-y-0">
+            {data.ashubha.map((w) => (
+              <div
+                key={w.id}
+                className="flex flex-col gap-0.5 border-b border-black/[0.06] py-3 last:border-0 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
+              >
+                <p className="text-[14px] font-semibold text-ink">
+                  {tx(locale, w.name)}
+                </p>
+                <p className="text-[13px] text-ink-muted sm:text-right">
+                  <span className="font-medium text-[#8a7a6a]">
+                    {hi ? "से" : "From"}
+                  </span>{" "}
+                  <span className="font-semibold tabular-nums text-ink">
+                    {w.from}
+                  </span>{" "}
+                  <span className="font-medium text-[#8a7a6a]">
+                    {hi ? "तक" : "To"}
+                  </span>{" "}
+                  <span className="font-semibold tabular-nums text-ink">
+                    {w.to}
+                  </span>
+                </p>
+              </div>
+            ))}
+          </div>
+        </Panel>
       </div>
 
-      {/* Inauspicious */}
-      <Glass className="p-4 sm:p-5">
-        <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-rose-700">
-          {hi ? "अशुभ समय (अशुभ मुहूर्त)" : "Inauspicious timings (Ashubha muhurat)"}
-        </p>
-        <div className="mt-3 grid gap-2 sm:grid-cols-2">
-          {data.ashubha.map((w) => (
-            <div
-              key={w.id}
-              className="flex items-center justify-between gap-3 rounded-xl border border-rose-100 bg-rose-50/60 px-3 py-2.5"
-            >
-              <p className="text-[13px] font-semibold text-rose-950">
-                {tx(locale, w.name)}
-              </p>
-              <p className="shrink-0 text-right text-[12px] font-semibold tabular-nums text-rose-800">
-                {w.startHm} – {w.endHm}
-              </p>
-            </div>
-          ))}
-        </div>
-      </Glass>
-
       {/* Chandra / Tara balam */}
-      <div className="grid gap-5 lg:grid-cols-2">
-        <Glass className="p-4 sm:p-5">
-          <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-saffron-deep">
-            Tarabalam
-          </p>
-          <p className="mt-2 text-[13px] leading-relaxed text-ink">
+      <div className="grid gap-4 lg:grid-cols-2">
+        <Panel className="p-4 sm:p-5">
+          <p className="text-[15px] font-bold text-ink">Tarabalam</p>
+          <p className="mt-2 text-[13px] leading-relaxed text-ink-muted">
             {data.tarabalam.map((n) => tx(locale, n)).join(", ")}
           </p>
-        </Glass>
-        <Glass className="p-4 sm:p-5">
-          <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-saffron-deep">
-            Chandrabalam
-          </p>
-          <p className="mt-2 text-[13px] leading-relaxed text-ink">
+        </Panel>
+        <Panel className="p-4 sm:p-5">
+          <p className="text-[15px] font-bold text-ink">Chandrabalam</p>
+          <p className="mt-2 text-[13px] leading-relaxed text-ink-muted">
             {data.chandrabalam.map((n) => tx(locale, n)).join(", ")}
           </p>
-        </Glass>
+        </Panel>
       </div>
 
       {/* Planetary positions + chart */}
-      <div className="grid gap-5 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
-        <Glass className="overflow-x-auto p-4 sm:p-5">
-          <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-saffron-deep">
-            {hi ? "ग्रह स्थिति" : "Planetary positions"}
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
+        <Panel className="overflow-x-auto p-4 sm:p-5">
+          <p className="text-[15px] font-bold text-ink">
+            {hi ? "ग्रह स्थिति" : "Planetary Positions"}
           </p>
           <p className="mt-1 text-[11px] text-ink-muted">
             {hi
@@ -455,11 +426,11 @@ export function TodayPanchangView() {
               ))}
             </tbody>
           </table>
-        </Glass>
+        </Panel>
 
-        <Glass className="p-4 sm:p-5">
-          <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-saffron-deep">
-            {hi ? "लग्न कुंडली" : "Lagna chart"}
+        <Panel className="p-4 sm:p-5">
+          <p className="text-[15px] font-bold text-ink">
+            {hi ? "लग्न कुंडली" : "Lagna Chart"}
           </p>
           <p className="mt-1 text-[11px] text-ink-muted">
             {hi ? "दोपहर 12:00 स्थानीय" : "Local noon snapshot"}
@@ -467,13 +438,12 @@ export function TodayPanchangView() {
           <div className="mt-3">
             <KundliChart kundli={data.kundli} compact />
           </div>
-        </Glass>
+        </Panel>
       </div>
 
-      {/* Related */}
-      <Glass className="p-4 sm:p-5">
-        <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-saffron-deep">
-          {hi ? "संबंधित पंचांग पृष्ठ" : "Related panchang pages"}
+      <Panel accent="none" className="p-4 sm:p-5">
+        <p className="text-[15px] font-bold text-ink">
+          {hi ? "संबंधित पंचांग पृष्ठ" : "Related Panchang Pages"}
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
           {related.map((r) => (
@@ -486,10 +456,9 @@ export function TodayPanchangView() {
             </Link>
           ))}
         </div>
-      </Glass>
+      </Panel>
 
-      {/* SEO explainer */}
-      <Glass className="space-y-4 p-5 sm:p-6">
+      <Panel accent="none" className="space-y-4 p-5 sm:p-6">
         <h2 className="heading-3 font-display text-ink">
           {hi ? "पंचांग क्यों महत्वपूर्ण है?" : "What is the importance of Panchang?"}
         </h2>
@@ -541,7 +510,7 @@ export function TodayPanchangView() {
             </div>
           ))}
         </div>
-      </Glass>
+      </Panel>
     </div>
   );
 }
