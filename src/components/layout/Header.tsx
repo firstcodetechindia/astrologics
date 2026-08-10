@@ -364,7 +364,7 @@ export function Header() {
       <div className="hidden border-t border-black/[0.05] bg-gradient-to-r from-[#fff8f1]/90 via-white/80 to-[#fff1e6]/70 lg:block">
         <nav
           ref={navRef}
-          className="container-page relative flex flex-wrap items-center gap-1 py-2"
+          className="container-page relative flex flex-wrap items-center justify-center gap-1 py-2"
           onMouseEnter={clearCloseTimer}
           onMouseLeave={scheduleClose}
           aria-label={hi ? "मुख्य मेनू" : "Main menu"}
