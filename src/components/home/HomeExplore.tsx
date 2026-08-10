@@ -15,6 +15,7 @@ import {
 import { SIGNS } from "@/lib/astrology/constants";
 import { LivePanchangPeek } from "./LivePanchangPeek";
 import { ZodiacIcon } from "@/components/ui/ZodiacIcon";
+import { ZODIAC_SLUGS } from "@/lib/zodiac-icons";
 
 type Loc = { en: string; hi: string };
 
@@ -249,7 +250,7 @@ export function HomeExplore({
               </p>
             </div>
             <Link
-              href="/calculators/moon-sign"
+              href="/horoscope"
               className="shrink-0 text-[13px] font-semibold text-saffron-deep hover:underline"
             >
               {hi ? "सभी राशि →" : "All signs →"}
@@ -259,7 +260,7 @@ export function HomeExplore({
             {SIGNS.map((sign, i) => (
               <Link
                 key={sign.en}
-                href="/calculators/moon-sign"
+                href={`/horoscope/${ZODIAC_SLUGS[i]}`}
                 className="group/sign flex flex-col items-center gap-2 rounded-xl px-2 py-3 text-center transition hover:-translate-y-0.5"
               >
                 <span className="grid place-items-center transition-transform duration-300 group-hover/sign:scale-110">

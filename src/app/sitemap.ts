@@ -3,12 +3,14 @@ import { siteConfig } from "@/lib/site-config";
 import { getPosts } from "@/lib/blog";
 import { CALCULATORS } from "@/lib/calculators/catalog";
 import { LEARN_GUIDE_SLUGS } from "@/lib/learn/catalog";
+import { ZODIAC_SLUGS } from "@/lib/zodiac-icons";
 
 const staticPaths = [
   "",
   "/kundli",
   "/calculators",
   "/chat",
+  "/horoscope",
   "/features",
   "/pricing",
   "/about",
@@ -82,6 +84,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
         lastModified: new Date(),
         changeFrequency: "monthly",
         priority: 0.72,
+        alternates: {
+          languages: {
+            en: `${siteConfig.siteUrl}/en${path}`,
+            hi: `${siteConfig.siteUrl}/hi${path}`,
+          },
+        },
+      });
+    }
+
+    for (const slug of ZODIAC_SLUGS) {
+      const path = `/horoscope/${slug}`;
+      entries.push({
+        url: `${siteConfig.siteUrl}/${locale}${path}`,
+        lastModified: new Date(),
+        changeFrequency: "daily",
+        priority: 0.85,
         alternates: {
           languages: {
             en: `${siteConfig.siteUrl}/en${path}`,

@@ -157,7 +157,7 @@ export function Footer() {
             {ZODIAC_SLUGS.map((slug) => (
               <Link
                 key={slug}
-                href="/calculators/moon-sign"
+                href={`/horoscope/${slug}`}
                 className="flex items-center justify-center rounded-md py-1 transition hover:bg-white/50"
                 title={slug}
               >
