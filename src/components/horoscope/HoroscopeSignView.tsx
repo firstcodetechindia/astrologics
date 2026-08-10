@@ -277,7 +277,7 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
         }
       />
 
-      <div className="container-page relative max-w-6xl py-6 sm:py-8">
+      <div className="container-page relative py-6 sm:py-8">
         {/* AI status strip */}
         <GlassPanel className="mb-5 flex flex-wrap items-center justify-between gap-3 px-4 py-3">
           <div className="flex items-center gap-2.5">
