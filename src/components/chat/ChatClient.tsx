@@ -476,7 +476,7 @@ export function ChatClient() {
       <div
         className={cn(
           "container-page py-6 sm:py-8",
-          step === "chat" ? "max-w-6xl" : "max-w-3xl"
+          step === "chat" ? undefined : "max-w-3xl"
         )}
       >
         {step === "kundli" ? (
