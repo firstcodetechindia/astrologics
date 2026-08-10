@@ -102,12 +102,12 @@ export const FREE_TOOLS_MENU: MegaColumn[] = [
     heading: { en: "Daily & timing", hi: "दैनिक व समय" },
     links: [
       {
-        href: "/calculators/today-panchang",
+        href: "/panchang",
         icon: "📅",
         title: { en: "Panchang", hi: "पंचांग" },
         description: {
-          en: "Daily tithi, nakshatra & muhurat.",
-          hi: "दैनिक तिथि, नक्षत्र व मुहूर्त।",
+          en: "Daily tithi, sunrise & muhurat.",
+          hi: "दैनिक तिथि, सूर्योदय व मुहूर्त।",
         },
       },
       {

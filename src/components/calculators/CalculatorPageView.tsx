@@ -8,6 +8,7 @@ import { CalculatorSeo, PromoBanner } from "./CalculatorSeo";
 import { ChoghadiyaBoard } from "./ChoghadiyaBoard";
 import { RelatedSidebar } from "./RelatedSidebar";
 import { PageHero } from "@/components/ui/PageHero";
+import { TodayPanchangView } from "@/components/panchang/TodayPanchangView";
 
 export function CalculatorPageView({
   meta,
@@ -21,6 +22,8 @@ export function CalculatorPageView({
   const h1 = hi ? content.h1.hi : content.h1.en;
   const intro = hi ? content.intro.hi : content.intro.en;
   const isChoghadiya = meta.slug === "choghadiya";
+  const isTodayPanchang =
+    meta.slug === "today-panchang" || meta.slug === "daily-panchang";
   const toolTitle =
     meta.slug === "love-calculator"
       ? hi
@@ -49,7 +52,7 @@ export function CalculatorPageView({
       <div className="container-page py-6 sm:py-8">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-10">
           <div className="min-w-0 space-y-6">
-            {content.promo && !isChoghadiya ? (
+            {content.promo && !isChoghadiya && !isTodayPanchang ? (
               <PromoBanner
                 text={content.promo.text}
                 cta={content.promo.cta}
@@ -57,7 +60,9 @@ export function CalculatorPageView({
               />
             ) : null}
 
-            {isChoghadiya ? (
+            {isTodayPanchang ? (
+              <TodayPanchangView />
+            ) : isChoghadiya ? (
               <ChoghadiyaBoard />
             ) : (
               <CalculatorClient meta={meta} toolTitle={toolTitle} />

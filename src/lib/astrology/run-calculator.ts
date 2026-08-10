@@ -18,6 +18,7 @@ import {
   personalYear,
 } from "./numerology";
 import { computeBirthPanchang, computePanchang } from "./panchang";
+import { computeTodayPanchang } from "./today-panchang";
 import {
   charaKarakas,
   gemstoneForSign,
@@ -246,13 +247,16 @@ export function runCalculator(slug: string, payload: CalcPayload) {
 
     case "today-panchang":
     case "daily-panchang": {
-      const { date, place } = placeDateFrom(payload);
-      const panchang = computePanchang(date);
-      return {
-        ...panchang,
+      const { date, lat, lon, tz, place } = placeDateFrom(payload);
+      const ymd = String(payload.date || date.toISOString().slice(0, 10));
+      return computeTodayPanchang({
+        date: ymd,
+        lat,
+        lon,
         place,
-        forDate: String(payload.date || date.toISOString().slice(0, 10)),
-      };
+        timeZone: tz,
+        timezoneOffsetMinutes: Number(payload.timezoneOffsetMinutes ?? 330),
+      });
     }
 
     case "choghadiya": {

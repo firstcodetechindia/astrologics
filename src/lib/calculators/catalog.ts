@@ -269,8 +269,8 @@ export const CALCULATORS: CalculatorMeta[] = [
     icon: "📅",
     title: { en: "Daily Panchang", hi: "दैनिक पंचांग" },
     description: {
-      en: "Tithi, nakshatra, yoga & karana for a city and date.",
-      hi: "शहर व तिथि के लिए तिथि, नक्षत्र, योग व करण।",
+      en: "Sunrise, moonrise, tithi, nakshatra & muhurat for any city.",
+      hi: "किसी भी शहर के सूर्योदय, चंद्रोदय, तिथि, नक्षत्र व मुहूर्त।",
     },
   },
   {

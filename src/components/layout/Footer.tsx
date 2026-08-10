@@ -26,7 +26,7 @@ export function Footer() {
 
   const tools = [
     {
-      href: "/calculators/today-panchang",
+      href: "/panchang",
       label: hi ? "पंचांग" : "Panchang",
     },
     {

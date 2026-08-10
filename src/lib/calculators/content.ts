@@ -430,10 +430,48 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
       hi: "वैदिक परंपरा में बच्चे का नाम अक्सर चंद्र राशि और जन्म नक्षत्र से चुना जाता है। जन्म तिथि, समय और स्थान भरें — पहले राशि निकलती है, फिर शुभ आरंभ अक्षर। नाम भरने की ज़रूरत नहीं।",
     },
   },
-  "today-panchang": genericContent(
-    { en: "Daily Panchang", hi: "दैनिक पंचांग" },
-    { en: "daily panchang", hi: "दैनिक पंचांग" }
-  ),
+  "today-panchang": {
+    h1: {
+      en: "Today Panchang — Daily Panchangam with Sun & Moon timings",
+      hi: "आज का पंचांग — सूर्य-चंद्र समय सहित दैनिक पंचांग",
+    },
+    intro: {
+      en: "See today’s Panchang for any city: sunrise, sunset, moonrise, moonset, tithi, nakshatra, yoga, karana, ashubha muhurat and planetary positions. Change date or location anytime.",
+      hi: "किसी भी शहर का आज का पंचांग देखें: सूर्योदय-अस्त, चंद्रोदय-अस्त, तिथि, नक्षत्र, योग, करण, अशुभ मुहूर्त और ग्रह स्थिति। तिथि या स्थान कभी भी बदलें।",
+    },
+    sections: [
+      {
+        title: { en: "What you get", hi: "आपको क्या मिलता है" },
+        body: {
+          en: "A full daily Panchangam with five limbs plus practical day timing — sun and moon rise/set for your place, Rahu Kaal and related ashubha windows, tarabalam, chandrabalam, and a noon lagna snapshot.",
+          hi: "पाँच अंगों के साथ व्यावहारिक दिन-समय — आपके स्थान के सूर्य-चंद्र उदय/अस्त, राहु काल व अशुभ खंड, ताराबल, चंद्रबल, और दोपहर लग्न स्नैपशॉट।",
+        },
+      },
+    ],
+    faqs: [
+      {
+        q: {
+          en: "Is this for today’s date by default?",
+          hi: "क्या डिफ़ॉल्ट आज की तिथि है?",
+        },
+        a: {
+          en: "Yes. Open the page and today’s Panchang for New Delhi loads immediately. Change the date or city and tap Get Panchang.",
+          hi: "हाँ। पृष्ठ खोलते ही नई दिल्ली का आज का पंचांग दिखता है। तिथि या शहर बदलकर पंचांग देखें दबाएँ।",
+        },
+      },
+      {
+        q: {
+          en: "Can I change date and location?",
+          hi: "क्या तिथि और स्थान बदल सकते हैं?",
+        },
+        a: {
+          en: "Yes — pick any date and search a city. All timings recalculate for that place.",
+          hi: "हाँ — कोई भी तिथि चुनें और शहर खोजें। सभी समय उसी स्थान के अनुसार बदलते हैं।",
+        },
+      },
+    ],
+    disclaimer: DEFAULT_DISCLAIMER,
+  },
   choghadiya: {
     h1: { en: "Daily Choghadiya", hi: "दैनिक चौघड़िया" },
     intro: {

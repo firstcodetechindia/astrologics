@@ -85,7 +85,7 @@ export function HomeExplore({
       label: hi ? "कुंडली मिलान" : "Kundli Matching",
     },
     {
-      href: "/calculators/birth-panchang",
+      href: "/panchang",
       icon: CalendarDays,
       label: hi ? "दैनिक पंचांग" : "Daily Panchang",
     },

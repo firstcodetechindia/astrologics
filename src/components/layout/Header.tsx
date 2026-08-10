@@ -157,11 +157,12 @@ export function Header() {
 
   const sectionActive = {
     features: pathMatches(pathname, ["/features", "/services"]),
-    tools: pathMatches(pathname, ["/kundli", "/chat"]),
+    tools: pathMatches(pathname, ["/kundli", "/chat", "/panchang"]),
     calculators: pathMatches(pathname, ["/calculators"]),
     learn: pathMatches(pathname, ["/learn", "/blog"]),
     pricing: pathMatches(pathname, ["/pricing"]),
     horoscope: pathMatches(pathname, ["/horoscope"]),
+    panchang: pathMatches(pathname, ["/panchang"]),
     home: pathname === "/" || pathname === "",
   };
 
@@ -298,6 +299,9 @@ export function Header() {
           <ul>
             <li>
               <Link href="/kundli">{hi ? "मुफ़्त कुंडली" : "Free kundli"}</Link>
+            </li>
+            <li>
+              <Link href="/panchang">{hi ? "पंचांग" : "Panchang"}</Link>
             </li>
             <li>
               <Link href="/horoscope">{hi ? "राशिफल" : "Horoscope"}</Link>
@@ -441,6 +445,15 @@ export function Header() {
             aria-current={sectionActive.horoscope ? "page" : undefined}
           >
             {hi ? "राशिफल" : "Horoscope"}
+          </Link>
+
+          <Link
+            href="/panchang"
+            className={navItemClass(sectionActive.panchang)}
+            onMouseEnter={() => openMenu(null)}
+            aria-current={sectionActive.panchang ? "page" : undefined}
+          >
+            {t("panchang")}
           </Link>
 
           {activeSoft && (
@@ -642,6 +655,18 @@ export function Header() {
             )}
           >
             {hi ? "राशिफल" : "Horoscope"}
+          </Link>
+          <Link
+            href="/panchang"
+            onClick={() => setOpen(false)}
+            className={cn(
+              "block rounded-xl px-2 py-2.5 font-semibold",
+              sectionActive.panchang
+                ? "bg-gradient-to-r from-saffron to-maroon text-white"
+                : "text-ink"
+            )}
+          >
+            {t("panchang")}
           </Link>
           <Link
             href="/chat"

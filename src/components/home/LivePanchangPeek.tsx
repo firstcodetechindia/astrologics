@@ -135,7 +135,7 @@ export function LivePanchangPeek({
       </ul>
 
       <Link
-        href="/calculators/birth-panchang"
+        href="/panchang"
         className="mt-3 inline-flex items-center gap-1 text-[13px] font-semibold text-saffron-deep hover:underline"
       >
         {hi ? "आज का पंचांग खोलें" : "Open today’s Panchang"}

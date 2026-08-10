@@ -11,6 +11,7 @@ const staticPaths = [
   "/calculators",
   "/chat",
   "/horoscope",
+  "/panchang",
   "/features",
   "/pricing",
   "/about",

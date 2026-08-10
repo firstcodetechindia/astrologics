@@ -501,7 +501,7 @@ export function ChoghadiyaBoard() {
       {/* Quick links */}
       <nav className="flex flex-wrap gap-2">
         {[
-          { href: "/calculators/today-panchang", label: hi ? "पंचांग" : "Panchang" },
+          { href: "/panchang", label: hi ? "पंचांग" : "Panchang" },
           { href: "/calculators/hora", label: hi ? "होरा" : "Hora" },
           {
             href: "/calculators/gowri-panchangam",
