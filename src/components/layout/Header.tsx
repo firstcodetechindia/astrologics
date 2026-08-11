@@ -6,11 +6,11 @@ import {
   BookOpen,
   Calculator,
   ChevronDown,
+  GraduationCap,
   Home,
   IndianRupee,
   MessageCircle,
   Sparkles,
-  Star,
   Wrench,
   type LucideIcon,
 } from "lucide-react";
@@ -376,9 +376,11 @@ export function Header() {
           <Link
             href="/astrologer/signup"
             aria-label={hi ? "ज्योतिषी बनें" : "Join as Astrologer"}
-            className="inline-flex items-center gap-1.5 rounded-xl bg-[#F06A00] p-2 text-xs font-semibold text-white shadow-[0_8px_18px_-12px_rgba(240,106,0,0.9)] transition hover:bg-[#e85d04] sm:px-3 sm:py-2"
+            title={hi ? "ज्योतिषी बनें" : "Join as Astrologer"}
+            className="inline-flex items-center gap-1 rounded-xl bg-[#F06A00] px-2 py-2 text-xs font-semibold text-white shadow-[0_8px_18px_-12px_rgba(240,106,0,0.9)] transition hover:bg-[#e85d04] sm:gap-1.5 sm:px-3"
           >
-            <Star className="h-4 w-4 shrink-0" strokeWidth={2.1} />
+            <GraduationCap className="h-4 w-4 shrink-0" strokeWidth={2.1} />
+            <span className="md:hidden">{hi ? "गुरु" : "Guru"}</span>
             <span className="hidden md:inline">
               {hi ? "ज्योतिषी बनें" : "Join as Astrologer"}
             </span>
