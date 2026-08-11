@@ -10,6 +10,7 @@ import { ZodiacIcon } from "@/components/ui/ZodiacIcon";
 import { ZODIAC_SLUGS } from "@/lib/zodiac-icons";
 import { SIGNS } from "@/lib/astrology/constants";
 import { ArrowRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export function Footer() {
   const t = useTranslations("footer");
@@ -110,17 +111,23 @@ export function Footer() {
       />
 
       <div className="container-page relative z-10 py-8 sm:py-10">
-        <div className="flex flex-col gap-3 border-b border-saffron/15 pb-6 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex min-w-0 items-center gap-2.5">
-            <AstrologicsLogo className="h-10 w-10 shrink-0" />
-            <div className="min-w-0">
-              <p className="font-display text-base font-bold leading-tight text-ink">
-                {siteConfig.brandName}
-              </p>
-              <p className="truncate text-[12px] text-ink-muted">{t("tagline")}</p>
+        <div className="flex flex-col gap-4 border-b border-saffron/15 pb-6 sm:flex-row sm:items-start sm:justify-between">
+          <div className="min-w-0 max-w-2xl">
+            <div className="flex items-center gap-3">
+              <AstrologicsLogo className="h-12 w-12 shrink-0 sm:h-14 sm:w-14" />
+              <div className="min-w-0">
+                <p className="font-display text-lg font-bold leading-tight text-ink sm:text-xl">
+                  {siteConfig.brandName}
+                </p>
+              </div>
             </div>
+            <p className="mt-3 text-[13px] leading-relaxed text-ink-muted">
+              {hi
+                ? "सटीक ऑनलाइन ज्योतिष के लिए आपका AI-संचालित विश्वसनीय मंच। विवाह, प्रेम, करियर और स्वास्थ्य पर मार्गदर्शन के लिए भारत के शीर्ष ज्योतिषियों से चैट करें — साथ ही कुंडली विश्लेषण, अंक ज्योतिष, एआई ज्योतिष और वैदिक मार्गदर्शन, जिस पर हज़ारों लोग भरोसा करते हैं।"
+                : "Your AI-powered trusted platform for accurate online astrology. Chat with top Indian astrologers for insights on marriage, love, career, and health — plus Kundli analysis, Numerology, AI Astrology, and Vedic guidance trusted by thousands."}
+            </p>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex shrink-0 flex-wrap gap-2">
             <a
               href={whatsappLink()}
               target="_blank"
@@ -140,30 +147,42 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-x-4 gap-y-6 py-6 lg:grid-cols-4 lg:gap-6">
-          <FooterCol title={hi ? "ज्योतिष" : "Astrology"}>
+        <div className="grid grid-cols-4 py-6">
+          <FooterCol
+            title={hi ? "ज्योतिष" : "Astrology"}
+            className="border-r border-saffron/20 pr-2.5 sm:pr-5"
+          >
             {astrology.map((item) => (
               <FooterLink key={item.href} href={item.href} label={item.label} />
             ))}
           </FooterCol>
-          <FooterCol title={hi ? "सीखें" : "Learn"}>
+          <FooterCol
+            title={hi ? "सीखें" : "Learn"}
+            className="border-r border-saffron/20 px-2.5 sm:px-5"
+          >
             {learn.map((item) => (
               <FooterLink key={item.href} href={item.href} label={item.label} />
             ))}
           </FooterCol>
-          <FooterCol title={hi ? "उपकरण" : "Tools"}>
+          <FooterCol
+            title={hi ? "उपकरण" : "Tools"}
+            className="border-r border-saffron/20 px-2.5 sm:px-5"
+          >
             {tools.map((item) => (
               <FooterLink key={item.href} href={item.href} label={item.label} />
             ))}
           </FooterCol>
-          <FooterCol title={hi ? "कंपनी" : "Company"}>
+          <FooterCol
+            title={hi ? "कंपनी" : "Company"}
+            className="pl-2.5 sm:pl-5"
+          >
             {company.map((item) => (
               <FooterLink key={item.href} href={item.href} label={item.label} />
             ))}
             <li>
               <a
                 href={`mailto:${siteConfig.email}`}
-                className="inline-flex items-center gap-1.5 text-[13px] text-ink-muted transition hover:text-saffron-deep"
+                className="inline-flex items-center gap-1.5 text-[12px] text-ink-muted transition hover:text-saffron-deep sm:text-[13px]"
               >
                 <Mail className="h-3 w-3 shrink-0 opacity-70" />
                 <span className="truncate">{siteConfig.email}</span>
@@ -235,13 +254,15 @@ export function Footer() {
 function FooterCol({
   title,
   children,
+  className,
 }: {
   title: string;
   children: ReactNode;
+  className?: string;
 }) {
   return (
-    <div>
-      <h3 className="text-[11px] font-bold uppercase tracking-[0.1em] text-ink">
+    <div className={cn("min-w-0", className)}>
+      <h3 className="text-[10px] font-bold uppercase tracking-[0.1em] text-ink sm:text-[11px]">
         {title}
       </h3>
       <ul className="mt-2 space-y-1.5">{children}</ul>
@@ -254,7 +275,7 @@ function FooterLink({ href, label }: { href: string; label: string }) {
     <li>
       <Link
         href={href}
-        className="text-[13px] text-ink-muted transition hover:text-saffron-deep"
+        className="text-[12px] text-ink-muted transition hover:text-saffron-deep sm:text-[13px]"
       >
         {label}
       </Link>
