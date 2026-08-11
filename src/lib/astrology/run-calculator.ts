@@ -23,6 +23,7 @@ import {
   charaKarakas,
   gemstoneForSign,
   ishtaDevata,
+  recommendGemstones,
   rudrakshaForSign,
 } from "./remedies";
 import { kpHorary, kpRulingPlanetsNow, kpSubLord, moonPhase } from "./kp";
@@ -228,7 +229,14 @@ export function runCalculator(slug: string, payload: CalcPayload) {
 
     case "gemstone": {
       const k = computeKundli(birthFrom(payload));
+      const focus = String(payload.focus || "overall") as
+        | "overall"
+        | "career"
+        | "marriage"
+        | "health"
+        | "wealth";
       return {
+        report: recommendGemstones(k, focus),
         byLagna: gemstoneForSign(k.lagna.signIndex),
         byMoon: gemstoneForSign(k.moonRashi.signIndex),
       };

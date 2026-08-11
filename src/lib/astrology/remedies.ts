@@ -1,52 +1,5 @@
-import { PLANET_META, SIGN_LORDS, SIGNS } from "./constants";
-
-const GEM_BY_PLANET: Record<string, { en: string; hi: string; wear: { en: string; hi: string } }> = {
-  sun: {
-    en: "Ruby",
-    hi: "माणिक",
-    wear: { en: "Gold, ring finger, Sunday morning", hi: "सोना, अनामिका, रविवार सुबह" },
-  },
-  moon: {
-    en: "Pearl",
-    hi: "मोती",
-    wear: { en: "Silver, little finger, Monday", hi: "चाँदी, कनिष्ठा, सोमवार" },
-  },
-  mars: {
-    en: "Red Coral",
-    hi: "मूंगा",
-    wear: { en: "Gold/copper, ring finger, Tuesday", hi: "सोना/तांबा, अनामिका, मंगलवार" },
-  },
-  mercury: {
-    en: "Emerald",
-    hi: "पन्ना",
-    wear: { en: "Gold, little finger, Wednesday", hi: "सोना, कनिष्ठा, बुधवार" },
-  },
-  jupiter: {
-    en: "Yellow Sapphire",
-    hi: "पुखराज",
-    wear: { en: "Gold, index finger, Thursday", hi: "सोना, तर्जनी, गुरुवार" },
-  },
-  venus: {
-    en: "Diamond / White Sapphire",
-    hi: "हीरा / सफेद पुखराज",
-    wear: { en: "Silver/platinum, middle finger, Friday", hi: "चाँदी, मध्यमा, शुक्रवार" },
-  },
-  saturn: {
-    en: "Blue Sapphire",
-    hi: "नीलम",
-    wear: { en: "Silver, middle finger, Saturday — only after expert check", hi: "चाँदी, मध्यमा, शनिवार — विशेषज्ञ सलाह के बाद" },
-  },
-  rahu: {
-    en: "Hessonite (Gomed)",
-    hi: "गोमेद",
-    wear: { en: "Silver, middle finger — expert guidance advised", hi: "चाँदी, मध्यमा — विशेषज्ञ सलाह आवश्यक" },
-  },
-  ketu: {
-    en: "Cat's Eye",
-    hi: "लहसुनिया",
-    wear: { en: "Silver, middle/little finger — expert guidance advised", hi: "चाँदी — विशेषज्ञ सलाह आवश्यक" },
-  },
-};
+import { PLANET_META, SIGNS } from "./constants";
+export { gemstoneForSign, recommendGemstones } from "./gemstones";
 
 const RUDRAKSHA_BY_PLANET: Record<string, { mukhi: number; en: string; hi: string }> = {
   sun: { mukhi: 1, en: "1 Mukhi", hi: "एक मुखी" },
@@ -74,20 +27,6 @@ const SIGN_TO_PLANET_KEY = [
   "saturn",
   "jupiter",
 ] as const;
-
-export function gemstoneForSign(signIndex: number) {
-  const planet = SIGN_TO_PLANET_KEY[signIndex];
-  return {
-    sign: { en: SIGNS[signIndex].en, hi: SIGNS[signIndex].hi },
-    lord: SIGN_LORDS[signIndex],
-    planet: PLANET_META[planet],
-    gem: GEM_BY_PLANET[planet],
-    disclaimer: {
-      en: "Gemstones can strengthen or disturb — confirm with a full chart reading.",
-      hi: "रत्न लाभ या हानि दोनों कर सकते हैं — पूर्ण कुंडली से पुष्टि करें।",
-    },
-  };
-}
 
 export function rudrakshaForSign(signIndex: number) {
   const planet = SIGN_TO_PLANET_KEY[signIndex];

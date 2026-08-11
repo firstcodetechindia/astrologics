@@ -170,6 +170,32 @@ export default async function CalculatorsPage() {
               })}
             </div>
 
+            <section className="mt-10 rounded-2xl border border-saffron/20 bg-gradient-to-br from-[#fff7f0] to-white p-5">
+              <h2 className="font-display text-lg font-bold text-ink">
+                {hi ? "पूर्ण हब पेज" : "Full hub pages"}
+              </h2>
+              <p className="mt-1.5 text-sm text-ink-muted">
+                {hi
+                  ? "गहन व्याख्या, FAQ और सिस्टम तुलना के साथ।"
+                  : "With deeper explainers, FAQs and system comparisons."}
+              </p>
+              <ul className="mt-3 flex flex-wrap gap-3 text-sm font-semibold">
+                <li>
+                  <Link
+                    href="/numerology"
+                    className="text-saffron-deep hover:underline"
+                  >
+                    {hi ? "अंक ज्योतिष →" : "Numerology →"}
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/vastu" className="text-saffron-deep hover:underline">
+                    {hi ? "वास्तु →" : "Vastu →"}
+                  </Link>
+                </li>
+              </ul>
+            </section>
+
             <section className="mt-12">
               <h2 className="font-display text-2xl font-bold text-ink mb-4">
                 {hi ? "अक्सर पूछे जाने वाले प्रश्न" : "Frequently Asked Questions"}

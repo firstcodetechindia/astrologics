@@ -55,6 +55,36 @@ const FAQS = [
       hi: "इस पृष्ठ पर भाग्यांक और नाम योग के लिए 11, 22, 33 मास्टर अंक सुरक्षित रखे जाते हैं। मूलांक हमेशा एकल अंक होता है।",
     },
   },
+  {
+    q: {
+      en: "Can I check numerology for a baby name before finalizing it?",
+      hi: "क्या अंतिम नाम तय करने से पहले शिशु नाम की अंक ज्योतिष जाँच सकते हैं?",
+    },
+    a: {
+      en: "Yes — enter the candidate name and the baby’s date of birth to see its Name Number and Bhagyank Vedic reading.",
+      hi: "हाँ — उम्मीदवार नाम और शिशु की जन्म तिथि दर्ज करें; नाम अंक और भाग्यांक वैदिक रीडिंग दिखेगी।",
+    },
+  },
+  {
+    q: {
+      en: "Is Chaldean or Pythagorean more accurate for Indian names?",
+      hi: "भारतीय नामों हेतु कैल्डियन या पाइथागोरस अधिक सटीक है?",
+    },
+    a: {
+      en: "Neither is objectively “more accurate” — they’re different traditions. Chaldean is more commonly used in Indian numerology practice; Pythagorean is more common in Western practice. We show both so you can compare rather than picking one silently.",
+      hi: "कोई एक वस्तुनिष्ठ रूप से “अधिक सटीक” नहीं — अलग परंपराएँ हैं। भारत में कैल्डियन अधिक प्रचलित; पश्चिम में पाइथागोरस। हम दोनों दिखाते हैं ताकि चुपचाप एक चुनने के बजाय तुलना हो।",
+    },
+  },
+  {
+    q: {
+      en: "Does changing my name change my numerology number?",
+      hi: "क्या नाम बदलने से अंक ज्योतिष अंक बदलता है?",
+    },
+    a: {
+      en: "Yes — a Name Number is recalculated from whatever spelling you enter, which is why numerologists sometimes recommend spelling adjustments (not full name changes) to shift a Name Number.",
+      hi: "हाँ — नाम अंक आपके दर्ज वर्तनी से पुनः गणना होता है; इसलिए कभी-कभी पूर्ण नाम बदलने की जगह वर्तनी समायोजन सुझाया जाता है।",
+    },
+  },
 ] as const;
 
 const SYSTEMS = [
@@ -95,25 +125,33 @@ export async function generateMetadata(): Promise<Metadata> {
     locale,
     path: "/numerology",
     title: hi
-      ? "अंक ज्योतिष कैलकुलेटर — मूलांक, भाग्यांक, नाम अंक, लो शू"
-      : "Numerology Calculator — Mulank, Bhagyank, Name Number, Lo Shu",
+      ? "अंक ज्योतिष कैलकुलेटर — मूलांक, भाग्यांक व नाम अंक"
+      : "Numerology Calculator — Mulank, Bhagyank & Name Number",
     description: hi
-      ? "मुफ़्त अंक ज्योतिष — वैदिक मूलांक/भाग्यांक, कैल्डियन व पाइथागोरस नाम अंक, लो शू ग्रिड और अंक अर्थ। गणना पहले, व्याख्या बाद में।"
-      : "Free numerology — Vedic Mulank/Bhagyank, Chaldean & Pythagorean name numbers, Lo Shu grid and number meanings. Calculate first, interpret second.",
+      ? "मुफ़्त अंक ज्योतिष कैलकुलेटर — कैल्डियन, पाइथागोरस, वैदिक मूलांक/भाग्यांक व लो शू ग्रिड — हर प्रणाली स्पष्ट लेबल, बिना मिलावट।"
+      : "Free numerology calculator with Chaldean, Pythagorean, Vedic Mulank/Bhagyank and Lo Shu Grid — every system clearly labelled, no mixing.",
     keywords: hi
       ? [
-          "अंक ज्योतिष",
-          "मूलांक भाग्यांक",
+          "अंक ज्योतिष कैलकुलेटर",
+          "मूलांक भाग्यांक कैलकुलेटर",
           "नाम अंक कैलकुलेटर",
-          "लो शू ग्रिड",
           "कैल्डियन अंक ज्योतिष",
+          "शिशु नाम अंक ज्योतिष",
+          "बिज़नेस नाम अंक",
+          "लो शू ग्रिड",
         ]
       : [
           "numerology calculator",
-          "mulank bhagyank",
-          "chaldean name number",
-          "lo shu grid",
-          "life path number",
+          "free numerology calculator online",
+          "name numerology calculator",
+          "life path number calculator",
+          "Chaldean numerology calculator",
+          "Pythagorean name number",
+          "baby name numerology",
+          "business name numerology",
+          "numerology compatibility by name",
+          "lucky mobile number numerology",
+          "Mulank Bhagyank calculator",
         ],
   });
 }
@@ -144,15 +182,15 @@ export default async function NumerologyPage() {
         data={softwareAppJsonLd({
           name: hi ? "अंक ज्योतिष कैलकुलेटर" : "Numerology Calculator",
           description: hi
-            ? "मूलांक, भाग्यांक, नाम अंक और लो शू ग्रिड।"
-            : "Mulank, Bhagyank, name numbers and Lo Shu grid.",
+            ? "मूलांक, भाग्यांक, नाम अंक और लो शू ग्रिड — सिस्टम स्पष्ट लेबल।"
+            : "Mulank, Bhagyank, name numbers and Lo Shu grid — systems clearly labelled.",
           url,
         })}
       />
 
       <PageHero
         eyebrow={siteConfig.brandName}
-        title={hi ? "अंक ज्योतिष" : "Numerology"}
+        title={hi ? "अंक ज्योतिष कैलकुलेटर" : "Numerology Calculator"}
         description={
           hi
             ? "नाम और जन्म तिथि से मूलांक, भाग्यांक, कैल्डियन/पाइथागोरस नाम अंक और लो शू — स्पष्ट सिस्टम लेबल के साथ।"
@@ -165,6 +203,39 @@ export default async function NumerologyPage() {
       />
 
       <div className="container-page max-w-4xl space-y-12 py-10 sm:py-12">
+        {/* AEO direct-answer */}
+        <p className="rounded-2xl border border-saffron/15 bg-white px-5 py-4 text-[15px] leading-relaxed text-ink">
+          {hi ? (
+            <>
+              Astrologics का मुफ़्त अंक ज्योतिष कैलकुलेटर वैदिक मूलांक/भाग्यांक,
+              कैल्डियन व पाइथागोरस नाम अंक, और लो शू ग्रिड एक ही स्थान पर
+              गणना करता है — प्रत्येक प्रणाली स्पष्ट रूप से लेबल होती है, मिलाई
+              नहीं जाती। गणना तर्क{" "}
+              <Link
+                href="/methodology"
+                className="font-semibold text-saffron-deep hover:underline"
+              >
+                पद्धति
+              </Link>{" "}
+              पृष्ठ की पारदर्शिता से जुड़ा है।
+            </>
+          ) : (
+            <>
+              Astrologics’ free numerology calculator computes Vedic Mulank and
+              Bhagyank, Chaldean and Pythagorean name numbers, and a Lo Shu Grid
+              in one place — every system clearly labelled, never mixed. The
+              maths follows labelled traditional formulas; see our{" "}
+              <Link
+                href="/methodology"
+                className="font-semibold text-saffron-deep hover:underline"
+              >
+                Methodology
+              </Link>{" "}
+              page for how Astrologics separates calculation from interpretation.
+            </>
+          )}
+        </p>
+
         <NumerologyClient locale={locale} />
 
         <section className="space-y-4">
@@ -195,7 +266,9 @@ export default async function NumerologyPage() {
 
         <section className="space-y-4">
           <h2 className="font-display text-2xl font-bold text-ink">
-            {hi ? "अंक 1–9 अर्थ (वैदिक ग्रह)" : "Numbers 1–9 meanings (Vedic planets)"}
+            {hi
+              ? "अंक 1–9 अर्थ (वैदिक ग्रह)"
+              : "Numbers 1–9 meanings (Vedic planets)"}
           </h2>
           <p className="text-[15px] leading-relaxed text-ink-muted">
             {hi
@@ -242,6 +315,94 @@ export default async function NumerologyPage() {
 
         <section className="space-y-4">
           <h2 className="font-display text-2xl font-bold text-ink">
+            {hi
+              ? "लोग अपनी अंक ज्योतिष क्यों जाँचते हैं"
+              : "Why people check their numerology"}
+          </h2>
+          <p className="text-[15px] leading-relaxed text-ink-muted">
+            {hi ? (
+              <>
+                अंक ज्योतिष केवल एक बार व्यक्तित्व पढ़ने के लिए नहीं है। लोग
+                विशिष्ट निर्णयों हेतु लौटते हैं: माता-पिता जन्म प्रमाणपत्र से
+                पहले शिशु नाम का सहायक अंक जाँचते हैं, उद्यमी पंजीकरण से पहले
+                बिज़नेस नाम परखते हैं, जोड़े संबंध मील से पहले मूलांक/भाग्यांक
+                अनुकूलता देखते हैं, और लोग नया मोबाइल या मकान नंबर बदलने से पहले
+                जाँचते हैं। यदि आप सामान्य जिज्ञासा से अधिक किसी नाम या नंबर के
+                निर्णय हेतु जाँच रहे हैं, तो हमारे{" "}
+                <Link
+                  href="/calculators/name-numerology"
+                  className="font-semibold text-saffron-deep hover:underline"
+                >
+                  नाम अंक उपकरण
+                </Link>{" "}
+                और{" "}
+                <Link
+                  href="/calculators/lo-shu-grid"
+                  className="font-semibold text-saffron-deep hover:underline"
+                >
+                  लो शू कैलकुलेटर
+                </Link>{" "}
+                उसी प्रणालियों पर बने हैं — एक नाम या नंबर पर लागू।
+              </>
+            ) : (
+              <>
+                Numerology is used for more than a one-time personality reading.
+                People come back to it for specific decisions: parents checking
+                whether a shortlisted baby name carries a supportive number
+                before registering a birth certificate, entrepreneurs testing a
+                business name before filing for registration, couples comparing
+                Mulank or Bhagyank compatibility before a relationship
+                milestone, and people evaluating a new mobile number or house
+                number before making a switch. If you&apos;re checking a name or
+                number for a specific decision rather than general curiosity,
+                our{" "}
+                <Link
+                  href="/calculators/name-numerology"
+                  className="font-semibold text-saffron-deep hover:underline"
+                >
+                  Name Number tool
+                </Link>{" "}
+                and{" "}
+                <Link
+                  href="/calculators/lo-shu-grid"
+                  className="font-semibold text-saffron-deep hover:underline"
+                >
+                  Lo Shu calculator
+                </Link>{" "}
+                are built for that — same underlying systems as this page,
+                applied to a single name or number rather than your birth
+                details.
+              </>
+            )}
+          </p>
+        </section>
+
+        <section className="space-y-4">
+          <h2 className="font-display text-2xl font-bold text-ink">
+            {hi
+              ? "नामकरण हेतु अंक ज्योतिष — शिशु व व्यवसाय"
+              : "Numerology for naming — babies & businesses"}
+          </h2>
+          <p className="text-[15px] leading-relaxed text-ink-muted">
+            {hi
+              ? "नाम का अंक अक्षरों को अंकों में बदलकर घटाव से आता है — ऊपर उपयोग कैल्डियन या पाइथागोरस तर्क, पर उम्मीदवार नाम पर। शिशु नाम हेतु लक्ष्य प्रायः ऐसा नाम अंक होता है जो बच्चे के भाग्यांक (जन्म तिथि) से अनुकूल हो। बिज़नेस नाम हेतु वही तर्क संस्थापक या कंपनी पंजीकरण-तिथि भाग्यांक के विरुद्ध लागू होता है। इस पृष्ठ का कैलकुलेटर दोनों के लिए काम करता है — प्रतिबद्ध होने से पहले कोई भी नाम दर्ज कर परखें।"
+              : "A name’s numerology value comes from converting its letters to numbers and reducing them — the same Chaldean or Pythagorean logic used above, applied to a candidate name instead of your existing one. For a baby name, the goal is usually a Name Number that’s compatible with the child’s Bhagyank (from their date of birth). For a business name, the same logic applies against the founder’s or the company’s registration-date Bhagyank. This page’s calculator works for either — enter any name, not just your own, to test it before you commit."}
+          </p>
+        </section>
+
+        <section className="space-y-4">
+          <h2 className="font-display text-2xl font-bold text-ink">
+            {hi ? "अंक ज्योतिष अनुकूलता" : "Numerology compatibility"}
+          </h2>
+          <p className="text-[15px] leading-relaxed text-ink-muted">
+            {hi
+              ? "दो मूलांक या भाग्यांक की तुलना — विवाह, व्यापार साझेदारी या मित्रता हेतु — वैदिक ज्योतिष में प्रयुक्त ग्रह-मित्रता तर्क का अनुसरण करती है (उदाहरण: सूर्य और चंद्र स्वाभाविक मित्र; सूर्य और शनि स्वाभाविक प्रतिद्वंद्वी)। उच्च अनुकूलता जोड़ी अच्छे संबंध की गारंटी नहीं देती, न ही निम्न जोड़ी खराब संबंध की — इसे अनेक संकेतों में से एक मानें, अंतिम फैसला नहीं।"
+              : "Comparing two Mulank or Bhagyank numbers against each other — for marriage, business partnership, or friendship — follows the same planetary-friendship logic used across Vedic astrology (Sun and Moon are natural allies, for instance, while Sun and Saturn are natural rivals). A high-compatibility pairing doesn’t guarantee a good relationship any more than a low one guarantees a bad one — treat it as one data point among many, not a verdict."}
+          </p>
+        </section>
+
+        <section className="space-y-4">
+          <h2 className="font-display text-2xl font-bold text-ink">
             {hi ? "कैसे गणना होती है" : "How the maths works"}
           </h2>
           <ul className="list-disc space-y-2 pl-5 text-[15px] leading-relaxed text-ink-muted">
@@ -266,6 +427,29 @@ export default async function NumerologyPage() {
                 : "Lo Shu = digit counts on the 3×3 grid; complete row/column/diagonal = active arrow."}
             </li>
           </ul>
+          <p className="text-[14px] text-ink-muted">
+            {hi ? (
+              <>
+                गणना बनाम व्याख्या कैसे अलग होते हैं —{" "}
+                <Link
+                  href="/methodology"
+                  className="font-semibold text-saffron-deep hover:underline"
+                >
+                  हमारी पद्धति →
+                </Link>
+              </>
+            ) : (
+              <>
+                How calculation vs interpretation stays separate —{" "}
+                <Link
+                  href="/methodology"
+                  className="font-semibold text-saffron-deep hover:underline"
+                >
+                  our Methodology →
+                </Link>
+              </>
+            )}
+          </p>
         </section>
 
         <section className="space-y-4">
@@ -312,6 +496,14 @@ export default async function NumerologyPage() {
                 className="text-saffron-deep hover:underline"
               >
                 {hi ? "नाम अंक उपकरण →" : "Name number tool →"}
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/calculators/love-compatibility-num"
+                className="text-saffron-deep hover:underline"
+              >
+                {hi ? "अंक अनुकूलता →" : "Numerology compatibility →"}
               </Link>
             </li>
             <li>

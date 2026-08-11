@@ -1,5 +1,6 @@
 import type { KundliResult } from "@/lib/astrology/types";
 import { formatPredictionsForAi } from "@/lib/astrology/prediction";
+import { recommendGemstones } from "@/lib/astrology/gemstones";
 import { siteConfig } from "@/lib/site-config";
 
 export type AiProvider = "openai" | "gemini";
@@ -115,6 +116,18 @@ export function buildChartSummary(k: KundliResult): string {
     k.charaDasha
       ? `Chara dasha current: ${(k.charaDasha as { current?: { sign?: { en: string } } }).current?.sign?.en ?? "n/a"}`
       : "",
+    (() => {
+      const g = recommendGemstones(k, "overall");
+      const lines = g.recommendations
+        .slice(0, 3)
+        .map(
+          (r) =>
+            `${r.primary.en} (${r.planet.en}, ${r.status}): ${r.reason.en}`
+        )
+        .join(" | ");
+      const conflicts = g.conflicts.map((c) => c.note.en).join(" | ");
+      return `Gemstone engine (Ratna): ${lines || "none"}${conflicts ? ` | CONFLICTS: ${conflicts}` : ""} | Tier2 after mantra/lifestyle; natural untreated only; confirm with astrologer.`;
+    })(),
     "=== END CALCULATED CHART ===",
     "",
     predictionBlock,
@@ -167,6 +180,15 @@ If factors conflict, say so clearly — do not force a one-sided story.
 Never use fear-based or absolute claims ("definitely marry", "will get cancer", "will become rich").
 If data is missing, say "Insufficient calculated data" — do not fill gaps.
 This is guidance for reflection — not medical, legal, or financial advice.
+
+GEMSTONES (Ratna Shastra) — when the user asks about gems OR the chart summary includes "Gemstone engine":
+- Only recommend stones listed in the Gemstone engine block, with the given reason (never Moon-sign-only luck lists).
+- Always state benefits tied to the triggered planet/factor, wearing basics if present, and substitutes as weaker options when noted.
+- Flag conflicts (e.g. Ruby + Blue Sapphire) — never suggest enemy gems together without an explicit caveat.
+- Blue Sapphire / Gomed / Cat's Eye are high-caution; urge trial + astrologer confirmation.
+- Tier: suggest mantra/charity/lifestyle (Tier 1) before costly gems (Tier 2). Natural untreated stones only; disclose synthetics are traditionally considered ineffective.
+- Never invent a "lucky gemstone" not supported by the engine output.
+
 Keep replies focused (usually under 280 words) unless the user asks for more depth.`;
 }
 

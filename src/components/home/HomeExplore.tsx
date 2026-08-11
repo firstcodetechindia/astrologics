@@ -100,8 +100,8 @@ export function HomeExplore({
   const calculators = [
     { href: "/calculators/moon-sign", label: hi ? "चंद्र राशि" : "Moon Sign" },
     { href: "/calculators/sun-sign", label: hi ? "सूर्य राशि" : "Sun Sign" },
-    { href: "/calculators/nakshatra", label: hi ? "नक्षत्र" : "Nakshatra" },
-    { href: "/calculators/lagna", label: hi ? "लग्न" : "Lagna" },
+    { href: "/numerology", label: hi ? "अंक ज्योतिष" : "Numerology" },
+    { href: "/vastu", label: hi ? "वास्तु" : "Vastu" },
     {
       href: "/calculators/kundli-matching",
       label: hi ? "कुंडली मिलान" : "Kundli Matching",
@@ -113,8 +113,8 @@ export function HomeExplore({
     { href: "/learn/zodiac", label: hi ? "राशियाँ" : "Zodiac" },
     { href: "/learn/planets", label: hi ? "ग्रह" : "Planets" },
     { href: "/learn/houses", label: hi ? "भाव" : "Houses" },
-    { href: "/learn/numerology", label: hi ? "अंक ज्योतिष" : "Numerology" },
-    { href: "/learn/kp-astrology", label: hi ? "केपी ज्योतिष" : "KP Astrology" },
+    { href: "/numerology", label: hi ? "अंक ज्योतिष" : "Numerology" },
+    { href: "/vastu", label: hi ? "वास्तु" : "Vastu" },
     { href: "/learn", label: hi ? "सभी गाइड" : "All guides" },
   ];
 

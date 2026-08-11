@@ -42,7 +42,15 @@ const LEARN = [
       en: "Life path and name numbers.",
       hi: "जीवन पथ और नाम अंक।",
     },
-    href: "/learn/numerology",
+    href: "/numerology",
+  },
+  {
+    title: { en: "Vastu", hi: "वास्तु" },
+    text: {
+      en: "Home Dosha flags and remedies.",
+      hi: "घर दोष चिह्न और उपाय।",
+    },
+    href: "/vastu",
   },
 ] as const;
 

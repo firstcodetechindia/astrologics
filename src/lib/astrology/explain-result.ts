@@ -599,6 +599,130 @@ export function explainCalculatorResult(
       const byLagna = raw.byLagna as Record<string, unknown>;
       const byMoon = raw.byMoon as Record<string, unknown>;
       const isGem = slug === "gemstone";
+      const report = raw.report as
+        | {
+            recommendations?: {
+              primary?: { en: string; hi: string };
+              planet?: { en: string; hi: string };
+              reason?: { en: string; hi: string };
+              benefits?: { en: string; hi: string };
+              substitute?: { en: string; hi: string };
+              status?: string;
+              wearing?: {
+                finger?: { en: string; hi: string };
+                metal?: { en: string; hi: string };
+                day?: { en: string; hi: string };
+              };
+            }[];
+            conflicts?: { note?: { en: string; hi: string } }[];
+            mantraFirst?: { en: string; hi: string };
+            purityNote?: { en: string; hi: string };
+            consultNote?: { en: string; hi: string };
+            tierNote?: { en: string; hi: string };
+          }
+        | undefined;
+
+      if (isGem && report?.recommendations?.length) {
+        const top = report.recommendations[0];
+        return {
+          kind: "explained",
+          slug,
+          hero: {
+            icon: "💎",
+            title: L(
+              "Gemstone recommendations (Ratna Shastra)",
+              "रत्न सुझाव (रत्न शास्त्र)"
+            ),
+            badge: L("Confirm before wearing", "पहनने से पहले पुष्टि करें"),
+            badgeTone: "warn",
+            summary:
+              asLoc(top?.reason) ||
+              L(
+                "Chart-weighted suggestions with friendship checks — not Moon-sign-only luck lists.",
+                "मित्रता जाँच सहित कुंडली-भारित सुझाव — केवल चंद्र राशि भाग्य सूची नहीं।"
+              ),
+          },
+          highlights: report.recommendations.slice(0, 3).map((r) => ({
+            label: asLoc(r.planet) || L("Planet", "ग्रह"),
+            value: asLoc(r.primary) || "—",
+            note: asLoc(r.benefits) || undefined,
+          })),
+          sections: [
+            {
+              title: L("Why these stones", "ये रत्न क्यों"),
+              bullets: report.recommendations.slice(0, 4).map(
+                (r) =>
+                  asLoc(r.reason) ||
+                  L("Chart factor based.", "कुंडली कारक आधारित।")
+              ),
+            },
+            {
+              title: L("How to wear (top pick)", "पहनने का तरीका (शीर्ष)"),
+              bullets: [
+                asLoc(top?.wearing?.finger)
+                  ? L(
+                      `Finger: ${top?.wearing?.finger?.en}`,
+                      `उंगली: ${top?.wearing?.finger?.hi}`
+                    )
+                  : L("See report for finger.", "उंगली हेतु रिपोर्ट देखें।"),
+                asLoc(top?.wearing?.metal)
+                  ? L(
+                      `Metal: ${top?.wearing?.metal?.en}`,
+                      `धातु: ${top?.wearing?.metal?.hi}`
+                    )
+                  : L("See report for metal.", "धातु हेतु रिपोर्ट देखें।"),
+                asLoc(top?.wearing?.day)
+                  ? L(
+                      `Day: ${top?.wearing?.day?.en}`,
+                      `दिन: ${top?.wearing?.day?.hi}`
+                    )
+                  : L("See report for day.", "दिन हेतु रिपोर्ट देखें।"),
+                asLoc(top?.substitute)
+                  ? L(
+                      `Substitute: ${top?.substitute?.en}`,
+                      `विकल्प: ${top?.substitute?.hi}`
+                    )
+                  : L("See substitutes in detail.", "विस्तार में विकल्प देखें।"),
+              ],
+            },
+            ...(report.conflicts?.length
+              ? [
+                  {
+                    title: L(
+                      "Conflicts — do not combine silently",
+                      "संघर्ष — चुपचाप न मिलाएँ"
+                    ),
+                    bullets: report.conflicts.map(
+                      (c) =>
+                        asLoc(c.note) ||
+                        L("Conflicting gems flagged.", "विरोधी रत्न चिह्नित।")
+                    ),
+                  },
+                ]
+              : []),
+            {
+              title: L("Ethics & purity", "नैतिकता व शुद्धता"),
+              bullets: [
+                asLoc(report.mantraFirst) ||
+                  L("Prefer mantra/lifestyle first.", "पहले मंत्र/जीवनशैली।"),
+                asLoc(report.purityNote) ||
+                  L("Natural untreated stones preferred.", "प्राकृतिक अनुपचारित बेहतर।"),
+                asLoc(report.consultNote) ||
+                  L("Confirm with an astrologer.", "ज्योतिषी से पुष्टि करें।"),
+                asLoc(report.tierNote) ||
+                  L("Gemstones are Tier 2 remedies.", "रत्न स्तर-2 उपाय हैं।"),
+              ],
+            },
+          ],
+          tips: [
+            L(
+              "Never wear Ruby (Sun) and Blue Sapphire (Saturn) together without an explicit caveat.",
+              "बिना स्पष्ट चेतावनी माणिक (सूर्य) और नीलम (शनि) एक साथ न पहनें।"
+            ),
+          ],
+        };
+      }
+
       return {
         kind: "explained",
         slug,

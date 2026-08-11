@@ -6,7 +6,7 @@ import { Link } from "@/i18n/navigation";
 import type { KundliResult } from "@/lib/astrology/types";
 import type { DivisionalChart } from "@/lib/astrology/vargas";
 import { toDMS } from "@/lib/astrology/math-core";
-import { gemstoneForSign, rudrakshaForSign } from "@/lib/astrology/remedies";
+import { recommendGemstones, rudrakshaForSign } from "@/lib/astrology/remedies";
 import { getHoroscopeSeo } from "@/lib/horoscope/seo-content";
 import { zodiacSlugFromIndex } from "@/lib/zodiac-icons";
 import { ContactCTA } from "./ContactCTA";
@@ -201,7 +201,7 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
     | undefined;
 
   const ascSeo = getHoroscopeSeo(zodiacSlugFromIndex(kundli.lagna.signIndex));
-  const gem = gemstoneForSign(kundli.lagna.signIndex);
+  const gemReport = recommendGemstones(kundli, "overall");
   const rudraNak = rudrakshaForSign(kundli.moonRashi.signIndex);
 
   const yogini = kundli.yoginiDasha as
@@ -1005,20 +1005,137 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
                 </Card>
               )}
               {remedySub === "gemstone" && (
-                <Card>
-                  <h3 className="font-display text-lg font-bold text-maroon">
-                    {hi ? "रत्न सुझाव (लग्न स्वामी)" : "Gemstone suggestion (Lagna lord)"}
-                  </h3>
-                  <p className="mt-3 text-base font-semibold text-ink">
-                    {L(locale, gem.gem)}
-                  </p>
-                  <p className="mt-1 text-sm text-ink-muted">
-                    {hi ? "पहनने का तरीका" : "How to wear"}: {L(locale, gem.gem.wear)}
-                  </p>
-                  <p className="mt-3 text-sm text-ink-muted">
-                    {L(locale, gem.disclaimer)}
-                  </p>
-                </Card>
+                <div className="space-y-4">
+                  <Card>
+                    <h3 className="font-display text-lg font-bold text-maroon">
+                      {hi
+                        ? "रत्न सुझाव (कुंडली-आधारित)"
+                        : "Gemstone suggestions (chart-based)"}
+                    </h3>
+                    <p className="mt-2 text-sm leading-relaxed text-ink-muted">
+                      {L(locale, gemReport.mantraFirst)}
+                    </p>
+                    <p className="mt-2 text-xs text-ink-muted">
+                      {L(locale, gemReport.tierNote)}
+                    </p>
+                  </Card>
+
+                  {gemReport.recommendations.map((rec) => (
+                    <Card key={`${rec.planetId}-${rec.trigger}`}>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h4 className="font-display text-base font-bold text-ink">
+                          {L(locale, rec.primary)}
+                        </h4>
+                        <span
+                          className={`rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase ${
+                            rec.status === "caution"
+                              ? "border-amber-200 bg-amber-50 text-amber-900"
+                              : "border-emerald-200 bg-emerald-50 text-emerald-800"
+                          }`}
+                        >
+                          {rec.status === "caution"
+                            ? hi
+                              ? "सावधानी"
+                              : "Caution"
+                            : hi
+                              ? "सुझाव"
+                              : "Suggested"}
+                        </span>
+                        {rec.highRisk && (
+                          <span className="rounded-full border border-rose-200 bg-rose-50 px-2 py-0.5 text-[10px] font-bold uppercase text-rose-800">
+                            {hi ? "उच्च जोखिम" : "High risk"}
+                          </span>
+                        )}
+                      </div>
+                      <p className="mt-1 text-sm text-ink-muted">
+                        {hi ? "ग्रह" : "Planet"}: {L(locale, rec.planet)}
+                      </p>
+                      <p className="mt-3 text-sm leading-relaxed text-ink">
+                        <span className="font-semibold">
+                          {hi ? "कारण: " : "Why: "}
+                        </span>
+                        {L(locale, rec.reason)}
+                      </p>
+                      <p className="mt-2 text-sm leading-relaxed text-ink-muted">
+                        <span className="font-semibold text-ink">
+                          {hi ? "लाभ: " : "Benefits: "}
+                        </span>
+                        {L(locale, rec.benefits)}
+                      </p>
+                      <dl className="mt-3 grid gap-2 text-[13px] sm:grid-cols-2">
+                        <div>
+                          <dt className="font-semibold text-ink">
+                            {hi ? "उंगली / धातु" : "Finger / metal"}
+                          </dt>
+                          <dd className="text-ink-muted">
+                            {L(locale, rec.wearing.finger)} ·{" "}
+                            {L(locale, rec.wearing.metal)}
+                          </dd>
+                        </div>
+                        <div>
+                          <dt className="font-semibold text-ink">
+                            {hi ? "दिन" : "Day"}
+                          </dt>
+                          <dd className="text-ink-muted">
+                            {L(locale, rec.wearing.day)}
+                          </dd>
+                        </div>
+                        <div className="sm:col-span-2">
+                          <dt className="font-semibold text-ink">
+                            {hi ? "विकल्प रत्न" : "Substitute"}
+                          </dt>
+                          <dd className="text-ink-muted">
+                            {L(locale, rec.substitute)}
+                            {rec.substituteWeaker
+                              ? hi
+                                ? " (प्रभाव आमतौर पर बहुत कमज़ोर — समकक्ष नहीं)"
+                                : " (generally much weaker — not equivalent)"
+                              : ""}
+                          </dd>
+                        </div>
+                        <div className="sm:col-span-2">
+                          <dt className="font-semibold text-ink">
+                            {hi ? "भार नोट" : "Weight note"}
+                          </dt>
+                          <dd className="text-ink-muted">
+                            {L(locale, rec.wearing.minCaratNote)}
+                          </dd>
+                        </div>
+                      </dl>
+                      {rec.contraindications.length > 0 && (
+                        <ul className="mt-3 space-y-1.5 rounded-xl border border-amber-200/80 bg-amber-50/70 px-3 py-2.5 text-[13px] text-amber-950">
+                          {rec.contraindications.map((c, i) => (
+                            <li key={i}>⚠ {L(locale, c)}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </Card>
+                  ))}
+
+                  {gemReport.conflicts.length > 0 && (
+                    <Card>
+                      <h4 className="font-semibold text-rose-800">
+                        {hi
+                          ? "रत्न संघर्ष — एक साथ न पहनें"
+                          : "Gem conflicts — do not wear together"}
+                      </h4>
+                      <ul className="mt-2 space-y-2 text-sm text-ink-muted">
+                        {gemReport.conflicts.map((c, i) => (
+                          <li key={i}>{L(locale, c.note)}</li>
+                        ))}
+                      </ul>
+                    </Card>
+                  )}
+
+                  <Card>
+                    <p className="text-sm leading-relaxed text-ink-muted">
+                      {L(locale, gemReport.purityNote)}
+                    </p>
+                    <p className="mt-2 text-sm font-medium text-ink">
+                      {L(locale, gemReport.consultNote)}
+                    </p>
+                  </Card>
+                </div>
               )}
             </div>
           )}

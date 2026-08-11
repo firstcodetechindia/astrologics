@@ -89,6 +89,24 @@ const FEATURES = [
     },
   },
   {
+    href: "/numerology",
+    icon: "🔢",
+    title: { en: "Numerology Calculator", hi: "अंक ज्योतिष कैलकुलेटर" },
+    text: {
+      en: "Chaldean, Pythagorean, Mulank/Bhagyank and Lo Shu — clearly labelled.",
+      hi: "कैल्डियन, पाइथागोरस, मूलांक/भाग्यांक और लो शू — स्पष्ट रूप से चिह्नित।",
+    },
+  },
+  {
+    href: "/vastu",
+    icon: "🏠",
+    title: { en: "Vastu Shastra Checker", hi: "वास्तु शास्त्र जाँच" },
+    text: {
+      en: "Zone Dosha flags with non-structural remedies and optional Astro-Vastu.",
+      hi: "क्षेत्र दोष चिह्न, गैर-संरचनात्मक उपाय और वैकल्पिक एस्ट्रो-वास्तु।",
+    },
+  },
+  {
     href: "/learn",
     icon: "📚",
     title: { en: "Learn Astrology", hi: "ज्योतिष सीखें" },
