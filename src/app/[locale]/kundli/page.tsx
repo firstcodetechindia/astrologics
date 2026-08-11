@@ -184,6 +184,16 @@ export default async function KundliPage({
                 </div>
               ))}
             </dl>
+            <p className="text-sm">
+              <Link
+                href="/methodology"
+                className="font-semibold text-saffron-deep hover:underline"
+              >
+                {hi
+                  ? "हमारी गणना पद्धति कैसे काम करती है →"
+                  : "How our calculation methodology works →"}
+              </Link>
+            </p>
           </section>
         </article>
       </div>

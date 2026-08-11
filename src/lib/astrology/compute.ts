@@ -1,26 +1,33 @@
 import { computeGrahaDrishti } from "./aspects";
+import { computeAshtakvarga } from "./ashtakvarga";
+import { computeAvakhada } from "./avakhada";
 import { ASTRO_CONFIG } from "./config";
 import { SIGNS } from "./constants";
 import { computeVimshottari } from "./dasha";
+import { computeYogini } from "./yogini-dasha";
 import { combustionInfo, planetDignity } from "./dignity";
-import { kaalSarpDosha, mangalDosha, sadeSati } from "./doshas";
+import { kaalSarpDosha, mangalDosha, pitraDosha, sadeSati } from "./doshas";
 import { ephemerisCapabilityNotes } from "./ephemeris";
+import {
+  computeSripatiCusps,
+  cuspSignMeta,
+  houseFromCusps,
+} from "./house-systems";
 import { buildHouses, houseOfPlanet } from "./houses";
 import { buildInsightsFromPredictions } from "./interpret";
+import { buildKpChart } from "./kp";
 import {
   degreeInSign,
   lahiriAyanamsaFromDate,
   signIndexFromLongitude,
 } from "./math";
 import { nakshatraFromLongitude } from "./nakshatra";
+import { computePanchang } from "./panchang";
 import { calculateLagna, getSiderealPlanets } from "./planets";
 import { buildPredictionBundle } from "./prediction";
 import { computeTransits } from "./transits";
 import type { BirthInput, KundliResult, PlanetPosition } from "./types";
-import {
-  computeDashamsaChart,
-  computeNavamsaChart,
-} from "./vargas";
+import { computeAllVargas } from "./vargas";
 import { detectYogas } from "./yogas";
 
 export function parseBirthDateTime(input: BirthInput): Date {
@@ -29,8 +36,7 @@ export function parseBirthDateTime(input: BirthInput): Date {
   const hh = parts[0] ?? 0;
   const mm = parts[1] ?? 0;
   const ss = parts[2] ?? 0;
-  const offset = input.timezoneOffsetMinutes ?? 330; // IST default
-  // Convert local civil time → UTC once (do not double-convert)
+  const offset = input.timezoneOffsetMinutes ?? 330;
   const utcMs = Date.UTC(y, m - 1, d, hh, mm, ss) - offset * 60 * 1000;
   return new Date(utcMs);
 }
@@ -153,15 +159,63 @@ export function computeKundli(input: BirthInput): KundliResult {
   const moonNak = nakshatraFromLongitude(moon.longitude);
   const houses = buildHouses(lagnaLon);
   const dasha = computeVimshottari(moon.longitude, date);
+  const yogini = computeYogini(moon.longitude, date);
   const yogas = detectYogas(planets, lagnaSign);
   const aspects = computeGrahaDrishti(planets);
   const manglik = mangalDosha(planets, lagnaSign);
   const kaalSarp = kaalSarpDosha(planets);
   const sade = sadeSati(moon.signIndex, new Date());
+  const pitra = pitraDosha(planets);
 
-  const D9 = computeNavamsaChart(planets, lagnaLon);
-  const D10 = computeDashamsaChart(planets, lagnaLon);
+  const vargas = computeAllVargas(planets, lagnaLon);
   const transits = computeTransits(new Date(), lagnaLon, moon.longitude);
+
+  const panchang = computePanchang(date, {
+    timezoneOffsetMinutes: input.timezoneOffsetMinutes ?? 330,
+  });
+
+  const avakhada = computeAvakhada({
+    moonSignIndex: moon.signIndex,
+    nakshatraIndex: moonNak.index,
+    pada: moonNak.pada,
+  });
+
+  const planetSigns: Record<string, number> = {};
+  for (const p of planets) planetSigns[p.id] = p.signIndex;
+  const ashtakvarga = computeAshtakvarga({
+    lagnaSignIndex: lagnaSign,
+    planetSigns,
+  });
+
+  const sripati = computeSripatiCusps(date, input.lat, input.lon, ayanamsa);
+  const bhavChalit = {
+    system: "sripati" as const,
+    cusps: sripati.cusps.map((c, i) => ({
+      house: i + 1,
+      ...cuspSignMeta(c),
+    })),
+    mc: cuspSignMeta(sripati.mc),
+    planets: planets.map((p) => ({
+      id: p.id,
+      name: p.name,
+      longitude: p.longitude,
+      signIndex: p.signIndex,
+      sign: p.sign,
+      rashiHouse: p.house,
+      bhavHouse: houseFromCusps(p.longitude, sripati.cusps),
+      isRetrograde: p.isRetrograde,
+    })),
+  };
+
+  const kp = buildKpChart({
+    date,
+    lat: input.lat,
+    lon: input.lon,
+    ayanamsa,
+    planets,
+    lagnaLon,
+    timezoneOffsetMinutes: input.timezoneOffsetMinutes,
+  });
 
   const partial: KundliResult = {
     input,
@@ -202,6 +256,11 @@ export function computeKundli(input: BirthInput): KundliResult {
         meaning: sade.phaseLabel,
         ...sade,
       },
+      pitra: {
+        ...pitra,
+        present: pitra.present,
+        meaning: pitra.meaning,
+      },
     },
     dasha: {
       currentMaha: dasha.currentMaha,
@@ -213,7 +272,13 @@ export function computeKundli(input: BirthInput): KundliResult {
       balanceYears: dasha.balanceYears,
       startLord: dasha.startLord,
     },
-    divisionalCharts: { D9, D10 },
+    yoginiDasha: yogini,
+    divisionalCharts: vargas,
+    panchang,
+    avakhada,
+    ashtakvarga,
+    bhavChalit,
+    kp,
     transits,
     insights: [],
     reliability: chartReliability(input),

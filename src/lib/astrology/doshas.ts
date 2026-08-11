@@ -3,62 +3,8 @@ import { SIGNS } from "./constants";
 import { lahiriAyanamsaFromDate, signIndexFromLongitude } from "./math";
 import { getSiderealPlanets } from "./planets";
 
-export function mangalDosha(planets: PlanetPosition[], lagnaSign: number) {
-  const mars = planets.find((p) => p.id === "mars");
-  if (!mars)
-    return {
-      present: false,
-      houses: [] as number[],
-      exceptions: [] as { en: string; hi: string }[],
-      meaning: {
-        en: "Mars not found in chart.",
-        hi: "कुंडली में मंगल नहीं मिला।",
-      },
-    };
-
-  const house = mars.house;
-  const afflicted = [1, 2, 4, 7, 8, 12].includes(house);
-  const exceptions: { en: string; hi: string }[] = [];
-
-  // Classical soft exceptions (simplified)
-  if (mars.signIndex === lagnaSign) {
-    exceptions.push({
-      en: "Mars in lagna — check cancellation yogas with an expert.",
-      hi: "मंगल लग्न में — विशेषज्ञ से दोष निवारण योग जाँचें।",
-    });
-  }
-  const jupiter = planets.find((p) => p.id === "jupiter");
-  if (jupiter && Math.abs(jupiter.house - house) % 12 <= 1) {
-    exceptions.push({
-      en: "Jupiter near Mars may soften Mangal dosha.",
-      hi: "गुरु के निकट मंगल दोष को कम कर सकता है।",
-    });
-  }
-
-  return {
-    present: afflicted,
-    house,
-    sign: mars.sign,
-    level: afflicted
-      ? house === 7 || house === 8
-        ? "strong"
-        : "moderate"
-      : "none",
-    methodology: {
-      en: "Lagna-based Manglik: Mars in houses 1, 2, 4, 7, 8, or 12 from Ascendant. Moon/Venus charts not auto-merged into a single verdict.",
-      hi: "लग्न-आधारित मांगलिक: लग्न से भाव 1, 2, 4, 7, 8 या 12 में मंगल। चंद्र/शुक्र कुंडली को एक ही निर्णय में नहीं मिलाया गया।",
-    },
-    exceptions,
-    meaning: {
-      en: afflicted
-        ? `Mars in house ${house} from Lagna is classically checked for Manglik indications.`
-        : "Mars is not in the classic Manglik houses from Lagna (1, 2, 4, 7, 8, 12).",
-      hi: afflicted
-        ? `मंगल लग्न से ${house} भाव में — शास्त्रीय मंगलिक जाँच लागू।`
-        : "मंगल लग्न से शास्त्रीय मंगलिक भावों (1, 2, 4, 7, 8, 12) में नहीं है।",
-    },
-  };
-}
+export { mangalDosha } from "./doshas-mangal";
+export type { MangalCancellation } from "./doshas-mangal";
 
 export function kaalSarpDosha(planets: PlanetPosition[]) {
   const rahu = planets.find((p) => p.id === "rahu");

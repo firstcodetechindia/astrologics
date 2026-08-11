@@ -80,6 +80,10 @@ export function Footer() {
 
   const company = [
     { href: "/about", label: n("about") },
+    {
+      href: "/methodology",
+      label: hi ? "पद्धति" : "Methodology",
+    },
     { href: "/contact", label: n("contact") },
     { href: "/faq", label: n("faq") },
     { href: "/services", label: n("services") },

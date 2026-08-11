@@ -1,5 +1,16 @@
-import { NAKSHATRAS, NAKSHATRA_SPAN, SIGNS } from "./constants";
-import { lahiriAyanamsaFromDate, norm360, signIndexFromLongitude } from "./math";
+import { NAKSHATRAS, NAKSHATRA_SPAN, PLANET_META, SIGN_LORDS, SIGNS } from "./constants";
+import {
+  computePlacidusCusps,
+  cuspSignMeta,
+  houseFromCusps,
+} from "./house-systems";
+import {
+  kpAyanamsaFromDate,
+  lahiriAyanamsaFromDate,
+  lahiriLonToKp,
+  norm360,
+  signIndexFromLongitude,
+} from "./math";
 import { nakshatraFromLongitude } from "./nakshatra";
 import { calculateLagna, getSiderealPlanets } from "./planets";
 import { weekdayFromOffset } from "./timezone";
@@ -119,5 +130,114 @@ export function moonPhase(date: Date) {
     illumination: Math.round(illumination * 100),
     phase,
     date: date.toISOString(),
+  };
+}
+
+export type KpPointRow = {
+  id: string;
+  name: { en: string; hi: string };
+  longitude: number;
+  house: number;
+  sign: { en: string; hi: string };
+  signLord: { en: string; hi: string };
+  nakshatra: { en: string; hi: string };
+  starLord: { en: string; hi: string };
+  subLord: { en: string; hi: string };
+};
+
+/** Full KP planet + cusp table using Placidus houses + KP New ayanamsa longitudes. */
+export function buildKpChart(opts: {
+  date: Date;
+  lat: number;
+  lon: number;
+  ayanamsa: number;
+  planets: { id: string; name: { en: string; hi: string }; longitude: number }[];
+  lagnaLon: number;
+  timezoneOffsetMinutes?: number;
+}) {
+  const kpAyan = kpAyanamsaFromDate(opts.date);
+  // Rebuild Placidus with KP ayanamsa so cusps match KP frame
+  const placidus = computePlacidusCusps(
+    opts.date,
+    opts.lat,
+    opts.lon,
+    kpAyan
+  );
+
+  const toKp = (lahiriLon: number) => lahiriLonToKp(lahiriLon);
+
+  const rowFor = (
+    id: string,
+    name: { en: string; hi: string },
+    lahiriLongitude: number
+  ): KpPointRow => {
+    const longitude = toKp(lahiriLongitude);
+    const sub = kpSubLord(longitude);
+    const signIndex = signIndexFromLongitude(longitude);
+    return {
+      id,
+      name,
+      longitude,
+      house: houseFromCusps(longitude, placidus.cusps),
+      sign: { en: SIGNS[signIndex].en, hi: SIGNS[signIndex].hi },
+      signLord: {
+        en: SIGN_LORDS[signIndex].en,
+        hi: SIGN_LORDS[signIndex].hi,
+      },
+      nakshatra: sub.nakshatra,
+      starLord: sub.starLord,
+      subLord: sub.subLord,
+    };
+  };
+
+  const points: KpPointRow[] = [
+    rowFor("lagna", { en: "Lagna", hi: "लग्न" }, opts.lagnaLon),
+    ...opts.planets.map((p) => rowFor(p.id, p.name, p.longitude)),
+  ];
+
+  const cuspRows = placidus.cusps.map((c, i) => {
+    const meta = cuspSignMeta(c);
+    const sub = kpSubLord(c);
+    return {
+      house: i + 1,
+      ...meta,
+      nakshatra: sub.nakshatra,
+      starLord: sub.starLord,
+      subLord: sub.subLord,
+    };
+  });
+
+  const weekday = weekdayFromOffset(
+    opts.date,
+    opts.timezoneOffsetMinutes ?? 330
+  );
+  const dayLords = [
+    PLANET_META.sun,
+    PLANET_META.moon,
+    PLANET_META.mars,
+    PLANET_META.mercury,
+    PLANET_META.jupiter,
+    PLANET_META.venus,
+    PLANET_META.saturn,
+  ];
+
+  const moon = opts.planets.find((p) => p.id === "moon");
+  const ruling = {
+    dayLord: dayLords[weekday],
+    ascendant: kpSubLord(toKp(opts.lagnaLon)),
+    moon: moon ? kpSubLord(toKp(moon.longitude)) : null,
+  };
+
+  return {
+    ayanamsa: kpAyan,
+    lahiriAyanamsa: opts.ayanamsa,
+    ayanamsaNote: {
+      en: "KP uses Krishnamurti (New) ayanamsa ≈ Lahiri − 5′48″, with Placidus cusps. Parashari Kundli stays on Lahiri.",
+      hi: "केपी कृष्णमूर्ति (न्यू) अयनांश ≈ लाहिरी − 5′48″ व प्लेसिडस कुस्प। पाराशरी कुंडली लाहिरी पर रहती है।",
+    },
+    placidus,
+    points,
+    cusps: cuspRows,
+    ruling,
   };
 }

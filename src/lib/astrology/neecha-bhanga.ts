@@ -163,6 +163,10 @@ export function detectNeechaBhangaYogas(
           en: `${r.explanation.en} Participating: ${r.participatingPlanets.join(", ")}.`,
           hi: `${r.explanation.hi} ग्रह: ${r.participatingPlanets.join(", ")}.`,
         },
+        basedOn: {
+          en: r.rulesMatched.join(" · "),
+          hi: r.rulesMatched.join(" · "),
+        },
       });
     }
   }

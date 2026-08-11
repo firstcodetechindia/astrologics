@@ -56,6 +56,16 @@ export function CalculatorSeo({ content }: { content: CalcPageContent }) {
             a: locale === "hi" ? faq.a.hi : faq.a.en,
           }))}
         />
+        <p className="mt-4 text-sm text-ink-muted">
+          <Link
+            href="/methodology"
+            className="font-semibold text-saffron-deep hover:underline"
+          >
+            {locale === "hi"
+              ? "हमारी गणना पद्धति कैसे काम करती है →"
+              : "How our calculation methodology works →"}
+          </Link>
+        </p>
       </section>
 
       {content.references && content.references.length > 0 && (

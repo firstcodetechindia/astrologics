@@ -11,6 +11,9 @@ export {
 
 export {
   formatAyanamsa,
+  KP_FROM_LAHIRI_OFFSET_ARCSEC,
+  kpAyanamsaFromDate,
+  lahiriLonToKp,
   LAHIRI_SE_ALIGNMENT_ARCSEC,
   lahiriAyanamsaFromDate,
   lahiriAyanamsaPolynomialFallback,

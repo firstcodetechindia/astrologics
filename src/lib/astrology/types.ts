@@ -58,6 +58,8 @@ export interface YogaFlag {
   name: { en: string; hi: string };
   level: "positive" | "challenge" | "neutral";
   meaning: { en: string; hi: string };
+  /** Traceable chart facts for citation-style Free Report / AI. */
+  basedOn?: { en: string; hi: string };
 }
 
 export interface LifeInsight {
@@ -112,6 +114,7 @@ export interface KundliResult {
     manglik: DoshaBlock;
     kaalSarp: DoshaBlock;
     sadeSati?: DoshaBlock;
+    pitra?: DoshaBlock;
   };
   dasha: {
     currentMaha: DashaPeriod;
@@ -123,10 +126,19 @@ export interface KundliResult {
     balanceYears?: number;
     startLord?: { en: string; hi: string };
   };
-  divisionalCharts?: {
-    D9?: unknown;
-    D10?: unknown;
-  };
+  /** Yogini dasha (36-year cycle) — parallel to Vimshottari. */
+  yoginiDasha?: unknown;
+  divisionalCharts?: Record<string, unknown>;
+  /** Birth-moment panchang (tithi, karana, yoga, nakshatra, vara). */
+  panchang?: unknown;
+  /** Avakhada chakra from Moon nakshatra/rashi. */
+  avakhada?: unknown;
+  /** Sarvashtakvarga + Bhinnashtakvarga. */
+  ashtakvarga?: unknown;
+  /** Sripati Bhav Chalit (cusps + planet houses). */
+  bhavChalit?: unknown;
+  /** KP: Placidus cusps + sign/star/sub for lagna & planets. */
+  kp?: unknown;
   transits?: unknown;
   /** Multi-factor topic analyses derived from this same kundli object. */
   predictions?: import("./prediction/types").PredictionBundle;

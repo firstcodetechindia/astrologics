@@ -58,6 +58,26 @@ export function lahiriAyanamsaFromDate(date: Date): number {
   return trueChitrapakshaAyanamsa(date) + LAHIRI_SE_ALIGNMENT_DEG;
 }
 
+/**
+ * Approximate offset Lahiri → Krishnamurti (KP New) ayanamsa (~5′48″).
+ * SE SIDM_KRISHNAMURTI runs slightly behind Lahiri in the modern era.
+ */
+export const KP_FROM_LAHIRI_OFFSET_ARCSEC = 5 * 60 + 48;
+const KP_FROM_LAHIRI_OFFSET_DEG = KP_FROM_LAHIRI_OFFSET_ARCSEC / 3600;
+
+/**
+ * Krishnamurti (KP New) ayanamsa ≈ Lahiri − 5′48″.
+ * Used so KP tables are not silently identical to Parashari Lahiri.
+ */
+export function kpAyanamsaFromDate(date: Date): number {
+  return lahiriAyanamsaFromDate(date) - KP_FROM_LAHIRI_OFFSET_DEG;
+}
+
+/** Convert a Lahiri sidereal longitude to KP New sidereal longitude. */
+export function lahiriLonToKp(lahiriLon: number): number {
+  return norm360(lahiriLon + KP_FROM_LAHIRI_OFFSET_DEG);
+}
+
 /** Fallback polynomial (IAE-style) if star vector ever fails — not primary path. */
 export function lahiriAyanamsaPolynomialFallback(date: Date): number {
   const jd = dateToJulianDay(date);

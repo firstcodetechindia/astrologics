@@ -4,6 +4,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { PageHero } from "@/components/ui/PageHero";
 import { ContactCTA } from "@/components/kundli/ContactCTA";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { Link } from "@/i18n/navigation";
 import { siteConfig } from "@/lib/site-config";
 import {
   breadcrumbJsonLd,
@@ -98,6 +99,16 @@ export default async function AboutPage({
             {hi
               ? "यह पारदर्शिता E-E-A-T के लिए महत्वपूर्ण है: गणना पद्धति स्पष्ट है, परिणाम दोहराए जा सकते हैं, और जब आपको मानव दृष्टि चाहिए तो व्यक्तिगत परामर्श उपलब्ध है।"
               : "This transparency matters for trust: the calculation method is stated clearly, results are reproducible, and human consultation is available when you need expert judgement."}
+          </p>
+          <p>
+            <Link
+              href="/methodology"
+              className="inline-flex font-semibold text-saffron-deep hover:underline"
+            >
+              {hi
+                ? "पूरी पद्धति पढ़ें →"
+                : "Read our full methodology →"}
+            </Link>
           </p>
         </section>
         <section className="space-y-3 text-[15px] leading-relaxed text-ink-muted">

@@ -16,8 +16,17 @@ import { nakshatraFromLongitude } from "../src/lib/astrology/nakshatra";
 import { NAKSHATRAS, NAKSHATRA_SPAN, SIGN_LORDS } from "../src/lib/astrology/constants";
 import {
   dashamsaSignIndex,
+  drekkanaSignIndex,
+  horaSignIndex,
   navamsaSignIndex,
+  trimsamsaSignIndex,
 } from "../src/lib/astrology/vargas";
+import { computeYogini, yoginiLordFromNakshatra } from "../src/lib/astrology/yogini-dasha";
+import {
+  KP_FROM_LAHIRI_OFFSET_ARCSEC,
+  kpAyanamsaFromDate,
+  lahiriLonToKp,
+} from "../src/lib/astrology/math";
 import { computeKundli } from "../src/lib/astrology/compute";
 import { meanNorthNode, trueNorthNode } from "../src/lib/astrology/planets";
 import { detectYogas } from "../src/lib/astrology/yogas";
@@ -223,6 +232,14 @@ function fakePlanet(
     p.id === "moon" || p.id === "mars" ? { ...p, signIndex: 2, house: 3 } : p
   );
   assert(detectYogas(cm, 0).some((y) => y.id === "chandra-mangal"), "Chandra-Mangal TRUE");
+
+  // Amala TRUE: Jupiter in 10th
+  const amala = base.map((p) =>
+    p.id === "jupiter" ? { ...p, signIndex: 9, house: 10 } : p
+  );
+  assert(detectYogas(amala, 0).some((y) => y.id === "amala-lagna"), "Amala TRUE H10");
+  const amalaY = detectYogas(amala, 0).find((y) => y.id === "amala-lagna");
+  assert(!!amalaY?.basedOn?.en, "Amala has basedOn citation");
 }
 
 console.log("\n=== 12. DOSHA true/false ===");
@@ -280,6 +297,13 @@ console.log("\n=== 13–14. Live chart + transit + Sade Sati + SSOT ===");
   assert(k.settings.ayanamsa === "lahiri", "settings lahiri");
   assert(k.settings.nodeType === "mean", "settings mean");
   assert(!!k.divisionalCharts?.D9 && !!k.divisionalCharts?.D10, "D9/D10 present");
+  assert(!!(k.divisionalCharts as Record<string, unknown>)?.D30, "D30 present");
+  assert(!!(k.divisionalCharts as Record<string, unknown>)?.D60, "D60 present");
+  assert(!!k.yoginiDasha, "yogini dasha present");
+  assert(!!k.ashtakvarga, "ashtakvarga present");
+  assert(!!k.kp, "kp present");
+  assert(!!k.avakhada, "avakhada present");
+  assert(!!k.panchang, "panchang present");
   assert(!!k.transits, "transits present");
   const rahu = k.planets.find((p) => p.id === "rahu")!;
   const ketu = k.planets.find((p) => p.id === "ketu")!;
@@ -301,6 +325,38 @@ console.log("\n=== 13–14. Live chart + transit + Sade Sati + SSOT ===");
 
 console.log("\n=== TZ mode documented ===");
 assert(ASTRO_CONFIG.timezoneMode === "fixed_offset_minutes", "fixed offset mode");
+
+console.log("\n=== EXTRA VARGAS / YOGINI / KP AYANAMSA ===");
+assert(horaSignIndex(5) === 4, "hora odd first half → Leo");
+assert(horaSignIndex(20) === 3, "hora odd second half → Cancer");
+assert(drekkanaSignIndex(5) === 0, "drekkana first third Aries");
+assert(drekkanaSignIndex(15) === 4, "drekkana second third → Leo (5th)");
+assert(trimsamsaSignIndex(2) === 0, "trimsamsa odd Mars→Aries");
+assert(yoginiLordFromNakshatra(0) === "mangala", "Ashwini→Mangala");
+assert(yoginiLordFromNakshatra(1) === "pingala", "Bharani→Pingala");
+{
+  const y = computeYogini(10, new Date("1990-05-15T06:30:00Z"));
+  assert(y.mahaList.length >= 8, "yogini list length");
+  assert(y.balanceYears > 0 && y.balanceYears <= 8, "yogini balance");
+}
+{
+  const d = new Date(Date.UTC(2020, 0, 1, 12));
+  const kp = kpAyanamsaFromDate(d);
+  const lah = lahiriAyanamsaFromDate(d);
+  assert(Math.abs((lah - kp) * 3600 - KP_FROM_LAHIRI_OFFSET_ARCSEC) < 0.01, "KP offset");
+  assert(Math.abs(lahiriLonToKp(0) - KP_FROM_LAHIRI_OFFSET_ARCSEC / 3600) < 1e-9, "lahiri→kp lon");
+}
+{
+  // Mars in 7th from Lagna Aries → Manglik present
+  const planets = [
+    { id: "mars", name: { en: "Mars", hi: "मंगल" }, longitude: 180, signIndex: 6, sign: { en: "Libra", hi: "तुला" }, degreeInSign: 0, house: 7, nakshatraIndex: 0, nakshatra: { en: "X", hi: "X" }, pada: 1 },
+    { id: "jupiter", name: { en: "Jupiter", hi: "गुरु" }, longitude: 180, signIndex: 6, sign: { en: "Libra", hi: "तुला" }, degreeInSign: 1, house: 7, nakshatraIndex: 0, nakshatra: { en: "X", hi: "X" }, pada: 1 },
+    { id: "moon", name: { en: "Moon", hi: "चंद्र" }, longitude: 0, signIndex: 0, sign: { en: "Aries", hi: "मेष" }, degreeInSign: 0, house: 1, nakshatraIndex: 0, nakshatra: { en: "X", hi: "X" }, pada: 1 },
+  ] as PlanetPosition[];
+  const m = mangalDosha(planets, 0);
+  assert(m.present, "manglik present 7th");
+  assert(m.cancelled === true, "jupiter conjunct cancels/softens");
+}
 
 console.log(failed === 0 ? "\nVALIDATION OK" : `\nVALIDATION FAILED (${failed})`);
 process.exit(failed === 0 ? 0 : 1);

@@ -781,6 +781,17 @@ export function ChatClient() {
                     )}
                   </Button>
                 </div>
+                <p className="px-2.5 pb-2 text-[11px] text-ink-muted">
+                  <Link
+                    href="/methodology"
+                    className="font-semibold text-saffron-deep hover:underline"
+                  >
+                    {hi ? "यह कैसे काम करता है" : "How this works"}
+                  </Link>
+                  {hi
+                    ? " — एआई ग्रह स्थिति गढ़ता नहीं; केवल गणना चार्ट की व्याख्या करता है।"
+                    : " — AI does not invent planets; it only explains your calculated chart."}
+                </p>
               </GlassCard>
 
               {showFollowUps ? (
