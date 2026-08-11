@@ -58,7 +58,7 @@ export function LocaleSwitcher() {
         aria-haspopup="listbox"
         aria-label={locale === "hi" ? "भाषा चुनें" : "Choose language"}
         className={cn(
-          "inline-flex h-10 w-10 items-center justify-center rounded-full border border-saffron/30 bg-[#fff1e6] text-saffron-deep transition hover:border-saffron/50 hover:bg-[#ffe8d4]",
+          "inline-flex h-9 w-9 items-center justify-center rounded-full border border-saffron/30 bg-[#fff1e6] text-saffron-deep transition hover:border-saffron/50 hover:bg-[#ffe8d4] sm:h-10 sm:w-10",
           open && "border-saffron/55 bg-[#ffe8d4] ring-2 ring-saffron/20"
         )}
       >

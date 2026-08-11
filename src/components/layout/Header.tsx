@@ -315,7 +315,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur-xl">
       {/* Top brand bar */}
-      <div className="container-page flex items-center justify-between gap-3 py-3">
+      <div className="container-page flex items-center justify-between gap-2 py-2.5 sm:gap-3 sm:py-3">
         <nav className="sr-only" aria-label={hi ? "मुख्य लिंक" : "Primary links"}>
           <ul>
             <li>
@@ -350,34 +350,38 @@ export function Header() {
             </li>
           </ul>
         </nav>
-        <Link href="/" className="group flex min-w-0 items-center gap-2.5">
-          <AstrologicsLogo className="h-10 w-10 shrink-0 transition group-hover:scale-[1.04] sm:h-11 sm:w-11" />
-          <span className="truncate font-display text-base font-semibold tracking-tight text-ink sm:text-lg">
+        <Link
+          href="/"
+          className="group flex min-w-0 flex-1 items-center gap-2 sm:max-w-none sm:flex-none sm:gap-2.5"
+        >
+          <AstrologicsLogo className="h-9 w-9 shrink-0 transition group-hover:scale-[1.04] sm:h-11 sm:w-11" />
+          <span className="truncate font-display text-[15px] font-semibold tracking-tight text-ink sm:text-lg">
             {siteConfig.brandName}
           </span>
         </Link>
 
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
           <LocaleSwitcher />
           <UserAccountMenu />
           <a
             href={whatsappLink()}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-xl border border-saffron/30 px-2.5 py-2 text-xs font-semibold text-saffron-deep transition hover:bg-[#fff1e6] sm:px-3"
+            aria-label={tc("talkNow")}
+            className="inline-flex items-center gap-1.5 rounded-xl border border-saffron/30 p-2 text-xs font-semibold text-saffron-deep transition hover:bg-[#fff1e6] sm:px-3 sm:py-2"
           >
             <MessageCircle className="h-4 w-4 shrink-0" />
-            <span>{tc("talkNow")}</span>
+            <span className="hidden sm:inline">{tc("talkNow")}</span>
           </a>
           <Link
             href="/astrologer/signup"
-            className="inline-flex items-center gap-1.5 rounded-xl bg-[#F06A00] px-2.5 py-2 text-xs font-semibold text-white shadow-[0_8px_18px_-12px_rgba(240,106,0,0.9)] transition hover:bg-[#e85d04] sm:px-3"
+            aria-label={hi ? "ज्योतिषी बनें" : "Join as Astrologer"}
+            className="inline-flex items-center gap-1.5 rounded-xl bg-[#F06A00] p-2 text-xs font-semibold text-white shadow-[0_8px_18px_-12px_rgba(240,106,0,0.9)] transition hover:bg-[#e85d04] sm:px-3 sm:py-2"
           >
             <Star className="h-4 w-4 shrink-0" strokeWidth={2.1} />
-            <span className="hidden sm:inline">
+            <span className="hidden md:inline">
               {hi ? "ज्योतिषी बनें" : "Join as Astrologer"}
             </span>
-            <span className="sm:hidden">{hi ? "ज्योतिषी" : "Astrologer"}</span>
           </Link>
         </div>
       </div>

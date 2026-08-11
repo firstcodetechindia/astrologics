@@ -73,10 +73,11 @@ export function UserAccountMenu() {
     return (
       <Link
         href="/login"
-        className="inline-flex items-center gap-1.5 rounded-xl border border-saffron/30 px-2.5 py-2 text-xs font-semibold text-saffron-deep transition hover:bg-[#fff1e6] sm:px-3"
+        aria-label={hi ? "लॉगिन" : "Login"}
+        className="inline-flex items-center gap-1.5 rounded-xl border border-saffron/30 p-2 text-xs font-semibold text-saffron-deep transition hover:bg-[#fff1e6] sm:px-3 sm:py-2"
       >
         <User className="h-4 w-4 shrink-0" strokeWidth={2.1} />
-        <span>{hi ? "लॉगिन" : "Login"}</span>
+        <span className="hidden sm:inline">{hi ? "लॉगिन" : "Login"}</span>
       </Link>
     );
   }
