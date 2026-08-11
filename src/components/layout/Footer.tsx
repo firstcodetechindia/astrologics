@@ -182,10 +182,10 @@ export function Footer() {
             <li>
               <a
                 href={`mailto:${siteConfig.email}`}
-                className="inline-flex items-center gap-1.5 text-[12px] text-ink-muted transition hover:text-saffron-deep sm:text-[13px]"
+                className="mt-0.5 flex flex-col items-start gap-1 text-[11px] leading-snug text-ink-muted transition hover:text-saffron-deep sm:flex-row sm:items-center sm:gap-1.5 sm:text-[13px]"
               >
-                <Mail className="h-3 w-3 shrink-0 opacity-70" />
-                <span className="truncate">{siteConfig.email}</span>
+                <Mail className="mt-0.5 h-3 w-3 shrink-0 opacity-70" />
+                <span className="max-w-full break-all">{siteConfig.email}</span>
               </a>
             </li>
           </FooterCol>
