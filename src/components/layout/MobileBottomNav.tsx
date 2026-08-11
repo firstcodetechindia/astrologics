@@ -214,6 +214,7 @@ export function MobileBottomNav() {
           <motion.div
             key="mobile-sheet-root"
             className="fixed inset-0 z-[60]"
+            data-mobile-sheet="open"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

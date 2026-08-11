@@ -70,10 +70,7 @@ export function PullToRefresh() {
       if (refreshingRef.current) return;
       if (e.touches.length !== 1) return;
       // Skip while mobile nav sheet is open
-      if (document.body.style.overflow === "hidden") {
-        const sheet = document.querySelector('[class*="z-[60]"]');
-        if (sheet) return;
-      }
+      if (document.querySelector('[data-mobile-sheet="open"]')) return;
       const parent = findScrollParent(e.target);
       scrollParent.current = parent;
       if (scrollTopOf(parent) > 2) {
