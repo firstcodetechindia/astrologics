@@ -1,79 +1,21 @@
-export interface BlogPost {
-  slug: string;
-  locale: "en" | "hi";
-  title: string;
-  description: string;
-  date: string;
-  content: string[];
-}
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Replace three blog post slug groups in posts.ts (en + hi)."""
 
-export const blogPosts: BlogPost[] = [
+import re
+from pathlib import Path
+
+POSTS_PATH = Path("/Volumes/My Work/Development/vedic/src/lib/blog/posts.ts")
+
+# fmt: off
+POSTS = [
   {
-    slug: "what-is-vedic-kundli",
-    locale: "en",
-    title: "What Is a Vedic Kundli? A Beginner's Guide",
-    description:
-      "Learn what a Vedic Kundli is, how it's calculated using the Lahiri method, why birth time matters, and what your free chart reveals.",
-    date: "2026-03-01",
-    content: [
-      "A Vedic Kundli — also called Janam Kundali or birth chart — is a precise map of the sky at the exact moment you were born, as seen from your birthplace. In Jyotish (Vedic astrology), this single snapshot captures where the Sun, Moon, planets and lunar nodes sat against the fixed stars. It does not predict a fixed future; instead, it maps the energetic blueprint you arrived with — temperament, life themes, strengths, friction points and the timing cycles that unfold around them.",
-      "Think of the kundli as a celestial photograph taken at birth. Just as a photograph records light from a specific instant, your chart records planetary positions from one instant in time and place. Every reading that follows — whether about career, relationships, health rhythms or spiritual inclination — refers back to this original map. That is why the kundli remains the anchor of Vedic astrology, even when astrologers later examine transits, dasha periods or divisional charts for finer detail.",
-      "Calculating a kundli begins with three inputs: date of birth, time of birth and place of birth. Software converts local clock time into sidereal time at that longitude and latitude, then computes each planet's longitude along the zodiac belt. The result is a diagram — usually a square or diamond grid — showing twelve houses and the planets placed within them.",
-      "Vedic astrology uses the sidereal zodiac, which is anchored to the actual positions of stars in the sky. Western tropical astrology, by contrast, ties the zodiac to the seasons and the equinoxes. Because of Earth's precession — a slow wobble in the planet's axis — the two systems have drifted apart by roughly 24 degrees over two millennia. That gap is why your Vedic Moon sign or Sun sign often differs from what a Western horoscope column shows, even when your birthday is the same.",
-      "To align Vedic calculations with the star sky, astrologers apply an ayanamsa — a correction factor that shifts tropical positions into sidereal ones. The Lahiri ayanamsa is the standard used across most of India, including the national panchang and government ephemerides. When you generate a chart on a reputable Vedic platform, Lahiri is typically the default. Using a consistent ayanamsa matters: switching between Lahiri, Raman or KP ayanamsas can shift house boundaries and planet positions enough to change an interpretation.",
-      "The Lagna, or Ascendant, is the sign rising on the eastern horizon at birth. It sets the entire house framework in whole-sign systems, which are common in traditional Jyotish. The Lagna describes how you meet the world — body type, first impressions, vitality and the lens through which other chart factors express themselves. You can explore Lagna in depth at /en/learn/lagna.",
-      "The twelve houses (bhavas) divide life into domains: self and body, wealth, siblings, home and mother, children, enemies and illness, marriage and partnerships, longevity and transformation, fortune and dharma, career and public status, gains and networks, and losses or liberation. Planets placed in a house colour how that area of life tends to unfold. A structured overview of all twelve is available at /en/learn/houses.",
-      "Nine grahas (planets) are used in classical chart work: the Sun (Surya), Moon (Chandra), Mars (Mangal), Mercury (Budha), Jupiter (Guru), Venus (Shukra), Saturn (Shani), and the lunar nodes Rahu and Ketu. Each carries natural significations — the Sun for vitality and authority, the Moon for mind and emotions, Mars for courage and drive, Jupiter for wisdom and expansion, and so on. Their sign placement, house position and mutual aspects (drishti) shape how strongly each theme appears in your life. Learn more at /en/learn/planets.",
-      "Finer still are the twenty-seven Nakshatras — lunar mansions, each spanning 13°20′ of the zodiac. Your birth nakshatra, usually taken from the Moon's position, adds texture to personality and is the starting point for Vimshottari dasha, the most widely used life-period system in North Indian Jyotish. Nakshatras also play a role in compatibility, naming traditions and muhurta (electional astrology). A full guide lives at /en/learn/nakshatras.",
-      "Birth time precision is not a minor detail — it can change the entire chart. The Ascendant moves through all twelve signs in roughly twenty-four hours, spending about two hours in each sign on average. In borderline cases, a difference of even twenty or thirty minutes can shift the Lagna from one sign to the next. When that happens, every house assignment changes, which can alter readings of career (tenth house), marriage (seventh house), health (sixth and eighth houses) and more.",
-      "Consider a concrete example. Two babies born in Mumbai on the same date — one at 5:40 a.m. and one at 6:15 a.m. — may share the same Moon sign and Sun sign but carry different Lagnas. The earlier child might have Aries rising with Mars as chart lord; the later might have Taurus rising with Venus as chart lord. Same birthday, same city, yet the life emphasis shifts: one chart highlights initiative and competition; the other highlights stability and material comfort. That is why hospitals record birth time to the minute, and why astrologers ask for the most accurate time you can obtain from a birth certificate, hospital record or reliable family memory.",
-      "When birth time is unknown or approximate, online tools can still generate a partial chart using Moon or Sun as a reference point, but house-based analysis becomes unreliable. Some astrologers use event-based rectification in personal consultation — adjusting the time until major life events align — but this is skilled work, not something automated software can do with confidence. For the most useful free chart, gather the best time estimate you can before you begin.",
-      "A well-built kundli offers meaningful guidance. It can highlight natural strengths, periods when certain themes intensify (through dasha and transits), relationship patterns, career inclinations and health sensitivities. It gives language for self-reflection and helps you ask sharper questions during a consultation. Many people find that seeing their chart for the first time clarifies long-felt patterns they could not previously name.",
-      "What a kundli cannot do is guarantee specific outcomes. Jyotish describes tendencies and seasons — not fixed verdicts. A strong tenth house does not promise a CEO title; a challenging seventh house does not guarantee divorce. Planetary combinations suggest where effort may bear fruit and where friction may appear, but your choices, environment, education and effort still shape results. Treat the chart as a map of terrain, not a script you must follow helplessly.",
-      "Astrology works best as a framework for reflection and timing awareness, not as a substitute for medicine, legal counsel, financial planning or therapy. Remedies (upchaar), when used wisely, support effort and mindset — they do not replace action. If a reading triggers fear rather than clarity, that is a signal to pause, seek a second opinion and remember that the chart shows possibilities, not inevitabilities.",
-      "Q: What's the difference between a Kundli and a horoscope? A: A kundli is your personal birth chart — a unique map drawn from your exact birth data. A horoscope, in everyday usage, often means a general forecast based on Sun sign alone, especially in newspaper or app columns. In Vedic work, \"horoscope\" sometimes refers to any astrological reading, but the kundli itself is the underlying chart. Your kundli is specific to you; a Sun-sign horoscope column applies to millions of people born in the same month-long window.",
-      "Q: Can a Kundli be generated without birth time? A: Partially. Without a birth time, software can still plot planet positions in signs and compute some dasha information from the Moon's nakshatra. However, the Lagna, house placements and house lords cannot be determined reliably. Most house-based predictions — career from the tenth house, marriage from the seventh — require an accurate Ascendant. If your time is unknown, note that limitation when reading results, and consider seeking rectification with an experienced astrologer if you want house-level analysis.",
-      "Q: Is Vedic astrology the same as Western astrology? A: They share roots in ancient sky-watching, but they differ in technique and zodiac system. Vedic Jyotish uses the sidereal zodiac with ayanamsa correction (Lahiri being the most common in India), emphasises the Moon and nakshatras, and employs dasha systems for timing. Western astrology typically uses the tropical zodiac, emphasises the Sun sign, and relies more on outer planets and psychological archetypes. Both can offer insight; they are not interchangeable, and your Vedic chart will often show different sign placements than a Western one.",
-      "Ready to see your own chart? You can generate a free Vedic Kundli in minutes using your date, time and place of birth. Visit /en/kundli to create your Janam Kundali with Lahiri ayanamsa — complete with Lagna, planetary placements, house layout, nakshatra details and current dasha period. It is the best starting point for self-study, and a solid foundation if you later choose to consult an astrologer with informed questions.",
-    ],
-  },
-  {
-    slug: "what-is-vedic-kundli",
-    locale: "hi",
-    title: "वैदिक कुंडली क्या है? शुरुआती गाइड",
-    description:
-      "वैदिक कुंडली क्या है, लाहिरी विधि से गणना, जन्म समय का महत्व और मुफ्त चार्ट क्या दिखाता है — यहाँ जानें।",
-    date: "2026-03-01",
-    content: [
-      "वैदिक कुंडली — जिसे जन्म कुंडली या जन्म-चार्ट भी कहते हैं — आपके जन्म के ठीक उस क्षण का आकाशीय मानचित्र है, जो आपके जन्म स्थान से देखा गया हो। ज्योतिष में यह एक स्नैपशॉट बताता है कि जन्म समय पर सूर्य, चंद्र, ग्रह और राहु-केतु स्थिर नक्षत्रों के सापेक्ष कहाँ थे। यह भविष्य की निश्चित भविष्यवाणी नहीं; यह आपके साथ आए ऊर्जा-खाके — स्वभाव, जीवन विषय, शक्ति, घर्षण बिंदु और समय चक्र — का नक्शा है।",
-      "कुंडली को जन्म के समय ली गई आकाशीय तस्वीर समझें। तस्वीर एक क्षण का प्रकाश रिकॉर्ड करती है; चार्ट एक समय और स्थान के ग्रह स्थिति रिकॉर्ड करता है। करियर, संबंध, स्वास्थ्य या आध्यात्मिक झुकाव — हर पठन इसी मूल नक्शे पर लौटता है। गोचर, दशा या वर्ग चार्ट देखने पर भी जन्म कुंडली वैदिक ज्योतिष का लंगर बनी रहती है।",
-      "कुंडली गणना के लिए तीन बातें चाहिए: जन्म तिथि, समय और स्थान। सॉफ्टवेयर स्थानीय समय को निरयण समय में बदलकर प्रत्येक ग्रह की राशि चक्र में देशांतर निकालता है। परिणाम बारह भावों और उनमें स्थित ग्रहों वाला वर्ग या हीरा आकार का चित्र होता है।",
-      "वैदिक ज्योतिष निरयण राशि — वास्तविक नक्षत्र स्थिति — पर आधारित है। पश्चिमी ट्रॉपिकल ज्योतिष राशि को ऋतुओं और विषुवों से जोड़ता है। पृथ्वी के अक्षीय पेच — अयन — से दोनों प्रणालियाँ लगभग 24 अंश अलग हो गई हैं। इसलिए एक ही जन्मदिन पर भी वैदिक चंद्र या सूर्य राशि पश्चिमी राशिफल स्तंभ से भिन्न हो सकती है।",
-      "निरयण गणना के लिए अयनांश लगाया जाता है — ट्रॉपिकल स्थिति को तारा-आकाश से मिलाने वाला शोधक। लाहिरी अयनांश भारत में सर्वाधिक — राष्ट्रीय पंचांग और सरकारी गणना में भी — प्रचलित है। विश्वसनीय वैदिक प्लेटफ़ॉर्म पर आमतौर पर लाहिरी डिफ़ॉल्ट होता है। लाहिरी, रमन या KP बदलने से भाव सीमा बदल सकती है, इसलिए एक ही मानक रखना जरूरी है।",
-      "लग्न वह राशि है जो जन्म के समय पूर्व क्षितिज पर उदय होती है। पूर्ण-राशि पद्धति में यह पूरे भाव ढांचे की नींव है। लग्न बताता है आप दुनिया से कैसे मिलते हैं — शरीर, पहली छाप, जीवन शक्ति। गहन जानकारी के लिए /hi/learn/lagna देखें।",
-      "बारह भाव (भाव) जीवन के क्षेत्र बाँटते हैं: स्व और शरीर, धन, भाई-बहन, घर और माता, संतान, रोग और शत्रु, विवाह, आयु, भाग्य, करियर, लाभ और व्यय। भाव में ग्रह उस क्षेत्र को रंगते हैं। बारहों भाव का संरचित परिचय /hi/learn/houses पर है।",
-      "शास्त्रीय कार्य में नौ ग्रह: सूर्य, चंद्र, मंगल, बुध, गुरु, शुक्र, शनि, राहु और केतु। प्रत्येक के प्राकृतिक कारक — सूर्य जीवन शक्ति, चंद्र मन, मंगल साहस, गुरु ज्ञान — राशि, भाव और दृष्टि से प्रकट होते हैं। विस्तार /hi/learn/planets पर।",
-      "सत्ताईस नक्षत्र — प्रत्येक 13°20′ — राशि की सूक्ष्म विभाजन हैं। जन्म नक्षत्र, सामान्यतः चंद्र से, स्वभाव की बारीकी और विंशोत्तरी दशा का आरंभ बिंदु है। नक्षत्र मिलान, नामकरण और मुहूर्त में भी महत्वपूर्ण। पूर्ण मार्गदर्शन /hi/learn/nakshatras पर।",
-      "जन्म समय की सटीकता छोटी बात नहीं — पूरा चार्ट बदल सकता है। लग्न लगभग चौबीस घंटे में बारह राशियों से गुजरता है, औसतन प्रति राशि लगभग दो घंटे। सीमा पर बीस-तीस मिनट का अंतर लग्न बदल सकता है, जिससे करियर (दशम), विवाह (सप्तम), स्वास्थ्य (षष्ठ/अष्टम) की व्याख्या बदल जाती है।",
-      "उदाहरण: मुंबई में एक तिथि पर 5:40 और 6:15 पर जन्मे दो शिशु का चंद्र और सूर्य राशि समान हो सकता है, पर लग्न अलग — पहले को मेष लग्न (मंगल स्वामी), दूसरे को वृष लग्न (शुक्र स्वामी)। एक में पहल और प्रतिस्पर्धा, दूसरे में स्थिरता — इसलिए अस्पताल मिनट-स्तर समय दर्ज करते हैं और ज्योतिषी जन्म प्रमाण या विश्वसनीय स्मृति माँगते हैं।",
-      "समय अज्ञात हो तो चंद्र या सूर्य से आंशिक चार्ट बन सकता है, पर भाव-आधारित विश्लेषण कम विश्वसनीय। घटना-आधारित शुद्धि परामर्श में संभव है, पर यह कुशल कार्य है — ऑनलाइन टूल स्वचालित नहीं कर सकते। सर्वोत्तम मुफ्त चार्ट के लिए यथासंभव सटीक समय इकट्ठा करें।",
-      "अच्छी कुंडली सार्थक मार्गदर्शन देती है — प्राकृतिक शक्ति, दशा-गोचर काल, संबंध पैटर्न, करियर झुकाव, स्वास्थ्य संवेदनशीलता। यह आत्म-चिंतन की भाषा और परामर्श में बेहतर प्रश्न देती है। कई लोग पहली बार चार्ट देखकर पुराने अनकहे पैटर्न समझ पाते हैं।",
-      "कुंडली विशिष्ट परिणाम की गारंटी नहीं देती। ज्योतिष प्रवृत्ति और ऋतुएँ बताता है — अटल फैसला नहीं। मजबूत दशम भाव CEO पद नहीं देता; कठिन सप्तम भाव तलाक नहीं सुनिश्चित करता। आपके निर्णय, परिवेश और प्रयास परिणाम बनाते हैं। चार्ट भू-नक्शा है, लाचार अनुसरण करने वाली पटकथा नहीं।",
-      "ज्योतिष चिंतन और समय जागरूकता का ढाँचा है — चिकित्सा, कानून, वित्त या थेरेपी का विकल्प नहीं। उपाय प्रयास का सहायक हैं, विकल्प नहीं। यदि पठन भय दे, रुकें, दूसरी राय लें — चार्ट संभावना दिखाता है, अनिवार्यता नहीं।",
-      "प्र: कुंडली और राशिफल में क्या अंतर? उ: कुंडली आपका व्यक्तिगत जन्म-चार्ट है — सटीक जन्म डेटा से बना अद्वितीय नक्शा। राशिफल आम बोलचाल में अक्सर केवल सूर्य राशि पर आधारित सामान्य पूर्वानुमान — अखबार या ऐप स्तंभ — है। वैदिक में \"राशिफल\" कभी कोई भी ज्योतिष पठन हो सकता है, पर कुंडली मूल चार्ट है।",
-      "प्र: बिना जन्म समय कुंडली बन सकती है? उ: आंशिक रूप से। बिना समय ग्रह राशियों में और चंद्र नक्षत्र से कुछ दशा जानकारी निकल सकती है, पर लग्न, भाव और भावेश विश्वसनीत नहीं। दशम से करियर, सप्तम से विवाह — भाव-आधारित भविष्यवाणी के लिए सटीक लग्न चाहिए। समय अज्ञात हो तो सीमा याद रखें और भाव-विश्लेषण के लिए शुद्धि परामर्श पर विचार करें।",
-      "प्र: क्या वैदिक और पश्चिमी ज्योतिष एक समान हैं? उ: मूल आकाश-अवलोकन साझा, पर तकनीक अलग। वैदिक निरयण राशि (लाहिरी), चंद्र-नक्षत्र और दशा पर जोर; पश्चिमी ट्रॉपिकल, सूर्य राशि और मनोवैज्ञानिक प्रतीक। दोनों अंतर्दृष्टि दे सकते हैं, पर विनिमेय नहीं — वैदिक चार्ट में अक्सर अलग राशि स्थिति मिलती है।",
-      "अपनी कुंडली देखने के लिए तैयार? जन्म तिथि, समय और स्थान से मिनटों में मुफ्त वैदिक कुंडली बनाएँ। /hi/kundli पर जाएँ — लाहिरी अयनांश, लग्न, ग्रह, भाव, नक्षत्र और वर्तमान दशा के साथ। स्व-अध्ययन का सर्वोत्तम प्रारंभ और बाद में ज्योतिषी परामर्श की मजबूत नींव।",
-    ],
-  },
-  {
-    slug: "lagna-vs-rashi",
-    locale: "en",
-    title: "Lagna vs Moon Sign: What Each Reveals in Vedic Charts",
-    description:
-      "Lagna vs Moon sign in Vedic astrology: how Ascendant and Chandra rashi differ, what each reveals about body and mind, and how to read them together calmly.",
-    date: "2026-03-08",
-    content: [
+    "slug": "lagna-vs-rashi",
+    "locale": "en",
+    "title": "Lagna vs Moon Sign: What Each Reveals in Vedic Charts",
+    "description": "Lagna vs Moon sign in Vedic astrology: how Ascendant and Chandra rashi differ, what each reveals about body and mind, and how to read them together calmly.",
+    "date": "2026-03-08",
+    "content": [
       "Lagna vs Moon sign is one of the first distinctions worth learning in Vedic astrology. Both are calculated from your birth data — not guessed from a magazine column — yet they describe different layers of the chart. Lagna (Ascendant) is the sign rising on the eastern horizon at birth; Moon sign (Chandra rashi) is the sidereal sign occupied by the Moon at that same moment. Understanding both calmly prevents the common mistake of treating one label as your entire identity.",
       "Lagna is the anchor of the house system in whole-sign Jyotish. It sets the first house and therefore assigns every planet to a life domain: career, marriage, health, wealth and so on. Physically and temperamentally, Lagna relates to the body, vitality, first impressions and the default lens through which you meet new situations. Because the Ascendant moves through all twelve signs in roughly twenty-four hours, it is the most time-sensitive point in the chart — which is why birth time accuracy matters so much.",
       "Moon sign describes the mind (manas): emotional habits, memory, nourishment, instinctive reactions and how you process experience inwardly. In daily life many people recognise their Moon sign qualities more quickly than Lagna themes, because feelings arrive before abstract purpose. Your Moon's nakshatra also starts the Vimshottari dasha sequence, linking Moon sign to life-period timing even when house-based topics are read from Lagna.",
@@ -87,20 +29,19 @@ export const blogPosts: BlogPost[] = [
       "What not to conclude: do not rank Moon sign as \"more true\" because it feels familiar, and do not ignore birth time and treat Moon sign as your only sign. Without accurate time, house-based predictions — career from the tenth, marriage from the seventh, children from the fifth — become unreliable. Also avoid fatalism: Lagna vs Moon sign differences describe tendencies, not fixed destiny.",
       "Another common error is comparing Vedic Moon sign to a Western tropical Sun sign from a horoscope column. They are different systems. Your Vedic chart is calculated sidereally; a newspaper Sun sign is often tropical and Sun-based only. Comparing labels across systems without conversion creates confusion that has nothing to do with your actual kundli.",
       "A balanced self-study session names Lagna, Moon sign and Sun sign, notes the active Mahadasha and Antardasha, and checks one or two relevant transits. That layered approach respects tradition and gives you actionable language — not a single label to carry as fate. Jyotish works best when it clarifies choices and timing, not when it triggers fear.",
+      "Ready to see your own Lagna and Moon sign together? Generate a free Vedic Kundli with your date, time and place of birth at /en/kundli — calculated with Lahiri ayanamsa, not guessed. For deeper study of the Ascendant, visit /en/learn/lagna. Bring your chart to /en/chat-with-astrologer when you want a calm second opinion on how Lagna and Moon sign interact in your life.",
       "Q: Which is more important — Lagna or Moon sign? A: Neither replaces the other. Lagna drives houses and physical life structure; Moon sign drives mind, emotions and dasha starting point. Full-chart reading uses both, plus Sun sign, dasha and transits. Treating one as supreme oversimplifies Jyotish.",
       "Q: Can my Lagna and Moon sign be the same? A: Yes. When they match, body and mind themes may express more uniformly — though house placements of planets still diversify the picture. When they differ, you may feel an inner contrast between how you appear (Lagna) and how you feel (Moon), which is normal and readable in the chart.",
       "Q: Why does my Vedic Moon sign differ from my Western sign? A: Vedic astrology uses the sidereal zodiac with ayanamsa correction; Western tropical astrology ties signs to seasons. The systems have drifted apart over centuries. Your Vedic Moon sign is calculated from actual star positions — compare like with like when learning.",
-      "Ready to see your own Lagna and Moon sign together? Generate a free Vedic Kundli with your date, time and place of birth at /en/kundli — calculated with Lahiri ayanamsa, not guessed. For deeper study of the Ascendant, visit /en/learn/lagna. Bring your chart to /en/chat-with-astrologer when you want a calm second opinion on how Lagna and Moon sign interact in your life.",
     ],
   },
   {
-    slug: "lagna-vs-rashi",
-    locale: "hi",
-    title: "लग्न बनाम चंद्र राशि: वैदिक चार्ट में क्या दिखता है",
-    description:
-      "लग्न बनाम चंद्र राशि — वैदिक ज्योतिष में उदय और चंद्र राशि का अंतर, शरीर और मन क्या दर्शाते हैं; दोनों को संतुलित और गणना-आधारित पढ़ना कैसे सीखें।",
-    date: "2026-03-08",
-    content: [
+    "slug": "lagna-vs-rashi",
+    "locale": "hi",
+    "title": "लग्न बनाम चंद्र राशि: वैदिक चार्ट में क्या दिखता है",
+    "description": "लग्न बनाम चंद्र राशि — वैदिक ज्योतिष में उदय और चंद्र राशि का अंतर, शरीर और मन क्या दर्शाते हैं; दोनों को संतुलित और गणना-आधारित पढ़ना कैसे सीखें।",
+    "date": "2026-03-08",
+    "content": [
       "लग्न बनाम चंद्र राशि वैदिक ज्योतिष में सबसे पहले सीखने योग्य अंतरों में से एक है। दोनों आपके जन्म विवरण से गणना होते हैं — पत्रिका स्तंभ से अनुमान नहीं — फिर भी चार्ट की अलग परतें बताते हैं। लग्न (उदय) जन्म क्षण में पूर्व क्षितिज पर उदय होती राशि है; चंद्र राशि उसी क्षण चंद्रमा की निरयण राशि है। दोनों को शांत समझने से एक लेबल को पूरी पहचान मानने की सामान्य गलती टलती है।",
       "लग्न पूर्ण-राशि ज्योतिष में भाव प्रणाली का लंगर है। यह प्रथम भाव तय करता है और हर ग्रह को जीवन क्षेत्र — करियर, विवाह, स्वास्थ्य, धन — में रखता है। शारीरिक और स्वभाव से लग्न शरीर, जीवन शक्ति, पहली छाप और नई परिस्थितियों से मिलने के तरीके से जुड़ा है। उदय लगभग चौबीस घंटे में बारह राशियों से गुजरता है, इसलिए यह सबसे समय-संवेदनशील बिंदु है — जन्म समय की सटीकता इसीलिए महत्वपूर्ण है।",
       "चंद्र राशि मन (मानस) बताती है: भावनात्मक आदत, स्मृति, पोषण, सहज प्रतिक्रिया और अनुभव को भीतर से कैसे पचाया जाता है। दैनिक जीवन में कई लोग चंद्र राशि के गुण लग्न से पहले पहचानते हैं, क्योंकि भावना उद्देश्य से पहले आती है। चंद्र का नक्षत्र विंशोत्तरी दशा क्रम भी शुरू करता है, इसलिए चंद्र राशि जीवन काल समय से जुड़ी रहती है, भले भाव-विषय लग्न से पढ़े जाएँ।",
@@ -114,20 +55,19 @@ export const blogPosts: BlogPost[] = [
       "क्या निष्कर्ष न निकालें: चंद्र राशि को \"अधिक सच\" न मानें क्योंकि परिचित लगती है, और जन्म समय नज़रअंदाज़ करके केवल चंद्र राशि को अपनी एकमात्र राशि न मानें। सटीक समय के बिना भाव-आधारित भविष्यवाणी — दशम से करियर, सप्तम से विवाह, पंचम से संतान — कम विश्वसनीय। भाग्यवाद से भी बचें: लग्न बनाम चंद्र राशि अंतर प्रवृत्ति बताते हैं, अटल भाग्य नहीं।",
       "एक और सामान्य भ्रम: वैदिक चंद्र राशि की तुलना पश्चिमी ट्रॉपिकल सूर्य राशि से करना। ये अलग प्रणालियाँ हैं। वैदिक चार्ट निरयण से गणित; अखबारी सूर्य राशि अक्सर ट्रॉपिकल और केवल सूर्य-आधारित। बिना रूपांतरण प्रणालियों के लेबल तुलना करने से भ्रम होता है, जो आपकी वास्तविक कुंडली से असंबंधित है।",
       "संतुलित स्व-अध्ययन सत्र लग्न, चंद्र और सूर्य राशि नामित करता है, सक्रिय महादशा और अंतरदशा नोट करता है, एक-दो प्रासंगिक गोचर देखता है। यह परंपरा का सम्मान करता है और कार्य योग्य भाषा देता है — भाग्य के रूप में एक लेबल नहीं। ज्योतिष तब सर्वोत्तम जब वह विकल्प और समय स्पष्ट करे, भय न उगाहे।",
+      "अपना लग्न और चंद्र राशि एक साथ देखने के लिए तैयार? जन्म तिथि, समय और स्थान से /hi/kundli पर मुफ्त वैदिक कुंडली बनाएँ — लाहिरी अयनांश से गणना, अनुमान नहीं। उदय के गहन अध्ययन के लिए /hi/learn/lagna देखें। शांत दूसरी राय के लिए /hi/chat-with-astrologer पर अपना चार्ट लाएँ।",
       "प्र: लग्न या चंद्र राशि — कौन अधिक महत्वपूर्ण? उ: कोई दूसरे की जगह नहीं लेता। लग्न भाव और शारीरिक संरचना; चंद्र राशि मन, भावना और दशा आरंभ। पूर्ण पठन में दोनों, सूर्य राशि, दशा और गोचर — एक को सर्वोच्च मानना ज्योतिष को सरल बनाता है।",
       "प्र: क्या मेरा लग्न और चंद्र राशि समान हो सकते हैं? उ: हाँ। मेल खाने पर शरीर और मन विषय एकरूप प्रकट हो सकते हैं — पर ग्रह भाव स्थिति चित्र विविध रखती है। अलग होने पर उदय (लग्न) और भाव (चंद्र) के बीच आंतरिक अंतर सामान्य और चार्ट में पढ़ने योग्य है।",
       "प्र: वैदिक चंद्र राशि पश्चिमी राशि से क्यों भिन्न? उ: वैदिक ज्योतिष निरयण राशि और अयनांश शोध उपयोग करता है; पश्चिमी ट्रॉपिकल ऋतुओं से जोड़ता है। सदियों में दोनों अलग हो गए। वैदिक चंद्र राशि वास्तविक तारा स्थिति से गणना — सीखते समय समान प्रणाली की तुलना करें।",
-      "अपना लग्न और चंद्र राशि एक साथ देखने के लिए तैयार? जन्म तिथि, समय और स्थान से /hi/kundli पर मुफ्त वैदिक कुंडली बनाएँ — लाहिरी अयनांश से गणना, अनुमान नहीं। उदय के गहन अध्ययन के लिए /hi/learn/lagna देखें। शांत दूसरी राय के लिए /hi/chat-with-astrologer पर अपना चार्ट लाएँ।",
     ],
   },
   {
-    slug: "vimshottari-dasha-basics",
-    locale: "en",
-    title: "Vimshottari Dasha Explained: Life Period Timing Basics",
-    description:
-      "Vimshottari dasha explained: how the 120-year cycle starts from Moon nakshatra, Mahadasha and Antardasha work, and how to read life timing in your chart calmly.",
-    date: "2026-03-15",
-    content: [
+    "slug": "vimshottari-dasha-basics",
+    "locale": "en",
+    "title": "Vimshottari Dasha Explained: Life Period Timing Basics",
+    "description": "Vimshottari dasha explained: how the 120-year cycle starts from Moon nakshatra, Mahadasha and Antardasha work, and how to read life timing in your chart calmly.",
+    "date": "2026-03-15",
+    "content": [
       "Vimshottari dasha explained simply: it is the most widely used life-period system in North Indian Jyotish, mapping when chart themes are more likely to surface. Your birth kundli describes tendencies; dasha describes timing — calculated from the Moon's nakshatra at birth, not guessed from a calendar. This guide covers how the cycle works, practical reading steps, common mistakes, and calm ways to explore your timing.",
       "The full Vimshottari cycle spans 120 years, divided among nine grahas in a fixed order: Ketu 7 years, Venus 20, Sun 6, Moon 10, Mars 7, Rahu 18, Jupiter 16, Saturn 19 and Mercury 17. No one lives through all periods; the sequence begins at birth and continues through life. Each planet's chapter colours experience with its natural significations — discipline for Saturn, expansion for Jupiter, desire and disruption for Rahu, and so on.",
       "The starting point is the Moon's nakshatra at birth — each of the twenty-seven nakshatras is ruled by a planet that begins the sequence. Software calculates how much of that planet's Mahadasha remains based on the Moon's exact degree within the nakshatra. Birth time precision therefore affects dasha start, not only Lagna. A few minutes can shift the balance of the opening period when the Moon sits near a nakshatra boundary.",
@@ -143,20 +83,19 @@ export const blogPosts: BlogPost[] = [
       "What not to conclude: do not treat dasha as fate that removes agency. Favourable Venus periods still need communication and choice; challenging Saturn periods can build lasting structure if you cooperate with discipline. Avoid panic purchases of remedies the moment a \"bad dasha\" is named — timing awareness should clarify effort, not trigger fear spending.",
       "Also avoid comparing your dasha to someone else's as if longer Venus always means better life. Chart quality, effort and context differ. Online calculators display periods; interpretation requires seeing the whole kundli — Lagna, yogas, transits and divisional charts for marriage or career when events matter.",
       "For event-level timing — marriage window, job change, relocation — consult an astrologer who combines dasha, transits and divisional charts such as Navamsa (D9) for relationships or Dashamsa (D10) for career. Calculated dasha tables show the seasons; skilled reading shows how those seasons meet your unique chart without fear or fatalism.",
+      "Explore your current periods with calculated precision at /en/calculators/vimshottari-dasha or generate a full kundli at /en/kundli that includes Mahadasha and Antardasha tables. For structured learning, visit /en/learn/nakshatras — dasha begins from the Moon's nakshatra. Questions about your active chapter are welcome at /en/chat-with-astrologer. Bring your birth time and place so results stay calculated, not guessed.",
       "Q: How is Vimshottari dasha calculated? A: From the Moon's nakshatra at birth. Each nakshatra has a ruling planet; software computes the remaining balance of that planet's Mahadasha from the Moon's exact degree, then follows the fixed nine-planet sequence for life.",
       "Q: Can dasha change if birth time is wrong? A: Yes, especially near nakshatra boundaries or when time error shifts the Moon's nakshatra. Even small shifts change the opening balance. Use the most accurate birth time available and note uncertainty when timing is critical.",
       "Q: Is Rahu or Saturn dasha always difficult? A: No. Results depend on house rulership, placement, aspects and transits for your Lagna. Generic fear labels mislead. Read each period through your full chart with calm, chart-specific analysis.",
-      "Explore your current periods with calculated precision at /en/calculators/vimshottari-dasha or generate a full kundli at /en/kundli that includes Mahadasha and Antardasha tables. For structured learning, visit /en/learn/nakshatras — dasha begins from the Moon's nakshatra. Questions about your active chapter are welcome at /en/chat-with-astrologer. Bring your birth time and place so results stay calculated, not guessed.",
     ],
   },
   {
-    slug: "vimshottari-dasha-basics",
-    locale: "hi",
-    title: "विंशोत्तरी दशा समझें: जीवन काल समय की शांत मार्गदर्शिका",
-    description:
-      "विंशोत्तरी दशा — 120 वर्ष चक्र चंद्र नक्षत्र से कैसे शुरू होता है, महादशा और अंतरदशा कैसे काम करती हैं, और अपने चार्ट में समय कैसे शांत और गणना-आधारित पढ़ें।",
-    date: "2026-03-15",
-    content: [
+    "slug": "vimshottari-dasha-basics",
+    "locale": "hi",
+    "title": "विंशोत्तरी दशा समझें: जीवन काल समय की शांत मार्गदर्शिका",
+    "description": "विंशोत्तरी दशा — 120 वर्ष चक्र चंद्र नक्षत्र से कैसे शुरू होता है, महादशा और अंतरदशा कैसे काम करती हैं, और अपने चार्ट में समय कैसे शांत और गणना-आधारित पढ़ें।",
+    "date": "2026-03-15",
+    "content": [
       "विंशोत्तरी दशा सरल शब्दों में: उत्तर भारतीय ज्योतिष में सबसे अधिक प्रचलित जीवन काल प्रणाली, जो बताती है चार्ट विषय कब अधिक प्रकट होने की संभावना है। जन्म कुंडली प्रवृत्ति बताती है; दशा समय — जन्म के चंद्र नक्षत्र से गणना, कैलेंडर से अनुमान नहीं। महादशा और अंतरदशा शांत समझने से योजना बिना भय के होती है।",
       "पूर्ण विंशोत्तरी चक्र 120 वर्ष का है, नौ ग्रहों में निश्चित क्रम से: केतु 7, शुक्र 20, सूर्य 6, चंद्र 10, मंगल 7, राहु 18, गुरु 16, शनि 19, बुध 17। कोई सभी अवधियाँ नहीं जीता; क्रम जन्म से शुरू होकर जीवन भर चलता है। प्रत्येक ग्रह का अध्याय अपने प्राकृतिक कारकों से अनुभव रंगता है — शनि से अनुशासन, गुरु से विस्तार, राहु से इच्छा और उथल-पुथल।",
       "आरंभ बिंदु जन्म के चंद्र नक्षत्र है — सत्ताईस नक्षत्रों में से प्रत्येक का स्वामी ग्रह होता है जो क्रम शुरू करता है। सॉफ्टवेयर नक्षत्र के भीतर चंद्र के सटीक अंश से उस ग्रह की महादशा का शेष भाग गणित करता है। इसलिए जन्म समय की सटीकता दशा आरंभ को प्रभावित करती है, केवल लग्न को नहीं। नक्षत्र सीमा पर कुछ मिनट प्रारंभिक अवधि बदल सकते हैं।",
@@ -170,21 +109,20 @@ export const blogPosts: BlogPost[] = [
       "व्यवहार में वर्तमान महादशा और अंतरदशा नोट करें, फिर पूछें वे ग्रह आपके चार्ट में कौन-से भाव के स्वामी और निवासी हैं। गुरु महादशा में बुध अंतरदशा अलग विषय जोर देती है यदि बुध चतुर्थ का स्वामी बनाम अष्टम का। दशा स्वामी को भाव कारक से जोड़ें।",
       "क्या निष्कर्ष न निकालें: दशा को ऐसा भाग्य न मानें जो सक्रियता हटा दे। अनुकूल शुक्र काल में भी संवाद और विकल्प चाहिए; चुनौतीपूर्ण शनि काल अनुशासन के साथ स्थायी संरचना बना सकता है। \"बुरी दशा\" सुनते ही उपाय की घबराहट खरीदारी से बचें — समय जागरूकता प्रयास स्पष्ट करे, भय खर्च न उगाहे।",
       "अपनी दशा की तुलना दूसरे से न करें जैसे लंबा शुक्र हमेशा बेहतर जीवन। चार्ट गुण, प्रयास और संदर्भ अलग। ऑनलाइन कैलकुलेटर अवधि दिखाते; व्याख्या पूरी कुंडली चाहती है — लग्न, योग, गोचर और विवाह या करियर के लिए वर्ग चार्ट।",
+      "गणना-आधारित सटीकता से वर्तमान अवधि देखें: /hi/calculators/vimshottari-dasha या /hi/kundli पर पूर्ण कुंडली — महादशा और अंतरदशा सारणी सहित। संरचित सीखने के लिए /hi/learn/nakshatras — दशा चंद्र नक्षत्र से शुरू। सक्रिय अध्याय पर प्रश्न /hi/chat-with-astrologer पर।",
       "प्र: विंशोत्तरी दशा की गणना कैसे? उ: जन्म के चंद्र नक्षत्र से। प्रत्येक नक्षत्र का स्वामी ग्रह; सॉफ्टवेयर चंद्र के सटीक अंश से महादशा शेष गणित करता है, फिर नौ-ग्रह क्रम जीवन भर।",
       "प्र: गलत जन्म समय से दशा बदल सकती है? उ: हाँ, विशेषकर नक्षत्र सीमा पर या समय त्रुटि से नक्षत्र बदलने पर। छोटा अंतर भी प्रारंभिक शेष बदलता है। यथासंभव सटीक समय उपयोग करें; महत्वपूर्ण समय पर अनिश्चितता नोट करें।",
       "प्र: क्या राहु या शनि दशा हमेशा कठिन? उ: नहीं। परिणाम भाव स्वामित्व, स्थिति, दृष्टि और गोचर पर निर्भर — आपके लग्न के लिए। सामान्य भय लेबल भ्रामक। प्रत्येक अवधि पूर्ण चार्ट से शांत, विशिष्ट विश्लेषण से पढ़ें।",
-      "गणना-आधारित सटीकता से वर्तमान अवधि देखें: /hi/calculators/vimshottari-dasha या /hi/kundli पर पूर्ण कुंडली — महादशा और अंतरदशा सारणी सहित। संरचित सीखने के लिए /hi/learn/nakshatras — दशा चंद्र नक्षत्र से शुरू। सक्रिय अध्याय पर प्रश्न /hi/chat-with-astrologer पर।",
     ],
   },
   {
-    slug: "when-to-seek-upchaar",
-    locale: "en",
-    title: "Astrology Remedies When to Seek: A Calm Jyotish Guide",
-    description:
-      "Astrology remedies when to seek: when mantra, charity, lifestyle and gems help in Jyotish, when to consult an astrologer, and how to avoid fear-based over-use.",
-    date: "2026-03-22",
-    content: [
-      "Astrology remedies when to seek is a practical question every Jyotish student eventually asks. Upchaar — mantra, charity, seva, lifestyle alignment and sometimes gemstones — are meant to support effort and mindset, not replace medicine, legal counsel or financial planning. This calm guide explains when upchaar helps, when to consult, what to avoid, and how to keep remedial work chart-specific and calculated rather than fear-driven.",
+    "slug": "when-to-seek-upchaar",
+    "locale": "en",
+    "title": "Astrology Remedies When to Seek: A Calm Jyotish Guide",
+    "description": "Astrology remedies when to seek: when mantra, charity, lifestyle and gems help in Jyotish, when to consult an astrologer, and how to avoid fear-based over-use.",
+    "date": "2026-03-22",
+    "content": [
+      "Astrology remedies when to seek is a practical question every Jyotish student eventually asks. Upchaar — mantra, charity, seva, lifestyle alignment and sometimes gemstones — are meant to support effort and mindset, not replace medicine, legal counsel or financial planning. This calm guide explains when upchaar helps, when to consult, what to avoid, and how to keep remedial work chart-specific and calculated.",
       "The first principle is chart specificity. A remedy helpful for Aries Lagna may not suit Virgo Lagna. Gemstones especially need caution: strengthening a planet that rules difficult houses can amplify problems rather than solve them. Never wear a ruby for the Sun or blue sapphire for Saturn without knowing whether that planet acts as functional benefic for your Ascendant — that judgement comes from the chart, not a generic list. The same rule applies to mantra intensity and charity type: match the planet, house and dasha you are supporting.",
       "Mantra japa — repetitive sacred sound — is among the safest broad remedies when pronunciation and intention are respectful. Planet or deity mantras traditionally align the mind with subtler rhythms. Consistency over months matters more than frantic seven-day bursts after a scary prediction. Mantra supports inner steadiness; it does not override another person's free will or guarantee lottery outcomes — results follow sustained practice, not panic.",
       "Charity (daan) directs planetary energy outward through generosity. Donating items associated with Saturn — oil, black sesame, service to elders — on Saturdays, or supporting students for Mercury themes, follows traditional correspondences. The spirit is humility and service, not transactional bribery of fate. Regular small acts often outperform one expensive ritual done in panic, and they keep remedial work aligned with character rather than fear.",
@@ -198,20 +136,19 @@ export const blogPosts: BlogPost[] = [
       "Children and education themes link to the fifth house and Jupiter. Remedies here may involve study discipline, mentoring others or supporting children's learning — not only temple visits. Context from the full chart distinguishes delay from denial, and dasha periods show when such themes intensify. Patience plus consistent effort usually outlasts symbolic fixes without follow-through.",
       "What not to conclude: do not treat remedies as magic shields against all difficulty. Do not assume one gemstone fixes a complex chart pattern. Do not perform remedies from terror after a single alarming reading without second opinion. Fear-based remedy shopping — urgent expensive puja to avert unnamed disaster — is a red flag. Pause, verify your chart, seek calm guidance.",
       "Online kundli flags — Mangal dosha, Kaalsarp mentions, Sade Sati phases — are conversation starters, not automatic shopping lists. Personalised prioritisation in consultation prevents doing many remedies poorly. Track results over months — better sleep, steadier discipline, fewer reactive arguments — and remember upchaar deepens agency through symbol and habit, not fear-driven spending or superstition overload.",
+      "If your chart shows challenging yogas or you enter a heavy Saturn or Rahu period, a short consultation can prioritise what actually helps for your Lagna and current dasha. Visit /en/chat-with-astrologer with your birth details. Review your chart at /en/kundli, learn remedial context at /en/learn/planets, and keep expectations grounded in effort plus time — calm consistency beats fear-driven ritual overload every time.",
       "Q: Should I wear gemstones without consultation? A: Not recommended. Gems strengthen planetary energies; if that planet rules difficult houses for your Lagna, effects can backfire. Chart-specific advice from a qualified astrologer is safer than shop recommendations or fear-based sales.",
       "Q: Can remedies replace medical treatment? A: No. Jyotish may highlight stress periods; mantra, charity or lifestyle may support wellbeing alongside professional care. Never delay diagnosis or treatment because a remedy was suggested.",
       "Q: How long before remedies show results? A: Traditional guidance looks at months of consistent practice — mantra, seva, habit change — not days. Subtle improvements in mood, discipline and relationships are realistic; guaranteed instant wealth, reconciliation or career jumps are not. Remedies support the work you already owe to your goals.",
-      "Start with your calculated chart, not fear. Review your kundli at /en/kundli, learn remedial context at /en/learn/planets, check your current dasha at /en/calculators/vimshottari-dasha, and visit /en/chat-with-astrologer when you want one or two chart-specific supports prioritised calmly.",
     ],
   },
   {
-    slug: "when-to-seek-upchaar",
-    locale: "hi",
-    title: "ज्योतिष उपाय कब लें: शांत और संतुलित उपचार मार्गदर्शन",
-    description:
-      "ज्योतिष उपाय कब लें — मंत्र, दान, जीवनशैली और रत्न कब सहायक हैं, परामर्श कब लें, और भय-आधारित अति-उपाय से कैसे बचें; गणना और संतुलन पर आधारित शांत दृष्टि।",
-    date: "2026-03-22",
-    content: [
+    "slug": "when-to-seek-upchaar",
+    "locale": "hi",
+    "title": "ज्योतिष उपाय कब लें: शांत और संतुलित उपचार मार्गदर्शन",
+    "description": "ज्योतिष उपाय कब लें — मंत्र, दान, जीवनशैली और रत्न कब सहायक हैं, परामर्श कब लें, और भय-आधारित अति-उपाय से कैसे बचें; गणना और संतुलन पर आधारित शांत दृष्टि।",
+    "date": "2026-03-22",
+    "content": [
       "ज्योतिष उपाय कब लें — यह प्रश्न हर गंभीर अध्ययनकर्ता पूछता है। उपचार — मंत्र, दान, सेवा, जीवनशैली और कभी-कभी रत्न — प्रयास और मनोदशा का सहारा हैं, चिकित्सा, कानूनी या वित्तीय योजना का विकल्प नहीं। शास्त्र उपचारात्मक उपकरण देते हैं; शांत उपयोग कुंडली-विशिष्टता और यथार्थवादी अपेक्षा चाहता है — भय से नहीं, गणना से।",
       "पहला सिद्धांत कुंडली-विशिष्टता। मेष लग्न को सहायक उपाय कन्या लग्न को अनुकूल न भी हो। रत्न विशेष सावधानी: कठिन भावों का स्वामी ग्रह मजबूत करने से समस्या बढ़ सकती है। यह जाने बिना सूर्य के लिए माणिक्य या शनि के लिए नीलम न पहनें कि वह ग्रह आपके उदय के लिए कारक शुभ है — निर्णय चार्ट से, सामान्य सूची से नहीं।",
       "मंत्र जप — पवित्र ध्वनि का पुनरावृत्ति — उच्चारण और संकल्प के सम्मान के साथ सबसे सुरक्षित व्यापक उपायों में है। ग्रह या देवता मंत्र परंपरा में मन को सूक्ष्म लय से मिलाते हैं। डरावनी भविष्यवाणी के बाद सात दिन की हड़बड़ी से अधिक महीनों की नियमितता। मंत्र भीतरी स्थिरता सहारा देता है; दूसरे की इच्छा नहीं थोपता, लॉटरी गारंटी नहीं।",
@@ -225,25 +162,92 @@ export const blogPosts: BlogPost[] = [
       "करियर और व्यापार उपाय अक्सर बुध (व्यापार, संचार), गुरु (विस्तार, ज्ञान), शनि (संरचना, दृढ़ता) पर जोर। स्पष्ट दशा और गोचर खिड़की में उद्यम शुरू केवल प्रतीकात्मक से बेहतर। उपचार कौशल, संपर्क और वित्त योजना के साथ — चार्ट ऋतु दिखाता, कर्म फसल काटता।",
       "क्या निष्कर्ष न निकालें: उपाय को सभी कठिनाई से ढाल न मानें। एक रत्न जटिल चार्ट ठीक कर दे — ऐसा न सोचें। एक डरावनी पठन के बाद बिना दूसरी राय उपाय न करें। भय-आधारित उपाय खरीद — अनाम आपदा टालने तत्काल महँगी पूजा — चेतावनी। रुकें, चार्ट सत्यापित करें, शांत मार्गदर्शन लें।",
       "ऑनलाइन कुंडली ध्वज — मंगल दोष, कालसर्प, साढ़े साती — बातचीत के प्रारंभ बिंदु, स्वचालित खरीद सूची नहीं। परामर्श में व्यक्तिगत प्राथमिकता कई खराब उपाय से बचाती। महीनों में यथार्थवादी परिणाम: बेहतर नींद, कम प्रतिक्रियाशील झगड़े, अनुशासन से स्थिर आय — सूक्ष्म बदलाव, रातों-रात चमत्कार नहीं।",
+      "यदि चार्ट चुनौती योग दिखाए या भारी शनि/राहु काल आए, संक्षिप्त परामर्श प्राथमिकता तय कर सकता है — आपके लग्न और दशा के अनुसार। /hi/chat-with-astrologer पर जन्म विवरण लाएँ। /hi/kundli पर चार्ट देखें, /hi/learn/planets पर संदर्भ सीखें, अपेक्षा प्रयास और समय में स्थिर रखें।",
       "प्र: बिना परामर्श रत्न पहनें? उ: अनुशंसित नहीं। रत्न ग्रह ऊर्जा मजबूत करते; यदि वह ग्रह कठिन भावों का स्वामी, प्रभाव उलट भी सकता। योग्य ज्योतिषी की चार्ट-विशिष्ट सलाह दुकान या भय बिक्री से सुरक्षित।",
       "प्र: क्या उपाय चिकित्सा का विकल्प? उ: नहीं। ज्योतिष तनाव काल दिखा सकता; मंत्र, दान या जीवनशैली पेशेवर देखभाल के साथ सहायक — उसके बजाय कभी नहीं। निदान या उपचार उपाय के कारण न टालें।",
       "प्र: उपाय के परिणाम कब? उ: परंपरा महीनों की नियमित साधना — मंत्र, सेवा, आदत — देखती है, दिन नहीं। मनोदशा, अनुशासन, संबंध में सूक्ष्म सुधार यथार्थवादी; तत्काल धन या मिलन का वादा नहीं।",
-      "गणना से शुरू करें, भय से नहीं। /hi/kundli पर चार्ट देखें, /hi/learn/planets पर उपचार संदर्भ सीखें, /hi/calculators/vimshottari-dasha पर वर्तमान दशा जाँचें, और /hi/chat-with-astrologer पर एक-दो कुंडली-विशिष्ट सहायक शांत प्राथमिकता के लिए आएँ।",
     ],
   },
+]
+# fmt: on
+
+REPLACE_SLUGS = {
+  "lagna-vs-rashi",
+  "vimshottari-dasha-basics",
+  "when-to-seek-upchaar",
+}
 
 
+def escape_ts_string(value: str) -> str:
+  return value.replace("\\", "\\\\").replace('"', '\\"')
 
 
+def post_to_ts(post: dict) -> str:
+  lines = [
+    "  {",
+    f'    slug: "{post["slug"]}",',
+    f'    locale: "{post["locale"]}",',
+    f'    title: "{escape_ts_string(post["title"])}",',
+    "    description:",
+    f'      "{escape_ts_string(post["description"])}",',
+    f'    date: "{post["date"]}",',
+    "    content: [",
+  ]
+  for paragraph in post["content"]:
+    lines.append(f'      "{escape_ts_string(paragraph)}",')
+  lines.append("    ],")
+  lines.append("  },")
+  return "\n".join(lines)
 
 
+def find_replacement_bounds(content: str) -> tuple[int, int]:
+  start_marker = '  {\n    slug: "lagna-vs-rashi",'
+  start = content.index(start_marker)
+  end_pattern = re.compile(
+    r'  \{\n    slug: "when-to-seek-upchaar",\n    locale: "hi",.*?\n  \},',
+    re.DOTALL,
+  )
+  match = end_pattern.search(content, start)
+  if not match:
+    raise ValueError("Could not find end boundary for when-to-seek-upchaar (hi)")
+  return start, match.end()
 
 
+def count_words(text: str) -> int:
+  return len(re.findall(r"\b[\w'-]+\b", text, flags=re.UNICODE))
 
 
+def main() -> None:
+  content = POSTS_PATH.read_text(encoding="utf-8")
+  start, end = find_replacement_bounds(content)
+  replacement = "\n".join(post_to_ts(post) for post in POSTS) + "\n"
+  new_content = content[:start] + replacement + content[end:]
+
+  untouched = re.search(
+    r'slug: "what-is-vedic-kundli"[\s\S]*?locale: "en"[\s\S]*?date: "2026-03-01"',
+    new_content,
+  )
+  if not untouched:
+    raise ValueError("what-is-vedic-kundli entry missing or altered")
+
+  POSTS_PATH.write_text(new_content, encoding="utf-8")
+  print(f"Updated {POSTS_PATH}")
+  print()
+
+  for post in POSTS:
+    slug = post["slug"]
+    loc = post["locale"]
+    paras = len(post["content"])
+    title_len = len(post["title"])
+    desc_len = len(post["description"])
+    print(f"{slug} ({loc}): {paras} paragraphs | title={title_len} desc={desc_len}")
+    if loc == "en":
+      words = count_words("\n".join(post["content"]))
+      print(f"  EN word count: {words}")
+
+  print()
+  print("Done")
 
 
-
-
-
-];
+if __name__ == "__main__":
+  main()

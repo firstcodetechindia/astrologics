@@ -399,14 +399,95 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
     { en: "Sun Sign Calculator", hi: "सूर्य राशि कैलकुलेटर" },
     { en: "Sun sign", hi: "सूर्य राशि" }
   ),
-  nakshatra: genericContent(
-    { en: "Nakshatra Calculator", hi: "नक्षत्र कैलकुलेटर" },
-    { en: "birth nakshatra", hi: "जन्म नक्षत्र" }
-  ),
-  lagna: genericContent(
-    { en: "Lagna Calculator", hi: "लग्न कैलकुलेटर" },
-    { en: "ascendant / Lagna", hi: "लग्न" },
-    [
+  nakshatra: {
+    h1: { en: "Nakshatra Calculator", hi: "नक्षत्र कैलकुलेटर" },
+    seoTitle: {
+      en: "Nakshatra Calculator — Find Birth Star Free",
+      hi: "नक्षत्र कैलकुलेटर — मुफ्त जन्म नक्षत्र",
+    },
+    seoDescription: {
+      en: "Find your Vedic birth Nakshatra free by date, time and place. See pada, ruling planet and how it starts Vimshottari dasha.",
+      hi: "जन्म तिथि-समय-स्थान से मुफ्त वैदिक जन्म नक्षत्र जानें। पद, स्वामी ग्रह और विंशोत्तरी दशा आरंभ समझें।",
+    },
+    intro: {
+      en: "Your birth Nakshatra is usually the lunar mansion occupied by the Moon at birth — one of 27 segments of 13°20′ each. It refines temperament and starts the Vimshottari dasha sequence.",
+      hi: "जन्म नक्षत्र प्रायः जन्म के समय चंद्र की नक्षत्र मंज़िल है — 27 खंड, प्रत्येक 13°20′। यह स्वभाव परिष्कृत करता है और विंशोत्तरी दशा शुरू करता है।",
+    },
+    promo: {
+      text: { en: "Want a full birth chart with houses, yogas and dasha?", hi: "भाव, योग और दशा सहित पूरी जन्म कुंडली चाहिए?" },
+      cta: { en: "Open free kundli →", hi: "मुफ्त कुंडली खोलें →" },
+      href: "/kundli",
+    },
+    sections: [
+      {
+        title: { en: "What Nakshatras are", hi: "नक्षत्र क्या हैं" },
+        body: {
+          en: "Nakshatras are 27 lunar mansions that divide the sidereal zodiac more finely than the 12 signs. Each has a deity, symbolism and ruling planet used in naming traditions, muhurta and personality nuance.",
+          hi: "नक्षत्र 27 चंद्र मंज़िलें हैं जो निरयण राशिचक्र को 12 राशियों से सूक्ष्म विभाजित करती हैं। प्रत्येक का देवता, प्रतीक और स्वामी ग्रह नामकरण, मुहूर्त व स्वभाव में उपयोग होता है।",
+        },
+      },
+      {
+        title: { en: "Pada and dasha link", hi: "पद और दशा संबंध" },
+        body: {
+          en: "Each Nakshatra has four padas (quarters). The Moon’s Nakshatra at birth also determines which planet’s Mahadasha begins your Vimshottari timeline — a key timing tool in Jyotish.",
+          hi: "प्रत्येक नक्षत्र के चार पद होते हैं। जन्म चंद्र नक्षत्र तय करता है कि विंशोत्तरी महादशा किस ग्रह से शुरू होगी — ज्योतिष की प्रमुख समय प्रणाली।",
+        },
+      },
+    ],
+    faqs: [
+      {
+        q: { en: "Is birth Nakshatra always from the Moon?", hi: "क्या जन्म नक्षत्र हमेशा चंद्र से होता है?" },
+        a: {
+          en: "Yes in most classical contexts — Moon Nakshatra is the standard birth star for dasha and many naming customs.",
+          hi: "अधिकांश शास्त्रीय संदर्भ में हाँ — चंद्र नक्षत्र दशा और कई नामकरण परंपराओं का मानक जन्म नक्षत्र है।",
+        },
+      },
+    ],
+    disclaimer: DEFAULT_DISCLAIMER,
+  },
+  lagna: {
+    h1: { en: "Lagna (Ascendant) Calculator", hi: "लग्न कैलकुलेटर" },
+    seoTitle: {
+      en: "Lagna Calculator — Find Your Ascendant Free",
+      hi: "लग्न कैलकुलेटर — मुफ्त उदय राशि जानें",
+    },
+    seoDescription: {
+      en: "Find your Vedic Lagna (Ascendant) free by birth date, time and place. See why rising sign sets your whole-sign house chart.",
+      hi: "जन्म तिथि, समय और स्थान से मुफ्त वैदिक लग्न जानें। उदय राशि पूरी भाव कुंडली कैसे तय करती है, समझें।",
+    },
+    intro: {
+      en: "Lagna is the zodiac sign rising on the eastern horizon at birth. It sets the first house in whole-sign Jyotish and frames how every other house is read. Enter accurate birth time for a free Lahiri result.",
+      hi: "लग्न जन्म के समय पूर्व क्षितिज पर उदय राशि है। पूर्ण-राशि ज्योतिष में यही प्रथम भाव तय करती है। सटीक जन्म समय से मुफ्त लाहिरी परिणाम पाएँ।",
+    },
+    promo: {
+      text: { en: "Want a full birth chart with houses, yogas and dasha?", hi: "भाव, योग और दशा सहित पूरी जन्म कुंडली चाहिए?" },
+      cta: { en: "Open free kundli →", hi: "मुफ्त कुंडली खोलें →" },
+      href: "/kundli",
+    },
+    sections: [
+      {
+        title: { en: "What Lagna means", hi: "लग्न का अर्थ" },
+        body: {
+          en: "Lagna (Ascendant) describes how you meet the world — vitality, body, first impressions and the lens for the rest of the chart. In Astrologics whole-sign charts, the Lagna sign becomes the entire first house; the next sign is the second house, and so on through twelve.",
+          hi: "लग्न बताता है आप संसार से कैसे मिलते हैं — जीवन शक्ति, शरीर, प्रथम प्रभाव और शेष कुंडली का दृष्टिकोण। Astrologics पूर्ण-राशि चार्ट में लग्न राशि पूरा प्रथम भाव बनती है।",
+        },
+      },
+      {
+        title: { en: "Why birth time is essential", hi: "जन्म समय क्यों ज़रूरी है" },
+        body: {
+          en: "The Ascendant moves through all twelve signs in about a day — roughly two hours per sign on average. A 20–30 minute error near a sign boundary can change Lagna and every house assignment. Use a birth certificate or hospital record when possible.",
+          hi: "उदय राशि लगभग एक दिन में बारह राशियों से गुजरती है — औसतन दो घंटे प्रति राशि। सीमा के निकट 20–30 मिनट की गलती लग्न और सभी भाव बदल सकती है। संभव हो तो जन्म प्रमाणपत्र उपयोग करें।",
+        },
+      },
+      {
+        title: { en: "Lagna vs Moon vs Sun", hi: "लग्न बनाम चंद्र बनाम सूर्य" },
+        body: {
+          en: "Lagna frames the body and life approach. Moon (Rashi) reflects mind and emotions and starts Vimshottari dasha. Sun relates to vitality and purpose. A balanced reading weaves all three — generate Lagna here, then open full kundli for the complete picture.",
+          hi: "लग्न शरीर और जीवन दृष्टिकोण। चंद्र (राशि) मन-भावनाएँ और विंशोत्तरी दशा आरंभ। सूर्य जीवन शक्ति व उद्देश्य। संतुलित पढ़ाई तीनों को जोड़ती है — यहाँ लग्न जानें, फिर पूर्ण कुंडली खोलें।",
+        },
+      },
+    ],
+    faqs: [
       {
         q: { en: "Why is birth time required?", hi: "जन्म समय क्यों ज़रूरी?" },
         a: {
@@ -414,12 +495,62 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
           hi: "लग्न लगभग हर दो घंटे बदलता है — सटीक समय और स्थान आवश्यक।",
         },
       },
-    ]
-  ),
-  navamsa: genericContent(
-    { en: "Navamsa (D9) Calculator", hi: "नवमांश (D9) कैलकुलेटर" },
-    { en: "Navamsa chart", hi: "नवमांश कुंडली" }
-  ),
+      {
+        q: { en: "Is Lagna the same as Moon sign?", hi: "क्या लग्न और चंद्र राशि एक हैं?" },
+        a: {
+          en: "No. Lagna is the rising sign; Moon sign is where the Moon sat at birth.",
+          hi: "नहीं। लग्न उदय राशि है; चंद्र राशि जन्म के समय चंद्र की राशि है।",
+        },
+      },
+    ],
+    disclaimer: DEFAULT_DISCLAIMER,
+  },
+  navamsa: {
+    h1: { en: "Navamsa (D9) Calculator", hi: "नवमांश (D9) कैलकुलेटर" },
+    seoTitle: {
+      en: "Navamsa Chart Calculator — Free D9 Kundli Online",
+      hi: "नवमांश चार्ट कैलकुलेटर — मुफ्त D9 कुंडली",
+    },
+    seoDescription: {
+      en: "Generate your free Navamsa (D9) chart online. See how the ninth-division chart refines marriage themes and planetary strength.",
+      hi: "मुफ्त नवमांश (D9) चार्ट ऑनलाइन बनाएँ। विवाह विषय और ग्रह बल कैसे परिष्कृत होते हैं, देखें।",
+    },
+    intro: {
+      en: "Navamsa (D9) divides each sign into nine parts. It is traditionally studied for marriage themes and deeper planetary dignity — it refines the main birth chart; it does not replace it.",
+      hi: "नवमांश (D9) प्रत्येक राशि को नौ भागों में बाँटता है। पारंपरिक रूप से विवाह विषय और गहरे ग्रह बल के लिए देखा जाता है — यह मुख्य कुंडली का परिष्कार है, विकल्प नहीं।",
+    },
+    promo: {
+      text: { en: "Want a full birth chart with houses, yogas and dasha?", hi: "भाव, योग और दशा सहित पूरी जन्म कुंडली चाहिए?" },
+      cta: { en: "Open free kundli →", hi: "मुफ्त कुंडली खोलें →" },
+      href: "/kundli",
+    },
+    sections: [
+      {
+        title: { en: "What Navamsa is used for", hi: "नवमांश किस लिए" },
+        body: {
+          en: "Astrologers examine D9 for marriage/partnership nuance and to judge whether a planet’s promise in the main chart is supported. A planet strong in Rashi but weak in Navamsa may express unevenly — context and dasha still matter.",
+          hi: "ज्योतिषी D9 को विवाह/साझेदारी सूक्ष्मता और मुख्य कुंडली के ग्रह वचन के समर्थन हेतु देखते हैं। राशि में बलवान पर नवमांश में कमजोर ग्रह असमान फल दे सकता है — दशा संदर्भ आवश्यक।",
+        },
+      },
+      {
+        title: { en: "How to read results calmly", hi: "परिणाम शांति से कैसे पढ़ें" },
+        body: {
+          en: "Treat Navamsa as a second lens, not a fear trigger. Pair it with your Lagna chart, gun milan if relevant, and a human reading for sensitive decisions.",
+          hi: "नवमांश को दूसरी दृष्टि मानें, भय का कारण नहीं। लग्न कुंडली, आवश्यकता हो तो गुण मिलान, और संवेदनशील निर्णयों हेतु मानव परामर्श जोड़ें।",
+        },
+      },
+    ],
+    faqs: [
+      {
+        q: { en: "Does Navamsa replace the birth chart?", hi: "क्या नवमांश जन्म कुंडली का विकल्प है?" },
+        a: {
+          en: "No. D9 refines specific themes; the main janam kundli remains primary.",
+          hi: "नहीं। D9 विशिष्ट विषयों को परिष्कृत करता है; मुख्य जन्म कुंडली प्राथमिक रहती है।",
+        },
+      },
+    ],
+    disclaimer: DEFAULT_DISCLAIMER,
+  },
   "moon-phase": genericContent(
     { en: "Moon Phase Calculator", hi: "चंद्र कला कैलकुलेटर" },
     { en: "Moon phase", hi: "चंद्र कला" }
@@ -493,19 +624,97 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
     { en: "Kaal Sarp pattern", hi: "काल सर्प पैटर्न" }
   ),
   "sade-sati": {
-    ...genericContent(
-      { en: "Sade Sati Calculator", hi: "साढ़े साती कैलकुलेटर" },
-      { en: "Saturn Sade Sati", hi: "शनि साढ़े साती" }
-    ),
+    h1: { en: "Sade Sati Calculator", hi: "साढ़े साती कैलकुलेटर" },
+    seoTitle: {
+      en: "Sade Sati Calculator — Check Saturn Phase Free",
+      hi: "साढ़े साती कैलकुलेटर — मुफ्त शनि चरण जाँच",
+    },
+    seoDescription: {
+      en: "Check your Saturn Sade Sati phase free by Moon sign. Understand rising, peak and setting stages without fear-based jargon.",
+      hi: "चंद्र राशि से मुफ्त शनि साढ़े साती चरण जाँचें। आरंभ, मध्य व अंत चरण भय-मुक्त भाषा में समझें।",
+    },
     intro: {
       en: "Sade Sati is Saturn’s ~7.5-year transit over your Moon sign (and adjacent signs). Check your current phase free with Lahiri positions — then read dasha context for timing.",
       hi: "साढ़े साती चंद्र राशि (और पड़ोसी राशियों) पर शनि का लगभग 7.5 वर्ष का गोचर है। लाहिरी स्थिति से वर्तमान चरण मुफ्त जाँचें — समय के लिए दशा संदर्भ भी देखें।",
     },
+    promo: {
+      text: { en: "Want a full birth chart with houses, yogas and dasha?", hi: "भाव, योग और दशा सहित पूरी जन्म कुंडली चाहिए?" },
+      cta: { en: "Open free kundli →", hi: "मुफ्त कुंडली खोलें →" },
+      href: "/kundli",
+    },
+    sections: [
+      {
+        title: { en: "What Sade Sati is", hi: "साढ़े साती क्या है" },
+        body: {
+          en: "Sade Sati refers to Saturn transiting the sign before your Moon, your Moon sign, and the sign after — about 2.5 years each, ~7.5 years total. It is a timing framework for responsibility, restructuring and patience — not a guaranteed crisis.",
+          hi: "साढ़े साती का अर्थ है शनि का गोचर आपकी चंद्र राशि से पहले, उसी राशि में, और अगली राशि में — लगभग 2.5×3 वर्ष। यह जिम्मेदारी, पुनर्गठन और धैर्य का समय ढाँचा है — निश्चित संकट नहीं।",
+        },
+      },
+      {
+        title: { en: "Read with dasha context", hi: "दशा संदर्भ से पढ़ें" },
+        body: {
+          en: "The same Saturn transit feels different under supportive vs challenging Mahadasha. Pair this calculator with Vimshottari dasha and full kundli before drawing life conclusions.",
+          hi: "सहायक बनाम चुनौतीपूर्ण महादशा में वही शनि गोचर अलग लगता है। जीवन निष्कर्ष से पहले विंशोत्तरी दशा और पूर्ण कुंडली जोड़ें।",
+        },
+      },
+    ],
+    faqs: [
+      {
+        q: { en: "Is Sade Sati always negative?", hi: "क्या साढ़े साती हमेशा नकारात्मक है?" },
+        a: {
+          en: "No. Many people experience growth, discipline and clarity. Outcomes depend on chart, dasha and choices.",
+          hi: "नहीं। कई लोग विकास, अनुशासन और स्पष्टता अनुभव करते हैं। फल कुंडली, दशा और विकल्पों पर निर्भर करते हैं।",
+        },
+      },
+    ],
+    disclaimer: DEFAULT_DISCLAIMER,
   },
-  "vimshottari-dasha": genericContent(
-    { en: "Vimshottari Dasha Calculator", hi: "विंशोत्तरी दशा कैलकुलेटर" },
-    { en: "Vimshottari dasha", hi: "विंशोत्तरी दशा" }
-  ),
+  "vimshottari-dasha": {
+    h1: { en: "Vimshottari Dasha Calculator", hi: "विंशोत्तरी दशा कैलकुलेटर" },
+    seoTitle: {
+      en: "Vimshottari Dasha Calculator — Free Timeline",
+      hi: "विंशोत्तरी दशा कैलकुलेटर — मुफ्त समयरेखा",
+    },
+    seoDescription: {
+      en: "Calculate your Vimshottari Mahadasha and Antardasha free from birth Nakshatra. See current life-period timing in clear English or Hindi.",
+      hi: "जन्म नक्षत्र से मुफ्त विंशोत्तरी महादशा व अंतरदशा जानें। वर्तमान जीवन काल समय स्पष्ट हिंदी/अंग्रेज़ी में।",
+    },
+    intro: {
+      en: "Vimshottari dasha is a ~120-year planetary period system starting from the Moon’s Nakshatra at birth. See your current Mahadasha and finer Antardasha for timing context — calm guidance, not fear.",
+      hi: "विंशोत्तरी दशा जन्म चंद्र नक्षत्र से शुरू ~120 वर्ष की ग्रहीय अवधि प्रणाली है। वर्तमान महादशा व अंतरदशा समय संदर्भ के लिए देखें — शांत मार्गदर्शन, भय नहीं।",
+    },
+    promo: {
+      text: { en: "Want a full birth chart with houses, yogas and dasha?", hi: "भाव, योग और दशा सहित पूरी जन्म कुंडली चाहिए?" },
+      cta: { en: "Open free kundli →", hi: "मुफ्त कुंडली खोलें →" },
+      href: "/kundli",
+    },
+    sections: [
+      {
+        title: { en: "How Vimshottari works", hi: "विंशोत्तरी कैसे काम करती है" },
+        body: {
+          en: "Each planet rules a fixed-length Mahadasha (e.g. Venus 20 years, Saturn 19, Rahu 18). Within it, Antardashas refine the chapter. The sequence is fixed; your starting point comes from the Moon’s birth Nakshatra.",
+          hi: "प्रत्येक ग्रह निश्चित अवधि की महादशा चलाता है (जैसे शुक्र 20, शनि 19, राहु 18 वर्ष)। भीतर अंतरदशा अध्याय परिष्कृत करती है। क्रम निश्चित; आरंभ बिंदु जन्म चंद्र नक्षत्र से आता है।",
+        },
+      },
+      {
+        title: { en: "Using results wisely", hi: "परिणाम समझदारी से" },
+        body: {
+          en: "Dasha shows seasons of emphasis — career, relationships, study, health rhythms — not a fixed fate. Pair with transits and full kundli; for sensitive decisions, speak with a verified astrologer.",
+          hi: "दशा जोर के मौसम दिखाती है — करियर, संबंध, अध्ययन, स्वास्थ्य लय — निश्चित भाग्य नहीं। गोचर व पूर्ण कुंडली जोड़ें; संवेदनशील निर्णय हेतु सत्यापित ज्योतिषी से बात करें।",
+        },
+      },
+    ],
+    faqs: [
+      {
+        q: { en: "Do I need exact birth time for dasha?", hi: "दशा हेतु सटीक जन्म समय ज़रूरी?" },
+        a: {
+          en: "Moon Nakshatra is mainly date-sensitive, but precise time improves the full chart used alongside dasha.",
+          hi: "चंद्र नक्षत्र मुख्यतः तिथि पर निर्भर, पर सटीक समय दशा के साथ पूर्ण कुंडली सुधारता है।",
+        },
+      },
+    ],
+    disclaimer: DEFAULT_DISCLAIMER,
+  },
   "pitra-dosha": genericContent(
     { en: "Pitra Dosha Calculator", hi: "पितृ दोष कैलकुलेटर" },
     { en: "Pitra dosha flags", hi: "पितृ दोष संकेत" }

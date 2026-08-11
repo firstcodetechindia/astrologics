@@ -22,11 +22,11 @@ export async function generateMetadata({
     locale,
     path: "/blog",
     title: hi
-      ? `ब्लॉग — जन्म कुंडली, राशिफल व ज्योतिष गाइड | ${siteConfig.brandName}`
-      : `Blog — Kundli, Rashifal & Astrology Guides | ${siteConfig.brandName}`,
+      ? "ज्योतिष ब्लॉग — कुंडली, दशा व उपाय गाइड"
+      : "Astrology Blog — Kundli, Dasha & Remedy Guides",
     description: hi
-      ? "जन्म कुंडली, गुण मिलान, दैनिक राशिफल, दोष व एआई ज्योतिष पर लेख — हिंदी व अंग्रेज़ी में Astrologics ब्लॉग।"
-      : "Articles on janam kundali, gun milan, daily rashifal, doshas and AI astrology — Astrologics blog in English & Hindi.",
+      ? "वैदिक कुंडली, लग्न बनाम राशि, विंशोत्तरी दशा और उपाय पर गहन गाइड — शांत भाषा में, हिंदी व अंग्रेज़ी।"
+      : "In-depth guides on Vedic kundli, Lagna vs Moon sign, Vimshottari dasha and remedies — calm language, English & Hindi.",
     keywords: hi
       ? [
           "ज्योतिष ब्लॉग",
