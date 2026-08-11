@@ -106,6 +106,15 @@ export function buildChartSummary(k: KundliResult): string {
         .join("; ")}`;
     })(),
     `Graha Drishti (sample): ${aspectSample || "none"}`,
+    k.shadbala
+      ? `Shadbala strongest: ${(k.shadbala as { strongest?: string }).strongest ?? "n/a"}`
+      : "",
+    k.jaimini
+      ? `Jaimini AL=${(k.jaimini as { arudhaLagna?: { sign?: { en: string } } }).arudhaLagna?.sign?.en}; UL=${(k.jaimini as { upapadaLagna?: { sign?: { en: string } } }).upapadaLagna?.sign?.en}`
+      : "",
+    k.charaDasha
+      ? `Chara dasha current: ${(k.charaDasha as { current?: { sign?: { en: string } } }).current?.sign?.en ?? "n/a"}`
+      : "",
     "=== END CALCULATED CHART ===",
     "",
     predictionBlock,
@@ -168,13 +177,13 @@ export function availableProviders(): AiProvider[] {
   return list;
 }
 
-/** Prefer configured provider, then OpenAI, then Gemini. */
+/** Prefer configured provider, then Gemini, then OpenAI. */
 export function resolveProvider(): AiProvider | null {
   const available = availableProviders();
   if (!available.length) return null;
   const preferred = process.env.AI_PROVIDER as AiProvider | undefined;
   if (preferred && available.includes(preferred)) return preferred;
-  if (available.includes("openai")) return "openai";
+  if (available.includes("gemini")) return "gemini";
   return available[0];
 }
 

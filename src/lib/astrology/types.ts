@@ -9,6 +9,12 @@ export interface BirthInput {
   lat: number;
   lon: number;
   timezoneOffsetMinutes?: number;
+  /** Chart ayanamsa preference (default lahiri). */
+  ayanamsa?: "lahiri" | "raman" | "kp" | "true_chitra";
+  /** Primary house system for display (Parashari whole-sign remains available). */
+  houseSystem?: "whole_sign" | "sripati" | "placidus";
+  /** Lunar node mode. */
+  nodeMode?: "mean" | "true";
 }
 
 export interface PlanetPosition {
@@ -87,8 +93,8 @@ export interface KundliResult {
   ayanamsa: number;
   settings: {
     zodiac: "sidereal";
-    ayanamsa: "lahiri";
-    houseSystem: "whole-sign" | "whole_sign";
+    ayanamsa: "lahiri" | "raman" | "kp" | "true_chitra";
+    houseSystem: "whole-sign" | "whole_sign" | "sripati" | "placidus";
     nodeType: "mean" | "true";
     ephemerisEngine: string;
   };
@@ -128,6 +134,16 @@ export interface KundliResult {
   };
   /** Yogini dasha (36-year cycle) — parallel to Vimshottari. */
   yoginiDasha?: unknown;
+  /** Jaimini Chara dasha. */
+  charaDasha?: unknown;
+  /** Shadbala planet strengths. */
+  shadbala?: unknown;
+  /** Jaimini AL / UL / AK / Karakamsha. */
+  jaimini?: unknown;
+  /** Tajika annual chart for current/target year. */
+  varshphal?: unknown;
+  /** Lal Kitab pakka ghar / debts / remedies. */
+  lalkitab?: unknown;
   divisionalCharts?: Record<string, unknown>;
   /** Birth-moment panchang (tithi, karana, yoga, nakshatra, vara). */
   panchang?: unknown;

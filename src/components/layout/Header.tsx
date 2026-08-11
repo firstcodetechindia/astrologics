@@ -4,11 +4,13 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import {
   BookOpen,
+  Building2,
   Calculator,
   ChevronDown,
   GraduationCap,
   Home,
   IndianRupee,
+  Hash,
   MessageCircle,
   Sparkles,
   Wrench,
@@ -173,10 +175,14 @@ export function Header() {
       "/chat",
       "/panchang",
       "/horoscope",
+      "/numerology",
+      "/vastu",
     ]),
     calculators: pathMatches(pathname, ["/calculators"]),
     learn: pathMatches(pathname, ["/learn", "/blog"]),
     pricing: pathMatches(pathname, ["/pricing"]),
+    numerology: pathMatches(pathname, ["/numerology"]),
+    vastu: pathMatches(pathname, ["/vastu"]),
     home: pathname === "/" || pathname === "",
   };
 
@@ -328,6 +334,12 @@ export function Header() {
               <Link href="/horoscope">{hi ? "राशिफल" : "Horoscope"}</Link>
             </li>
             <li>
+              <Link href="/numerology">{hi ? "अंक ज्योतिष" : "Numerology"}</Link>
+            </li>
+            <li>
+              <Link href="/vastu">{hi ? "वास्तु" : "Vastu"}</Link>
+            </li>
+            <li>
               <Link href="/calculators">{hi ? "कैलकुलेटर" : "Calculators"}</Link>
             </li>
             <li>
@@ -458,6 +470,26 @@ export function Header() {
               )}
             />
           </button>
+
+          <Link
+            href="/numerology"
+            className={navItemClass(sectionActive.numerology)}
+            onMouseEnter={() => openMenu(null)}
+            aria-current={sectionActive.numerology ? "page" : undefined}
+          >
+            <Hash className="h-3.5 w-3.5 shrink-0" strokeWidth={2.15} />
+            {hi ? "अंक ज्योतिष" : "Numerology"}
+          </Link>
+
+          <Link
+            href="/vastu"
+            className={navItemClass(sectionActive.vastu)}
+            onMouseEnter={() => openMenu(null)}
+            aria-current={sectionActive.vastu ? "page" : undefined}
+          >
+            <Building2 className="h-3.5 w-3.5 shrink-0" strokeWidth={2.15} />
+            {hi ? "वास्तु" : "Vastu"}
+          </Link>
 
           <button
             type="button"

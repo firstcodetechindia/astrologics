@@ -55,6 +55,9 @@ export async function POST(req: Request) {
       lat,
       lon,
       timezoneOffsetMinutes,
+      ayanamsa: data.ayanamsa,
+      houseSystem: data.houseSystem,
+      nodeMode: data.nodeMode,
     });
 
     return NextResponse.json({ ok: true, kundli: result });

@@ -70,6 +70,8 @@ export function MobileBottomNav() {
       "/chat-with-astrologer",
       "/panchang",
       "/horoscope",
+      "/numerology",
+      "/vastu",
     ]),
     calculators: pathMatches(pathname, ["/calculators"]),
     learn: pathMatches(pathname, ["/learn", "/blog"]),
@@ -113,9 +115,23 @@ export function MobileBottomNav() {
       footer: (
         <>
           <Link
-            href="/calculators"
+            href="/numerology"
             onClick={() => setMenu(null)}
             className="font-semibold text-saffron-deep"
+          >
+            {hi ? "अंक ज्योतिष →" : "Numerology →"}
+          </Link>
+          <Link
+            href="/vastu"
+            onClick={() => setMenu(null)}
+            className="font-semibold text-saffron-deep"
+          >
+            {hi ? "वास्तु →" : "Vastu →"}
+          </Link>
+          <Link
+            href="/calculators"
+            onClick={() => setMenu(null)}
+            className="text-[#6b5c4c]"
           >
             {hi ? "सभी उपकरण →" : "All tools →"}
           </Link>
@@ -266,6 +282,108 @@ export function MobileBottomNav() {
                 key={activeSheet.key}
                 className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 py-3 sm:px-4"
               >
+                {activeSheet.key === "tools" ? (
+                  <div className="mb-4 space-y-2">
+                    <Link
+                      href="/numerology"
+                      onClick={() => setMenu(null)}
+                      className={cn(
+                        "flex items-center gap-3 rounded-2xl border px-3.5 py-3 transition",
+                        pathMatches(pathname, ["/numerology"])
+                          ? "border-saffron/40 bg-gradient-to-r from-saffron to-maroon text-white shadow-sm"
+                          : "border-saffron/25 bg-gradient-to-br from-[#fff7f0] to-white hover:border-saffron/40"
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-lg",
+                          pathMatches(pathname, ["/numerology"])
+                            ? "bg-white/20"
+                            : "bg-white text-saffron-deep shadow-sm"
+                        )}
+                        aria-hidden
+                      >
+                        🔢
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-sm font-bold">
+                          {hi ? "अंक ज्योतिष" : "Numerology"}
+                        </span>
+                        <span
+                          className={cn(
+                            "mt-0.5 block text-[12px] leading-snug",
+                            pathMatches(pathname, ["/numerology"])
+                              ? "text-white/85"
+                              : "text-ink-muted"
+                          )}
+                        >
+                          {hi
+                            ? "मूलांक, भाग्यांक, नाम अंक व लो शू"
+                            : "Mulank, Bhagyank, name number & Lo Shu"}
+                        </span>
+                      </span>
+                      <span
+                        className={cn(
+                          "text-sm font-semibold",
+                          pathMatches(pathname, ["/numerology"])
+                            ? "text-white"
+                            : "text-saffron-deep"
+                        )}
+                      >
+                        →
+                      </span>
+                    </Link>
+                    <Link
+                      href="/vastu"
+                      onClick={() => setMenu(null)}
+                      className={cn(
+                        "flex items-center gap-3 rounded-2xl border px-3.5 py-3 transition",
+                        pathMatches(pathname, ["/vastu"])
+                          ? "border-saffron/40 bg-gradient-to-r from-saffron to-maroon text-white shadow-sm"
+                          : "border-saffron/25 bg-gradient-to-br from-[#fff7f0] to-white hover:border-saffron/40"
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-lg",
+                          pathMatches(pathname, ["/vastu"])
+                            ? "bg-white/20"
+                            : "bg-white text-saffron-deep shadow-sm"
+                        )}
+                        aria-hidden
+                      >
+                        🏠
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-sm font-bold">
+                          {hi ? "वास्तु" : "Vastu"}
+                        </span>
+                        <span
+                          className={cn(
+                            "mt-0.5 block text-[12px] leading-snug",
+                            pathMatches(pathname, ["/vastu"])
+                              ? "text-white/85"
+                              : "text-ink-muted"
+                          )}
+                        >
+                          {hi
+                            ? "क्षेत्र दोष, स्कोर व उपाय"
+                            : "Zone Dosha, score & remedies"}
+                        </span>
+                      </span>
+                      <span
+                        className={cn(
+                          "text-sm font-semibold",
+                          pathMatches(pathname, ["/vastu"])
+                            ? "text-white"
+                            : "text-saffron-deep"
+                        )}
+                      >
+                        →
+                      </span>
+                    </Link>
+                  </div>
+                ) : null}
                 <div className="space-y-5">
                   {activeSheet.stacks.map((col, ci) =>
                     col.groups.map((group) => (

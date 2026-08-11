@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocale } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -138,6 +138,49 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
   const locale = useLocale();
   const hi = locale === "hi";
   const [period, setPeriod] = useState<HoroscopePeriod>("daily");
+  const [liveText, setLiveText] = useState<string | null>(null);
+  const [liveScores, setLiveScores] = useState<{
+    overall: number;
+    love: number;
+    career: number;
+    money: number;
+    health: number;
+    family: number;
+  } | null>(null);
+  const [liveLoading, setLiveLoading] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    setLiveLoading(true);
+    fetch("/api/horoscope", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        signIndex: sign.index,
+        period,
+        locale: hi ? "hi" : "en",
+        narrate: true,
+      }),
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        if (cancelled) return;
+        if (data?.scores?.scores) setLiveScores(data.scores.scores);
+        if (typeof data?.narrative === "string") setLiveText(data.narrative);
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setLiveText(null);
+          setLiveScores(null);
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setLiveLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [sign.index, period, hi]);
   const name = pickL(locale, sign.name);
   const ruler = pickL(locale, sign.ruler);
   const seo = getHoroscopeSeo(sign.slug);
@@ -352,6 +395,46 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
                   {pickL(locale, sign.periodLead[period])}
                 </motion.p>
               </AnimatePresence>
+
+              <div className="mt-4 rounded-xl border border-saffron/25 bg-[#fff8f1]/80 p-4">
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-saffron-deep">
+                  {hi ? "लाइव गोचर आधारित" : "Live transit-based"}
+                </p>
+                {liveLoading ? (
+                  <p className="mt-2 text-sm text-ink-muted">
+                    {hi ? "गणना हो रही है…" : "Calculating…"}
+                  </p>
+                ) : (
+                  <>
+                    {liveScores && (
+                      <div className="mt-2 flex flex-wrap gap-2 text-[11px] font-semibold text-ink">
+                        {(
+                          [
+                            ["overall", hi ? "समग्र" : "Overall"],
+                            ["love", hi ? "प्रेम" : "Love"],
+                            ["career", hi ? "करियर" : "Career"],
+                            ["money", hi ? "धन" : "Money"],
+                            ["health", hi ? "स्वास्थ्य" : "Health"],
+                            ["family", hi ? "परिवार" : "Family"],
+                          ] as const
+                        ).map(([k, label]) => (
+                          <span
+                            key={k}
+                            className="rounded-full border border-saffron/15 bg-white/80 px-2.5 py-1"
+                          >
+                            {label} {liveScores[k]}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    {liveText && (
+                      <p className="mt-3 whitespace-pre-wrap text-[14px] leading-relaxed text-ink">
+                        {liveText}
+                      </p>
+                    )}
+                  </>
+                )}
+              </div>
 
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 {SECTION_META.map(({ key, en, hi: hiLabel, Icon }) => (

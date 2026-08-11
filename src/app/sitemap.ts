@@ -15,6 +15,8 @@ const staticPaths = [
   "/chat",
   "/chat-with-astrologer",
   "/horoscope",
+  "/numerology",
+  "/vastu",
   "/panchang",
   "/features",
   "/pricing",

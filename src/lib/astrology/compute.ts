@@ -1,6 +1,8 @@
 import { computeGrahaDrishti } from "./aspects";
 import { computeAshtakvarga } from "./ashtakvarga";
+import { applyAshtakvargaShodhana } from "./ashtakvarga-shodhana";
 import { computeAvakhada } from "./avakhada";
+import { computeCharaDasha } from "./chara-dasha";
 import { ASTRO_CONFIG } from "./config";
 import { SIGNS } from "./constants";
 import { computeVimshottari } from "./dasha";
@@ -9,26 +11,31 @@ import { combustionInfo, planetDignity } from "./dignity";
 import { kaalSarpDosha, mangalDosha, pitraDosha, sadeSati } from "./doshas";
 import { ephemerisCapabilityNotes } from "./ephemeris";
 import {
+  computePlacidusCusps,
   computeSripatiCusps,
   cuspSignMeta,
   houseFromCusps,
 } from "./house-systems";
 import { buildHouses, houseOfPlanet } from "./houses";
 import { buildInsightsFromPredictions } from "./interpret";
+import { computeJaiminiPoints } from "./jaimini";
 import { buildKpChart } from "./kp";
 import {
   degreeInSign,
-  lahiriAyanamsaFromDate,
   signIndexFromLongitude,
 } from "./math";
 import { nakshatraFromLongitude } from "./nakshatra";
 import { computePanchang } from "./panchang";
 import { calculateLagna, getSiderealPlanets } from "./planets";
+import { resolveAyanamsa, type AyanamsaId, type HouseSystemId } from "./prefs";
 import { buildPredictionBundle } from "./prediction";
+import { computeShadbala } from "./shadbala";
 import { computeTransits } from "./transits";
 import type { BirthInput, KundliResult, PlanetPosition } from "./types";
 import { computeAllVargas } from "./vargas";
 import { detectYogas } from "./yogas";
+import { createLalKitabChart } from "./lalkitab";
+import { computeVarshphal } from "./varshphal";
 
 export function parseBirthDateTime(input: BirthInput): Date {
   const [y, m, d] = input.date.split("-").map(Number);
@@ -120,8 +127,11 @@ export function computeKundli(input: BirthInput): KundliResult {
     );
   }
 
-  const ayanamsa = lahiriAyanamsaFromDate(date);
-  const nodeMode = ASTRO_CONFIG.nodeMode;
+  const ayanamsaId: AyanamsaId = input.ayanamsa ?? ASTRO_CONFIG.ayanamsa;
+  const houseSystemId: HouseSystemId =
+    input.houseSystem ?? ASTRO_CONFIG.houseSystem;
+  const nodeMode = input.nodeMode ?? ASTRO_CONFIG.nodeMode;
+  const ayanamsa = resolveAyanamsa(date, ayanamsaId);
   const { planets: rawPlanets } = getSiderealPlanets(date, ayanamsa, nodeMode);
   const lagnaLon = calculateLagna(date, input.lat, input.lon, ayanamsa);
   const lagnaSign = signIndexFromLongitude(lagnaLon);
@@ -134,6 +144,7 @@ export function computeKundli(input: BirthInput): KundliResult {
     const signIndex = signIndexFromLongitude(p.longitude);
     const dignity = planetDignity(p.id, signIndex);
     const combust = combustionInfo(p.id, p.longitude, sunLon);
+    let house = houseOfPlanet(p.longitude, lagnaLon);
     return {
       id: p.id,
       name: p.name,
@@ -142,7 +153,7 @@ export function computeKundli(input: BirthInput): KundliResult {
       signIndex,
       sign: { en: SIGNS[signIndex].en, hi: SIGNS[signIndex].hi },
       degreeInSign: degreeInSign(p.longitude),
-      house: houseOfPlanet(p.longitude, lagnaLon),
+      house,
       nakshatraIndex: nak.index,
       nakshatra: nak.name,
       pada: nak.pada,
@@ -153,6 +164,17 @@ export function computeKundli(input: BirthInput): KundliResult {
       dignity,
     };
   });
+
+  // Optional cusp-based house assignment for Sripati / Placidus primary view
+  if (houseSystemId === "sripati" || houseSystemId === "placidus") {
+    const cusps =
+      houseSystemId === "placidus"
+        ? computePlacidusCusps(date, input.lat, input.lon, ayanamsa)
+        : computeSripatiCusps(date, input.lat, input.lon, ayanamsa);
+    for (const p of planets) {
+      p.house = houseFromCusps(p.longitude, cusps.cusps);
+    }
+  }
 
   const moon = planets.find((p) => p.id === "moon")!;
   const sun = planets.find((p) => p.id === "sun")!;
@@ -182,10 +204,18 @@ export function computeKundli(input: BirthInput): KundliResult {
 
   const planetSigns: Record<string, number> = {};
   for (const p of planets) planetSigns[p.id] = p.signIndex;
-  const ashtakvarga = computeAshtakvarga({
+  const ashtakRaw = computeAshtakvarga({
     lagnaSignIndex: lagnaSign,
     planetSigns,
   });
+  const ashtakvarga = applyAshtakvargaShodhana(ashtakRaw, {
+    lagnaSignIndex: lagnaSign,
+    planetSigns,
+  });
+
+  const shadbala = computeShadbala(planets, date);
+  const charaDasha = computeCharaDasha(lagnaSign, planets, date);
+  const jaimini = computeJaiminiPoints(lagnaSign, planets, lagnaLon);
 
   const sripati = computeSripatiCusps(date, input.lat, input.lon, ayanamsa);
   const bhavChalit = {
@@ -222,8 +252,8 @@ export function computeKundli(input: BirthInput): KundliResult {
     ayanamsa,
     settings: {
       zodiac: "sidereal",
-      ayanamsa: "lahiri",
-      houseSystem: "whole-sign",
+      ayanamsa: ayanamsaId,
+      houseSystem: houseSystemId === "whole_sign" ? "whole-sign" : houseSystemId,
       nodeType: nodeMode,
       ephemerisEngine: ASTRO_CONFIG.ephemerisEngine,
     },
@@ -273,6 +303,15 @@ export function computeKundli(input: BirthInput): KundliResult {
       startLord: dasha.startLord,
     },
     yoginiDasha: yogini,
+    charaDasha,
+    shadbala,
+    jaimini,
+    varshphal: computeVarshphal({
+      input,
+      natalSunLongitude: sun.longitude,
+      natalAscSignIndex: lagnaSign,
+    }),
+    lalkitab: createLalKitabChart(planets),
     divisionalCharts: vargas,
     panchang,
     avakhada,

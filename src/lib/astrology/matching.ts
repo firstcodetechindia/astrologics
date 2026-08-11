@@ -272,3 +272,263 @@ export function ashtakootMatch(
     verdict,
   };
 }
+
+/** South Indian Dashakoota (10 porutham) — pass/fail with weights. */
+export function dashakootaMatch(
+  boyNak: number,
+  girlNak: number,
+  boyMoonSign?: number,
+  girlMoonSign?: number
+) {
+  const boyRashi =
+    typeof boyMoonSign === "number"
+      ? boyMoonSign
+      : Math.floor((boyNak * 4) / 9) % 12;
+  const girlRashi =
+    typeof girlMoonSign === "number"
+      ? girlMoonSign
+      : Math.floor((girlNak * 4) / 9) % 12;
+
+  const poruthams: {
+    id: string;
+    name: { en: string; hi: string };
+    pass: boolean;
+    weight: number;
+    note: { en: string; hi: string };
+  }[] = [];
+
+  // Dina
+  const countGtoB = ((girlNak - boyNak + 27) % 27) + 1;
+  const rem = countGtoB % 9;
+  const dinaPass = rem === 0 || rem % 2 === 0;
+  poruthams.push({
+    id: "dina",
+    name: { en: "Dina", hi: "दिन" },
+    pass: dinaPass,
+    weight: 1,
+    note: {
+      en: dinaPass ? "Star count favourable." : "Star count unfavourable.",
+      hi: dinaPass ? "नक्षत्र गणना अनुकूल।" : "नक्षत्र गणना प्रतिकूल।",
+    },
+  });
+
+  // Gana
+  const bg = NAK_GANA[boyNak];
+  const gg = NAK_GANA[girlNak];
+  const ganaPass =
+    bg === gg || (bg === 1 && gg === 2) || (bg === 2 && gg === 1);
+  poruthams.push({
+    id: "gana",
+    name: { en: "Gana", hi: "गण" },
+    pass: ganaPass,
+    weight: 1,
+    note: {
+      en: ganaPass ? "Temperament compatible." : "Temperament clash.",
+      hi: ganaPass ? "स्वभाव अनुकूल।" : "स्वभाव टकराव।",
+    },
+  });
+
+  // Mahendra — count from girl to boy in 4,7,10,13,16,19,22,25
+  const mahCount = ((boyNak - girlNak + 27) % 27) + 1;
+  const mahendraPass = [4, 7, 10, 13, 16, 19, 22, 25].includes(mahCount);
+  poruthams.push({
+    id: "mahendra",
+    name: { en: "Mahendra", hi: "महेंद्र" },
+    pass: mahendraPass,
+    weight: 1,
+    note: {
+      en: mahendraPass ? "Prosperity & progeny support." : "Weak Mahendra.",
+      hi: mahendraPass ? "समृद्धि/संतान समर्थन।" : "महेंद्र कमजोर।",
+    },
+  });
+
+  // Stree Deergha — boy nak >= 13 from girl
+  const streeCount = ((boyNak - girlNak + 27) % 27) + 1;
+  const streePass = streeCount >= 13;
+  poruthams.push({
+    id: "stree_deergha",
+    name: { en: "Stree Deergha", hi: "स्त्री दीर्घ" },
+    pass: streePass,
+    weight: 1,
+    note: {
+      en: streePass ? "Longevity of marital bond indicated." : "Short count.",
+      hi: streePass ? "वैवाहिक दीर्घ संकेत।" : "गणना छोटी।",
+    },
+  });
+
+  // Yoni
+  const by = NAK_YONI[boyNak];
+  const gy = NAK_YONI[girlNak];
+  const yoniPass = !YONI_ENEMY.has(`${by}-${gy}`);
+  poruthams.push({
+    id: "yoni",
+    name: { en: "Yoni", hi: "योनि" },
+    pass: yoniPass,
+    weight: 1,
+    note: {
+      en: yoniPass ? "Yoni compatible." : "Enemy yoni pair.",
+      hi: yoniPass ? "योनि अनुकूल।" : "शत्रु योनि।",
+    },
+  });
+
+  // Rasi — 1,3,4,5,7,9,10,11 from each other often accepted; avoid 2,6,8,12 in some schools — use 6th/8th reject
+  const rasiDist = ((boyRashi - girlRashi + 12) % 12) + 1;
+  const rasiPass = ![6, 8].includes(rasiDist);
+  poruthams.push({
+    id: "rasi",
+    name: { en: "Rasi", hi: "राशि" },
+    pass: rasiPass,
+    weight: 1,
+    note: {
+      en: rasiPass ? "Moon signs supportive." : "6/8 Moon sign tension.",
+      hi: rasiPass ? "चंद्र राशि अनुकूल।" : "6/8 चंद्र तनाव।",
+    },
+  });
+
+  // Rasi adhipati — lord friendship
+  const bl = planetKeyFromLord(boyRashi);
+  const gl = planetKeyFromLord(girlRashi);
+  const friends = FRIENDS[bl] || [];
+  const enemies = ENEMIES[bl] || [];
+  const adhipatiPass = bl === gl || friends.includes(gl) || !enemies.includes(gl);
+  poruthams.push({
+    id: "rasi_adhipati",
+    name: { en: "Rasi Adhipati", hi: "राश्यधिपति" },
+    pass: adhipatiPass,
+    weight: 1,
+    note: {
+      en: adhipatiPass ? "Sign lords friendly/neutral." : "Sign lords inimical.",
+      hi: adhipatiPass ? "राशि स्वामी मित्र/सम।" : "राशि स्वामी शत्रु।",
+    },
+  });
+
+  // Vasya — simplified: same vashya class
+  const vashyaPass = RASHI_VASHYA[boyRashi] === RASHI_VASHYA[girlRashi];
+  poruthams.push({
+    id: "vasya",
+    name: { en: "Vasya", hi: "वश्य" },
+    pass: vashyaPass || rasiDist === 1,
+    weight: 1,
+    note: {
+      en: "Mutual influence / attraction screen.",
+      hi: "परस्पर प्रभाव जाँच।",
+    },
+  });
+
+  // Rajju — same rajju group is bad. Group nakshatras into 5 rajjus by pada bands.
+  const rajjuOf = (n: number) => [0, 1, 2, 3, 4][Math.floor(n / 6) % 5]!;
+  const rajjuPass = rajjuOf(boyNak) !== rajjuOf(girlNak);
+  poruthams.push({
+    id: "rajju",
+    name: { en: "Rajju", hi: "रज्जु" },
+    pass: rajjuPass,
+    weight: 1,
+    note: {
+      en: rajjuPass ? "Different rajju — preferred." : "Same rajju — caution.",
+      hi: rajjuPass ? "भिन्न रज्जु।" : "समान रज्जु — सावधानी।",
+    },
+  });
+
+  // Vedha — classical vedha pairs (simplified subset)
+  const VEDHA = new Set([
+    "0-18",
+    "18-0",
+    "1-17",
+    "17-1",
+    "2-16",
+    "16-2",
+    "3-15",
+    "15-3",
+  ]);
+  const vedhaPass = !VEDHA.has(`${boyNak}-${girlNak}`);
+  poruthams.push({
+    id: "vedha",
+    name: { en: "Vedha", hi: "वेध" },
+    pass: vedhaPass,
+    weight: 1,
+    note: {
+      en: vedhaPass ? "No major vedha pair." : "Vedha obstruction flagged.",
+      hi: vedhaPass ? "प्रमुख वेध नहीं।" : "वेध बाधा।",
+    },
+  });
+
+  const passed = poruthams.filter((p) => p.pass).length;
+  const totalWeight = poruthams.reduce((s, p) => s + (p.pass ? p.weight : 0), 0);
+  const risks = matchRiskFlags(poruthams, scoresFromAshta(boyNak, girlNak, boyRashi, girlRashi));
+
+  return {
+    system: "dashakoota" as const,
+    boyNakshatra: NAKSHATRAS[boyNak],
+    girlNakshatra: NAKSHATRAS[girlNak],
+    poruthams,
+    passed,
+    total: 10,
+    percent: Math.round((passed / 10) * 100),
+    risks,
+    verdict: {
+      en:
+        passed >= 7
+          ? "Favourable Dashakoota"
+          : passed >= 5
+            ? "Mixed — review carefully"
+            : "Low porutham count",
+      hi:
+        passed >= 7
+          ? "अनुकूल दशकूट"
+          : passed >= 5
+            ? "मिश्रित — सावधानी से जाँचें"
+            : "कम पोरुथम",
+    },
+  };
+}
+
+function scoresFromAshta(
+  boyNak: number,
+  girlNak: number,
+  boyRashi: number,
+  girlRashi: number
+) {
+  return ashtakootMatch(boyNak, girlNak, boyRashi, girlRashi);
+}
+
+export function matchRiskFlags(
+  poruthams: { id: string; pass: boolean }[],
+  ashta: ReturnType<typeof ashtakootMatch>
+) {
+  const risks: { id: string; level: "high" | "medium"; note: { en: string; hi: string } }[] = [];
+  const nadi = ashta.scores.find((s) => s.id === "nadi");
+  if (nadi && nadi.score === 0) {
+    risks.push({
+      id: "nadi_dosha",
+      level: "high",
+      note: {
+        en: "Same Nadi in Ashtakoot — classical caution for progeny themes.",
+        hi: "अष्टकूट में समान नाड़ी — संतान विषय में शास्त्रीय सावधानी।",
+      },
+    });
+  }
+  const rajju = poruthams.find((p) => p.id === "rajju");
+  if (rajju && !rajju.pass) {
+    risks.push({
+      id: "rajju",
+      level: "medium",
+      note: {
+        en: "Same Rajju in Dashakoota.",
+        hi: "दशकूट में समान रज्जु।",
+      },
+    });
+  }
+  return risks;
+}
+
+/** Combined North + South matching summary for UI/API. */
+export function fullMatchReport(
+  boyNak: number,
+  girlNak: number,
+  boyMoonSign?: number,
+  girlMoonSign?: number
+) {
+  const ashta = ashtakootMatch(boyNak, girlNak, boyMoonSign, girlMoonSign);
+  const dasha = dashakootaMatch(boyNak, girlNak, boyMoonSign, girlMoonSign);
+  return { ashtakoot: ashta, dashakoota: dasha };
+}

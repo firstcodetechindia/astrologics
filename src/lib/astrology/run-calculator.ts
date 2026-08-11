@@ -5,7 +5,7 @@ import {
   pitraDosha,
   sadeSati,
 } from "./doshas";
-import { ashtakootMatch } from "./matching";
+import { ashtakootMatch, fullMatchReport } from "./matching";
 import { lahiriAyanamsaFromDate, norm360, signIndexFromLongitude } from "./math";
 import { computeNavamsaChart, navamsaSignIndex } from "./navamsa";
 import {
@@ -174,14 +174,15 @@ export function runCalculator(slug: string, payload: CalcPayload) {
             330,
         })
       );
-      const match = ashtakootMatch(
+      const match = fullMatchReport(
         boy.nakshatra.index,
         girl.nakshatra.index,
         boy.moonRashi.signIndex,
         girl.moonRashi.signIndex
       );
       return {
-        ...match,
+        ...match.ashtakoot,
+        dashakoota: match.dashakoota,
         boy: { name: boy.input.name, moon: boy.moonRashi, nakshatra: boy.nakshatra },
         girl: { name: girl.input.name, moon: girl.moonRashi, nakshatra: girl.nakshatra },
       };

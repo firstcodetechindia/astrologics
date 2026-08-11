@@ -9,6 +9,9 @@ export const kundliRequestSchema = z.object({
   lat: z.number().min(-90).max(90).optional(),
   lon: z.number().min(-180).max(180).optional(),
   timezoneOffsetMinutes: z.number().min(-720).max(840).optional(),
+  ayanamsa: z.enum(["lahiri", "raman", "kp", "true_chitra"]).optional(),
+  houseSystem: z.enum(["whole_sign", "sripati", "placidus"]).optional(),
+  nodeMode: z.enum(["mean", "true"]).optional(),
 });
 
 export type KundliRequest = z.infer<typeof kundliRequestSchema>;

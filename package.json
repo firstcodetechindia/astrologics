@@ -9,7 +9,8 @@
     "lint": "eslint",
     "test:astrology": "npx tsx scripts/astrology-regression.ts",
     "test:astrology:validate": "npx tsx scripts/astrology-validation.ts",
-    "test:predictions": "npx tsx scripts/prediction-tests.ts"
+    "test:predictions": "npx tsx scripts/prediction-tests.ts",
+    "test:aroha-port": "npx tsx scripts/aroha-port-smoke.ts"
   },
   "dependencies": {
     "@fontsource/noto-sans-devanagari": "^5.3.0",

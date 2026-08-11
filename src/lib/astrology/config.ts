@@ -19,7 +19,7 @@ export const ASTRO_CONFIG = {
   trueNodeStatus: "experimental" as const,
   ephemerisEngine: "astronomy-engine" as const,
   ephemerisNote:
-    "astronomy-engine (VSOP87/ELP-derived). Swiss Ephemeris deferred (licensing).",
+    "astronomy-engine (VSOP87/ELP-derived). Swiss Ephemeris deferred (licensing). Multi-ayanamsa/house prefs supported on top of this engine.",
   /**
    * Birth time uses a fixed civil UTC offset (minutes), not live IANA DST
    * at the birth instant. India (IST) is safe; UK/US historical DST requires

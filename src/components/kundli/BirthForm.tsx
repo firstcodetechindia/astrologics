@@ -12,6 +12,13 @@ import type { KundliResult } from "@/lib/astrology/types";
 import { Button } from "@/components/ui/Button";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PlaceAutocomplete } from "@/components/ui/PlaceAutocomplete";
+import {
+  AYANAMSA_OPTIONS,
+  HOUSE_SYSTEM_OPTIONS,
+  type AyanamsaId,
+  type HouseSystemId,
+  type NodeModeId,
+} from "@/lib/astrology/prefs";
 
 const schema = z.object({
   name: z.string().min(2),
@@ -31,6 +38,9 @@ export function BirthForm() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [selectedCity, setSelectedCity] = useState<City | null>(null);
+  const [ayanamsa, setAyanamsa] = useState<AyanamsaId>("lahiri");
+  const [houseSystem, setHouseSystem] = useState<HouseSystemId>("whole_sign");
+  const [nodeMode, setNodeMode] = useState<NodeModeId>("mean");
 
   const {
     register,
@@ -53,6 +63,9 @@ export function BirthForm() {
         ...values,
         place: selectedCity ? formatPlaceLabel(selectedCity) : values.place,
         timezoneOffsetMinutes: selectedCity?.timezoneOffsetMinutes ?? 330,
+        ayanamsa,
+        houseSystem,
+        nodeMode,
       };
       if (selectedCity) {
         payload.lat = selectedCity.lat;
@@ -119,6 +132,45 @@ export function BirthForm() {
           placeholder={t("placeHint")}
           error={!!errors.place}
         />
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <Field label={locale === "hi" ? "अयनांश" : "Ayanamsa"}>
+            <select
+              className="field"
+              value={ayanamsa}
+              onChange={(e) => setAyanamsa(e.target.value as AyanamsaId)}
+            >
+              {AYANAMSA_OPTIONS.map((o) => (
+                <option key={o.id} value={o.id}>
+                  {locale === "hi" ? o.label.hi : o.label.en}
+                </option>
+              ))}
+            </select>
+          </Field>
+          <Field label={locale === "hi" ? "भाव प्रणाली" : "House system"}>
+            <select
+              className="field"
+              value={houseSystem}
+              onChange={(e) => setHouseSystem(e.target.value as HouseSystemId)}
+            >
+              {HOUSE_SYSTEM_OPTIONS.map((o) => (
+                <option key={o.id} value={o.id}>
+                  {locale === "hi" ? o.label.hi : o.label.en}
+                </option>
+              ))}
+            </select>
+          </Field>
+          <Field label={locale === "hi" ? "राहु/केतु" : "Nodes"}>
+            <select
+              className="field"
+              value={nodeMode}
+              onChange={(e) => setNodeMode(e.target.value as NodeModeId)}
+            >
+              <option value="mean">{locale === "hi" ? "माध्य" : "Mean"}</option>
+              <option value="true">{locale === "hi" ? "सत्य (प्रयोगात्मक)" : "True (experimental)"}</option>
+            </select>
+          </Field>
+        </div>
         {errors.place ? (
           <span className="-mt-3 block text-xs text-maroon-soft">Required</span>
         ) : null}

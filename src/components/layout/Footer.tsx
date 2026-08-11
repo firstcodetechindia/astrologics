@@ -69,6 +69,8 @@ export function Footer() {
     { href: "/calculators", label: hi ? "सभी कैलकुलेटर" : "All Calculators" },
     { href: "/panchang", label: hi ? "पंचांग" : "Panchang" },
     { href: "/horoscope", label: hi ? "राशिफल" : "Horoscope" },
+    { href: "/numerology", label: hi ? "अंक ज्योतिष" : "Numerology" },
+    { href: "/vastu", label: hi ? "वास्तु" : "Vastu" },
     { href: "/chat", label: hi ? "एआई गुरु" : "AI Guru" },
     {
       href: "/chat-with-astrologer",

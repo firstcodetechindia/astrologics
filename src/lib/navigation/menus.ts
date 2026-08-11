@@ -70,6 +70,24 @@ export const FEATURES_MENU: MegaColumn[] = [
           hi: "36 अंक अष्टकूट गुण मिलान।",
         },
       },
+      {
+        href: "/vastu",
+        icon: "🏠",
+        title: { en: "Vastu Checker", hi: "वास्तु जाँच" },
+        description: {
+          en: "Zone Dosha score & non-structural remedies.",
+          hi: "क्षेत्र दोष स्कोर व गैर-संरचनात्मक उपाय।",
+        },
+      },
+      {
+        href: "/numerology",
+        icon: "🔢",
+        title: { en: "Numerology", hi: "अंक ज्योतिष" },
+        description: {
+          en: "Mulank, Bhagyank, name number & Lo Shu.",
+          hi: "मूलांक, भाग्यांक, नाम अंक व लो शू।",
+        },
+      },
     ],
   },
   {
@@ -126,6 +144,24 @@ export const FREE_TOOLS_MENU: MegaColumn[] = [
         description: {
           en: "Daily, weekly & monthly rashifal.",
           hi: "दैनिक, साप्ताहिक व मासिक राशिफल।",
+        },
+      },
+      {
+        href: "/numerology",
+        icon: "🔢",
+        title: { en: "Numerology", hi: "अंक ज्योतिष" },
+        description: {
+          en: "Mulank, Bhagyank, name number & Lo Shu.",
+          hi: "मूलांक, भाग्यांक, नाम अंक व लो शू।",
+        },
+      },
+      {
+        href: "/vastu",
+        icon: "🏠",
+        title: { en: "Vastu", hi: "वास्तु" },
+        description: {
+          en: "Zone Dosha score & non-structural remedies.",
+          hi: "क्षेत्र दोष स्कोर व गैर-संरचनात्मक उपाय।",
         },
       },
       {
