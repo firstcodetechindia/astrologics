@@ -28,8 +28,8 @@ export async function generateMetadata(): Promise<Metadata> {
       ? `मुफ्त ज्योतिष व अंक कैलकुलेटर — कुंडली उपकरण | ${siteConfig.brandName}`
       : `Free Astrology & Numerology Calculators — Kundli Tools | ${siteConfig.brandName}`,
     description: hi
-      ? "चंद्र राशि, लग्न, मंगल दोष, गुण मिलान, पंचांग, केपी व अंक ज्योतिष — मुफ्त वैदिक कैलकुलेटर स्पष्ट व्याख्या के साथ।"
-      : "Moon sign, lagna, Mangal dosha, gun milan, panchang, KP & numerology — free Vedic jyotish calculators with clear guides.",
+      ? "चंद्र राशि, लग्न, मंगल दोष, गुण मिलान, पंचांग, केपी व अंक ज्योतिष — मुफ्त कैलकुलेटर स्पष्ट व्याख्या के साथ।"
+      : "Moon sign, lagna, Mangal dosha, gun milan, panchang, KP & numerology — free astrology calculators with clear guides.",
     keywords: hi
       ? [
           "मुफ्त ज्योतिष कैलकुलेटर",
@@ -45,7 +45,7 @@ export async function generateMetadata(): Promise<Metadata> {
           "gun milan calculator",
           "mangal dosha checker",
           "panchang calculator",
-          "jyotish tools",
+          "KP calculator",
           "numerology calculator",
         ],
   });
@@ -74,7 +74,7 @@ export default async function CalculatorsPage() {
         },
         {
           q: "कौन-सी गणना पद्धति?",
-          a: "वैदिक ज्योतिष — लाहिरी विधि; जहाँ लागू हो एक राशि = एक भाव।",
+          a: "ज्योतिष — लाहिरी विधि; जहाँ लागू हो एक राशि = एक भाव।",
         },
         {
           q: "नाम मिलान या जन्म मिलान?",
@@ -92,7 +92,7 @@ export default async function CalculatorsPage() {
         },
         {
           q: "Which calculation method?",
-          a: "Vedic astrology with Lahiri method; one sign = one house where applicable.",
+          a: "astrology with Lahiri method; one sign = one house where applicable.",
         },
         {
           q: "Name match or birth match?",

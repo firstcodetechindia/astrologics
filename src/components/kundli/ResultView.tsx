@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { KundliResult } from "@/lib/astrology/types";
+import type { PredictionBundle } from "@/lib/astrology/prediction/types";
 import { toDMS } from "@/lib/astrology/math";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PageHero } from "@/components/ui/PageHero";
@@ -117,7 +118,22 @@ export function ResultView() {
             label={locale === "hi" ? "नक्षत्र स्वामी" : "Nakshatra lord"}
             value={L(kundli.nakshatra.lord)}
           />
-          <Stat label={t("ayanamsa")} value={`${kundli.ayanamsa.toFixed(4)}°`} />
+          <Stat label={t("ayanamsa")} value={`${kundli.ayanamsa.toFixed(4)}° Lahiri`} />
+          {kundli.reliability && (
+            <Stat
+              label={locale === "hi" ? "गणना विश्वसनीयता" : "Calculation reliability"}
+              value={
+                locale === "hi"
+                  ? kundli.reliability.level === "high"
+                    ? "उच्च"
+                    : kundli.reliability.level === "moderate"
+                      ? "मध्यम"
+                      : "सीमित"
+                  : kundli.reliability.level.charAt(0).toUpperCase() +
+                    kundli.reliability.level.slice(1)
+              }
+            />
+          )}
         </div>
       </GlassCard>
 
@@ -133,18 +149,36 @@ export function ResultView() {
                 <th className="py-2 pr-3 font-medium">{t("sign")}</th>
                 <th className="py-2 pr-3 font-medium">{t("house")}</th>
                 <th className="py-2 pr-3 font-medium">{t("degree")}</th>
-                <th className="py-2 font-medium">{t("nakshatra")}</th>
+                <th className="py-2 pr-3 font-medium">{t("nakshatra")}</th>
+                <th className="py-2 font-medium">{locale === "hi" ? "स्थिति" : "Status"}</th>
               </tr>
             </thead>
             <tbody>
               {kundli.planets.map((p) => (
                 <tr key={p.id} className="border-b border-gold/15">
-                  <td className="py-2.5 pr-3 font-medium text-maroon">{L(p.name)}</td>
+                  <td className="py-2.5 pr-3 font-medium text-maroon">
+                    {L(p.name)}
+                    {p.isRetrograde ? " (R)" : ""}
+                  </td>
                   <td className="py-2.5 pr-3">{L(p.sign)}</td>
                   <td className="py-2.5 pr-3">{p.house}</td>
                   <td className="py-2.5 pr-3">{toDMS(p.degreeInSign)}</td>
-                  <td className="py-2.5">
+                  <td className="py-2.5 pr-3">
                     {L(p.nakshatra)} ({p.pada})
+                  </td>
+                  <td className="py-2.5 text-xs text-ink-muted">
+                    {[
+                      p.dignity?.kind && p.dignity.kind !== "neutral"
+                        ? L(p.dignity.label)
+                        : null,
+                      p.isCombust
+                        ? locale === "hi"
+                          ? "अस्त"
+                          : "Combust"
+                        : null,
+                    ]
+                      .filter(Boolean)
+                      .join(" · ") || "—"}
                   </td>
                 </tr>
               ))}
@@ -213,6 +247,12 @@ export function ResultView() {
             label={t("currentAntar")}
             value={`${L(kundli.dasha.currentAntar.planet)} (${kundli.dasha.currentAntar.start} → ${kundli.dasha.currentAntar.end})`}
           />
+          {kundli.dasha.currentPratyantar && (
+            <Stat
+              label={locale === "hi" ? "वर्तमान प्रत्यंतर" : "Current Pratyantar"}
+              value={`${L(kundli.dasha.currentPratyantar.planet)} (${kundli.dasha.currentPratyantar.start} → ${kundli.dasha.currentPratyantar.end})`}
+            />
+          )}
         </div>
         <p className="text-sm font-medium text-ink mb-2">{t("mahaList")}</p>
         <ul className="space-y-1.5 text-sm font-numeric data-nums">
@@ -243,6 +283,13 @@ export function ResultView() {
               <p className="mt-1 text-[15px] leading-relaxed text-ink-muted md:text-base">
                 {L(ins.text)}
               </p>
+              {kundli.predictions && (
+                <PredictionFactorPeek
+                  locale={locale}
+                  topic={ins.area}
+                  predictions={kundli.predictions}
+                />
+              )}
             </div>
           ))}
         </div>
@@ -277,6 +324,66 @@ function Stat({ label, value }: { label: string; value: string }) {
       <p className="mt-1 font-semibold text-maroon text-sm leading-snug font-numeric data-nums">
         {value}
       </p>
+    </div>
+  );
+}
+
+const TOPIC_KEY: Record<string, keyof PredictionBundle> = {
+  career: "career",
+  marriage: "marriage",
+  finance: "finance",
+  education: "education",
+  business: "business",
+  family: "family",
+  current_period: "currentPeriod",
+  children: "children",
+  foreign_travel: "foreignTravel",
+  spirituality: "spirituality",
+};
+
+function PredictionFactorPeek({
+  locale,
+  topic,
+  predictions,
+}: {
+  locale: "en" | "hi";
+  topic: string;
+  predictions: PredictionBundle;
+}) {
+  const key = TOPIC_KEY[topic];
+  if (!key) return null;
+  const t = predictions[key];
+  const hi = locale === "hi";
+  const L = (o: { en: string; hi: string }) => o[locale];
+  return (
+    <div className="mt-3 grid gap-2 sm:grid-cols-2 text-xs">
+      <div className="rounded-lg border border-emerald-200/60 bg-emerald-50/40 p-2">
+        <p className="font-semibold text-emerald-900/80">
+          {hi ? "अनुकूल कारक" : "Supporting"} · {t.confidence.replace(/_/g, " ")}
+          {t.hasConflict ? (hi ? " · मिश्रित" : " · mixed") : ""}
+        </p>
+        <ul className="mt-1 space-y-0.5 text-ink-muted">
+          {t.supportingFactors.slice(0, 3).map((f) => (
+            <li key={f.id}>• {L(f.label)}</li>
+          ))}
+          {!t.supportingFactors.length && (
+            <li>{hi ? "— स्पष्ट अनुकूल कारक कम" : "— few clear supports"}</li>
+          )}
+        </ul>
+      </div>
+      <div className="rounded-lg border border-amber-200/60 bg-amber-50/40 p-2">
+        <p className="font-semibold text-amber-900/80">
+          {hi ? "चुनौती कारक" : "Challenging"}
+        </p>
+        <ul className="mt-1 space-y-0.5 text-ink-muted">
+          {t.challengingFactors.slice(0, 3).map((f) => (
+            <li key={f.id}>• {L(f.label)}</li>
+          ))}
+          {!t.challengingFactors.length && (
+            <li>{hi ? "— स्पष्ट चुनौती कम" : "— few clear challenges"}</li>
+          )}
+        </ul>
+      </div>
     </div>
   );
 }

@@ -18,26 +18,27 @@ export async function generateMetadata(): Promise<Metadata> {
     locale,
     path: "/learn",
     title: hi
-      ? `ज्योतिष सीखें — वैदिक कुंडली, राशि व ग्रह गाइड | ${siteConfig.brandName}`
-      : `Learn Astrology — Vedic Kundli, Rashi & Graha Guides | ${siteConfig.brandName}`,
+      ? `ज्योतिष सीखें — कुंडली, पश्चिमी, केपी व अंक ज्योतिष | ${siteConfig.brandName}`
+      : `Learn Astrology — Kundli, Western, KP & Numerology | ${siteConfig.brandName}`,
     description: hi
-      ? "Astrologics पर ज्योतिष सीखें — वैदिक कुंडली मूल बातें, राशि, ग्रह, भाव, दोष, गुण मिलान और शब्दावली हिंदी व अंग्रेज़ी में।"
-      : "Learn jyotish on Astrologics — Vedic kundli foundations, rashis, grahas, houses, doshas, gun milan and a glossary in English & Hindi.",
+      ? "Astrologics पर ज्योतिष सीखें — कुंडली मूल बातें, पश्चिमी ज्योतिष, केपी, अंक ज्योतिष, राशि, ग्रह, भाव और शब्दावली हिंदी व अंग्रेज़ी में।"
+      : "Learn astrology on Astrologics — kundli foundations, Western astrology, KP, numerology, signs, planets, houses and a glossary in English & Hindi.",
     keywords: hi
       ? [
           "ज्योतिष सीखें",
-          "वैदिक ज्योतिष गाइड",
-          "राशि",
-          "कुंडली शिक्षा",
+          "कुंडली गाइड",
+          "पश्चिमी ज्योतिष",
+          "केपी ज्योतिष",
+          "अंक ज्योतिष",
           "learn astrology",
         ]
       : [
           "learn astrology",
-          "Vedic jyotish guide",
           "kundli basics",
-          "rashi meaning",
-          "gun milan explained",
-          "jyotish glossary",
+          "western astrology guide",
+          "KP astrology",
+          "numerology guide",
+          "astrology glossary",
         ],
   });
 }

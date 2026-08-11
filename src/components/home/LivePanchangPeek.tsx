@@ -37,10 +37,15 @@ export function LivePanchangPeek({
   panchang: PanchangPeek;
 }) {
   const hi = locale === "hi";
-  const [now, setNow] = useState(() => liveMuhuratNow());
+  /** Null until mount — avoids SSR/client live-muhurat hydration mismatch. */
+  const [now, setNow] = useState<ReturnType<typeof liveMuhuratNow> | null>(
+    null
+  );
 
   useEffect(() => {
-    const id = window.setInterval(() => setNow(liveMuhuratNow()), 1000);
+    const tick = () => setNow(liveMuhuratNow());
+    tick();
+    const id = window.setInterval(tick, 1000);
     return () => window.clearInterval(id);
   }, []);
 
@@ -68,20 +73,20 @@ export function LivePanchangPeek({
     {
       key: "chog",
       label: hi ? "चौघड़िया" : "Choghadiya",
-      value: tx(locale, now.choghadiya),
+      value: now ? tx(locale, now.choghadiya) : "—",
       icon: Timer,
-      tone: now.choghadiyaTone,
+      tone: now?.choghadiyaTone,
     },
     {
       key: "hora",
       label: hi ? "होरा" : "Hora",
-      value: tx(locale, now.hora),
+      value: now ? tx(locale, now.hora) : "—",
       icon: Orbit,
     },
     {
       key: "rahu",
       label: hi ? "राहु काल" : "Rahu Kaal",
-      value: tx(locale, now.rahuKaal.label),
+      value: now ? tx(locale, now.rahuKaal.label) : "—",
       icon: Clock,
     },
   ];

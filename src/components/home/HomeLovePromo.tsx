@@ -37,7 +37,7 @@ export function HomeLovePromo({ locale }: { locale: string }) {
         {
           n: "03",
           title: "See your match",
-          text: "A clear love score in the spirit of Vedic guna reading.",
+          text: "A clear love score inspired by traditional name–star harmony.",
         },
       ];
 
@@ -47,7 +47,7 @@ export function HomeLovePromo({ locale }: { locale: string }) {
         <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-8 lg:gap-0">
           <div className="p-6 sm:p-10 lg:p-12">
             <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-saffron-deep">
-              {hi ? "वैदिक नाम अनुकूलता" : "Vedic name compatibility"}
+              {hi ? "नाम अनुकूलता" : "Name compatibility"}
             </p>
             <h2 className="heading-1 mt-3 font-display tracking-tight text-ink">
               {hi ? "लव कैलकुलेटर" : "Love Calculator"}

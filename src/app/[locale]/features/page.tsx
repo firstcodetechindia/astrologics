@@ -18,25 +18,26 @@ export async function generateMetadata(): Promise<Metadata> {
     path: "/features",
     title: hi
       ? `विशेषताएँ — मुफ्त कुंडली, एआई गुरु व ज्योतिष उपकरण | ${siteConfig.brandName}`
-      : `Features — Free Kundli, AI Guru & Jyotish Tools | ${siteConfig.brandName}`,
+      : `Features — Free Kundli, AI Guru & Astrology Tools | ${siteConfig.brandName}`,
     description: hi
-      ? "Astrologics विशेषताएँ: मुफ्त जन्म कुंडली, एआई ज्योतिष चैट, गुण मिलान, राशिफल, पंचांग व 30+ वैदिक कैलकुलेटर।"
-      : "Astrologics features: free janam kundali, AI astrology chat, gun milan, rashifal, panchang and 30+ Vedic jyotish calculators.",
+      ? "Astrologics विशेषताएँ: मुफ्त जन्म कुंडली, एआई ज्योतिष चैट, गुण मिलान, राशिफल, पंचांग, केपी, अंक ज्योतिष व 30+ कैलकुलेटर।"
+      : "Astrologics features: free janam kundali, AI astrology chat, gun milan, horoscope, panchang, KP, numerology and 30+ calculators.",
     keywords: hi
       ? [
           "कुंडली विशेषताएँ",
           "एआई ज्योतिष",
           "गुण मिलान",
           "मुफ्त कुंडली",
-          "AI astrology features",
+          "केपी ज्योतिष",
+          "अंक ज्योतिष",
         ]
       : [
           "AI astrology features",
           "free kundli online",
           "gun milan",
-          "Vedic calculators",
+          "KP calculators",
+          "numerology tools",
           "AI Guru chat",
-          "jyotish tools",
         ],
   });
 }
@@ -92,8 +93,8 @@ const FEATURES = [
     icon: "📚",
     title: { en: "Learn Astrology", hi: "ज्योतिष सीखें" },
     text: {
-      en: "Guides on rashis, grahas, houses, doshas and more.",
-      hi: "राशि, ग्रह, भाव, दोष आदि पर शैक्षिक गाइड।",
+      en: "Guides on kundli, Western astrology, KP, numerology and more.",
+      hi: "कुंडली, पश्चिमी ज्योतिष, केपी, अंक ज्योतिष आदि पर गाइड।",
     },
   },
 ] as const;
@@ -160,13 +161,13 @@ export default async function FeaturesPage() {
         <section className="mt-12 max-w-3xl space-y-4 text-[15px] leading-relaxed text-ink-muted">
           <h2 className="font-display text-2xl font-bold text-ink">
             {hi
-              ? "वैदिक कुंडली व एआई ज्योतिष एक प्लेटफ़ॉर्म पर"
-              : "Vedic kundli and AI astrology on one platform"}
+              ? "कुंडली, पश्चिमी, केपी व एआई ज्योतिष एक प्लेटफ़ॉर्म पर"
+              : "Kundli, Western, KP and AI astrology on one platform"}
           </h2>
           <p>
             {hi
-              ? "Astrologics मुफ्त जन्म कुंडली (janam kundali), दैनिक राशिफल, गुण मिलान और एआई गुरु चैट को एक जगह लाता है — ताकि आप वैदिक ज्योतिष को सरल भाषा में समझ सकें।"
-              : "Astrologics brings free janam kundali, daily rashifal, gun milan and AI Guru chat together — so you can explore Vedic jyotish in plain English or Hindi."}
+              ? "Astrologics मुफ्त जन्म कुंडली, दैनिक राशिफल, गुण मिलान, पश्चिमी/केपी/अंक ज्योतिष उपकरण और एआई गुरु चैट को एक जगह लाता है — सरल भाषा में।"
+              : "Astrologics brings free janam kundali, daily horoscope, gun milan, Western/KP/numerology tools and AI Guru chat together — in plain English or Hindi."}
           </p>
           <p>
             {hi

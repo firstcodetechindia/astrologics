@@ -38,14 +38,14 @@ export async function generateMetadata({
       ? [
           post.title,
           "ज्योतिष ब्लॉग",
-          "वैदिक कुंडली",
+          "जन्म कुंडली",
           "राशिफल",
           "janam kundali",
         ]
       : [
           post.title,
           "astrology blog",
-          "Vedic kundli",
+          "kundli",
           "rashifal",
           "jyotish guide",
         ],

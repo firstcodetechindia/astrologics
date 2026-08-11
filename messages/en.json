@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Free Janam Kundli Online, Aaj Ka Rashifal & AI Jyotish | Astrologics",
-    "description": "Free Vedic kundli & janam kundali online, daily rashifal, gun milan, mangal dosha & AI Guru astrology chat — Hindi & English Jyotish tools by Astrologics."
+    "title": "Free Kundli, AI Astrology & Calculators | Astrologics",
+    "description": "Explore astrology online — free Janam Kundli, Western guides, KP tools, numerology, horoscope, Panchang and AI chart chat. Clear tools in English and Hindi."
   },
   "nav": {
     "home": "Home",
@@ -23,6 +23,7 @@
   "common": {
     "brand": "Astrologics",
     "whatsapp": "Talk With Us",
+    "talkNow": "Talk now",
     "talkWithUs": "Talk With Us",
     "call": "Call Now",
     "learnMore": "Learn more",
@@ -34,12 +35,12 @@
   },
   "home": {
     "eyebrow": "Free tools · AI chat · Hindi & English",
-    "title": "India’s AI Astrology Platform",
-    "subtitle": "Create your free kundli, explore 30+ calculators, and ask AI about your chart — then talk with us for personal guidance.",
+    "title": "Birth Chart, Calculators & AI Astrology — in One Place",
+    "subtitle": "Create your free Janam Kundli, try Western, KP and numerology tools, and get clear AI answers about your chart.",
     "ctaPrimary": "Generate Free Kundli",
-    "ctaSecondary": "Talk With Us",
+    "ctaSecondary": "Ask AI Guru",
     "ctaCalculators": "Free Calculators",
-    "trust": "Lahiri standard · Whole-sign houses · EN & HI",
+    "trust": "Kundli · Western · KP · Numerology · EN & HI",
     "chartTitle": "Birth Chart",
     "chartBadge": "Indian standard",
     "pill1": "Indian standard calc.",
@@ -57,10 +58,10 @@
     "feature4Text": "Guidance themes for personality, career, wealth, relationships and health.",
     "howTitle": "How it works",
     "how1": "Share your birth date, exact time and place",
-    "how2": "We calculate your Vedic birth chart instantly",
+    "how2": "We calculate your birth chart and related tools instantly",
     "how3": "Read the report, then message us for remedies",
-    "whyTitle": "Why Vedic kundli?",
-    "whySubtitle": "Traditional Jyotish presented with modern clarity — so you understand your chart without confusion.",
+    "whyTitle": "Why explore astrology here?",
+    "whySubtitle": "Multiple astrology traditions with modern clarity — so you understand charts and tools without confusion.",
     "why1Title": "Birth-time accurate",
     "why1Text": "Lagna and houses depend on exact birth time and place for a true reading.",
     "why2Title": "Classical method",
@@ -71,7 +72,7 @@
     "ctaBandText": "Your free kundli is a clear starting map. For gemstones, mantras, marriage matching and career timing, talk to us directly."
   },
   "kundliForm": {
-    "title": "Generate your Vedic kundli",
+    "title": "Generate your Janam Kundli",
     "subtitle": "Accurate birth time gives the best lagna. Choose your birth city from the suggestions.",
     "name": "Full name",
     "gender": "Gender",
@@ -86,7 +87,7 @@
     "note": "Charts use India’s standard calculation method (Lahiri). For auspicious timing, matching and remedies, contact us."
   },
   "result": {
-    "title": "Your Vedic Kundli",
+    "title": "Your Birth Chart",
     "subtitle": "Personalized from your birth details",
     "birthDetails": "Birth details",
     "coreIdentity": "Core identity",
@@ -116,10 +117,10 @@
   },
   "about": {
     "title": "About Astrologics",
-    "subtitle": "Traditional jyotish, presented with modern clarity.",
-    "p1": "Astrologics believes a kundli should feel informative — not confusing or fear-based. Our free online chart follows classical Vedic practice: star-based zodiac, India’s standard calculation (Lahiri method), one-sign houses and life-period dasha.",
-    "p2": "Deeper consultation covers timing, compatibility, remedies and life decisions with a human guide — talk with us anytime at Astrologics.",
-    "p3": "The Astrologics experience is designed to stay calm, bright and trustworthy while you explore your chart."
+    "subtitle": "Astrology across traditions — presented with modern clarity.",
+    "p1": "Astrologics is an astrology platform for modern seekers. Explore free Janam Kundli (Lahiri sidereal chart engine), Western learning guides, KP tools, numerology calculators, daily horoscope, Panchang and AI chart chat — in English and Hindi.",
+    "p2": "Your birth chart uses India’s widely used Lahiri method with whole-sign houses and Vimshottari dasha. Other sections cover different systems for different questions — we keep methods clear so you know what you are reading.",
+    "p3": "Deeper consultation covers timing, compatibility, remedies and life decisions with a human guide. The experience stays calm, bright and trustworthy while you explore."
   },
   "services": {
     "title": "Services",
@@ -139,8 +140,8 @@
     "subtitle": "Clear answers before you generate your chart.",
     "q1": "Is birth time necessary?",
     "a1": "Yes for accurate Lagna and house placements. If time is unknown, Moon-based themes can still be discussed in consultation.",
-    "q2": "Is this Vedic or Western astrology?",
-    "a2": "Astrologics uses Vedic astrology. Planet positions follow the fixed stars. Western astrology often uses a season-based Sun sign system — they are different.",
+    "q2": "Which astrology systems do you cover?",
+    "a2": "Astrologics covers multiple traditions. Free Janam Kundli uses Lahiri sidereal methods. You can also explore Western guides, KP calculators, numerology tools, horoscope and Panchang — each labelled by system so you know what you are using.",
     "q3": "Are remedies shown fully online?",
     "a3": "We share high-level indications on the site. Personalized remedies are shared after a private consultation with us.",
     "q4": "Is my data stored?",
@@ -159,12 +160,12 @@
     "note": "Share your name, birth date, time and place when you message for faster guidance."
   },
   "blog": {
-    "title": "Jyotish journal",
-    "subtitle": "Simple, useful articles on Vedic astrology.",
+    "title": "Astrology journal",
+    "subtitle": "Simple, useful articles on kundli, Western, KP, numerology and more.",
     "readMore": "Read article"
   },
   "footer": {
-    "tagline": "Free kundli, AI chat & calculators — talk with us for deeper guidance.",
+    "tagline": "Kundli, Western, KP, numerology & AI — talk with us for deeper guidance.",
     "rights": "All rights reserved.",
     "disclaimer": "Astrology is for guidance and reflection. Important life decisions remain yours.",
     "colExplore": "Explore",

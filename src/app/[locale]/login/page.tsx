@@ -12,18 +12,24 @@ export async function generateMetadata(): Promise<Metadata> {
     locale,
     path: "/login",
     title: hi
-      ? `लॉगिन / साइन अप | ${siteConfig.brandName}`
-      : `Login / Sign up | ${siteConfig.brandName}`,
+      ? `लॉगिन | ${siteConfig.brandName}`
+      : `Login | ${siteConfig.brandName}`,
     description: hi
-      ? "एआई गुरु ज्योतिष चैट जारी रखने के लिए लॉगिन या साइन अप करें।"
-      : "Login or sign up to continue AI Guru astrology chat.",
+      ? "मोबाइल OTP से Astrologics में लॉगिन या साइन अप करें।"
+      : "Login or sign up to Astrologics with mobile OTP.",
     noIndex: true,
   });
 }
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<div className="bg-[#faf8f5] min-h-[40vh]" />}>
+    <Suspense
+      fallback={
+        <div className="flex h-dvh items-center justify-center bg-[#fffaf6] text-sm text-ink-muted">
+          Loading…
+        </div>
+      }
+    >
       <AuthClient />
     </Suspense>
   );

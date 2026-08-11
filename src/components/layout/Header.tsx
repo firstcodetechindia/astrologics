@@ -2,9 +2,21 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { ChevronDown, Menu, MessageCircle, X } from "lucide-react";
+import {
+  BookOpen,
+  Calculator,
+  ChevronDown,
+  Home,
+  IndianRupee,
+  MessageCircle,
+  Sparkles,
+  Star,
+  Wrench,
+  type LucideIcon,
+} from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { LocaleSwitcher } from "./LocaleSwitcher";
+import { UserAccountMenu } from "./UserAccountMenu";
 import { siteConfig, whatsappLink } from "@/lib/site-config";
 import { AstrologicsLogo } from "@/components/brand/AstrologicsLogo";
 import {
@@ -145,7 +157,6 @@ export function Header() {
   const locale = useLocale();
   const pathname = usePathname();
   const hi = locale === "hi";
-  const [open, setOpen] = useState(false);
   const [menu, setMenu] = useState<MenuKey>(null);
   const navRef = useRef<HTMLElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -157,12 +168,15 @@ export function Header() {
 
   const sectionActive = {
     features: pathMatches(pathname, ["/features", "/services"]),
-    tools: pathMatches(pathname, ["/kundli", "/chat"]),
+    tools: pathMatches(pathname, [
+      "/kundli",
+      "/chat",
+      "/panchang",
+      "/horoscope",
+    ]),
     calculators: pathMatches(pathname, ["/calculators"]),
     learn: pathMatches(pathname, ["/learn", "/blog"]),
     pricing: pathMatches(pathname, ["/pricing"]),
-    horoscope: pathMatches(pathname, ["/horoscope"]),
-    panchang: pathMatches(pathname, ["/panchang"]),
     home: pathname === "/" || pathname === "",
   };
 
@@ -198,19 +212,22 @@ export function Header() {
 
   useEffect(() => {
     setMenu(null);
-    setOpen(false);
   }, [pathname]);
 
-  const softMenus: {
+  type SoftMenuItem = {
     key: Exclude<MenuKey, "calculators" | null>;
     label: string;
+    icon: LucideIcon;
     stacks: MegaColumnStack[];
     active: boolean;
     footer?: ReactNode;
-  }[] = [
+  };
+
+  const softMenus: SoftMenuItem[] = [
     {
       key: "features",
       label: t("features"),
+      icon: Sparkles,
       stacks: featuresStacks,
       active: sectionActive.features,
       footer: (
@@ -235,6 +252,7 @@ export function Header() {
     {
       key: "tools",
       label: t("freeTools"),
+      icon: Wrench,
       stacks: toolsStacks,
       active: sectionActive.tools,
       footer: (
@@ -256,40 +274,43 @@ export function Header() {
         </>
       ),
     },
-    {
-      key: "learn",
-      label: t("learn"),
-      stacks: learnStacks,
-      active: sectionActive.learn,
-      footer: (
-        <>
-          <Link
-            href="/learn"
-            onClick={() => setMenu(null)}
-            className="font-semibold text-saffron-deep hover:underline"
-          >
-            {hi ? "सभी ज्योतिष गाइड →" : "All astrology guides →"}
-          </Link>
-          <Link
-            href="/blog"
-            onClick={() => setMenu(null)}
-            className="text-[#6b5c4c] hover:text-saffron-deep"
-          >
-            {hi ? "ब्लॉग" : "Blog"}
-          </Link>
-          <Link
-            href="/learn/glossary"
-            onClick={() => setMenu(null)}
-            className="text-[#6b5c4c] hover:text-saffron-deep"
-          >
-            {hi ? "शब्दावली" : "Glossary"}
-          </Link>
-        </>
-      ),
-    },
   ];
 
-  const activeSoft = softMenus.find((m) => m.key === menu);
+  const learnMenu: SoftMenuItem = {
+    key: "learn",
+    label: t("learn"),
+    icon: BookOpen,
+    stacks: learnStacks,
+    active: sectionActive.learn,
+    footer: (
+      <>
+        <Link
+          href="/learn"
+          onClick={() => setMenu(null)}
+          className="font-semibold text-saffron-deep hover:underline"
+        >
+          {hi ? "सभी ज्योतिष गाइड →" : "All astrology guides →"}
+        </Link>
+        <Link
+          href="/blog"
+          onClick={() => setMenu(null)}
+          className="text-[#6b5c4c] hover:text-saffron-deep"
+        >
+          {hi ? "ब्लॉग" : "Blog"}
+        </Link>
+        <Link
+          href="/learn/glossary"
+          onClick={() => setMenu(null)}
+          className="text-[#6b5c4c] hover:text-saffron-deep"
+        >
+          {hi ? "शब्दावली" : "Glossary"}
+        </Link>
+      </>
+    ),
+  };
+
+  const activeSoft = [...softMenus, learnMenu].find((m) => m.key === menu);
+  const LearnIcon = learnMenu.icon;
 
   return (
     <header className="sticky top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur-xl">
@@ -338,29 +359,26 @@ export function Header() {
 
         <div className="flex shrink-0 items-center gap-2">
           <LocaleSwitcher />
-          <Link
-            href="/chat"
-            className="hidden items-center justify-center rounded-xl bg-gradient-to-r from-saffron to-maroon px-4 py-2 text-sm font-semibold text-white shadow-md shadow-saffron/25 hover:brightness-105 md:inline-flex"
-          >
-            {t("chatNow")}
-          </Link>
+          <UserAccountMenu />
           <a
             href={whatsappLink()}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden items-center gap-1.5 rounded-xl border border-saffron/30 px-3 py-2 text-xs font-semibold text-saffron-deep hover:bg-[#fff1e6] xl:inline-flex"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-saffron/30 px-2.5 py-2 text-xs font-semibold text-saffron-deep transition hover:bg-[#fff1e6] sm:px-3"
           >
-            <MessageCircle className="h-3.5 w-3.5" />
-            {tc("whatsapp")}
+            <MessageCircle className="h-4 w-4 shrink-0" />
+            <span>{tc("talkNow")}</span>
           </a>
-          <button
-            type="button"
-            className="rounded-xl border border-saffron/15 p-2.5 text-saffron-deep hover:bg-[#fff1e6] lg:hidden"
-            onClick={() => setOpen((v) => !v)}
-            aria-label="Menu"
+          <Link
+            href="/astrologer/signup"
+            className="inline-flex items-center gap-1.5 rounded-xl bg-[#F06A00] px-2.5 py-2 text-xs font-semibold text-white shadow-[0_8px_18px_-12px_rgba(240,106,0,0.9)] transition hover:bg-[#e85d04] sm:px-3"
           >
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+            <Star className="h-4 w-4 shrink-0" strokeWidth={2.1} />
+            <span className="hidden sm:inline">
+              {hi ? "ज्योतिषी बनें" : "Join as Astrologer"}
+            </span>
+            <span className="sm:hidden">{hi ? "ज्योतिषी" : "Astrologer"}</span>
+          </Link>
         </div>
       </div>
 
@@ -379,31 +397,36 @@ export function Header() {
             onMouseEnter={() => openMenu(null)}
             aria-current={sectionActive.home ? "page" : undefined}
           >
+            <Home className="h-3.5 w-3.5 shrink-0" strokeWidth={2.15} />
             {t("home")}
           </Link>
 
-          {softMenus.map((item) => (
-            <button
-              key={item.key}
-              type="button"
-              className={navItemClass(item.active, menu === item.key)}
-              aria-expanded={menu === item.key}
-              aria-current={item.active ? "true" : undefined}
-              onMouseEnter={() => openMenu(item.key)}
-              onClick={() =>
-                setMenu((m) => (m === item.key ? null : item.key))
-              }
-            >
-              {item.label}
-              <ChevronDown
-                className={cn(
-                  "h-3.5 w-3.5 transition",
-                  menu === item.key && "rotate-180",
-                  !(item.active || menu === item.key) && "opacity-70"
-                )}
-              />
-            </button>
-          ))}
+          {softMenus.map((item) => {
+            const Icon = item.icon;
+            return (
+              <button
+                key={item.key}
+                type="button"
+                className={navItemClass(item.active, menu === item.key)}
+                aria-expanded={menu === item.key}
+                aria-current={item.active ? "true" : undefined}
+                onMouseEnter={() => openMenu(item.key)}
+                onClick={() =>
+                  setMenu((m) => (m === item.key ? null : item.key))
+                }
+              >
+                <Icon className="h-3.5 w-3.5 shrink-0" strokeWidth={2.15} />
+                {item.label}
+                <ChevronDown
+                  className={cn(
+                    "h-3.5 w-3.5 transition",
+                    menu === item.key && "rotate-180",
+                    !(item.active || menu === item.key) && "opacity-70"
+                  )}
+                />
+              </button>
+            );
+          })}
 
           <button
             type="button"
@@ -418,6 +441,7 @@ export function Header() {
               setMenu((m) => (m === "calculators" ? null : "calculators"))
             }
           >
+            <Calculator className="h-3.5 w-3.5 shrink-0" strokeWidth={2.15} />
             {t("calculators")}
             <ChevronDown
               className={cn(
@@ -429,31 +453,33 @@ export function Header() {
             />
           </button>
 
+          <button
+            type="button"
+            className={navItemClass(learnMenu.active, menu === "learn")}
+            aria-expanded={menu === "learn"}
+            aria-current={learnMenu.active ? "true" : undefined}
+            onMouseEnter={() => openMenu("learn")}
+            onClick={() => setMenu((m) => (m === "learn" ? null : "learn"))}
+          >
+            <LearnIcon className="h-3.5 w-3.5 shrink-0" strokeWidth={2.15} />
+            {learnMenu.label}
+            <ChevronDown
+              className={cn(
+                "h-3.5 w-3.5 transition",
+                menu === "learn" && "rotate-180",
+                !(learnMenu.active || menu === "learn") && "opacity-70"
+              )}
+            />
+          </button>
+
           <Link
             href="/pricing"
             className={navItemClass(sectionActive.pricing)}
             onMouseEnter={() => openMenu(null)}
             aria-current={sectionActive.pricing ? "page" : undefined}
           >
+            <IndianRupee className="h-3.5 w-3.5 shrink-0" strokeWidth={2.15} />
             {t("pricing")}
-          </Link>
-
-          <Link
-            href="/horoscope"
-            className={navItemClass(sectionActive.horoscope)}
-            onMouseEnter={() => openMenu(null)}
-            aria-current={sectionActive.horoscope ? "page" : undefined}
-          >
-            {hi ? "राशिफल" : "Horoscope"}
-          </Link>
-
-          <Link
-            href="/panchang"
-            className={navItemClass(sectionActive.panchang)}
-            onMouseEnter={() => openMenu(null)}
-            aria-current={sectionActive.panchang ? "page" : undefined}
-          >
-            {t("panchang")}
           </Link>
 
           {activeSoft && (
@@ -501,182 +527,6 @@ export function Header() {
           )}
         </nav>
       </div>
-
-      {open && (
-        <div className="max-h-[80vh] space-y-5 overflow-y-auto border-t border-black/5 bg-white px-4 py-4 lg:hidden">
-          <Link
-            href="/"
-            onClick={() => setOpen(false)}
-            className={cn(
-              "block rounded-xl px-3 py-2.5 text-sm font-semibold",
-              sectionActive.home
-                ? "bg-gradient-to-r from-saffron to-maroon text-white"
-                : "text-ink hover:bg-[#fff1e6]"
-            )}
-          >
-            {t("home")}
-          </Link>
-          {softMenus.map((item) => (
-            <div key={item.key}>
-              <p
-                className={cn(
-                  "mb-2 rounded-lg border-b border-black/[0.06] px-2 pb-1.5 text-[10px] font-bold uppercase tracking-[0.12em]",
-                  item.active
-                    ? "border-transparent bg-gradient-to-r from-saffron/15 to-maroon/10 text-saffron-deep"
-                    : "text-[#8a7a6a]"
-                )}
-              >
-                {item.label}
-              </p>
-              <div className="grid grid-cols-1 gap-0.5 sm:grid-cols-2">
-                {item.stacks
-                  .flatMap((s) => s.groups)
-                  .flatMap((c) => c.links)
-                  .map((link) => {
-                    const linkActive =
-                      pathname === link.href ||
-                      pathname.startsWith(`${link.href}/`);
-                    return (
-                      <Link
-                        key={link.href}
-                        href={link.href}
-                        onClick={() => setOpen(false)}
-                        className={cn(
-                          "flex items-center gap-2.5 rounded-lg px-2 py-2 text-sm",
-                          linkActive
-                            ? "bg-gradient-to-r from-saffron to-maroon text-white shadow-sm"
-                            : "hover:bg-[#fff1e6]"
-                        )}
-                      >
-                        <span
-                          className={cn(
-                            "flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-[14px]",
-                            linkActive ? "bg-white/20" : "bg-[#f7f4f0]"
-                          )}
-                        >
-                          {link.icon}
-                        </span>
-                        <span
-                          className={cn(
-                            "font-medium",
-                            linkActive ? "text-white" : "text-[#3d342c]"
-                          )}
-                        >
-                          {pick(locale, link.title)}
-                        </span>
-                      </Link>
-                    );
-                  })}
-              </div>
-            </div>
-          ))}
-
-          <div>
-            <p
-              className={cn(
-                "mb-2 rounded-lg border-b border-black/[0.06] px-2 pb-1.5 text-[10px] font-bold uppercase tracking-[0.12em]",
-                sectionActive.calculators
-                  ? "border-transparent bg-gradient-to-r from-saffron/15 to-maroon/10 text-saffron-deep"
-                  : "text-[#8a7a6a]"
-              )}
-            >
-              {t("calculators")}
-            </p>
-            <div className="space-y-4">
-              {calcColumns.flatMap((col) =>
-                col.groups.map((g) => (
-                  <div key={pick(locale, g.heading)}>
-                    <p className="mb-1 px-2 text-[10px] font-semibold uppercase tracking-wider text-[#8a7a6a]">
-                      {pick(locale, g.heading)}
-                    </p>
-                    <div className="grid grid-cols-1 gap-0.5 sm:grid-cols-2">
-                      {g.links.map((link) => {
-                        const linkActive = pathname === link.href;
-                        return (
-                          <Link
-                            key={link.href}
-                            href={link.href}
-                            onClick={() => setOpen(false)}
-                            className={cn(
-                              "flex items-center gap-2.5 rounded-lg px-2 py-1.5 text-sm",
-                              linkActive
-                                ? "bg-gradient-to-r from-saffron to-maroon text-white"
-                                : "hover:bg-[#fff1e6]"
-                            )}
-                          >
-                            <span
-                              className={cn(
-                                "flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-[14px]",
-                                linkActive
-                                  ? "bg-white/20 text-white"
-                                  : "bg-[#f7f4f0] text-[#9a8b7a]"
-                              )}
-                            >
-                              {link.icon}
-                            </span>
-                            <span
-                              className={cn(
-                                "font-medium",
-                                linkActive ? "text-white" : "text-[#3d342c]"
-                              )}
-                            >
-                              {pick(locale, link.title)}
-                            </span>
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-
-          <Link
-            href="/pricing"
-            onClick={() => setOpen(false)}
-            className={cn(
-              "block rounded-xl px-2 py-2.5 font-semibold",
-              sectionActive.pricing
-                ? "bg-gradient-to-r from-saffron to-maroon text-white"
-                : "text-ink"
-            )}
-          >
-            {t("pricing")}
-          </Link>
-          <Link
-            href="/horoscope"
-            onClick={() => setOpen(false)}
-            className={cn(
-              "block rounded-xl px-2 py-2.5 font-semibold",
-              sectionActive.horoscope
-                ? "bg-gradient-to-r from-saffron to-maroon text-white"
-                : "text-ink"
-            )}
-          >
-            {hi ? "राशिफल" : "Horoscope"}
-          </Link>
-          <Link
-            href="/panchang"
-            onClick={() => setOpen(false)}
-            className={cn(
-              "block rounded-xl px-2 py-2.5 font-semibold",
-              sectionActive.panchang
-                ? "bg-gradient-to-r from-saffron to-maroon text-white"
-                : "text-ink"
-            )}
-          >
-            {t("panchang")}
-          </Link>
-          <Link
-            href="/chat"
-            onClick={() => setOpen(false)}
-            className="block rounded-xl bg-gradient-to-r from-saffron to-maroon py-3 text-center font-semibold text-white"
-          >
-            {t("chatNow")}
-          </Link>
-        </div>
-      )}
     </header>
   );
 }

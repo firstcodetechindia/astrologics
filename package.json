@@ -6,7 +6,10 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:astrology": "npx tsx scripts/astrology-regression.ts",
+    "test:astrology:validate": "npx tsx scripts/astrology-validation.ts",
+    "test:predictions": "npx tsx scripts/prediction-tests.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.7.1",

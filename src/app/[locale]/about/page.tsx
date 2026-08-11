@@ -21,25 +21,27 @@ export async function generateMetadata({
     locale,
     path: "/about",
     title: hi
-      ? `परिचय — वैदिक ज्योतिष व एआई कुंडली | ${siteConfig.brandName}`
-      : `About — Vedic Jyotish & AI Kundli | ${siteConfig.brandName}`,
+      ? `परिचय — ज्योतिष प्लेटफ़ॉर्म व एआई कुंडली | ${siteConfig.brandName}`
+      : `About — Astrology Platform & AI Kundli | ${siteConfig.brandName}`,
     description: hi
-      ? "Astrologics पारंपरिक वैदिक ज्योतिष को आधुनिक स्पष्टता से प्रस्तुत करता है — मुफ्त जन्म कुंडली, राशिफल, गुण मिलान व एआई गुरु।"
-      : "Astrologics presents classical Vedic jyotish with modern clarity — free janam kundali, rashifal, gun milan and AI Guru guidance.",
+      ? "Astrologics कई ज्योतिष परंपराएँ प्रस्तुत करता है — मुफ्त जन्म कुंडली, पश्चिमी गाइड, केपी, अंक ज्योतिष, राशिफल व एआई गुरु।"
+      : "Astrologics covers multiple astrology traditions — free janam kundali, Western guides, KP, numerology, horoscope and AI Guru guidance.",
     keywords: hi
       ? [
           "Astrologics परिचय",
-          "वैदिक ज्योतिष",
+          "ज्योतिष प्लेटफ़ॉर्म",
           "जन्म कुंडली",
           "एआई ज्योतिष",
-          "jyotish platform",
+          "केपी ज्योतिष",
+          "अंक ज्योतिष",
         ]
       : [
           "about Astrologics",
-          "Vedic jyotish",
-          "AI astrology platform",
+          "astrology platform",
+          "AI astrology",
           "janam kundali online",
-          "gun milan",
+          "KP astrology",
+          "numerology",
         ],
   });
 }
@@ -86,13 +88,13 @@ export default async function AboutPage({
           </h2>
           <p>
             {hi
-              ? "हमारा लक्ष्य है कि जन्म कुंडली (janam kundali) और दैनिक राशिफल भयभीत करने वाले न हों — बल्कि स्पष्ट वैदिक ज्योतिष मार्गदर्शन दें, हिंदी व अंग्रेज़ी में।"
-              : "Our aim is that janam kundali and daily rashifal feel informative — not fear-based — with clear Vedic jyotish guidance in English and Hindi."}
+              ? "हमारा लक्ष्य है कि जन्म कुंडली, राशिफल और अन्य ज्योतिष उपकरण भयभीत करने वाले न हों — बल्कि स्पष्ट मार्गदर्शन दें, हिंदी व अंग्रेज़ी में।"
+              : "Our aim is that kundli, horoscope and other astrology tools feel informative — not fear-based — with clear guidance in English and Hindi."}
           </p>
           <p>
             {hi
               ? "गुण मिलान, मंगल दोष जाँच, पंचांग और एआई गुरु चैट से लेकर व्यक्तिगत परामर्श तक — Astrologics आधुनिक जीवन के लिए ज्योतिष को सुलभ बनाता है।"
-              : "From gun milan, Mangal dosha checks and panchang to AI Guru chat and personal consultation — Astrologics makes jyotish practical for modern life."}
+              : "From gun milan, Mangal dosha checks and panchang to AI Guru chat and personal consultation — Astrologics makes astrology practical for modern life."}
           </p>
         </section>
         <ContactCTA title={home("ctaBandTitle")} text={home("ctaBandText")} />

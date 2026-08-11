@@ -14,8 +14,8 @@ export async function generateMetadata(): Promise<Metadata> {
       ? `एआई गुरु — एआई ज्योतिष चैट व कुंडली प्रश्न | ${siteConfig.brandName}`
       : `AI Guru — AI Astrology Chat & Kundli Q&A | ${siteConfig.brandName}`,
     description: hi
-      ? "एआई गुरु से वैदिक कुंडली पर प्रश्न पूछें — करियर, विवाह, दशा व राशिफल। AI astrology chat हिंदी व अंग्रेज़ी में।"
-      : "Ask AI Guru about your Vedic kundli — career, marriage, dasha & rashifal. AI astrology chat in English & Hindi.",
+      ? "एआई गुरु से अपनी कुंडली पर प्रश्न पूछें — करियर, विवाह, दशा व राशिफल। AI astrology chat हिंदी व अंग्रेज़ी में।"
+      : "Ask AI Guru about your birth chart — career, marriage, dasha & horoscope. AI astrology chat in English & Hindi.",
     keywords: hi
       ? [
           "एआई गुरु",
@@ -23,14 +23,12 @@ export async function generateMetadata(): Promise<Metadata> {
           "एआई कुंडली चैट",
           "AI astrology",
           "AI Guru",
-          "वैदिक ज्योतिष चैट",
         ]
       : [
           "AI Guru",
           "AI astrology",
           "AI astrology chat",
           "kundli AI chat",
-          "Vedic AI jyotish",
           "ask astrology AI",
         ],
   });

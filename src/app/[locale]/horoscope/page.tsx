@@ -31,7 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
           "राशिफल",
           "आज का राशिफल",
           "दैनिक राशिफल",
-          "वैदिक राशिफल",
+          "राशिफल",
           "चंद्र राशि",
           "aaj ka rashifal",
         ]
@@ -39,7 +39,7 @@ export async function generateMetadata(): Promise<Metadata> {
           "horoscope today",
           "daily horoscope",
           "aaj ka rashifal",
-          "Vedic horoscope",
+          "horoscope",
           "zodiac signs",
           "Moon sign horoscope",
           "rashifal",
@@ -78,7 +78,7 @@ export default async function HoroscopeIndexPage() {
       />
 
       <PageHero
-        eyebrow={hi ? "एआई ज्योतिष · वैदिक शैली" : "AI Jyotish · Vedic style"}
+        eyebrow={hi ? "एआई ज्योतिष · दैनिक राशिफल" : "AI Astrology · Daily horoscope"}
         title={hi ? "राशिफल — 12 राशियाँ" : "Horoscope — 12 Zodiac Signs"}
         description={
           hi
@@ -95,7 +95,7 @@ export default async function HoroscopeIndexPage() {
         <div className="mb-6 rounded-2xl border border-white/70 bg-white/55 p-4 text-[13px] leading-relaxed text-ink-muted shadow-sm backdrop-blur-xl sm:p-5">
           <p className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-saffron-deep">
             <Sparkles className="h-3 w-3" />
-            {hi ? "खोजने योग्य ज्योतिष सामग्री" : "Crawl-ready Jyotish content"}
+            {hi ? "खोजने योग्य ज्योतिष सामग्री" : "Crawl-ready astrology content"}
           </p>
           <p className="mt-2">
             {hi

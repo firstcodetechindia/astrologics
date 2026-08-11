@@ -248,7 +248,7 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
       />
 
       <PageHero
-        eyebrow={hi ? `${ruler} द्वारा शासित · एआई ज्योतिष` : `Ruled by ${ruler} · AI Jyotish`}
+        eyebrow={hi ? `${ruler} द्वारा शासित · एआई ज्योतिष` : `Ruled by ${ruler} · AI Astrology`}
         title={
           hi
             ? `${name} राशिफल — दैनिक, साप्ताहिक व मासिक`
@@ -381,7 +381,7 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
                   <h2 className="heading-3 font-display text-ink">
                     {hi
                       ? `${name} व्यक्तित्व व ज्योतिष प्रोफ़ाइल`
-                      : `${name} personality & Jyotish profile`}
+                      : `${name} personality & astrology profile`}
                   </h2>
                 </div>
                 <p className="text-body text-ink-muted">
@@ -709,7 +709,7 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
         <GlassPanel strong className="mt-6 space-y-3 p-5 text-center sm:p-6">
           <p className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-saffron-deep">
             <Bot className="h-3.5 w-3.5" />
-            {hi ? "व्यक्तिगत एआई ज्योतिष" : "Personal AI Jyotish"}
+            {hi ? "व्यक्तिगत एआई ज्योतिष" : "Personal AI Astrology"}
           </p>
           <h2 className="heading-2 font-display text-ink">
             {hi

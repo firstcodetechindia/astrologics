@@ -28,7 +28,6 @@ import {
 import { kpHorary, kpRulingPlanetsNow, kpSubLord, moonPhase } from "./kp";
 import type { BirthInput } from "./types";
 import { SIGNS } from "./constants";
-import { calculateLagna } from "./planets";
 import { dailyMuhuratFor } from "./muhurat-now";
 
 export type CalcPayload = Record<string, unknown>;
@@ -97,14 +96,18 @@ export function runCalculator(slug: string, payload: CalcPayload) {
 
     case "navamsa": {
       const k = computeKundli(birthFrom(payload));
-      const date = parseBirthDateTime(birthFrom(payload));
-      const lagnaLon =
-        k.lagna.signIndex * 30 + k.lagna.degree; // reconstruct approx
-      // Better: recompute lagna
-      const input = birthFrom(payload);
-      const ayanamsa = k.ayanamsa;
-      const trueLagna = calculateLagna(date, input.lat, input.lon, ayanamsa);
-      return computeNavamsaChart(k.planets, trueLagna);
+      return k.divisionalCharts?.D9 ?? computeNavamsaChart(k.planets, k.lagna.longitude);
+    }
+
+    case "dashamsa":
+    case "d10": {
+      const k = computeKundli(birthFrom(payload));
+      return k.divisionalCharts?.D10;
+    }
+
+    case "transits": {
+      const k = computeKundli(birthFrom(payload));
+      return k.transits;
     }
 
     case "moon-phase": {
@@ -137,7 +140,7 @@ export function runCalculator(slug: string, payload: CalcPayload) {
     }
     case "sade-sati": {
       const k = computeKundli(birthFrom(payload));
-      return sadeSati(k.moonRashi.signIndex);
+      return sadeSati(k.moonRashi.signIndex, new Date(), { includeWindow: true });
     }
 
     case "kundli-matching": {
@@ -171,7 +174,12 @@ export function runCalculator(slug: string, payload: CalcPayload) {
             330,
         })
       );
-      const match = ashtakootMatch(boy.nakshatra.index, girl.nakshatra.index);
+      const match = ashtakootMatch(
+        boy.nakshatra.index,
+        girl.nakshatra.index,
+        boy.moonRashi.signIndex,
+        girl.moonRashi.signIndex
+      );
       return {
         ...match,
         boy: { name: boy.input.name, moon: boy.moonRashi, nakshatra: boy.nakshatra },
@@ -201,7 +209,7 @@ export function runCalculator(slug: string, payload: CalcPayload) {
     case "kp-sub-lord": {
       const k = computeKundli(birthFrom(payload));
       return {
-        lagna: kpSubLord(k.lagna.signIndex * 30 + k.lagna.degree),
+        lagna: kpSubLord(k.lagna.longitude),
         planets: k.planets.map((p) => ({
           id: p.id,
           name: p.name,

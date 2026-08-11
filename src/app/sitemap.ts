@@ -10,6 +10,7 @@ const staticPaths = [
   "/kundli",
   "/calculators",
   "/chat",
+  "/chat-with-astrologer",
   "/horoscope",
   "/panchang",
   "/features",
@@ -38,7 +39,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
             ? 1
             : path === "/kundli" || path === "/calculators" || path === "/horoscope"
               ? 0.95
-              : path === "/chat"
+              : path === "/chat" || path === "/chat-with-astrologer"
                 ? 0.9
                 : 0.75,
         alternates: {

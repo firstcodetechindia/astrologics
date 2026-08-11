@@ -21,24 +21,24 @@ export async function generateMetadata({
     path: "/faq",
     title: hi
       ? `अक्सर पूछे जाने वाले प्रश्न — कुंडली, राशिफल व ज्योतिष | ${siteConfig.brandName}`
-      : `FAQ — Kundli, Rashifal & Jyotish Questions | ${siteConfig.brandName}`,
+      : `FAQ — Kundli, Rashifal & Astrology Questions | ${siteConfig.brandName}`,
     description: hi
-      ? "जन्म कुंडली, लग्न, वैदिक बनाम पश्चिमी ज्योतिष, गुण मिलान, उपचार व एआई गुरु पर स्पष्ट उत्तर — Astrologics FAQ।"
-      : "Clear answers on janam kundali, Lagna, Vedic vs Western astrology, gun milan, remedies and AI Guru — Astrologics FAQ.",
+      ? "जन्म कुंडली, लग्न, कुंडली बनाम पश्चिमी ज्योतिष, गुण मिलान, उपचार व एआई गुरु पर स्पष्ट उत्तर — Astrologics FAQ।"
+      : "Clear answers on janam kundali, Lagna, Kundli vs Western astrology, gun milan, remedies and AI Guru — Astrologics FAQ.",
     keywords: hi
       ? [
           "कुंडली FAQ",
           "ज्योतिष प्रश्न",
           "जन्म कुंडली",
           "गुण मिलान",
-          "वैदिक ज्योतिष",
+          "ज्योतिष",
         ]
       : [
           "kundli FAQ",
-          "jyotish questions",
+          "astrology questions",
           "janam kundali help",
           "gun milan FAQ",
-          "Vedic astrology FAQ",
+          "astrology FAQ",
         ],
   });
 }

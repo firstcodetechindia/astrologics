@@ -1,6 +1,7 @@
-import { NAKSHATRAS } from "./constants";
+import { NAKSHATRAS, SIGN_LORDS } from "./constants";
 
-/** Ashtakoot (36-point) Gun Milan from Moon nakshatra indices (0–26). */
+/** Ashtakoot (36-point) Gun Milan from Moon nakshatra + Moon rashi. */
+
 export interface KootaScore {
   id: string;
   name: { en: string; hi: string };
@@ -9,44 +10,91 @@ export interface KootaScore {
   note: { en: string; hi: string };
 }
 
-function varna(n: number): number {
-  // Brahmin, Kshatriya, Vaishya, Shudra by nakshatra groups
-  const map = [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3];
-  return map[n] ?? 4;
+/** Classical Varna by Moon rashi (0=Aries … 11=Pisces): Brahmin=4 … Shudra=1 */
+const RASHI_VARNA = [2, 3, 4, 4, 2, 3, 1, 1, 2, 3, 4, 4]; // Kshatriya, Vaishya, Brahmin…
+
+/** Classical Gana by nakshatra (1=Deva, 2=Manushya, 3=Rakshasa) */
+const NAK_GANA = [
+  1, 2, 3, 2, 1, 2, 1, 1, 3, 3, 2, 2, 1, 3, 1, 3, 1, 3, 3, 2, 2, 1, 3, 3, 2, 2, 1,
+];
+
+/** Classical Nadi by nakshatra (1=Adi, 2=Madhya, 3=Antya) */
+const NAK_NADI = [
+  1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3,
+];
+
+/** Classical Yoni index 0–13 by nakshatra */
+const NAK_YONI = [
+  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+  11, 12,
+];
+
+/** Enemy yoni pairs (symmetric) */
+const YONI_ENEMY = new Set([
+  "0-5",
+  "5-0",
+  "1-7",
+  "7-1",
+  "2-8",
+  "8-2",
+  "3-9",
+  "9-3",
+  "4-10",
+  "10-4",
+  "6-11",
+  "11-6",
+  "12-13",
+  "13-12",
+]);
+
+/** Vashya class by Moon rashi: 1=Chatushpada, 2=Manava, 3=Jalachara, 4=Vanacara, 5=Keeta */
+const RASHI_VASHYA = [1, 1, 2, 3, 2, 2, 2, 4, 1, 5, 2, 3];
+
+function planetKeyFromLord(signIndex: number): string {
+  return SIGN_LORDS[signIndex].en.toLowerCase();
 }
 
-function vashya(n: number): number {
-  // Simplified animal/class groups 1-5
-  const map = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2];
-  return map[n] ?? 1;
-}
+/** Permanent friendship (simplified classical) */
+const FRIENDS: Record<string, string[]> = {
+  sun: ["moon", "mars", "jupiter"],
+  moon: ["sun", "mercury"],
+  mars: ["sun", "moon", "jupiter"],
+  mercury: ["sun", "venus"],
+  jupiter: ["sun", "moon", "mars"],
+  venus: ["mercury", "saturn"],
+  saturn: ["mercury", "venus"],
+};
 
-function yoni(n: number): number {
-  return n % 14; // 14 yoni pairs cycle
-}
+const ENEMIES: Record<string, string[]> = {
+  sun: ["venus", "saturn"],
+  moon: [],
+  mars: ["mercury"],
+  mercury: ["moon"],
+  jupiter: ["mercury", "venus"],
+  venus: ["sun", "moon"],
+  saturn: ["sun", "moon", "mars"],
+};
 
-function gan(n: number): number {
-  // Deva, Manushya, Rakshasa
-  const map = [1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3];
-  return map[n] ?? 2;
-}
+export function ashtakootMatch(
+  boyNak: number,
+  girlNak: number,
+  boyMoonSign?: number,
+  girlMoonSign?: number
+) {
+  const boyRashi =
+    typeof boyMoonSign === "number"
+      ? boyMoonSign
+      : Math.floor((boyNak * 4) / 9) % 12;
+  const girlRashi =
+    typeof girlMoonSign === "number"
+      ? girlMoonSign
+      : Math.floor((girlNak * 4) / 9) % 12;
 
-function nadi(n: number): number {
-  // Adi, Madhya, Antya repeating
-  return (n % 3) + 1;
-}
-
-function rashiFromNak(n: number): number {
-  // Approximate Moon sign from nakshatra (classical mapping)
-  return Math.floor((n * 4) / 9) % 12;
-}
-
-export function ashtakootMatch(boyNak: number, girlNak: number) {
   const scores: KootaScore[] = [];
 
-  // 1. Varna (1)
-  const bv = varna(boyNak);
-  const gv = varna(girlNak);
+  // 1. Varna (1) — girl varna should not be higher than boy
+  const bv = RASHI_VARNA[boyRashi];
+  const gv = RASHI_VARNA[girlRashi];
   const varnaScore = gv <= bv ? 1 : 0;
   scores.push({
     id: "varna",
@@ -54,33 +102,47 @@ export function ashtakootMatch(boyNak: number, girlNak: number) {
     max: 1,
     score: varnaScore,
     note: {
-      en: varnaScore ? "Compatible social temperament." : "Mild mismatch — often overlooked alone.",
-      hi: varnaScore ? "सामाजिक स्वभाव अनुकूल।" : "हल्का अंतर — अकेले निर्णायक नहीं।",
+      en: varnaScore
+        ? "Compatible social temperament (by Moon rashi)."
+        : "Mild mismatch — often overlooked alone.",
+      hi: varnaScore
+        ? "सामाजिक स्वभाव अनुकूल (चंद्र राशि से)।"
+        : "हल्का अंतर — अकेले निर्णायक नहीं।",
     },
   });
 
   // 2. Vashya (2)
-  const bva = vashya(boyNak);
-  const gva = vashya(girlNak);
+  const bva = RASHI_VASHYA[boyRashi];
+  const gva = RASHI_VASHYA[girlRashi];
   let vashyaScore = 0;
   if (bva === gva) vashyaScore = 2;
-  else if (Math.abs(bva - gva) === 1) vashyaScore = 1;
+  else if (
+    (bva === 2 && [1, 3, 5].includes(gva)) ||
+    (bva === 1 && gva === 5) ||
+    (bva === 3 && gva === 1)
+  )
+    vashyaScore = 1;
+  else vashyaScore = 0;
   scores.push({
     id: "vashya",
     name: { en: "Vashya", hi: "वश्य" },
     max: 2,
     score: vashyaScore,
     note: {
-      en: "Mutual influence and comfort level.",
-      hi: "परस्पर प्रभाव और सहजता।",
+      en: "Mutual influence and comfort (Moon-sign vashya).",
+      hi: "परस्पर प्रभाव और सहजता (चंद्र राशि वश्य)।",
     },
   });
 
-  // 3. Tara (3) — counting from girl's nakshatra
+  // 3. Tara (3) — counting from girl's nakshatra to boy's
   const taraCount = ((boyNak - girlNak + 27) % 27) + 1;
   const taraGroup = ((taraCount - 1) % 9) + 1;
-  const goodTara = [1, 2, 4, 6, 8, 9];
-  const taraScore = goodTara.includes(taraGroup) ? 3 : taraGroup === 3 || taraGroup === 5 ? 1.5 : 0;
+  const taraScore =
+    [1, 2, 4, 6, 8, 9].includes(taraGroup)
+      ? 3
+      : taraGroup === 3 || taraGroup === 5
+        ? 1.5
+        : 0;
   scores.push({
     id: "tara",
     name: { en: "Tara", hi: "तारा" },
@@ -93,41 +155,31 @@ export function ashtakootMatch(boyNak: number, girlNak: number) {
   });
 
   // 4. Yoni (4)
-  const by = yoni(boyNak);
-  const gy = yoni(girlNak);
-  let yoniScore = 4;
+  const by = NAK_YONI[boyNak];
+  const gy = NAK_YONI[girlNak];
+  let yoniScore = 2;
   if (by === gy) yoniScore = 4;
-  else if (Math.abs(by - gy) === 7) yoniScore = 0; // enemy pair approx
-  else yoniScore = 2;
+  else if (YONI_ENEMY.has(`${by}-${gy}`)) yoniScore = 0;
+  else yoniScore = 3;
   scores.push({
     id: "yoni",
     name: { en: "Yoni", hi: "योनि" },
     max: 4,
     score: yoniScore,
     note: {
-      en: "Physical and instinctive compatibility.",
-      hi: "शारीरिक व सहज अनुकूलता।",
+      en: "Physical and instinctive compatibility (classical yoni).",
+      hi: "शारीरिक व सहज अनुकूलता (शास्त्रीय योनि)।",
     },
   });
 
-  // 5. Graha Maitri (5) — by Moon rashi lords friendship (simplified)
-  const br = rashiFromNak(boyNak);
-  const gr = rashiFromNak(girlNak);
-  const lord = [2, 5, 3, 1, 0, 3, 5, 2, 4, 6, 6, 4]; // planet ids by sign
-  const friends: Record<number, number[]> = {
-    0: [0, 1, 4],
-    1: [0, 1, 5],
-    2: [2, 3, 5],
-    3: [1, 3, 5],
-    4: [0, 2, 4],
-    5: [1, 3, 5],
-    6: [2, 4, 6],
-  };
-  const bl = lord[br];
-  const gl = lord[gr];
+  // 5. Graha Maitri (5) — Moon-sign lords
+  const bl = planetKeyFromLord(boyRashi);
+  const gl = planetKeyFromLord(girlRashi);
   let grahaScore = 0;
   if (bl === gl) grahaScore = 5;
-  else if (friends[bl]?.includes(gl)) grahaScore = 4;
+  else if (FRIENDS[bl]?.includes(gl) && FRIENDS[gl]?.includes(bl)) grahaScore = 4;
+  else if (FRIENDS[bl]?.includes(gl) || FRIENDS[gl]?.includes(bl)) grahaScore = 3;
+  else if (ENEMIES[bl]?.includes(gl) || ENEMIES[gl]?.includes(bl)) grahaScore = 0;
   else grahaScore = 1;
   scores.push({
     id: "grahaMaitri",
@@ -135,19 +187,19 @@ export function ashtakootMatch(boyNak: number, girlNak: number) {
     max: 5,
     score: grahaScore,
     note: {
-      en: "Mental rapport via Moon-sign lords.",
-      hi: "चंद्र राशि स्वामियों से मानसिक मेल।",
+      en: `Mental rapport via Moon-sign lords (${SIGN_LORDS[boyRashi].en}–${SIGN_LORDS[girlRashi].en}).`,
+      hi: `चंद्र राशि स्वामियों से मानसिक मेल (${SIGN_LORDS[boyRashi].hi}–${SIGN_LORDS[girlRashi].hi})।`,
     },
   });
 
   // 6. Gana (6)
-  const bg = gan(boyNak);
-  const gg = gan(girlNak);
+  const bg = NAK_GANA[boyNak];
+  const gg = NAK_GANA[girlNak];
   let ganaScore = 0;
   if (bg === gg) ganaScore = 6;
   else if ((bg === 1 && gg === 2) || (bg === 2 && gg === 1)) ganaScore = 5;
   else if ((bg === 2 && gg === 3) || (bg === 3 && gg === 2)) ganaScore = 1;
-  else ganaScore = 0;
+  else ganaScore = 0; // Deva–Rakshasa
   scores.push({
     id: "gana",
     name: { en: "Gana", hi: "गण" },
@@ -159,8 +211,8 @@ export function ashtakootMatch(boyNak: number, girlNak: number) {
     },
   });
 
-  // 7. Bhakoot (7) — Moon sign distance
-  const diff = ((gr - br + 12) % 12) + 1;
+  // 7. Bhakoot (7) — Moon sign distance boy → girl
+  const diff = ((girlRashi - boyRashi + 12) % 12) + 1;
   const badBhakoot = [2, 6, 8, 12];
   const bhakootScore = badBhakoot.includes(diff) ? 0 : 7;
   scores.push({
@@ -169,14 +221,14 @@ export function ashtakootMatch(boyNak: number, girlNak: number) {
     max: 7,
     score: bhakootScore,
     note: {
-      en: `Moon-sign count ${diff} from boy to girl.`,
-      hi: `लड़के से लड़की चंद्र राशि गणना ${diff}।`,
+      en: `Moon-sign count ${diff} from boy to girl (true Moon rashis).`,
+      hi: `लड़के से लड़की चंद्र राशि गणना ${diff} (वास्तविक चंद्र राशि)।`,
     },
   });
 
   // 8. Nadi (8)
-  const bn = nadi(boyNak);
-  const gn = nadi(girlNak);
+  const bn = NAK_NADI[boyNak];
+  const gn = NAK_NADI[girlNak];
   const nadiScore = bn === gn ? 0 : 8;
   scores.push({
     id: "nadi",
@@ -196,16 +248,23 @@ export function ashtakootMatch(boyNak: number, girlNak: number) {
   const total = scores.reduce((s, k) => s + k.score, 0);
   const max = 36;
   let verdict: { en: string; hi: string };
-  if (total >= 24)
-    verdict = { en: "Good match", hi: "अच्छा मेल" };
+  if (total >= 24) verdict = { en: "Good match", hi: "अच्छा मेल" };
   else if (total >= 18)
-    verdict = { en: "Average — review with an astrologer", hi: "मध्यम — ज्योतिषी से जाँचें" };
+    verdict = {
+      en: "Average — review with an astrologer",
+      hi: "मध्यम — ज्योतिषी से जाँचें",
+    };
   else
-    verdict = { en: "Low score — deeper chart analysis advised", hi: "कम अंक — गहन कुंडली विश्लेषण चाहिए" };
+    verdict = {
+      en: "Low score — deeper chart analysis advised",
+      hi: "कम अंक — गहन कुंडली विश्लेषण चाहिए",
+    };
 
   return {
     boyNakshatra: NAKSHATRAS[boyNak],
     girlNakshatra: NAKSHATRAS[girlNak],
+    boyMoonSign: boyRashi,
+    girlMoonSign: girlRashi,
     scores,
     total,
     max,

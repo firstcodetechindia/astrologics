@@ -57,7 +57,7 @@ export function buildPageMetadata({
           url: "/astrologics-icon-512.png",
           width: 512,
           height: 512,
-          alt: `${siteConfig.brandName} — Vedic kundli & AI astrology`,
+          alt: `${siteConfig.brandName} — Kundli, AI astrology & calculators`,
         },
       ],
     },

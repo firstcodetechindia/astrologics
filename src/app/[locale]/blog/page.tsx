@@ -22,8 +22,8 @@ export async function generateMetadata({
     locale,
     path: "/blog",
     title: hi
-      ? `ब्लॉग — वैदिक कुंडली, राशिफल व ज्योतिष गाइड | ${siteConfig.brandName}`
-      : `Blog — Vedic Kundli, Rashifal & Jyotish Guides | ${siteConfig.brandName}`,
+      ? `ब्लॉग — जन्म कुंडली, राशिफल व ज्योतिष गाइड | ${siteConfig.brandName}`
+      : `Blog — Kundli, Rashifal & Astrology Guides | ${siteConfig.brandName}`,
     description: hi
       ? "जन्म कुंडली, गुण मिलान, दैनिक राशिफल, दोष व एआई ज्योतिष पर लेख — हिंदी व अंग्रेज़ी में Astrologics ब्लॉग।"
       : "Articles on janam kundali, gun milan, daily rashifal, doshas and AI astrology — Astrologics blog in English & Hindi.",
@@ -32,14 +32,14 @@ export async function generateMetadata({
           "ज्योतिष ब्लॉग",
           "कुंडली गाइड",
           "राशिफल लेख",
-          "वैदिक ज्योतिष",
+          "ज्योतिष",
           "astrology blog",
         ]
       : [
           "astrology blog",
           "kundli guide",
           "rashifal articles",
-          "Vedic jyotish blog",
+          "astrology blog",
           "gun milan explained",
         ],
   });

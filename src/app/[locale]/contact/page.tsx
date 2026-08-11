@@ -25,8 +25,8 @@ export async function generateMetadata({
       ? `संपर्क — कुंडली परामर्श व एआई ज्योतिष सहायता | ${siteConfig.brandName}`
       : `Contact — Kundli Consultation & AI Astrology Help | ${siteConfig.brandName}`,
     description: hi
-      ? "Astrologics से संपर्क करें — वैदिक कुंडली परामर्श, गुण मिलान, राशिफल व एआई गुरु सहायता हेतु व्हाट्सऐप, कॉल या ईमेल।"
-      : "Contact Astrologics — WhatsApp, call or email for Vedic kundli consultation, gun milan, rashifal and AI Guru support.",
+      ? "Astrologics से संपर्क करें — जन्म कुंडली परामर्श, गुण मिलान, राशिफल व एआई गुरु सहायता हेतु व्हाट्सऐप, कॉल या ईमेल।"
+      : "Contact Astrologics — WhatsApp, call or email for kundli consultation, gun milan, rashifal and AI Guru support.",
     keywords: hi
       ? [
           "कुंडली परामर्श संपर्क",
@@ -36,7 +36,7 @@ export async function generateMetadata({
         ]
       : [
           "kundli consultation contact",
-          "jyotish advice",
+          "astrology advice",
           "astrology WhatsApp",
           "Astrologics contact",
           "gun milan help",

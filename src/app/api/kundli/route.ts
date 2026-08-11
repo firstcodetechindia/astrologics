@@ -60,9 +60,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true, kundli: result });
   } catch (err) {
     console.error("kundli error", err);
-    return NextResponse.json(
-      { error: "Failed to compute kundli" },
-      { status: 500 }
-    );
+    const message =
+      err instanceof Error && err.message.includes("Unable to calculate")
+        ? err.message
+        : "Unable to calculate your birth chart accurately. Please verify your birth date, time and place of birth.";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

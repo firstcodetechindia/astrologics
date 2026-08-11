@@ -35,13 +35,12 @@ export async function generateMetadata({
   return buildPageMetadata({
     locale,
     path: `/calculators/${slug}`,
-    title: `${title} | Free Vedic Tool`,
+    title: `${title} | Free Astrology Tool`,
     description,
     keywords: [
       name,
       `free ${meta.title.en} online`,
-      "Vedic astrology calculator",
-      "jyotish calculator",
+      "astrology calculator",
       "free kundli tools",
       locale === "hi" ? "मुफ़्त ज्योतिष कैलकुलेटर" : "free astrology calculator",
     ],

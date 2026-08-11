@@ -14,7 +14,7 @@ export function HomeFaqStrip({ locale }: { locale: string }) {
         },
         {
           q: "कौन-सी गणना पद्धति?",
-          a: "Astrologics वैदिक ज्योतिष पर चलता है — भारत में प्रचलित लाहिरी विधि, एक राशि = एक भाव, और जीवन काल दशा (विंशोत्तरी)।",
+          a: "जन्म कुंडली भारत में प्रचलित लाहिरी विधि, एक राशि = एक भाव, और विंशोत्तरी दशा पर बनती है। साइट पर पश्चिमी गाइड, केपी और अंक ज्योतिष उपकरण भी हैं — प्रत्येक प्रणाली अलग बताई जाती है।",
         },
         {
           q: "एआई चैट कैसे काम करता है?",
@@ -40,7 +40,7 @@ export function HomeFaqStrip({ locale }: { locale: string }) {
         },
         {
           q: "Which calculation method?",
-          a: "Astrologics uses Vedic astrology — India’s widely used Lahiri method, one sign = one house, and the classical life-period dasha (Vimshottari).",
+          a: "Janam Kundli uses India’s widely used Lahiri method, one sign = one house, and Vimshottari dasha. The site also includes Western guides, KP and numerology tools — each system is labelled separately.",
         },
         {
           q: "How does AI chat work?",

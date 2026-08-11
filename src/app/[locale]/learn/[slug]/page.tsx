@@ -45,14 +45,14 @@ export async function generateMetadata({
       ? [
           title,
           "ज्योतिष सीखें",
-          "वैदिक ज्योतिष",
+          "ज्योतिष",
           "कुंडली गाइड",
           "jyotish",
         ]
       : [
           title,
           "learn astrology",
-          "Vedic jyotish",
+          "astrology",
           "kundli guide",
           "rashifal basics",
         ],

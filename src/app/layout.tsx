@@ -10,23 +10,23 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.brandName}`,
   },
   description:
-    "Free Vedic kundli, AI Guru chart chat, daily rashifal, Gun Milan, panchang and 30+ astrology calculators in English & Hindi. Online Jyotish guidance for India.",
+    "Free kundli, AI astrology chat, Western guides, KP tools, numerology, daily horoscope, Panchang and 30+ calculators in English & Hindi.",
   applicationName: siteConfig.brandName,
   keywords: [
     "free kundli online",
     "janam kundali",
-    "Vedic astrology",
+    "astrology",
     "AI astrology",
+    "western astrology",
+    "KP astrology",
+    "numerology",
     "aaj ka rashifal",
     "horoscope today",
     "gun milan",
     "kundli matching",
     "moon sign calculator",
     "panchang today",
-    "online jyotish",
     "lagna calculator",
-    "mangal dosha",
-    "sade sati",
   ],
   authors: [{ name: siteConfig.brandName, url: siteConfig.siteUrl }],
   creator: siteConfig.brandName,
@@ -35,9 +35,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: siteConfig.brandName,
-    title: `${siteConfig.brandName} — Free Kundli & AI Vedic Astrology`,
+    title: `${siteConfig.brandName} — Free Kundli & AI Astrology`,
     description:
-      "Generate free janam kundali, read daily horoscope, match kundli and chat with AI Guru — English & Hindi.",
+      "Generate free janam kundali, explore Western, KP and numerology tools, read horoscope and chat with AI Guru — English & Hindi.",
     url: siteConfig.siteUrl,
     images: [
       {
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${siteConfig.brandName} — Free Kundli & AI Astrology`,
     description:
-      "Free Vedic kundli, rashifal, calculators and AI chart guidance in EN & HI.",
+      "Free kundli, Western, KP, numerology, horoscope and AI chart guidance in EN & HI.",
     images: ["/astrologics-icon-512.png"],
   },
   robots: {

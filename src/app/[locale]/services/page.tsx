@@ -23,24 +23,24 @@ export async function generateMetadata({
     path: "/services",
     title: hi
       ? `सेवाएँ — मुफ्त कुंडली, गुण मिलान व ज्योतिष परामर्श | ${siteConfig.brandName}`
-      : `Services — Free Kundli, Gun Milan & Jyotish Consultation | ${siteConfig.brandName}`,
+      : `Services — Free Kundli, Gun Milan & Astrology Consultation | ${siteConfig.brandName}`,
     description: hi
-      ? "मुफ्त ऑनलाइन जन्म कुंडली से शुरू करें। विस्तृत जीवन पढ़ाई, गुण मिलान, दोष विश्लेषण व उपचार — वैदिक ज्योतिष परामर्श।"
-      : "Start with a free online janam kundali. Detailed life readings, gun milan, dosha analysis and remedies — Vedic jyotish consultation.",
+      ? "मुफ्त ऑनलाइन जन्म कुंडली से शुरू करें। विस्तृत जीवन पढ़ाई, गुण मिलान, दोष विश्लेषण व उपचार — ज्योतिष परामर्श।"
+      : "Start with a free online janam kundali. Detailed life readings, gun milan, dosha analysis and remedies — astrology consultation.",
     keywords: hi
       ? [
           "कुंडली परामर्श",
           "गुण मिलान सेवा",
           "ज्योतिष सेवाएँ",
           "जन्म कुंडली",
-          "Vedic astrology services",
+          "astrology services",
         ]
       : [
           "kundli consultation",
           "gun milan service",
-          "Vedic astrology services",
+          "astrology services",
           "janam kundali reading",
-          "jyotish remedies",
+          "astrology remedies",
         ],
   });
 }
@@ -107,8 +107,8 @@ export default async function ServicesPage({
         <section className="mt-12 max-w-3xl space-y-4 text-[15px] leading-relaxed text-ink-muted">
           <h2 className="font-display text-2xl font-bold text-ink">
             {hi
-              ? "वैदिक कुंडली से व्यक्तिगत ज्योतिष मार्गदर्शन तक"
-              : "From Vedic kundli to personal jyotish guidance"}
+              ? "कुंडली से व्यक्तिगत ज्योतिष मार्गदर्शन तक"
+              : "From kundli to personal astrology guidance"}
           </h2>
           <p>
             {hi
@@ -123,7 +123,7 @@ export default async function ServicesPage({
           <p>
             {hi
               ? "ऑनलाइन ज्योतिष उपकरण मुफ्त रहेंगे; व्यक्तिगत परामर्श व्हाट्सऐप पर उपलब्ध है।"
-              : "Online jyotish tools stay free; personal consultation is available on WhatsApp."}
+              : "Online astrology tools stay free; personal consultation is available on WhatsApp."}
           </p>
         </section>
       </div>

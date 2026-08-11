@@ -149,6 +149,30 @@ html.locale-hi input[type="number"] {
   font-weight: 700;
 }
 
+/* Homepage hero H1 — two-line, two-color combo */
+.hero-title {
+  margin: 0;
+  width: 100%;
+  font-size: clamp(1.7rem, 3.8vw, 2.55rem); /* ~27–41px */
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.hero-title-line1,
+.hero-title-line2 {
+  display: block;
+}
+
+.hero-title-line1 {
+  color: #f06a00;
+}
+
+.hero-title-line2 {
+  margin-top: 0.12em;
+  color: #6b1c1c;
+}
+
 .heading-1 {
   font-size: clamp(1.375rem, 2.4vw, 1.75rem); /* 22–28px */
   line-height: 1.25;

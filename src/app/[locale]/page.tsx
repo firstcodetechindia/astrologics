@@ -1,15 +1,18 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
+import { AnnouncementBar } from "@/components/home/AnnouncementBar";
 import { Hero } from "@/components/home/Hero";
-import {
-  FeatureGrid,
-  HowItWorks,
-  WhySection,
-} from "@/components/home/FeatureGrid";
-import { HomeExplore } from "@/components/home/HomeExplore";
-import { HomeLovePromo } from "@/components/home/HomeLovePromo";
+import { QuickTools } from "@/components/home/QuickTools";
+import { WhyAstrologics } from "@/components/home/WhyAstrologics";
+import { HowAstrologyWorks } from "@/components/home/HowAstrologyWorks";
+import { KundliExplore } from "@/components/home/KundliExplore";
 import { HomeToolsGrid } from "@/components/home/HomeToolsGrid";
-import { HomeConsultBand, HomeFaqStrip } from "@/components/home/HomeFaqStrip";
+import { AiGuruSection } from "@/components/home/AiGuruSection";
+import { TopAstrologers } from "@/components/home/TopAstrologers";
+import { TodayAstrology } from "@/components/home/TodayAstrology";
+import { LearnAstrologyStrip } from "@/components/home/LearnAstrologyStrip";
+import { HomeFaq } from "@/components/home/HomeFaq";
+import { FinalCta } from "@/components/home/FinalCta";
 import { siteConfig } from "@/lib/site-config";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildPageMetadata, absoluteUrl } from "@/lib/seo/page-meta";
@@ -18,6 +21,7 @@ import { SIGNS } from "@/lib/astrology/constants";
 import { signIndexFromLongitude } from "@/lib/astrology/math";
 import { lahiriAyanamsaFromDate } from "@/lib/astrology/math";
 import { getSiderealPlanets } from "@/lib/astrology/planets";
+import { faqForLocale } from "@/lib/home/faq";
 
 export async function generateMetadata({
   params,
@@ -36,21 +40,34 @@ export async function generateMetadata({
         ? [
             "मुफ्त कुंडली ऑनलाइन",
             "जन्म कुंडली",
-            "आज का राशिफल",
-            "वैदिक ज्योतिष",
-            "गुण मिलान",
+            "ज्योतिष",
             "एआई ज्योतिष",
-            "janam kundali",
+            "पश्चिमी ज्योतिष",
+            "केपी ज्योतिष",
+            "अंक ज्योतिष",
+            "कुंडली कैलकुलेटर",
+            "लग्न कैलकुलेटर",
+            "चंद्र राशि",
+            "गुण मिलान",
+            "राशिफल",
             "free kundli",
+            "AI astrology",
           ]
         : [
-            "free kundli online",
-            "janam kundali",
-            "Vedic kundli",
-            "aaj ka rashifal",
-            "gun milan",
-            "jyotish",
+            "free kundli",
+            "free kundali",
+            "janam kundli",
+            "online kundli",
+            "astrology",
             "AI astrology",
+            "birth chart",
+            "western astrology",
+            "KP astrology",
+            "numerology",
+            "kundli calculator",
+            "lagna calculator",
+            "moon sign calculator",
+            "kundli matching",
             "daily horoscope",
           ],
   });
@@ -63,8 +80,8 @@ export default async function HomePage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("home");
   const tm = await getTranslations("meta");
+  const faqItems = faqForLocale(locale);
 
   const now = new Date();
   const p = computePanchang(now);
@@ -82,95 +99,97 @@ export default async function HomePage({
     moonSign: { en: SIGNS[moonSi].en, hi: SIGNS[moonSi].hi },
   };
 
-  const features = [
-    { title: t("feature1Title"), text: t("feature1Text") },
-    { title: t("feature2Title"), text: t("feature2Text") },
-    { title: t("feature3Title"), text: t("feature3Text") },
-    { title: t("feature4Title"), text: t("feature4Text") },
-  ];
-
-  const whyItems = [
-    { title: t("why1Title"), text: t("why1Text") },
-    { title: t("why2Title"), text: t("why2Text") },
-    { title: t("why3Title"), text: t("why3Text") },
-  ];
-
-  const steps = [t("how1"), t("how2"), t("how3")];
+  const homeUrl = absoluteUrl(locale, "");
 
   return (
     <>
       <JsonLd
         data={{
           "@context": "https://schema.org",
-          "@type": "ProfessionalService",
-          name: siteConfig.brandName,
-          alternateName: ["Astrologics AI Astrology", "Astrologics Jyotish"],
-          description: tm("description"),
-          url: absoluteUrl(locale, ""),
-          image: `${siteConfig.siteUrl}/astrologics-icon-512.png`,
-          logo: `${siteConfig.siteUrl}/astrologics-icon-512.png`,
-          telephone: siteConfig.phone,
-          email: siteConfig.email,
-          priceRange: "₹0–consultation",
-          areaServed: {
-            "@type": "Country",
-            name: "India",
-          },
-          availableLanguage: ["English", "Hindi"],
-          sameAs: [`https://wa.me/${siteConfig.whatsapp}`],
-          serviceType: [
-            "Vedic kundli",
-            "Janam kundali",
-            "Gun milan",
-            "Rashifal",
-            "AI astrology consultation",
+          "@graph": [
+            {
+              "@type": "WebSite",
+              "@id": `${siteConfig.siteUrl}/#website`,
+              name: siteConfig.brandName,
+              url: siteConfig.siteUrl,
+              inLanguage: locale === "hi" ? "hi-IN" : "en-IN",
+              description: tm("description"),
+              publisher: { "@id": `${siteConfig.siteUrl}/#organization` },
+            },
+            {
+              "@type": "Organization",
+              "@id": `${siteConfig.siteUrl}/#organization`,
+              name: siteConfig.brandName,
+              alternateName: ["Astrologics AI Astrology", "Astrologics Astrology"],
+              url: siteConfig.siteUrl,
+              logo: `${siteConfig.siteUrl}/astrologics-icon-512.png`,
+              image: `${siteConfig.siteUrl}/astrologics-icon-512.png`,
+              email: siteConfig.email,
+              telephone: siteConfig.phone,
+              sameAs: [`https://wa.me/${siteConfig.whatsapp}`],
+              knowsAbout: [
+                "Astrology",
+                "Janam Kundli",
+                "Western astrology",
+                "KP astrology",
+                "Numerology",
+                "Horoscope",
+                "Panchang",
+              ],
+              contactPoint: {
+                "@type": "ContactPoint",
+                contactType: "customer support",
+                telephone: siteConfig.phone,
+                email: siteConfig.email,
+                availableLanguage: ["English", "Hindi"],
+              },
+            },
+            {
+              "@type": "WebApplication",
+              "@id": `${homeUrl}#webapp`,
+              name: `${siteConfig.brandName} Astrology Platform`,
+              url: homeUrl,
+              applicationCategory: "LifestyleApplication",
+              operatingSystem: "Web",
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "INR",
+              },
+              description: tm("description"),
+              inLanguage: locale === "hi" ? "hi-IN" : "en-IN",
+              provider: { "@id": `${siteConfig.siteUrl}/#organization` },
+            },
+            {
+              "@type": "FAQPage",
+              "@id": `${homeUrl}#faq`,
+              mainEntity: faqItems.map((item) => ({
+                "@type": "Question",
+                name: item.question,
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: item.answer,
+                },
+              })),
+            },
           ],
-          knowsAbout: [
-            "Vedic astrology",
-            "Jyotish",
-            "Birth chart",
-            "Kundli matching",
-            "Daily horoscope",
-          ],
-          contactPoint: {
-            "@type": "ContactPoint",
-            contactType: "customer support",
-            telephone: siteConfig.phone,
-            email: siteConfig.email,
-            availableLanguage: ["English", "Hindi"],
-          },
         }}
       />
 
+      {/* Lean homepage flow — fewer overlapping sections */}
+      <AnnouncementBar locale={locale} />
       <Hero />
-
-      <HomeExplore
-        locale={locale}
-        brand={siteConfig.brandName}
-        panchang={panchang}
-      />
-
-      <HomeLovePromo locale={locale} />
-
+      <QuickTools locale={locale} />
+      <TopAstrologers locale={locale} />
+      <WhyAstrologics locale={locale} />
+      <HowAstrologyWorks locale={locale} />
+      <TodayAstrology locale={locale} panchang={panchang} />
       <HomeToolsGrid locale={locale} />
-
-      <WhySection
-        title={t("whyTitle")}
-        subtitle={t("whySubtitle")}
-        items={whyItems}
-      />
-
-      <FeatureGrid
-        title={t("featuresTitle")}
-        subtitle={t("featuresSubtitle")}
-        features={features}
-      />
-
-      <HowItWorks title={t("howTitle")} steps={steps} ctaLabel={t("ctaPrimary")} />
-
-      <HomeConsultBand locale={locale} />
-
-      <HomeFaqStrip locale={locale} />
+      <AiGuruSection locale={locale} />
+      <KundliExplore locale={locale} />
+      <LearnAstrologyStrip locale={locale} />
+      <HomeFaq locale={locale} />
+      <FinalCta locale={locale} />
     </>
   );
 }

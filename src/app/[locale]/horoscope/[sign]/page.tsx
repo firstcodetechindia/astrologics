@@ -57,7 +57,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         `${name} monthly horoscope`,
         `${name} lucky number`,
         `${name} love horoscope`,
-        `Vedic ${name} rashi`,
+        `sidereal ${name} rashi`,
         "aaj ka rashifal",
       ];
 

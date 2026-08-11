@@ -53,6 +53,15 @@ export const FEATURES_MENU: MegaColumn[] = [
         },
       },
       {
+        href: "/chat-with-astrologer",
+        icon: "🔮",
+        title: { en: "Chat with Astrologer", hi: "ज्योतिषी से चैट" },
+        description: {
+          en: "Talk to verified live astrologers online.",
+          hi: "सत्यापित लाइव ज्योतिषियों से ऑनलाइन बात करें।",
+        },
+      },
+      {
         href: "/calculators/kundli-matching",
         icon: "💞",
         title: { en: "Kundli Matching", hi: "कुंडली मिलान" },
@@ -108,6 +117,15 @@ export const FREE_TOOLS_MENU: MegaColumn[] = [
         description: {
           en: "Daily tithi, sunrise & muhurat.",
           hi: "दैनिक तिथि, सूर्योदय व मुहूर्त।",
+        },
+      },
+      {
+        href: "/horoscope",
+        icon: "⭐",
+        title: { en: "Horoscope", hi: "राशिफल" },
+        description: {
+          en: "Daily, weekly & monthly rashifal.",
+          hi: "दैनिक, साप्ताहिक व मासिक राशिफल।",
         },
       },
       {
@@ -185,6 +203,15 @@ export const FREE_TOOLS_MENU: MegaColumn[] = [
         description: {
           en: "Ask anything about your chart.",
           hi: "कुंडली पर कुछ भी पूछें।",
+        },
+      },
+      {
+        href: "/chat-with-astrologer",
+        icon: "🔮",
+        title: { en: "Chat with Astrologer", hi: "ज्योतिषी से चैट" },
+        description: {
+          en: "Live verified astrologers online.",
+          hi: "लाइव सत्यापित ज्योतिषी ऑनलाइन।",
         },
       },
     ],

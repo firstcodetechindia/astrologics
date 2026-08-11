@@ -4,8 +4,9 @@ import { norm360 } from "./math";
 export function nakshatraFromLongitude(lon: number) {
   const L = norm360(lon);
   const index = Math.floor(L / NAKSHATRA_SPAN) % 27;
-  const within = L % NAKSHATRA_SPAN;
-  const pada = Math.floor(within / (NAKSHATRA_SPAN / 4)) + 1;
+  const within = L - index * NAKSHATRA_SPAN;
+  // Guard float edge so pada stays in 1…4
+  const pada = Math.min(4, Math.max(1, Math.floor(within / (NAKSHATRA_SPAN / 4)) + 1));
   const n = NAKSHATRAS[index];
   return {
     index,

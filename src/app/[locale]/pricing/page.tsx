@@ -20,10 +20,10 @@ export async function generateMetadata(): Promise<Metadata> {
     path: "/pricing",
     title: hi
       ? `मूल्य सूची — मुफ्त कुंडली व ज्योतिष परामर्श | ${siteConfig.brandName}`
-      : `Pricing — Free Kundli & Jyotish Consultation | ${siteConfig.brandName}`,
+      : `Pricing — Free Kundli & Astrology Consultation | ${siteConfig.brandName}`,
     description: hi
-      ? "मुफ्त वैदिक कुंडली, गुण मिलान व एआई चैट हमेशा खुले। विस्तृत ज्योतिष परामर्श व मिलान पैकेज व्यक्तिगत सत्र में।"
-      : "Free Vedic kundli, gun milan and AI chat stay open. Detailed jyotish consultation and matching packages in personal sessions.",
+      ? "मुफ्त जन्म कुंडली, गुण मिलान व एआई चैट हमेशा खुले। विस्तृत ज्योतिष परामर्श व मिलान पैकेज व्यक्तिगत सत्र में।"
+      : "Free kundli, gun milan and AI chat stay open. Detailed astrology consultation and matching packages in personal sessions.",
     keywords: hi
       ? [
           "कुंडली परामर्श मूल्य",
@@ -35,7 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
       : [
           "kundli consultation pricing",
           "free kundli online",
-          "jyotish consultation",
+          "astrology consultation",
           "gun milan package",
           "AI astrology pricing",
         ],

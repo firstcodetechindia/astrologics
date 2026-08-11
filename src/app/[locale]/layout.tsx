@@ -7,9 +7,7 @@ import {
   Roboto,
 } from "next/font/google";
 import { routing } from "@/i18n/routing";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { StickyContactBar } from "@/components/kundli/ContactCTA";
+import { SiteChrome } from "@/components/layout/SiteChrome";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo/page-meta";
 import { cn } from "@/lib/utils";
@@ -69,10 +67,7 @@ export default async function LocaleLayout({
         <JsonLd data={organizationJsonLd()} />
         <JsonLd data={websiteJsonLd()} />
         <NextIntlClientProvider messages={messages}>
-          <Header />
-          <main className="min-h-[70vh] pb-16 sm:pb-3">{children}</main>
-          <Footer />
-          <StickyContactBar />
+          <SiteChrome>{children}</SiteChrome>
         </NextIntlClientProvider>
       </body>
     </html>

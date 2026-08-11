@@ -23,8 +23,8 @@ export async function generateMetadata({
       ? `मुफ्त जन्म कुंडली ऑनलाइन — जनम कुंडली व बर्थ चार्ट | ${siteConfig.brandName}`
       : `Free Kundli Online — Janam Kundali & Birth Chart | ${siteConfig.brandName}`,
     description: hi
-      ? "मुफ्त वैदिक जन्म कुंडली ऑनलाइन बनाएँ — लग्न, ग्रह, भाव, दशा व योग। Janam kundali / birth chart हिंदी व अंग्रेज़ी में।"
-      : "Generate a free Vedic janam kundali online — Lagna, planets, houses, dasha & yogas. Instant birth chart in English & Hindi.",
+      ? "मुफ्त जन्म कुंडली ऑनलाइन बनाएँ — लग्न, ग्रह, भाव, दशा व योग। Janam kundali / birth chart हिंदी व अंग्रेज़ी में।"
+      : "Generate a free janam kundali online — Lagna, planets, houses, dasha & yogas. Instant birth chart in English & Hindi.",
     keywords: hi
       ? [
           "मुफ्त कुंडली ऑनलाइन",
@@ -33,16 +33,16 @@ export async function generateMetadata({
           "free kundli online",
           "janam kundali",
           "birth chart",
-          "वैदिक कुंडली",
+          "जन्म कुंडली",
         ]
       : [
           "free kundli online",
           "janam kundali",
           "birth chart",
-          "Vedic kundli",
+          "kundli",
           "janam kundli",
           "online kundli free",
-          "jyotish birth chart",
+          "birth chart online",
         ],
   });
 }

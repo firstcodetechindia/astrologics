@@ -14,7 +14,9 @@ export interface BirthInput {
 export interface PlanetPosition {
   id: string;
   name: { en: string; hi: string };
+  /** Sidereal absolute longitude 0–360 */
   longitude: number;
+  absoluteLongitude?: number;
   signIndex: number;
   sign: { en: string; hi: string };
   degreeInSign: number;
@@ -23,6 +25,17 @@ export interface PlanetPosition {
   nakshatra: { en: string; hi: string };
   pada: number;
   isRetrograde?: boolean;
+  speed?: number;
+  isCombust?: boolean;
+  combustionDistance?: number;
+  dignity?: {
+    kind: string;
+    label: { en: string; hi: string };
+    exalted?: boolean;
+    debilitated?: boolean;
+    ownSign?: boolean;
+    moolatrikona?: boolean;
+  };
 }
 
 export interface HouseInfo {
@@ -53,13 +66,35 @@ export interface LifeInsight {
   text: { en: string; hi: string };
 }
 
+export interface GrahaAspectInfo {
+  fromId: string;
+  fromName: { en: string; hi: string };
+  toHouse: number;
+  aspect: number;
+  label: { en: string; hi: string };
+}
+
+export interface DoshaBlock {
+  present: boolean;
+  meaning: { en: string; hi: string };
+  [key: string]: unknown;
+}
+
 export interface KundliResult {
   input: BirthInput;
   ayanamsa: number;
+  settings: {
+    zodiac: "sidereal";
+    ayanamsa: "lahiri";
+    houseSystem: "whole-sign" | "whole_sign";
+    nodeType: "mean" | "true";
+    ephemerisEngine: string;
+  };
   lagna: {
     signIndex: number;
     sign: { en: string; hi: string };
     degree: number;
+    longitude: number;
   };
   moonRashi: { en: string; hi: string; signIndex: number };
   sunRashi: { en: string; hi: string; signIndex: number };
@@ -71,12 +106,34 @@ export interface KundliResult {
   };
   planets: PlanetPosition[];
   houses: HouseInfo[];
+  aspects: GrahaAspectInfo[];
   yogas: YogaFlag[];
+  doshas: {
+    manglik: DoshaBlock;
+    kaalSarp: DoshaBlock;
+    sadeSati?: DoshaBlock;
+  };
   dasha: {
     currentMaha: DashaPeriod;
     currentAntar: DashaPeriod;
+    currentPratyantar?: DashaPeriod;
     mahaList: DashaPeriod[];
+    antarList?: DashaPeriod[];
+    pratyantarList?: DashaPeriod[];
+    balanceYears?: number;
+    startLord?: { en: string; hi: string };
   };
+  divisionalCharts?: {
+    D9?: unknown;
+    D10?: unknown;
+  };
+  transits?: unknown;
+  /** Multi-factor topic analyses derived from this same kundli object. */
+  predictions?: import("./prediction/types").PredictionBundle;
   insights: LifeInsight[];
+  reliability: {
+    level: "high" | "moderate" | "limited";
+    reasons: { en: string; hi: string }[];
+  };
   computedAt: string;
 }

@@ -1,12 +1,28 @@
+const PRODUCTION_SITE_URL = "https://astrologics.co";
+
+function resolveSiteUrl(raw?: string) {
+  const value = (raw || "").trim().replace(/\/$/, "");
+  if (
+    !value ||
+    value.includes("localhost") ||
+    value.includes("127.0.0.1") ||
+    value.includes("0.0.0.0")
+  ) {
+    return PRODUCTION_SITE_URL;
+  }
+  return value;
+}
+
 export const siteConfig = {
   brandName: process.env.NEXT_PUBLIC_BRAND_NAME || "Astrologics",
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://astrologics.co",
+  /** Always a public production URL — never localhost (for legal, SEO, share links). */
+  siteUrl: resolveSiteUrl(process.env.NEXT_PUBLIC_SITE_URL),
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919876543210",
   phone: process.env.NEXT_PUBLIC_PHONE_NUMBER || "+919876543210",
   email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "hello@astrologics.co",
   tagline: {
-    en: "Clear Vedic kundli guidance for modern life",
-    hi: "आधुनिक जीवन के लिए स्पष्ट वैदिक कुंडली मार्गदर्शन",
+    en: "Astrology for modern life — kundli, Western, KP, numerology & AI",
+    hi: "आधुनिक जीवन के लिए ज्योतिष — कुंडली, पश्चिमी, केपी, अंक ज्योतिष व एआई",
   },
 };
 
