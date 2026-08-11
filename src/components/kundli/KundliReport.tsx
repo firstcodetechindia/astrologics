@@ -5,7 +5,7 @@ import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { KundliResult } from "@/lib/astrology/types";
 import type { DivisionalChart } from "@/lib/astrology/vargas";
-import { toDMS } from "@/lib/astrology/math";
+import { toDMS } from "@/lib/astrology/math-core";
 import { gemstoneForSign, rudrakshaForSign } from "@/lib/astrology/remedies";
 import { getHoroscopeSeo } from "@/lib/horoscope/seo-content";
 import { zodiacSlugFromIndex } from "@/lib/zodiac-icons";
@@ -215,7 +215,13 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
       }
     | undefined;
 
-  const manglikExtra = kundli.doshas.manglik as {
+  const manglikExtra = (kundli.doshas?.manglik || {
+    present: false,
+    meaning: {
+      en: "Manglik status unavailable — regenerate your kundli.",
+      hi: "मांगलिक स्थिति उपलब्ध नहीं — कुंडली फिर बनाएँ।",
+    },
+  }) as {
     present: boolean;
     meaning: { en: string; hi: string };
     cancelled?: boolean;
@@ -224,6 +230,7 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
     fromLagna?: number;
     fromMoon?: number | null;
     methodology?: { en: string; hi: string };
+    presentAny?: boolean;
   };
 
   const mainTabs: { id: MainTab; en: string; hi: string }[] = [
@@ -308,12 +315,12 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
               <Item label={hi ? "समय" : "Time"} value={kundli.input.time} />
               <Item
                 label={hi ? "अयनांश" : "Ayanamsa"}
-                value={`Lahiri ${kundli.ayanamsa.toFixed(4)}°`}
+                value={`Lahiri ${Number(kundli.ayanamsa || 0).toFixed(4)}°`}
               />
               <Item
                 label={hi ? "राहु/केतु" : "Nodes"}
                 value={
-                  kundli.settings.nodeType === "true"
+                  kundli.settings?.nodeType === "true"
                     ? hi
                       ? "ट्रू (प्रयोगात्मक)"
                       : "True (experimental)"
@@ -324,11 +331,13 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
               />
               <Item
                 label={hi ? "एफ़ेमेरिस" : "Ephemeris"}
-                value={kundli.settings.ephemerisEngine || "astronomy-engine"}
+                value={
+                  kundli.settings?.ephemerisEngine || "astronomy-engine"
+                }
               />
               <Item
                 label={hi ? "विश्वसनीयता" : "Reliability"}
-                value={kundli.reliability.level}
+                value={kundli.reliability?.level || "—"}
               />
             </dl>
           </Card>
@@ -480,13 +489,13 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
               ))}
             </div>
           </Card>
-          {kundli.yogas.length > 0 && (
+          {(kundli.yogas?.length || 0) > 0 && (
             <Card>
               <h2 className="font-display text-lg font-bold text-maroon">
                 {hi ? "योग" : "Yogas"}
               </h2>
               <ul className="mt-3 space-y-2">
-                {kundli.yogas.map((y) => (
+                {(kundli.yogas || []).map((y) => (
                   <li
                     key={y.id}
                     className="rounded-xl border border-black/[0.05] px-3 py-2.5"
@@ -806,7 +815,7 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
                   : "Each card is one Mahadasha. Readings cite the dasha lord’s natal house and sign."}
               </p>
               <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
-                {kundli.dasha.mahaList.map((d, i) => {
+                {kundli.dasha.mahaList?.map((d, i) => {
                   const planet = kundli.planets.find(
                     (p) =>
                       p.name.en.toLowerCase() === d.planet.en.toLowerCase() ||
@@ -938,7 +947,7 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
 
           {reportSub === "general" && (
             <div className="space-y-4">
-              {kundli.insights.map((ins) => (
+              {kundli.insights?.map((ins) => (
                 <Card key={ins.area}>
                   <h3 className="font-display text-base font-bold text-maroon">
                     {L(locale, ins.title)}
@@ -1081,7 +1090,7 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
                   )}
                 </Card>
               )}
-              {doshaSub === "kalsarpa" && (
+              {doshaSub === "kalsarpa" && kundli.doshas?.kaalSarp && (
                 <Card>
                   <div className="flex items-start justify-between gap-3">
                     <h3 className="font-display text-lg font-bold text-maroon">
@@ -1098,7 +1107,7 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
                   </p>
                 </Card>
               )}
-              {doshaSub === "sadesati" && kundli.doshas.sadeSati && (
+              {doshaSub === "sadesati" && kundli.doshas?.sadeSati && (
                 <Card>
                   <div className="flex items-start justify-between gap-3">
                     <h3 className="font-display text-lg font-bold text-maroon">
@@ -1235,7 +1244,7 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
 
           {reportSub === "yoga" && (
             <div className="space-y-3">
-              {kundli.yogas.length === 0 ? (
+              {(kundli.yogas?.length || 0) === 0 ? (
                 <Card>
                   <p className="text-sm text-ink-muted">
                     {hi
