@@ -143,18 +143,12 @@ export function AstrologerAuthShell({
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-[#fff8f1]"
         />
-        <div className="relative z-10 flex shrink-0 items-center justify-between border-b border-saffron/15 bg-[#F06A00] px-4 py-3 text-white lg:hidden">
+        <div className="relative z-10 flex shrink-0 items-center border-b border-saffron/15 bg-[#F06A00] px-4 py-3 text-white lg:hidden">
           <Link href="/" className="inline-flex min-w-0 items-center gap-2.5">
             <AstrologicsLogoWhite className="h-9 w-9 shrink-0" />
             <span className="truncate font-display text-base font-semibold">
               {siteConfig.brandName}
             </span>
-          </Link>
-          <Link
-            href="/"
-            className="shrink-0 rounded-lg bg-white/15 px-2.5 py-1.5 text-[11px] font-semibold ring-1 ring-white/25"
-          >
-            {hi ? "होम" : "Home"}
           </Link>
         </div>
 

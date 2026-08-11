@@ -356,45 +356,11 @@ export function MobileBottomNav() {
       </AnimatePresence>
 
       <nav
-        className="fixed inset-x-0 bottom-0 z-[70] w-full max-w-[100vw] overflow-x-clip"
+        className="fixed inset-x-0 bottom-0 z-[70] w-full max-w-[100vw] border-t border-black/[0.06] bg-white"
         style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
         aria-label={hi ? "मोबाइल मेनू" : "Mobile menu"}
       >
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 bg-white"
-          style={{ height: "env(safe-area-inset-bottom)" }}
-        />
-
-        <div className="relative h-[3.85rem] overflow-x-clip overflow-y-visible">
-          {/*
-            True notch: transparent circle + huge white box-shadow, clipped to the
-            bottom half → white bar with a real circular bite (no white disc layer).
-            Contained so the shadow never expands document scroll width.
-          */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-0 z-0 h-full overflow-hidden"
-          >
-            <div
-              className="absolute left-1/2 top-0 size-[3.65rem] -translate-x-1/2 -translate-y-1/2 rounded-full"
-              style={{
-                boxShadow: "0 0 0 max(100vh, 100vw) #ffffff",
-                clipPath: "inset(50% -100vmax -100vmax -100vmax)",
-              }}
-            />
-          </div>
-          {/* Soft lift under the bar (not in the notch hole) */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-0 z-0 h-full shadow-[0_-4px_16px_-8px_rgba(42,33,24,0.18)]"
-            style={{
-              clipPath:
-                "polygon(0% 0%, calc(50% - 1.85rem) 0%, calc(50% - 1.85rem) 100%, calc(50% + 1.85rem) 100%, calc(50% + 1.85rem) 0%, 100% 0%, 100% 100%, 0% 100%)",
-            }}
-          />
-
-          <div className="relative z-10 mx-auto grid h-full max-w-lg grid-cols-5 px-1">
+        <div className="relative mx-auto grid h-[3.85rem] max-w-lg grid-cols-5 px-1">
             {leftTabs.map((item) => (
               <TabButton
                 key={item.key}
@@ -411,8 +377,8 @@ export function MobileBottomNav() {
               aria-current={sectionActive.home ? "page" : undefined}
               aria-label={t("home")}
             >
-              {/* FAB only — label stays on the same baseline as other tabs */}
-              <span className="absolute left-1/2 top-0 z-20 flex size-[3.05rem] -translate-x-1/2 -translate-y-[54%] items-center justify-center rounded-full bg-gradient-to-br from-[#ff9a2e] via-saffron to-[#d45500] shadow-[0_8px_20px_-6px_rgba(240,106,0,0.75)] transition-transform active:scale-95">
+              {/* FAB sits above the bar with a white ring so it reads cleanly */}
+              <span className="absolute left-1/2 top-0 z-20 flex size-[3.05rem] -translate-x-1/2 -translate-y-[54%] items-center justify-center rounded-full bg-gradient-to-br from-[#ff9a2e] via-saffron to-[#d45500] shadow-[0_8px_20px_-6px_rgba(240,106,0,0.75)] ring-[5px] ring-white transition-transform active:scale-95">
                 <span
                   aria-hidden
                   className="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_30%_28%,rgba(255,255,255,0.32),transparent_55%)]"
@@ -442,7 +408,6 @@ export function MobileBottomNav() {
                 onClick={() => toggleMenu(item.key)}
               />
             ))}
-          </div>
         </div>
       </nav>
     </div>
