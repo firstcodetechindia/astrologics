@@ -11,6 +11,7 @@ import {
   absoluteUrl,
   breadcrumbJsonLd,
   buildPageMetadata,
+  personAuthorJsonLd,
 } from "@/lib/seo/page-meta";
 
 export function generateStaticParams() {
@@ -73,12 +74,12 @@ export default async function BlogPostPage({
           headline: post.title,
           description: post.description,
           datePublished: post.date,
-          dateModified: post.date,
+          dateModified: "2026-08-11",
           inLanguage: hi ? "hi-IN" : "en-IN",
           author: {
-            "@type": "Organization",
-            name: siteConfig.brandName,
-            url: siteConfig.siteUrl,
+            "@type": "Person",
+            name: `${siteConfig.brandName} Editorial`,
+            url: `${siteConfig.siteUrl}/en/about`,
           },
           publisher: {
             "@type": "Organization",
@@ -93,6 +94,7 @@ export default async function BlogPostPage({
           url,
         }}
       />
+      <JsonLd data={personAuthorJsonLd()} />
       <JsonLd
         data={breadcrumbJsonLd(locale, [
           { name: hi ? "होम" : "Home", path: "" },
@@ -111,6 +113,10 @@ export default async function BlogPostPage({
         ]}
       />
       <div className="container-page max-w-3xl py-6 sm:py-8">
+        <p className="mb-4 text-sm text-ink-muted">
+          {hi ? "समीक्षा: 11 Aug 2026" : "Reviewed: 11 Aug 2026"} ·{" "}
+          {siteConfig.brandName} Editorial
+        </p>
         <GlassCard className="space-y-4">
           {post.content.map((para, i) => (
             <p key={i} className="leading-relaxed text-ink-muted">
@@ -118,12 +124,20 @@ export default async function BlogPostPage({
             </p>
           ))}
         </GlassCard>
-        <Link
-          href="/blog"
-          className="mt-8 inline-block text-sm font-semibold text-saffron-deep hover:underline"
-        >
-          ← {hi ? "ब्लॉग" : "Blog"}
-        </Link>
+        <div className="mt-8 flex flex-wrap gap-4 text-sm font-semibold">
+          <Link href="/kundli" className="text-saffron-deep hover:underline">
+            {hi ? "मुफ्त कुंडली →" : "Free kundli →"}
+          </Link>
+          <Link href="/chat-with-astrologer" className="text-saffron-deep hover:underline">
+            {hi ? "ज्योतिषी से चैट →" : "Chat with astrologer →"}
+          </Link>
+          <Link
+            href="/blog"
+            className="text-saffron-deep hover:underline"
+          >
+            ← {hi ? "ब्लॉग" : "Blog"}
+          </Link>
+        </div>
       </div>
     </article>
   );

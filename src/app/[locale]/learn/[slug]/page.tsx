@@ -80,10 +80,11 @@ export default async function LearnGuidePage({
     description,
     inLanguage: hi ? "hi-IN" : "en-IN",
     author: {
-      "@type": "Organization",
-      name: siteConfig.brandName,
-      url: siteConfig.siteUrl,
+      "@type": "Person",
+      name: `${siteConfig.brandName} Editorial`,
+      url: `${siteConfig.siteUrl}/en/about`,
     },
+    dateModified: "2026-08-11",
     publisher: {
       "@type": "Organization",
       name: siteConfig.brandName,
@@ -134,9 +135,10 @@ export default async function LearnGuidePage({
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
             {GLOSSARY_TERMS.map((item) => (
-              <div
-                key={pickLocale(locale, item.term)}
-                className="rounded-2xl border border-black/[0.07] bg-white p-4"
+              <Link
+                key={item.slug}
+                href={`/learn/glossary/${item.slug}`}
+                className="rounded-2xl border border-black/[0.07] bg-white p-4 transition hover:border-saffron/35 hover:bg-[#fffaf6]"
               >
                 <h2 className="font-display text-[15px] font-bold text-ink">
                   {pickLocale(locale, item.term)}
@@ -144,7 +146,10 @@ export default async function LearnGuidePage({
                 <p className="mt-1.5 text-[13px] leading-relaxed text-ink-muted">
                   {pickLocale(locale, item.definition)}
                 </p>
-              </div>
+                <span className="mt-2 inline-block text-[12px] font-semibold text-saffron-deep">
+                  {hi ? "पूरा अर्थ →" : "Full meaning →"}
+                </span>
+              </Link>
             ))}
           </div>
         </div>

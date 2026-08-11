@@ -22,11 +22,11 @@ export async function generateMetadata({
     locale,
     path: "/services",
     title: hi
-      ? `सेवाएँ — मुफ्त कुंडली, गुण मिलान व ज्योतिष परामर्श | ${siteConfig.brandName}`
-      : `Services — Free Kundli, Gun Milan & Astrology Consultation | ${siteConfig.brandName}`,
+      ? `ज्योतिष परामर्श सेवाएँ | ${siteConfig.brandName}`
+      : `Astrology Consultation Services | ${siteConfig.brandName}`,
     description: hi
-      ? "मुफ्त ऑनलाइन जन्म कुंडली से शुरू करें। विस्तृत जीवन पढ़ाई, गुण मिलान, दोष विश्लेषण व उपचार — ज्योतिष परामर्श।"
-      : "Start with a free online janam kundali. Detailed life readings, gun milan, dosha analysis and remedies — astrology consultation.",
+      ? "मुफ्त कुंडली से व्यक्तिगत परामर्श तक — जीवन पढ़ाई, गुण मिलान, दोष विश्लेषण और शास्त्रीय उपचार। हिंदी व अंग्रेज़ी में।"
+      : "From free kundli to personal sessions — life readings, gun milan, dosha analysis and classical remedies. Available in English and Hindi.",
     keywords: hi
       ? [
           "कुंडली परामर्श",
@@ -124,6 +124,33 @@ export default async function ServicesPage({
             {hi
               ? "ऑनलाइन ज्योतिष उपकरण मुफ्त रहेंगे; व्यक्तिगत परामर्श व्हाट्सऐप पर उपलब्ध है।"
               : "Online astrology tools stay free; personal consultation is available on WhatsApp."}
+          </p>
+        </section>
+
+        <section className="mt-12 max-w-3xl space-y-4 text-[15px] leading-relaxed text-ink-muted">
+          <h2 className="font-display text-2xl font-bold text-ink">
+            {hi ? "परामर्श में क्या शामिल है" : "What consultation includes"}
+          </h2>
+          <p>
+            {hi
+              ? "व्यक्तिगत सत्र में हम आपकी कुंडली के आधार पर करियर, विवाह, धन और स्वास्थ्य प्रवृत्ति पर समय-क्रम देखते हैं। दोष (जैसे मंगल, कालसर्प, साढ़े साती) का संदर्भ, गुण मिलान की गहराई और उपाय प्राथमिकता चर्चा की जाती है — स्कोरकार्ड से आगे।"
+              : "In a personal session we review career, marriage, wealth and health tendencies from your chart with timing context. Dosha themes (such as Mangal, Kaalsarp, Sade Sati), deeper gun milan and remedy priority are discussed — beyond scorecards alone."}
+          </p>
+          <p>
+            {hi
+              ? "परामर्श हिंदी या अंग्रेज़ी में हो सकता है। जन्म विवरण, प्रश्न और कोई पिछली रिपोर्ट साझा करें — ताकि सत्र केंद्रित और उपयोगी रहे।"
+              : "Consultation can be in Hindi or English. Share birth details, your questions and any prior report so the session stays focused and useful."}
+          </p>
+        </section>
+
+        <section className="mt-12 max-w-3xl space-y-4 text-[15px] leading-relaxed text-ink-muted">
+          <h2 className="font-display text-2xl font-bold text-ink">
+            {hi ? "सत्र कैसे बुक करें" : "How to book a session"}
+          </h2>
+          <p>
+            {hi
+              ? "पहले मुफ्त कुंडली या एआई गुरु से परिचित हों। जब गहन मार्गदर्शन चाहिए, व्हाट्सऐप पर संदेश करें — नाम, जन्म तिथि, समय, स्थान और मुख्य प्रश्न लिखें। हम उपलब्धता और सत्र प्रारूप (चैट या कॉल) पर जवाब देंगे।"
+              : "Start with a free kundli or AI Guru if helpful. When you want deeper guidance, message us on WhatsApp with name, birth date, time, place and your main question. We will reply on availability and session format (chat or call)."}
           </p>
         </section>
       </div>

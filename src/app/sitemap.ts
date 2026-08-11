@@ -3,7 +3,10 @@ import { siteConfig } from "@/lib/site-config";
 import { getPosts } from "@/lib/blog";
 import { CALCULATORS } from "@/lib/calculators/catalog";
 import { LEARN_GUIDE_SLUGS } from "@/lib/learn/catalog";
+import { GLOSSARY_TERM_SLUGS } from "@/lib/learn/glossary";
 import { ZODIAC_SLUGS } from "@/lib/zodiac-icons";
+
+const SITEMAP_SKIP_CALCS = new Set(["today-panchang", "daily-panchang"]);
 
 const staticPaths = [
   "",
@@ -23,6 +26,20 @@ const staticPaths = [
   "/learn",
 ];
 
+function changeFrequencyFor(path: string): MetadataRoute.Sitemap[number]["changeFrequency"] {
+  if (path === "" || path === "/horoscope" || path === "/panchang") return "daily";
+  if (path === "/kundli" || path === "/calculators") return "weekly";
+  return "monthly";
+}
+
+function priorityFor(path: string): number {
+  if (path === "") return 1;
+  if (path === "/kundli" || path === "/calculators" || path === "/horoscope") return 0.95;
+  if (path === "/panchang") return 0.9;
+  if (path === "/chat" || path === "/chat-with-astrologer") return 0.9;
+  return 0.75;
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const locales = ["en", "hi"] as const;
   const entries: MetadataRoute.Sitemap = [];
@@ -32,16 +49,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       entries.push({
         url: `${siteConfig.siteUrl}/${locale}${path}`,
         lastModified: new Date(),
-        changeFrequency:
-          path === "" || path === "/horoscope" ? "daily" : path === "/kundli" || path === "/calculators" ? "weekly" : "monthly",
-        priority:
-          path === ""
-            ? 1
-            : path === "/kundli" || path === "/calculators" || path === "/horoscope"
-              ? 0.95
-              : path === "/chat" || path === "/chat-with-astrologer"
-                ? 0.9
-                : 0.75,
+        changeFrequency: changeFrequencyFor(path),
+        priority: priorityFor(path),
         alternates: {
           languages: {
             en: `${siteConfig.siteUrl}/en${path}`,
@@ -52,6 +61,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
 
     for (const calc of CALCULATORS) {
+      if (SITEMAP_SKIP_CALCS.has(calc.slug)) continue;
       const path = `/calculators/${calc.slug}`;
       entries.push({
         url: `${siteConfig.siteUrl}/${locale}${path}`,
@@ -89,6 +99,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
         lastModified: new Date(),
         changeFrequency: "monthly",
         priority: 0.72,
+        alternates: {
+          languages: {
+            en: `${siteConfig.siteUrl}/en${path}`,
+            hi: `${siteConfig.siteUrl}/hi${path}`,
+          },
+        },
+      });
+    }
+
+    for (const slug of GLOSSARY_TERM_SLUGS) {
+      const path = `/learn/glossary/${slug}`;
+      entries.push({
+        url: `${siteConfig.siteUrl}/${locale}${path}`,
+        lastModified: new Date(),
+        changeFrequency: "monthly",
+        priority: 0.65,
         alternates: {
           languages: {
             en: `${siteConfig.siteUrl}/en${path}`,

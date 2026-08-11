@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { siteConfig } from "@/lib/site-config";
 import { FaqPageClient } from "@/components/faq/FaqPageClient";
+import { faqForLocale } from "@/lib/home/faq";
 import {
   breadcrumbJsonLd,
   buildPageMetadata,
@@ -20,11 +21,11 @@ export async function generateMetadata({
     locale,
     path: "/faq",
     title: hi
-      ? `अक्सर पूछे जाने वाले प्रश्न — कुंडली, राशिफल व ज्योतिष | ${siteConfig.brandName}`
-      : `FAQ — Kundli, Rashifal & Astrology Questions | ${siteConfig.brandName}`,
+      ? `कुंडली व ज्योतिष FAQ | ${siteConfig.brandName}`
+      : `Kundli & Astrology FAQ | ${siteConfig.brandName}`,
     description: hi
-      ? "जन्म कुंडली, लग्न, कुंडली बनाम पश्चिमी ज्योतिष, गुण मिलान, उपचार व एआई गुरु पर स्पष्ट उत्तर — Astrologics FAQ।"
-      : "Clear answers on janam kundali, Lagna, Kundli vs Western astrology, gun milan, remedies and AI Guru — Astrologics FAQ.",
+      ? "कुंडली, लग्न, नक्षत्र, दशा, एआई गुरु और ज्योतिष गणना पर 17+ स्पष्ट उत्तर — Astrologics FAQ पेज पर।"
+      : "Clear answers on kundli, Lagna, Nakshatra, dasha, AI Guru and how charts are calculated — 17+ questions on Astrologics FAQ.",
     keywords: hi
       ? [
           "कुंडली FAQ",
@@ -53,14 +54,10 @@ export default async function FaqPage({
   const t = await getTranslations("faq");
   const hi = locale === "hi";
 
-  const faqs = [
-    { q: t("q1"), a: t("a1") },
-    { q: t("q2"), a: t("a2") },
-    { q: t("q3"), a: t("a3") },
-    { q: t("q4"), a: t("a4") },
-    { q: t("q5"), a: t("a5") },
-    { q: t("q6"), a: t("a6") },
-  ];
+  const faqs = faqForLocale(locale).map(({ question, answer }) => ({
+    q: question,
+    a: answer,
+  }));
 
   return (
     <>

@@ -18,6 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: hi
       ? "Astrologics के साथ सत्यापित ज्योतिषी के रूप में जुड़ें।"
       : "Join Astrologics as a verified astrologer partner.",
+    noIndex: true,
   });
 }
 

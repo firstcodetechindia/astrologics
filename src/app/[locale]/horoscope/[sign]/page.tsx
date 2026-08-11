@@ -33,10 +33,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const ruler = pickL(locale, sign.ruler);
   const hi = locale === "hi";
   const title = hi
-    ? `${name} राशिफल आज — दैनिक, साप्ताहिक, मासिक | लकी नंबर व रंग | ${siteConfig.brandName}`
-    : `${name} Horoscope Today — Daily, Weekly, Monthly | Lucky Number & Colour | ${siteConfig.brandName}`;
+    ? `${name} राशिफल आज — दैनिक व साप्ताहिक | ${siteConfig.brandName}`
+    : `${name} Horoscope Today — Daily & Weekly | ${siteConfig.brandName}`;
   const description = hi
-    ? `${name} (${sign.name.en}) राशिफल: दैनिक-साप्ताहिक-मासिक भविष्यवाणी, शासक ग्रह ${ruler}, लकी नंबर ${sign.luckyNumber}, प्रेम-करियर मार्गदर्शन, उपाय और एआई गुरु अंतर्दृष्टि।`
+    ? `${name} (${sign.name.en}) राशिफल: दैनिक-साप्ताहिक-मासिक, शासक ${ruler}, लकी नंबर ${sign.luckyNumber}, प्रेम-करियर व उपाय।`
     : `${name} horoscope: daily, weekly & monthly forecast, ruling planet ${ruler}, lucky number ${sign.luckyNumber}, love & career guidance, remedies and AI Guru insights.`;
 
   const keywords = hi

@@ -1,4 +1,4 @@
-const PRODUCTION_SITE_URL = "https://astrologics.co";
+const PRODUCTION_SITE_URL = "https://www.astrologics.co";
 
 function resolveSiteUrl(raw?: string) {
   const value = (raw || "").trim().replace(/\/$/, "");

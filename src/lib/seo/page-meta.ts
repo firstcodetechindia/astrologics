@@ -119,16 +119,89 @@ export function websiteJsonLd() {
     name: siteConfig.brandName,
     url: siteConfig.siteUrl,
     inLanguage: ["en-IN", "hi-IN"],
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${siteConfig.siteUrl}/en/calculators?q={search_term_string}`,
-      "query-input": "required name=search_term_string",
-    },
     publisher: {
       "@type": "Organization",
       name: siteConfig.brandName,
       url: siteConfig.siteUrl,
     },
+  };
+}
+
+export function howToKundliJsonLd(locale: string) {
+  const hi = locale === "hi";
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: hi
+      ? "Astrologics पर मुफ्त कुंडली कैसे बनाएँ"
+      : "How to generate a free kundli on Astrologics",
+    description: hi
+      ? "जन्म तिथि, समय और स्थान से लाहिरी निरयण जन्म कुंडली बनाएँ।"
+      : "Create a Lahiri sidereal janam kundali from birth date, time and place.",
+    totalTime: "PT2M",
+    tool: [
+      {
+        "@type": "HowToTool",
+        name: hi ? "जन्म विवरण" : "Birth details",
+      },
+    ],
+    step: [
+      {
+        "@type": "HowToStep",
+        position: 1,
+        name: hi ? "जन्म विवरण भरें" : "Enter birth details",
+        text: hi
+          ? "जन्म तिथि, यथासंभव सटीक जन्म समय और जन्म शहर चुनें।"
+          : "Add date of birth, the most accurate birth time you have, and select your birth city.",
+        url: absoluteUrl(locale, "/kundli"),
+      },
+      {
+        "@type": "HowToStep",
+        position: 2,
+        name: hi ? "कुंडली बनाएँ" : "Generate the chart",
+        text: hi
+          ? "जनरेट पर टैप करें — इंजन लाहिरी अयनांश से ग्रह स्थिति और लग्न निकालता है।"
+          : "Tap generate — the engine computes planetary positions and Lagna with Lahiri ayanamsa.",
+      },
+      {
+        "@type": "HowToStep",
+        position: 3,
+        name: hi ? "रिपोर्ट पढ़ें" : "Read your report",
+        text: hi
+          ? "लग्न, ग्रह, भाव, नक्षत्र, योग और विंशोत्तरी दशा देखें।"
+          : "Review Lagna, planets, houses, Nakshatras, yogas and Vimshottari dasha.",
+      },
+      {
+        "@type": "HowToStep",
+        position: 4,
+        name: hi ? "अगला कदम" : "Next step",
+        text: hi
+          ? "एआई गुरु से प्रश्न पूछें या सत्यापित ज्योतिषी से चैट करें।"
+          : "Ask AI Guru about your chart or chat with a verified astrologer for personal guidance.",
+      },
+    ],
+  };
+}
+
+export function personAuthorJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: `${siteConfig.brandName} Editorial`,
+    url: `${siteConfig.siteUrl}/en/about`,
+    jobTitle: "Astrology content & methodology",
+    worksFor: {
+      "@type": "Organization",
+      name: siteConfig.brandName,
+      url: siteConfig.siteUrl,
+    },
+    knowsAbout: [
+      "Vedic astrology",
+      "Janam Kundli",
+      "KP astrology",
+      "Numerology",
+      "Panchang",
+    ],
   };
 }
 

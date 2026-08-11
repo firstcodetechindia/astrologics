@@ -17,11 +17,11 @@ export async function generateMetadata(): Promise<Metadata> {
     locale,
     path: "/features",
     title: hi
-      ? `विशेषताएँ — मुफ्त कुंडली, एआई गुरु व ज्योतिष उपकरण | ${siteConfig.brandName}`
-      : `Features — Free Kundli, AI Guru & Astrology Tools | ${siteConfig.brandName}`,
+      ? `प्लेटफ़ॉर्म विशेषताएँ — कुंडली, एआई गुरु | ${siteConfig.brandName}`
+      : `Platform Features — Kundli, AI Guru & 30+ Tools | ${siteConfig.brandName}`,
     description: hi
-      ? "Astrologics विशेषताएँ: मुफ्त जन्म कुंडली, एआई ज्योतिष चैट, गुण मिलान, राशिफल, पंचांग, केपी, अंक ज्योतिष व 30+ कैलकुलेटर।"
-      : "Astrologics features: free janam kundali, AI astrology chat, gun milan, horoscope, panchang, KP, numerology and 30+ calculators.",
+      ? "Astrologics पर मुफ्त जन्म कुंडली, एआई गुरु चैट, गुण मिलान, राशिफल, पंचांग, केपी, अंक ज्योतिष और 30+ कैलकुलेटर — सब एक जगह।"
+      : "Explore Astrologics platform features: free janam kundali, AI Guru chat, gun milan, horoscope, panchang, KP, numerology and 30+ calculators in one place.",
     keywords: hi
       ? [
           "कुंडली विशेषताएँ",

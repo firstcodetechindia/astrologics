@@ -7,6 +7,7 @@ import { siteConfig } from "@/lib/site-config";
 import {
   breadcrumbJsonLd,
   buildPageMetadata,
+  howToKundliJsonLd,
 } from "@/lib/seo/page-meta";
 
 export async function generateMetadata({
@@ -20,11 +21,11 @@ export async function generateMetadata({
     locale,
     path: "/kundli",
     title: hi
-      ? `मुफ्त जन्म कुंडली ऑनलाइन — जनम कुंडली व बर्थ चार्ट | ${siteConfig.brandName}`
-      : `Free Kundli Online — Janam Kundali & Birth Chart | ${siteConfig.brandName}`,
+      ? `मुफ्त कुंडली ऑनलाइन — जन्म कुंडली | ${siteConfig.brandName}`
+      : `Free Kundli Online — Janam Kundali | ${siteConfig.brandName}`,
     description: hi
-      ? "मुफ्त जन्म कुंडली ऑनलाइन बनाएँ — लग्न, ग्रह, भाव, दशा व योग। Janam kundali / birth chart हिंदी व अंग्रेज़ी में।"
-      : "Generate a free janam kundali online — Lagna, planets, houses, dasha & yogas. Instant birth chart in English & Hindi.",
+      ? "मुफ्त जन्म कुंडली बनाएँ — लग्न, ग्रह, भाव, विंशोत्तरी दशा व योग। साइनअप बिना, हिंदी व अंग्रेज़ी में।"
+      : "Generate free janam kundali — Lagna, planets, houses, Vimshottari dasha & yogas. English & Hindi. No signup required.",
     keywords: hi
       ? [
           "मुफ्त कुंडली ऑनलाइन",
@@ -66,6 +67,7 @@ export default async function KundliPage({
           { name: tc("kundli"), path: "/kundli" },
         ])}
       />
+      <JsonLd data={howToKundliJsonLd(locale)} />
       <PageHero
         eyebrow="Kundli"
         title={t("title")}
@@ -76,6 +78,24 @@ export default async function KundliPage({
         ]}
       />
       <div className="container-page py-6 sm:py-8">
+        <div className="mx-auto mb-6 max-w-3xl rounded-2xl border border-saffron/20 bg-white/90 px-5 py-4 text-[14px] leading-relaxed text-ink">
+          {hi ? (
+            <p>
+              <strong>सीधे उत्तर:</strong> जन्म तिथि, समय और स्थान भरकर लाहिरी
+              निरयण जन्म कुंडली सेकंडों में बनाएँ — लग्न, ग्रह, भाव, नक्षत्र,
+              योग और विंशोत्तरी दशा एक रिपोर्ट में। गणना इंजन से होती है; एआई
+              केवल व्याख्या में मदद करता है।
+            </p>
+          ) : (
+            <p>
+              <strong>Direct answer:</strong> Enter birth date, time and place
+              to generate a Lahiri sidereal janam kundali in seconds — Lagna,
+              planets, houses, Nakshatras, yogas and Vimshottari dasha in one
+              report. The astrology engine calculates positions; AI only helps
+              interpret them.
+            </p>
+          )}
+        </div>
         <BirthForm />
       </div>
     </div>

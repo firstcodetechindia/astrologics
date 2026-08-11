@@ -27,8 +27,8 @@ function genericContent(
   return {
     h1: title,
     intro: {
-      en: `Free online ${topic.en} calculator for Vedic astrology (Jyotish). Get a clear Lahiri-based result in seconds — then open your full janam kundali or ask Astrologics AI Guru for chart-specific guidance in English or Hindi.`,
-      hi: `वैदिक ज्योतिष हेतु मुफ़्त ऑनलाइन ${topic.hi} कैलकुलेटर। लाहिरी आधारित स्पष्ट परिणाम सेकंडों में — फिर पूर्ण जन्म कुंडली खोलें या Astrologics एआई गुरु से चार्ट-विशिष्ट मार्गदर्शन लें।`,
+      en: `${topic.en} — get a clear Lahiri sidereal result in seconds on Astrologics. Then open your full janam kundali or ask AI Guru for chart-specific guidance in English or Hindi.`,
+      hi: `${topic.hi} — Astrologics पर लाहिरी निरयण परिणाम सेकंडों में। फिर पूर्ण जन्म कुंडली खोलें या एआई गुरु से चार्ट-विशिष्ट मार्गदर्शन लें।`,
     },
     promo: {
       text: {
@@ -251,8 +251,8 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
       hi: "कुंडली मिलान — 36 गुण अष्टकूट",
     },
     intro: {
-      en: "Enter both partners’ birth details for classical Gun Milan across eight kootas (max 36). Review the total, each koota score, and the clear verdict — then deepen with a human reading for marriage timing and exceptions.",
-      hi: "दोनों साथियों के जन्म विवरण से शास्त्रीय गुण मिलान (अधिकतम 36)। कुल अंक, प्रत्येक कूट और स्पष्ट निष्कर्ष देखें — विवाह समय व अपवादों हेतु व्यक्तिगत पढ़ाई लें।",
+      en: "Kundli matching (Gun Milan) scores eight Ashtakoot factors from both Moon nakshatras (max 36). Enter both birth details for a free breakdown and verdict — then refine with a full chart reading.",
+      hi: "कुंडली मिलान (गुण मिलान) दोनों चंद्र नक्षत्रों से अष्टकूट के आठ अंक (अधिकतम 36) जोड़ता है। दोनों जन्म विवरण से मुफ्त विवरण व निष्कर्ष पाएँ — फिर पूर्ण कुंडली से परिष्कृत करें।",
     },
     promo: {
       text: {
@@ -312,19 +312,28 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
     ],
     disclaimer: DEFAULT_DISCLAIMER,
   },
-  "moon-sign": genericContent(
-    { en: "Moon Sign Calculator", hi: "चंद्र राशि कैलकुलेटर" },
-    { en: "Moon sign (Rashi)", hi: "चंद्र राशि" },
-    [
-      {
-        q: { en: "Is Moon sign the same as Western Sun sign?", hi: "क्या चंद्र राशि पश्चिमी सूर्य राशि है?" },
-        a: {
-          en: "No. Vedic Rashi is the Moon’s sidereal sign; Western Sun signs use a tropical frame.",
-          hi: "नहीं। वैदिक राशि चंद्र की नक्षत्र आधारित राशि है; पश्चिमी सूर्य राशि मौसमी ढाँचे पर है।",
+  "moon-sign": {
+    ...genericContent(
+      { en: "Moon Sign Calculator", hi: "चंद्र राशि कैलकुलेटर" },
+      { en: "Moon sign (Rashi)", hi: "चंद्र राशि" },
+      [
+        {
+          q: {
+            en: "Is Moon sign the same as Western Sun sign?",
+            hi: "क्या चंद्र राशि पश्चिमी सूर्य राशि है?",
+          },
+          a: {
+            en: "No. Vedic Rashi is the Moon’s sidereal sign; Western Sun signs use a tropical frame.",
+            hi: "नहीं। वैदिक राशि चंद्र की नक्षत्र आधारित राशि है; पश्चिमी सूर्य राशि मौसमी ढाँचे पर है।",
+          },
         },
-      },
-    ]
-  ),
+      ]
+    ),
+    intro: {
+      en: "Your Moon sign (Chandra Rashi) is the sidereal sign the Moon occupied at birth — used for emotions, naming customs and dasha start. Enter birth details for a free Lahiri result.",
+      hi: "चंद्र राशि (राशि) जन्म के समय चंद्र की निरयण राशि है — भावनाएँ, नामकरण और दशा आरंभ के लिए। जन्म विवरण भरकर मुफ्त लाहिरी परिणाम पाएँ।",
+    },
+  },
   "sun-sign": genericContent(
     { en: "Sun Sign Calculator", hi: "सूर्य राशि कैलकुलेटर" },
     { en: "Sun sign", hi: "सूर्य राशि" }
@@ -354,27 +363,42 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
     { en: "Moon Phase Calculator", hi: "चंद्र कला कैलकुलेटर" },
     { en: "Moon phase", hi: "चंद्र कला" }
   ),
-  "mangal-dosha": genericContent(
-    { en: "Mangal Dosha Calculator", hi: "मंगल दोष कैलकुलेटर" },
-    { en: "Mangal / Manglik dosha", hi: "मंगल दोष" },
-    [
-      {
-        q: { en: "Does Manglik always block marriage?", hi: "क्या मंगलिक हमेशा विवाह रोकता है?" },
-        a: {
-          en: "No. Classical texts list cancellations. Confirm with full charts and an expert.",
-          hi: "नहीं। शास्त्रों में निवारण योग हैं। पूर्ण कुंडली और विशेषज्ञ से पुष्टि करें।",
+  "mangal-dosha": {
+    ...genericContent(
+      { en: "Mangal Dosha Calculator", hi: "मंगल दोष कैलकुलेटर" },
+      { en: "Mangal / Manglik dosha", hi: "मंगल दोष" },
+      [
+        {
+          q: {
+            en: "Does Manglik always block marriage?",
+            hi: "क्या मंगलिक हमेशा विवाह रोकता है?",
+          },
+          a: {
+            en: "No. Classical texts list cancellations. Confirm with full charts and an expert.",
+            hi: "नहीं। शास्त्रों में निवारण योग हैं। पूर्ण कुंडली और विशेषज्ञ से पुष्टि करें।",
+          },
         },
-      },
-    ]
-  ),
+      ]
+    ),
+    intro: {
+      en: "Mangal (Manglik) dosha checks Mars in key houses from Lagna or Moon. Get a free Lahiri-based flag in seconds, then review cancellations with a full kundli or consultation.",
+      hi: "मंगल (मंगलिक) दोष लग्न या चंद्र से प्रमुख भावों में मंगल की जाँच है। मुफ्त लाहिरी संकेत सेकंडों में पाएँ, फिर पूर्ण कुंडली या परामर्श से निवारण देखें।",
+    },
+  },
   "kaal-sarp-dosha": genericContent(
     { en: "Kaal Sarp Dosha Calculator", hi: "काल सर्प दोष कैलकुलेटर" },
     { en: "Kaal Sarp pattern", hi: "काल सर्प पैटर्न" }
   ),
-  "sade-sati": genericContent(
-    { en: "Sade Sati Calculator", hi: "साढ़े साती कैलकुलेटर" },
-    { en: "Saturn Sade Sati", hi: "शनि साढ़े साती" }
-  ),
+  "sade-sati": {
+    ...genericContent(
+      { en: "Sade Sati Calculator", hi: "साढ़े साती कैलकुलेटर" },
+      { en: "Saturn Sade Sati", hi: "शनि साढ़े साती" }
+    ),
+    intro: {
+      en: "Sade Sati is Saturn’s ~7.5-year transit over your Moon sign (and adjacent signs). Check your current phase free with Lahiri positions — then read dasha context for timing.",
+      hi: "साढ़े साती चंद्र राशि (और पड़ोसी राशियों) पर शनि का लगभग 7.5 वर्ष का गोचर है। लाहिरी स्थिति से वर्तमान चरण मुफ्त जाँचें — समय के लिए दशा संदर्भ भी देखें।",
+    },
+  },
   "vimshottari-dasha": genericContent(
     { en: "Vimshottari Dasha Calculator", hi: "विंशोत्तरी दशा कैलकुलेटर" },
     { en: "Vimshottari dasha", hi: "विंशोत्तरी दशा" }

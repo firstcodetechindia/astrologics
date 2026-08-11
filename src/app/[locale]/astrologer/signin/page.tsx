@@ -18,6 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: hi
       ? "Astrologics ज्योतिषी पार्टनर पोर्टल में साइन इन करें।"
       : "Sign in to the Astrologics astrologer partner portal.",
+    noIndex: true,
   });
 }
 

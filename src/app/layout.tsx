@@ -3,7 +3,7 @@ import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "https://astrologics.co"
+    process.env.NEXT_PUBLIC_SITE_URL || "https://www.astrologics.co"
   ),
   title: {
     default: `${siteConfig.brandName} — Free Kundli, AI Astrology & Horoscope`,

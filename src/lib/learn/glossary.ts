@@ -275,9 +275,63 @@ const TERMS = [
   },
 ];
 
-export const GLOSSARY_TERMS: { term: LocaleText; definition: LocaleText }[] = TERMS.map(
+function slugifyTerm(termEn: string) {
+  return termEn
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+export type GlossaryTermRecord = {
+  slug: string;
+  term: LocaleText;
+  definition: LocaleText;
+};
+
+export const GLOSSARY_TERM_RECORDS: GlossaryTermRecord[] = TERMS.map(
   ({ termEn, termHi, defEn, defHi }) => ({
+    slug: slugifyTerm(termEn),
     term: L(termEn, termHi),
     definition: L(defEn, defHi),
   })
 );
+
+export const GLOSSARY_TERM_SLUGS = GLOSSARY_TERM_RECORDS.map((t) => t.slug);
+
+export function getGlossaryTerm(slug: string) {
+  return GLOSSARY_TERM_RECORDS.find((t) => t.slug === slug) ?? null;
+}
+
+/** Longer AEO-friendly article body for glossary term pages. */
+export function glossaryTermArticle(
+  record: GlossaryTermRecord,
+  locale: string
+): string[] {
+  const hi = locale === "hi";
+  const term = hi ? record.term.hi : record.term.en;
+  const def = hi ? record.definition.hi : record.definition.en;
+  if (hi) {
+    return [
+      `${term}: ${def}`,
+      `${term} ज्योतिष पढ़ते समय बार-बार आता है — कुंडली, मिलान, दशा या पंचांग में। संक्षिप्त परिभाषा याद रखने से रिपोर्ट समझना आसान होता है।`,
+      `Astrologics पर मुफ्त जन्म कुंडली और कैलकुलेटर लाहिरी निरयण पद्धति का उपयोग करते हैं। ${term} की व्याख्या भी उसी परंपरा के संदर्भ में दी गई है।`,
+      `यदि आपका प्रश्न ${term} से जुड़ा समय, दोष या मिलान का है, तो संबंधित कैलकुलेटर आज़माएँ और फिर एआई गुरु या सत्यापित ज्योतिषी से विस्तार पूछें।`,
+      `यह पृष्ठ सामान्य शिक्षा हेतु है — व्यक्तिगत निर्णय के लिए जन्म विवरण सहित योग्य परामर्श लें। अंतिम समीक्षा: 11 Aug 2026।`,
+    ];
+  }
+  return [
+    `${term}: ${def}`,
+    `You will see “${term}” repeatedly while reading a kundli, gun milan, dasha timeline or panchang. A clear working definition makes the rest of a report easier to follow.`,
+    `Astrologics free janam kundli and calculators use the Lahiri (Chitrapaksha) sidereal framework. Mentions of ${term} on this site stay aligned with that practical Jyotish context.`,
+    `If your question is about timing, dosha or matching involving ${term}, try the related calculator, then ask AI Guru or a verified astrologer with your birth details.`,
+    `This page is for education and self-study — not medical, legal or financial advice. Last reviewed: 11 Aug 2026.`,
+  ];
+}
+
+export const GLOSSARY_TERMS: { term: LocaleText; definition: LocaleText; slug: string }[] =
+  GLOSSARY_TERM_RECORDS.map(({ term, definition, slug }) => ({
+    term,
+    definition,
+    slug,
+  }));
+

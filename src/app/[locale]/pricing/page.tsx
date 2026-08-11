@@ -19,11 +19,11 @@ export async function generateMetadata(): Promise<Metadata> {
     locale,
     path: "/pricing",
     title: hi
-      ? `मूल्य सूची — मुफ्त कुंडली व ज्योतिष परामर्श | ${siteConfig.brandName}`
-      : `Pricing — Free Kundli & Astrology Consultation | ${siteConfig.brandName}`,
+      ? `मूल्य — मुफ्त उपकरण व परामर्श | ${siteConfig.brandName}`
+      : `Pricing — Free Tools & Paid Consultation | ${siteConfig.brandName}`,
     description: hi
-      ? "मुफ्त जन्म कुंडली, गुण मिलान व एआई चैट हमेशा खुले। विस्तृत ज्योतिष परामर्श व मिलान पैकेज व्यक्तिगत सत्र में।"
-      : "Free kundli, gun milan and AI chat stay open. Detailed astrology consultation and matching packages in personal sessions.",
+      ? "Astrologics मूल्य: कुंडली, कैलकुलेटर और एआई चैट मुफ्त। विस्तृत परामर्श व मिलान पैकेज व्यक्तिगत सत्र में — सरल व पारदर्शी।"
+      : "Astrologics pricing: kundli, calculators and AI chat stay free. Detailed consultation and matching packages in personal sessions — simple and transparent.",
     keywords: hi
       ? [
           "कुंडली परामर्श मूल्य",
@@ -198,6 +198,29 @@ export default async function PricingPage() {
         ))}
       </div>
       </div>
+
+      <section className="container-page mt-12 max-w-3xl space-y-8 pb-12 text-[15px] leading-relaxed text-ink-muted">
+        <div className="space-y-3">
+          <h2 className="font-display text-2xl font-bold text-ink">
+            {hi ? "मुफ्त में क्या मिलता है" : "What stays free"}
+          </h2>
+          <p>
+            {hi
+              ? "पूर्ण ऑनलाइन जन्म कुंडली, 30+ कैलकुलेटर (गुण मिलान, दोष, केपी, अंक ज्योतिष), दैनिक राशिफल, पंचांग और एआई कुंडली चैट — ये सभी मुफ्त tier में हैं। कोई छिपी सदस्यता नहीं; गहन मार्गदर्शन अलग व्यक्तिगत सत्र में।"
+              : "Full online janam kundali, 30+ calculators (gun milan, dosha, KP, numerology), daily horoscope, panchang and AI kundli chat are all in the free tier. No hidden subscription — deeper guidance is a separate personal session."}
+          </p>
+        </div>
+        <div className="space-y-3">
+          <h2 className="font-display text-2xl font-bold text-ink">
+            {hi ? "भुगतान परामर्श कब लें" : "When to choose paid consultation"}
+          </h2>
+          <p>
+            {hi
+              ? "जब आपको घटना समय (विवाह, नौकरी बदलाव), जोड़ी मिलान की गहराई, दोष उपाय प्राथमिकता या परिवार के कई प्रश्न एक सत्र में चाहिए — तब विस्तृत परामर्श या मिलान+उपचार पैकेज उपयुक्त है। मूल्य व्यक्तिगत सत्र पर निर्भर; व्हाट्सऐप पर पूछें।"
+              : "Choose a detailed reading or match-and-remedies package when you need event timing (marriage, job change), deeper couple compatibility, dosha remedy priority or several family questions in one session. Pricing depends on the personal session — ask on WhatsApp."}
+          </p>
+        </div>
+      </section>
     </div>
   );
 }
