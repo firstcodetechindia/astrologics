@@ -468,7 +468,7 @@ export function AstrologerSignupForm() {
                 {hi ? "OTP" : "OTP"}
                 <span className="text-[#F06A00]"> *</span>
               </legend>
-              <div className="flex justify-between gap-1.5 sm:gap-2.5">
+              <div className="flex w-full min-w-0 gap-1.5 sm:gap-2">
                 {digits.map((digit, index) => (
                   <input
                     key={index}
@@ -514,7 +514,7 @@ export function AstrologerSignupForm() {
                       applyOtpValue(e.clipboardData.getData("text"), index);
                     }}
                     onFocus={(e) => e.target.select()}
-                    className="h-12 w-10 rounded-xl border border-[#e8ddd2] text-center text-lg font-semibold text-ink outline-none focus:border-[#F06A00]/55 focus:ring-[3px] focus:ring-[#F06A00]/12 sm:h-13 sm:w-12"
+                    className="h-12 min-w-0 flex-1 rounded-xl border border-[#e8ddd2] text-center text-base font-semibold text-ink outline-none focus:border-[#F06A00]/55 focus:ring-[3px] focus:ring-[#F06A00]/12 sm:h-13 sm:text-lg"
                   />
                 ))}
               </div>

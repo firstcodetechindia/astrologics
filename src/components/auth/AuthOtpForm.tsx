@@ -262,7 +262,7 @@ export function AuthOtpForm() {
             <legend className="mb-2.5 block text-[12px] font-semibold text-[#5c4f42]">
               {hi ? "OTP*" : "OTP*"}
             </legend>
-            <div className="flex justify-between gap-1.5 sm:gap-2.5">
+            <div className="flex w-full min-w-0 gap-1.5 sm:gap-2">
               {digits.map((digit, index) => (
                 <input
                   key={index}
@@ -283,7 +283,7 @@ export function AuthOtpForm() {
                   onPaste={(e) => onDigitPaste(index, e)}
                   onFocus={(e) => e.target.select()}
                   className={cn(
-                    "h-12 w-10 rounded-xl border border-saffron/25 bg-white text-center text-lg font-semibold text-ink outline-none transition sm:h-13 sm:w-12",
+                    "h-12 min-w-0 flex-1 rounded-xl border border-saffron/25 bg-white text-center text-base font-semibold text-ink outline-none transition sm:h-13 sm:text-lg",
                     "focus:border-saffron/55 focus:ring-[3px] focus:ring-saffron/15",
                     digit && "border-saffron/40"
                   )}

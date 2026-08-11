@@ -137,7 +137,7 @@ export function AuthClient() {
   const hi = locale === "hi";
 
   return (
-    <div className="relative flex h-full min-h-0 w-full flex-col overflow-hidden bg-[#fff8f1] lg:flex-row">
+    <div className="relative flex h-full min-h-0 w-full max-w-[100vw] flex-col overflow-x-hidden overflow-y-hidden bg-[#fff8f1] lg:flex-row">
       {/* Desktop brand column only — never on mobile */}
       <aside className="relative hidden h-full w-[46%] shrink-0 overflow-hidden bg-[#F06A00] text-white lg:flex xl:w-[48%]">
         <BrandPanelMotion />
@@ -170,15 +170,15 @@ export function AuthClient() {
       </aside>
 
       {/* Login form — full width on mobile, right column on desktop */}
-      <section className="relative flex min-h-0 w-full min-w-0 flex-1 flex-col overflow-hidden bg-[#fff8f1]">
+      <section className="relative flex min-h-0 w-full min-w-0 max-w-[100vw] flex-1 flex-col overflow-x-hidden overflow-y-hidden bg-[#fff8f1]">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-[#fff8f1]"
         />
         <div className="relative z-10 flex shrink-0 items-center justify-between border-b border-saffron/15 bg-[#F06A00] px-4 py-3 text-white lg:hidden">
-          <Link href="/" className="inline-flex items-center gap-2.5">
-            <AstrologicsLogoWhite className="h-9 w-9" />
-            <span className="font-display text-base font-semibold">
+          <Link href="/" className="inline-flex min-w-0 items-center gap-2.5">
+            <AstrologicsLogoWhite className="h-9 w-9 shrink-0" />
+            <span className="truncate font-display text-base font-semibold">
               {siteConfig.brandName}
             </span>
           </Link>
@@ -201,8 +201,8 @@ export function AuthClient() {
           </Link>
         </div>
 
-        <div className="relative z-10 flex min-h-0 flex-1 items-center justify-center overflow-y-auto overscroll-contain px-4 py-6 sm:px-6 lg:px-10">
-          <div className="my-auto w-full max-w-[440px]">
+        <div className="relative z-10 flex min-h-0 w-full min-w-0 flex-1 items-center justify-center overflow-x-hidden overflow-y-auto overscroll-contain px-4 py-6 sm:px-6 lg:px-10">
+          <div className="my-auto w-full min-w-0 max-w-[440px]">
             <AuthOtpForm />
           </div>
         </div>

@@ -186,7 +186,7 @@ export function AstrologerSigninForm() {
             <legend className="mb-2 text-[12px] font-semibold text-[#5c4f42]">
               {hi ? "OTP*" : "OTP*"}
             </legend>
-            <div className="flex justify-between gap-1.5 sm:gap-2.5">
+            <div className="flex w-full min-w-0 gap-1.5 sm:gap-2">
               {digits.map((digit, index) => (
                 <input
                   key={index}
@@ -232,7 +232,7 @@ export function AstrologerSigninForm() {
                   }}
                   onFocus={(e) => e.target.select()}
                   className={cn(
-                    "h-12 w-10 rounded-xl border border-saffron/25 text-center text-lg font-semibold text-ink outline-none focus:border-saffron/55 focus:ring-[3px] focus:ring-saffron/15 sm:h-13 sm:w-12"
+                    "h-12 min-w-0 flex-1 rounded-xl border border-saffron/25 text-center text-base font-semibold text-ink outline-none focus:border-saffron/55 focus:ring-[3px] focus:ring-saffron/15 sm:h-13 sm:text-lg"
                   )}
                 />
               ))}

@@ -356,7 +356,7 @@ export function MobileBottomNav() {
       </AnimatePresence>
 
       <nav
-        className="fixed inset-x-0 bottom-0 z-[70]"
+        className="fixed inset-x-0 bottom-0 z-[70] w-full max-w-[100vw] overflow-x-clip"
         style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
         aria-label={hi ? "मोबाइल मेनू" : "Mobile menu"}
       >
@@ -366,19 +366,24 @@ export function MobileBottomNav() {
           style={{ height: "env(safe-area-inset-bottom)" }}
         />
 
-        <div className="relative h-[3.85rem] overflow-visible">
+        <div className="relative h-[3.85rem] overflow-x-clip overflow-y-visible">
           {/*
             True notch: transparent circle + huge white box-shadow, clipped to the
             bottom half → white bar with a real circular bite (no white disc layer).
+            Contained so the shadow never expands document scroll width.
           */}
           <div
             aria-hidden
-            className="pointer-events-none absolute left-1/2 top-0 z-0 size-[3.65rem] -translate-x-1/2 -translate-y-1/2 rounded-full"
-            style={{
-              boxShadow: "0 0 0 max(100vh, 100vw) #ffffff",
-              clipPath: "inset(50% -100vmax -100vmax -100vmax)",
-            }}
-          />
+            className="pointer-events-none absolute inset-x-0 top-0 z-0 h-full overflow-hidden"
+          >
+            <div
+              className="absolute left-1/2 top-0 size-[3.65rem] -translate-x-1/2 -translate-y-1/2 rounded-full"
+              style={{
+                boxShadow: "0 0 0 max(100vh, 100vw) #ffffff",
+                clipPath: "inset(50% -100vmax -100vmax -100vmax)",
+              }}
+            />
+          </div>
           {/* Soft lift under the bar (not in the notch hole) */}
           <div
             aria-hidden

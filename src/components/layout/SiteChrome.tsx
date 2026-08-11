@@ -21,11 +21,11 @@ function isAuthPath(pathname: string) {
 }
 
 function isDashboardPath(pathname: string) {
-  return (
-    pathname === "/dashboard" ||
-    pathname.startsWith("/dashboard/")
-  );
+  return pathname === "/dashboard" || pathname.startsWith("/dashboard/");
 }
+
+const MOBILE_NAV_PAD =
+  "pb-[calc(5.25rem+env(safe-area-inset-bottom))] lg:pb-0";
 
 export function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -36,15 +36,18 @@ export function SiteChrome({ children }: { children: ReactNode }) {
     if (!auth) return;
     const html = document.documentElement;
     const body = document.body;
-    const prevHtml = html.style.overflow;
-    const prevBody = body.style.overflow;
-    html.style.overflow = "hidden";
-    body.style.overflow = "hidden";
+    const prevHtmlOverflow = html.style.overflow;
+    const prevBodyOverflow = body.style.overflow;
+    // Vertical scroll stays on the auth form panel; lock page-level x-scroll.
+    html.style.overflowX = "hidden";
+    body.style.overflowX = "hidden";
     html.classList.add("auth-lock");
     body.classList.add("auth-lock");
     return () => {
-      html.style.overflow = prevHtml;
-      body.style.overflow = prevBody;
+      html.style.overflow = prevHtmlOverflow;
+      body.style.overflow = prevBodyOverflow;
+      html.style.overflowX = "";
+      body.style.overflowX = "";
       html.classList.remove("auth-lock");
       body.classList.remove("auth-lock");
     };
@@ -52,20 +55,23 @@ export function SiteChrome({ children }: { children: ReactNode }) {
 
   if (auth) {
     return (
-      <main className="fixed inset-0 z-[60] h-dvh max-h-dvh overflow-hidden bg-[#fff8f1]">
-        {children}
-      </main>
+      <>
+        <main
+          className={`fixed inset-0 z-[40] max-h-dvh w-full max-w-[100vw] overflow-x-hidden overflow-y-hidden bg-[#fff8f1] ${MOBILE_NAV_PAD}`}
+        >
+          {children}
+        </main>
+        <MobileBottomNav />
+      </>
     );
   }
 
   return (
     <>
       <Header />
-      <main className="min-h-[70vh] pb-[calc(5.25rem+env(safe-area-inset-bottom))] lg:pb-0">
-        {children}
-      </main>
+      <main className={`min-h-[70vh] ${MOBILE_NAV_PAD}`}>{children}</main>
       {!dashboard ? (
-        <div className="pb-[calc(5.25rem+env(safe-area-inset-bottom))] lg:pb-0">
+        <div className={MOBILE_NAV_PAD}>
           <Footer />
         </div>
       ) : null}
