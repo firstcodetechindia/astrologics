@@ -19,6 +19,10 @@
   --grad-hero: linear-gradient(135deg, #fff7f0 0%, #ffe8d4 42%, #ffd4a8 100%);
   --grad-cta: linear-gradient(135deg, #ff9a3c 0%, #ff7a1a 48%, #f06a00 100%);
   --grad-soft: linear-gradient(180deg, #fffaf6 0%, #fff1e4 45%, #ffe8d6 100%);
+  /* Self-hosted Fontsource families (see [locale]/layout.tsx) */
+  --font-roboto: "Roboto";
+  --font-hindi: "Noto Sans Devanagari";
+  --font-hindi-display: "Noto Serif Devanagari";
 }
 
 @theme inline {
