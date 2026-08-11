@@ -113,40 +113,38 @@ export function Footer() {
       />
 
       <div className="container-page relative z-10 py-8 sm:py-10">
-        <div className="flex flex-col gap-4 border-b border-saffron/15 pb-6 sm:flex-row sm:items-start sm:justify-between">
-          <div className="min-w-0 max-w-2xl">
-            <div className="flex items-center gap-3">
+        <div className="border-b border-saffron/15 pb-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex min-w-0 items-center gap-3">
               <AstrologicsLogo className="h-12 w-12 shrink-0 sm:h-14 sm:w-14" />
-              <div className="min-w-0">
-                <p className="font-display text-lg font-bold leading-tight text-ink sm:text-xl">
-                  {siteConfig.brandName}
-                </p>
-              </div>
+              <p className="font-display text-lg font-bold leading-tight text-ink sm:text-xl">
+                {siteConfig.brandName}
+              </p>
             </div>
-            <p className="mt-3 text-[13px] leading-relaxed text-ink-muted">
-              {hi
-                ? "सटीक ऑनलाइन ज्योतिष के लिए आपका AI-संचालित विश्वसनीय मंच। विवाह, प्रेम, करियर और स्वास्थ्य पर मार्गदर्शन के लिए भारत के शीर्ष ज्योतिषियों से चैट करें — साथ ही कुंडली विश्लेषण, अंक ज्योतिष, एआई ज्योतिष और वैदिक मार्गदर्शन, जिस पर हज़ारों लोग भरोसा करते हैं।"
-                : "Your AI-powered trusted platform for accurate online astrology. Chat with top Indian astrologers for insights on marriage, love, career, and health — plus Kundli analysis, Numerology, AI Astrology, and Vedic guidance trusted by thousands."}
-            </p>
+            <div className="flex shrink-0 flex-wrap gap-2">
+              <a
+                href={whatsappLink()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-saffron-deep px-3 py-1.5 text-[12px] font-semibold text-white"
+              >
+                <MessageCircle className="h-3.5 w-3.5" />
+                {hi ? "हमसे बात करें" : "Talk With Us"}
+              </a>
+              <a
+                href={telLink()}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-saffron/30 bg-white/80 px-3 py-1.5 text-[12px] font-semibold text-saffron-deep"
+              >
+                <Phone className="h-3.5 w-3.5" />
+                {hi ? "कॉल" : "Call"}
+              </a>
+            </div>
           </div>
-          <div className="flex shrink-0 flex-wrap gap-2">
-            <a
-              href={whatsappLink()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-lg bg-saffron-deep px-3 py-1.5 text-[12px] font-semibold text-white"
-            >
-              <MessageCircle className="h-3.5 w-3.5" />
-              {hi ? "हमसे बात करें" : "Talk With Us"}
-            </a>
-            <a
-              href={telLink()}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-saffron/30 bg-white/80 px-3 py-1.5 text-[12px] font-semibold text-saffron-deep"
-            >
-              <Phone className="h-3.5 w-3.5" />
-              {hi ? "कॉल" : "Call"}
-            </a>
-          </div>
+          <p className="mt-3 w-full text-[13px] leading-relaxed text-ink-muted">
+            {hi
+              ? "सटीक ऑनलाइन ज्योतिष के लिए आपका AI-संचालित विश्वसनीय मंच। विवाह, प्रेम, करियर और स्वास्थ्य पर मार्गदर्शन के लिए भारत के शीर्ष ज्योतिषियों से चैट करें — साथ ही कुंडली विश्लेषण, अंक ज्योतिष, एआई ज्योतिष और वैदिक मार्गदर्शन, जिस पर हज़ारों लोग भरोसा करते हैं।"
+              : "Your AI-powered trusted platform for accurate online astrology. Chat with top Indian astrologers for insights on marriage, love, career, and health — plus Kundli analysis, Numerology, AI Astrology, and Vedic guidance trusted by thousands."}
+          </p>
         </div>
 
         <div className="grid grid-cols-4 py-6">
