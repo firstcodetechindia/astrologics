@@ -367,3 +367,71 @@ html.auth-lock {
   mask-composite: exclude;
   pointer-events: none;
 }
+
+/* ——— Astrology loaders / pull-to-refresh ——— */
+@keyframes astrology-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes astrology-spin-rev {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes astrology-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes astrology-orbit {
+  to {
+    transform: translateX(-50%) rotate(360deg);
+  }
+}
+
+@keyframes astrology-dot {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+.astrology-spin {
+  animation: astrology-spin 2.8s linear infinite;
+}
+
+.astrology-spin-rev {
+  animation: astrology-spin-rev 4.2s linear infinite;
+}
+
+.astrology-pulse {
+  animation: astrology-pulse 1.6s ease-in-out infinite;
+}
+
+.astrology-orbit {
+  transform-origin: 50% calc(50% + 0px);
+  animation: astrology-spin 2.4s linear infinite;
+}
+
+.astrology-orbit-delayed {
+  animation: astrology-spin-rev 3.2s linear infinite;
+}
+
+.astrology-dot {
+  animation: astrology-dot 1.2s ease-in-out infinite;
+}

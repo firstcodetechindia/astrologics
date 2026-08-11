@@ -6,6 +6,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
+import { PullToRefresh } from "@/components/layout/PullToRefresh";
+import { AstrologyPageLoader } from "@/components/layout/AstrologyPageLoader";
 
 function isAuthPath(pathname: string) {
   return (
@@ -38,7 +40,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
     const body = document.body;
     const prevHtmlOverflow = html.style.overflow;
     const prevBodyOverflow = body.style.overflow;
-    // Vertical scroll stays on the auth form panel; lock page-level x-scroll.
+    // Keep x-lock only — vertical overscroll stays free for pull-to-refresh.
     html.style.overflowX = "hidden";
     body.style.overflowX = "hidden";
     html.classList.add("auth-lock");
@@ -56,6 +58,8 @@ export function SiteChrome({ children }: { children: ReactNode }) {
   if (auth) {
     return (
       <>
+        <AstrologyPageLoader />
+        <PullToRefresh />
         <main
           className={`fixed inset-0 z-[40] max-h-dvh w-full max-w-[100vw] overflow-x-hidden overflow-y-hidden bg-[#fff8f1] ${MOBILE_NAV_PAD}`}
         >
@@ -68,6 +72,8 @@ export function SiteChrome({ children }: { children: ReactNode }) {
 
   return (
     <>
+      <AstrologyPageLoader />
+      <PullToRefresh />
       <Header />
       <main className={`min-h-[70vh] ${MOBILE_NAV_PAD}`}>{children}</main>
       {!dashboard ? (

@@ -173,7 +173,7 @@ export function AstrologerAuthShell({
           </Link>
         </div>
 
-        <div className="relative z-10 flex min-h-0 w-full min-w-0 flex-1 items-start justify-center overflow-x-hidden overflow-y-auto overscroll-contain px-4 py-5 sm:px-6 lg:items-center lg:px-10 lg:py-6">
+        <div className="relative z-10 flex min-h-0 w-full min-w-0 flex-1 items-start justify-center overflow-x-hidden overflow-y-auto overscroll-y-auto px-4 py-5 sm:px-6 lg:items-center lg:px-10 lg:py-6">
           <div className="my-auto w-full min-w-0 max-w-[540px]">{children}</div>
         </div>
       </section>
