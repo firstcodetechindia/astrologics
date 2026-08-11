@@ -17,7 +17,7 @@ import {
   nameNumber,
   personalYear,
 } from "./numerology";
-import { computeBirthPanchang, computePanchang } from "./panchang";
+import { computeBirthPanchang } from "./panchang";
 import { computeTodayPanchang } from "./today-panchang";
 import {
   charaKarakas,

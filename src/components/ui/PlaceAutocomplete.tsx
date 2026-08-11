@@ -129,6 +129,7 @@ export function PlaceAutocomplete({
                 <button
                   type="button"
                   role="option"
+                  aria-selected={false}
                   className="w-full border-b border-saffron/10 px-3.5 py-2.5 text-left text-[0.95rem] text-ink transition last:border-0 hover:bg-sand/70"
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => {

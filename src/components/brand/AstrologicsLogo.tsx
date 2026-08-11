@@ -1,4 +1,6 @@
 /** Astrologics brand mark — zodiac wheel, sun, crescent, orbits. */
+import Image from "next/image";
+
 export function AstrologicsLogo({
   className = "h-9 w-9",
   title = "Astrologics",
@@ -7,13 +9,13 @@ export function AstrologicsLogo({
   title?: string;
 }) {
   return (
-    <img
+    <Image
       src="/astrologics-logo.png"
       alt={title}
-      width={36}
-      height={36}
+      width={44}
+      height={44}
       className={className}
-      decoding="async"
+      priority
     />
   );
 }

@@ -132,7 +132,7 @@ function WhySignUpCard({ hi }: { hi: boolean }) {
   );
 }
 
-export function AuthClient(_props?: { mode?: "login" | "signup" }) {
+export function AuthClient() {
   const locale = useLocale();
   const hi = locale === "hi";
 

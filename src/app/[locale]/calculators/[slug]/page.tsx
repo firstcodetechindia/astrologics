@@ -5,7 +5,6 @@ import { CALCULATORS, getCalculator } from "@/lib/calculators/catalog";
 import { getCalcContent } from "@/lib/calculators/content";
 import { CalculatorPageView } from "@/components/calculators/CalculatorPageView";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { siteConfig } from "@/lib/site-config";
 import {
   absoluteUrl,
   breadcrumbJsonLd,

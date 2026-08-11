@@ -168,8 +168,8 @@ export function availableProviders(): AiProvider[] {
   return list;
 }
 
-/** Prefer configured provider, then OpenAI, then Gemini. Ignores client preference. */
-export function resolveProvider(_requested?: string): AiProvider | null {
+/** Prefer configured provider, then OpenAI, then Gemini. */
+export function resolveProvider(): AiProvider | null {
   const available = availableProviders();
   if (!available.length) return null;
   const preferred = process.env.AI_PROVIDER as AiProvider | undefined;
