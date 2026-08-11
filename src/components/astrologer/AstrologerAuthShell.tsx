@@ -49,7 +49,7 @@ export function AstrologerAuthShell({
   const hi = locale === "hi";
 
   return (
-    <div className="flex h-dvh max-h-dvh w-full overflow-hidden bg-[#fff8f1]">
+    <div className="relative flex h-full min-h-0 w-full flex-col overflow-hidden bg-[#fff8f1] lg:flex-row">
       <aside className="relative hidden h-full w-[46%] shrink-0 overflow-hidden bg-[#F06A00] text-white lg:flex xl:w-[48%]">
         <div
           aria-hidden
@@ -138,7 +138,11 @@ export function AstrologerAuthShell({
         </div>
       </aside>
 
-      <section className="relative flex h-full min-h-0 w-full min-w-0 flex-1 flex-col overflow-hidden">
+      <section className="relative flex min-h-0 w-full min-w-0 flex-1 flex-col overflow-hidden bg-[#fff8f1]">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-[#fff8f1]"
+        />
         <div className="relative z-10 flex shrink-0 items-center justify-between border-b border-saffron/15 bg-[#F06A00] px-4 py-3 text-white lg:hidden">
           <Link href="/" className="inline-flex items-center gap-2.5">
             <AstrologicsLogoWhite className="h-9 w-9" />
@@ -167,8 +171,8 @@ export function AstrologerAuthShell({
           >
             {mode === "signup"
               ? hi
-                ? "पहले से पार्टनर हैं? साइन इन"
-                : "Already a partner? Sign in"
+                ? "पहले से खाता है? साइन इन"
+                : "Already have an account? Sign in"
               : hi
                 ? "नए हैं? साइन अप"
                 : "New here? Sign up"}

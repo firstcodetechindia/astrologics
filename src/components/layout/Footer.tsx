@@ -88,10 +88,6 @@ export function Footer() {
       href: "/astrologer/signup",
       label: hi ? "ज्योतिषी साइन अप" : "Astrologer Sign Up",
     },
-    {
-      href: "/astrologer/signin",
-      label: hi ? "ज्योतिषी साइन इन" : "Astrologer Sign In",
-    },
   ] as const;
 
   return (

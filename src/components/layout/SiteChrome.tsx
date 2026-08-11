@@ -40,15 +40,19 @@ export function SiteChrome({ children }: { children: ReactNode }) {
     const prevBody = body.style.overflow;
     html.style.overflow = "hidden";
     body.style.overflow = "hidden";
+    html.classList.add("auth-lock");
+    body.classList.add("auth-lock");
     return () => {
       html.style.overflow = prevHtml;
       body.style.overflow = prevBody;
+      html.classList.remove("auth-lock");
+      body.classList.remove("auth-lock");
     };
   }, [auth]);
 
   if (auth) {
     return (
-      <main className="h-dvh max-h-dvh overflow-hidden bg-white">
+      <main className="fixed inset-0 z-[60] h-dvh max-h-dvh overflow-hidden bg-[#fff8f1]">
         {children}
       </main>
     );

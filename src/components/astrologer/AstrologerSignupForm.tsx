@@ -451,13 +451,13 @@ export function AstrologerSignupForm() {
               {hi ? "OTP प्राप्त करें" : "Get OTP"}
             </Button>
 
-            <p className="text-center text-[12.5px] text-ink-muted lg:hidden">
-              {hi ? "पहले से पार्टनर हैं? " : "Already a partner? "}
+            <p className="text-center text-[12.5px] text-ink-muted">
+              {hi ? "पहले से खाता है? " : "Already have an account? "}
               <Link
                 href="/astrologer/signin"
                 className="font-semibold text-[#F06A00] hover:underline"
               >
-                {hi ? "साइन इन" : "Sign in"}
+                {hi ? "साइन इन करें" : "Sign in"}
               </Link>
             </p>
           </form>
