@@ -5,7 +5,7 @@ import {
   pitraDosha,
   sadeSati,
 } from "./doshas";
-import { ashtakootMatch, fullMatchReport } from "./matching";
+import { fullMatchReport } from "./matching";
 import { lahiriAyanamsaFromDate, norm360, signIndexFromLongitude } from "./math";
 import { computeNavamsaChart, navamsaSignIndex } from "./navamsa";
 import {

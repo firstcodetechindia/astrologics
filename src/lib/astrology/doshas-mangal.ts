@@ -24,7 +24,7 @@ export type MangalCancellation = {
   hi: string;
 };
 
-export function mangalDosha(planets: PlanetPosition[], lagnaSign: number) {
+export function mangalDosha(planets: PlanetPosition[], _lagnaSign: number) {
   const mars = planets.find((p) => p.id === "mars");
   if (!mars) {
     return {

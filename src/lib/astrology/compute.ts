@@ -144,7 +144,7 @@ export function computeKundli(input: BirthInput): KundliResult {
     const signIndex = signIndexFromLongitude(p.longitude);
     const dignity = planetDignity(p.id, signIndex);
     const combust = combustionInfo(p.id, p.longitude, sunLon);
-    let house = houseOfPlanet(p.longitude, lagnaLon);
+    const house = houseOfPlanet(p.longitude, lagnaLon);
     return {
       id: p.id,
       name: p.name,

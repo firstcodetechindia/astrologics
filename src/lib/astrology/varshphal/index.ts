@@ -39,7 +39,7 @@ export function findSolarReturn(
   for (let i = 0; i < 40; i++) {
     const mid = new Date((lo + hi) / 2);
     const lon = sunLonAt(mid, ayanamsaId);
-    let diff = ((lon - natalSunLon + 540) % 360) - 180;
+    const diff = ((lon - natalSunLon + 540) % 360) - 180;
     if (Math.abs(diff) < 0.001) return mid;
     if (diff > 0) hi = mid.getTime();
     else lo = mid.getTime();

@@ -453,7 +453,6 @@ export function dashakootaMatch(
   });
 
   const passed = poruthams.filter((p) => p.pass).length;
-  const totalWeight = poruthams.reduce((s, p) => s + (p.pass ? p.weight : 0), 0);
   const risks = matchRiskFlags(poruthams, scoresFromAshta(boyNak, girlNak, boyRashi, girlRashi));
 
   return {
