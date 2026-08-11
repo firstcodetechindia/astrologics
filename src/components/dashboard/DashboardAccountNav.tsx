@@ -13,7 +13,13 @@ import {
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
-const TABS = [
+const TABS: {
+  href: "/dashboard" | "/dashboard/profile" | "/dashboard/results" | "/dashboard/kundli-check" | "/dashboard/saved";
+  icon: typeof LayoutDashboard;
+  en: string;
+  hi: string;
+  exact?: boolean;
+}[] = [
   {
     href: "/dashboard",
     icon: LayoutDashboard,
@@ -45,7 +51,7 @@ const TABS = [
     en: "Saved Kundlis",
     hi: "सेव कुंडलियाँ",
   },
-] as const;
+];
 
 export function DashboardAccountNav() {
   const locale = useLocale();
