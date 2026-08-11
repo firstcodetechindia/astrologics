@@ -3,6 +3,10 @@ export type LocaleText = { en: string; hi: string };
 export type CalcPageContent = {
   h1: LocaleText;
   intro: LocaleText;
+  /** Optional SERP title (without brand / tool suffix). */
+  seoTitle?: LocaleText;
+  /** Optional SERP description (140–160 chars ideal). */
+  seoDescription?: LocaleText;
   promo?: {
     text: LocaleText;
     cta: LocaleText;
@@ -247,8 +251,16 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
   },
   "kundli-matching": {
     h1: {
-      en: "Kundli Matching — 36 Guna Ashtakoot",
-      hi: "कुंडली मिलान — 36 गुण अष्टकूट",
+      en: "Kundli Matching — Ashtakoot Gun Milan Calculator",
+      hi: "कुंडली मिलान — अष्टकूट गुण मिलान कैलकुलेटर",
+    },
+    seoTitle: {
+      en: "Free Kundli Matching — 36 Point Gun Milan Calculator",
+      hi: "मुफ्त कुंडली मिलान — 36 अंक गुण मिलान कैलकुलेटर",
+    },
+    seoDescription: {
+      en: "Check marriage compatibility with free Kundli matching. Classical 36-point Ashtakoot Gun Milan, Mangal Dosha check & Nadi analysis.",
+      hi: "मुफ्त कुंडली मिलान से विवाह अनुकूलता जाँचें। शास्त्रीय 36 अंक अष्टकूट गुण मिलान, मंगल दोष व नाड़ी विश्लेषण।",
     },
     intro: {
       en: "Kundli matching (Gun Milan) scores eight Ashtakoot factors from both Moon nakshatras (max 36). Enter both birth details for a free breakdown and verdict — then refine with a full chart reading.",
@@ -266,8 +278,15 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
       {
         title: { en: "What Ashtakoot measures", hi: "अष्टकूट क्या मापता है" },
         body: {
-          en: "Varna, Vashya, Tara, Yoni, Graha Maitri, Gana, Bhakoot and Nadi are scored from Moon nakshatras. A higher total is traditionally preferred; low Nadi or Bhakoot needs careful review with full charts.",
-          hi: "वर्ण, वश्य, तारा, योनि, ग्रह मैत्री, गण, भकूट और नाड़ी चंद्र नक्षत्रों से अंकित होते हैं। अधिक कुल पारंपरिक रूप से अनुकूल; कम नाड़ी/भकूट पर पूर्ण कुंडली से जाँच ज़रूरी।",
+          en: "Varna, Vashya, Tara, Yoni, Graha Maitri, Gana, Bhakoot and Nadi are scored from Moon nakshatras. A total of 18+ out of 36 is traditionally discussed as workable; many families prefer 24+. Low Nadi or Bhakoot still needs careful review even when the total looks strong.",
+          hi: "वर्ण, वश्य, तारा, योनि, ग्रह मैत्री, गण, भकूट और नाड़ी चंद्र नक्षत्रों से अंकित होते हैं। 36 में 18+ पारंपरिक रूप से चर्चा योग्य; कई परिवार 24+ पसंद करते हैं। कम नाड़ी/भकूट पर कुल अंक ऊँचा होने पर भी पूर्ण कुंडली से जाँच ज़रूरी।",
+        },
+      },
+      {
+        title: { en: "The eight Kootas in brief", hi: "आठ कूट संक्षेप में" },
+        body: {
+          en: "Varna looks at spiritual/temperament class affinity. Vashya relates to mutual influence. Tara assesses birth-star compatibility. Yoni reflects instinctive nature pairing. Graha Maitri checks planetary friendship between Moon lords. Gana compares divine/human/demonic temperament groups. Bhakoot weighs Moon-sign pairings for harmony or strain. Nadi examines physiological/lineage factors — Nadi dosha is often treated as critical and may override a high total if not cancelled by other chart factors.",
+          hi: "वर्ण आध्यात्मिक/स्वभाव वर्ग देखता है। वश्य पारस्परिक प्रभाव। तारा जन्म नक्षत्र अनुकूलता। योनि सहज स्वभाव जोड़। ग्रह मैत्री चंद्र स्वामियों की मित्रता। गण दैव/मनुष्य/राक्षस स्वभाव। भकूट चंद्र राशि जोड़ से सामंजस्य। नाड़ी शारीरिक/वंशीय पक्ष — नाड़ी दोष अक्सर महत्वपूर्ण माना जाता है और बिना निवारण के ऊँचे कुल अंक पर भी भारी पड़ सकता है।",
         },
       },
       {
@@ -313,26 +332,68 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
     disclaimer: DEFAULT_DISCLAIMER,
   },
   "moon-sign": {
-    ...genericContent(
-      { en: "Moon Sign Calculator", hi: "चंद्र राशि कैलकुलेटर" },
-      { en: "Moon sign (Rashi)", hi: "चंद्र राशि" },
-      [
-        {
-          q: {
-            en: "Is Moon sign the same as Western Sun sign?",
-            hi: "क्या चंद्र राशि पश्चिमी सूर्य राशि है?",
-          },
-          a: {
-            en: "No. Vedic Rashi is the Moon’s sidereal sign; Western Sun signs use a tropical frame.",
-            hi: "नहीं। वैदिक राशि चंद्र की नक्षत्र आधारित राशि है; पश्चिमी सूर्य राशि मौसमी ढाँचे पर है।",
-          },
-        },
-      ]
-    ),
+    h1: { en: "Moon Sign (Rashi) Calculator", hi: "चंद्र राशि कैलकुलेटर" },
+    seoTitle: {
+      en: "Moon Sign Calculator — Find Your Rashi Instantly",
+      hi: "चंद्र राशि कैलकुलेटर — तुरंत राशि जानें",
+    },
+    seoDescription: {
+      en: "Find your Vedic Moon sign (Rashi) free by date, time and place of birth. Understand what your Moon sign means for emotions and mind.",
+      hi: "जन्म तिथि, समय और स्थान से मुफ्त वैदिक चंद्र राशि जानें। मन और भावनाओं के लिए चंद्र राशि का अर्थ समझें।",
+    },
     intro: {
       en: "Your Moon sign (Chandra Rashi) is the sidereal sign the Moon occupied at birth — used for emotions, naming customs and dasha start. Enter birth details for a free Lahiri result.",
       hi: "चंद्र राशि (राशि) जन्म के समय चंद्र की निरयण राशि है — भावनाएँ, नामकरण और दशा आरंभ के लिए। जन्म विवरण भरकर मुफ्त लाहिरी परिणाम पाएँ।",
     },
+    promo: {
+      text: {
+        en: "Want a full birth chart with houses, yogas and dasha?",
+        hi: "भाव, योग और दशा सहित पूरी जन्म कुंडली चाहिए?",
+      },
+      cta: { en: "Open free kundli →", hi: "मुफ्त कुंडली खोलें →" },
+      href: "/kundli",
+    },
+    sections: [
+      {
+        title: { en: "What the Moon sign governs", hi: "चंद्र राशि क्या दर्शाती है" },
+        body: {
+          en: "In Jyotish, the Moon reflects mind, emotions, mother and home comfort. Unlike the Western newspaper Sun sign, Vedic Rashi is the Moon’s sidereal sign at birth. Lagna shows how you meet the world; Moon shows how you feel and process experience. Dasha timing also begins from the Moon’s Nakshatra.",
+          hi: "ज्योतिष में चंद्र मन, भावनाएँ, माता और घर का सुख दर्शाता है। पश्चिमी अखबारी सूर्य राशि से अलग, वैदिक राशि जन्म के समय चंद्र की निरयण राशि है। लग्न बताता है आप संसार से कैसे मिलते हैं; चंद्र बताता है आप कैसे महसूस करते हैं। दशा भी चंद्र नक्षत्र से शुरू होती है।",
+        },
+      },
+      {
+        title: { en: "Quick Rashi themes", hi: "राशि संकेत संक्षेप" },
+        body: {
+          en: "Mesha (Aries) initiative; Vrishabha (Taurus) steadiness; Mithuna (Gemini) curiosity; Karka (Cancer) nurture; Simha (Leo) dignity; Kanya (Virgo) analysis; Tula (Libra) balance; Vrischika (Scorpio) intensity; Dhanu (Sagittarius) meaning; Makara (Capricorn) duty; Kumbha (Aquarius) networks; Meena (Pisces) empathy. Explore fuller sign guides under Learn → Zodiac.",
+          hi: "मेष पहल; वृषभ स्थिरता; मिथुन जिज्ञासा; कर्क पालन; सिंह गरिमा; कन्या विश्लेषण; तुला संतुलन; वृश्चिक तीव्रता; धनु अर्थ; मकर कर्तव्य; कुंभ नेटवर्क; मीन सहानुभूति। विस्तृत गाइड: सीखें → राशि।",
+        },
+      },
+      {
+        title: { en: "How to use this calculator", hi: "यह कैलकुलेटर कैसे उपयोग करें" },
+        body: {
+          en: "Enter birth date, time and place. We compute the Moon’s Lahiri longitude and map it to the sidereal Rashi.",
+          hi: "जन्म तिथि, समय और स्थान भरें। हम चंद्र का लाहिरी देशांतर निकालकर निरयण राशि बताते हैं।",
+        },
+        steps: [
+          { en: "Add accurate birth details.", hi: "सटीक जन्म विवरण भरें।" },
+          { en: "Generate to see your Moon sign.", hi: "जनरेट कर चंद्र राशि देखें।" },
+          { en: "Open full kundli for houses and dasha.", hi: "भाव व दशा हेतु पूर्ण कुंडली खोलें।" },
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: {
+          en: "Is Moon sign the same as Western Sun sign?",
+          hi: "क्या चंद्र राशि पश्चिमी सूर्य राशि है?",
+        },
+        a: {
+          en: "No. Vedic Rashi is the Moon’s sidereal sign; Western Sun signs use a tropical frame.",
+          hi: "नहीं। वैदिक राशि चंद्र की नक्षत्र आधारित राशि है; पश्चिमी सूर्य राशि मौसमी ढाँचे पर है।",
+        },
+      },
+    ],
+    disclaimer: DEFAULT_DISCLAIMER,
   },
   "sun-sign": genericContent(
     { en: "Sun Sign Calculator", hi: "सूर्य राशि कैलकुलेटर" },
@@ -364,26 +425,68 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
     { en: "Moon phase", hi: "चंद्र कला" }
   ),
   "mangal-dosha": {
-    ...genericContent(
-      { en: "Mangal Dosha Calculator", hi: "मंगल दोष कैलकुलेटर" },
-      { en: "Mangal / Manglik dosha", hi: "मंगल दोष" },
-      [
-        {
-          q: {
-            en: "Does Manglik always block marriage?",
-            hi: "क्या मंगलिक हमेशा विवाह रोकता है?",
-          },
-          a: {
-            en: "No. Classical texts list cancellations. Confirm with full charts and an expert.",
-            hi: "नहीं। शास्त्रों में निवारण योग हैं। पूर्ण कुंडली और विशेषज्ञ से पुष्टि करें।",
-          },
-        },
-      ]
-    ),
+    h1: { en: "Mangal Dosha (Manglik) Calculator", hi: "मंगल दोष (मंगलिक) कैलकुलेटर" },
+    seoTitle: {
+      en: "Mangal Dosha Calculator — Check Manglik Status Free",
+      hi: "मंगल दोष कैलकुलेटर — मुफ्त मंगलिक जाँच",
+    },
+    seoDescription: {
+      en: "Check your Mangal Dosha (Manglik) status free by birth details. Understand cancellation rules, exceptions and remedies clearly explained.",
+      hi: "जन्म विवरण से मुफ्त मंगल दोष (मंगलिक) जाँचें। निवारण नियम, अपवाद और उपाय स्पष्ट भाषा में।",
+    },
     intro: {
       en: "Mangal (Manglik) dosha checks Mars in key houses from Lagna or Moon. Get a free Lahiri-based flag in seconds, then review cancellations with a full kundli or consultation.",
       hi: "मंगल (मंगलिक) दोष लग्न या चंद्र से प्रमुख भावों में मंगल की जाँच है। मुफ्त लाहिरी संकेत सेकंडों में पाएँ, फिर पूर्ण कुंडली या परामर्श से निवारण देखें।",
     },
+    promo: {
+      text: {
+        en: "Want a full birth chart with houses, yogas and dasha?",
+        hi: "भाव, योग और दशा सहित पूरी जन्म कुंडली चाहिए?",
+      },
+      cta: { en: "Open free kundli →", hi: "मुफ्त कुंडली खोलें →" },
+      href: "/kundli",
+    },
+    sections: [
+      {
+        title: { en: "Which houses create Mangal Dosha?", hi: "मंगल दोष किन भावों से बनता है?" },
+        body: {
+          en: "Classical checks look for Mars in the 1st, 2nd, 4th, 7th, 8th or 12th house from Lagna — and often also from the Moon. Exact school rules vary slightly; this tool follows a clear, transparent house checklist so you can see why a flag appears.",
+          hi: "शास्त्रीय जाँच में लग्न से 1, 2, 4, 7, 8 या 12वें भाव में मंगल देखा जाता है — और अक्सर चंद्र से भी। परंपरा में थोड़ा अंतर हो सकता है; यह उपकरण स्पष्ट भाव-सूची से बताता है कि संकेत क्यों आया।",
+        },
+      },
+      {
+        title: { en: "Cancellations and exceptions", hi: "निवारण और अपवाद" },
+        body: {
+          en: "Texts list cancellations such as Mars in certain signs, mutual Manglik status, or strong benefic influences. A dosha flag is a traditional indicator for deeper chart study — not a fixed life verdict. Astrologics explains results without fear-based jargon; for marriage decisions, review full charts and speak with a qualified astrologer.",
+          hi: "शास्त्रों में कुछ राशियों में मंगल, पारस्परिक मंगलिक स्थिति या शुभ प्रभाव जैसे निवारण बताए गए हैं। दोष संकेत गहन अध्ययन का पारंपरिक संकेत है — निश्चित जीवन फैसला नहीं। Astrologics भयभीत भाषा के बिना समझाता है; विवाह निर्णय हेतु पूर्ण कुंडली और योग्य ज्योतिषी से बात करें।",
+        },
+      },
+      {
+        title: { en: "How to use", hi: "उपयोग कैसे करें" },
+        body: {
+          en: "Enter birth details for a Lahiri-based Mangal check, then open kundli matching or a consultation for context.",
+          hi: "जन्म विवरण से लाहिरी आधारित मंगल जाँच करें, फिर मिलान या परामर्श से संदर्भ लें।",
+        },
+        steps: [
+          { en: "Enter date, time and place of birth.", hi: "जन्म तिथि, समय और स्थान भरें।" },
+          { en: "Review the Manglik flag and house notes.", hi: "मंगलिक संकेत और भाव नोट्स देखें।" },
+          { en: "Cross-check with matching and full kundli.", hi: "मिलान व पूर्ण कुंडली से क्रॉस-चेक करें।" },
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: {
+          en: "Does Manglik always block marriage?",
+          hi: "क्या मंगलिक हमेशा विवाह रोकता है?",
+        },
+        a: {
+          en: "No. Classical texts list cancellations. Confirm with full charts and an expert.",
+          hi: "नहीं। शास्त्रों में निवारण योग हैं। पूर्ण कुंडली और विशेषज्ञ से पुष्टि करें।",
+        },
+      },
+    ],
+    disclaimer: DEFAULT_DISCLAIMER,
   },
   "kaal-sarp-dosha": genericContent(
     { en: "Kaal Sarp Dosha Calculator", hi: "काल सर्प दोष कैलकुलेटर" },

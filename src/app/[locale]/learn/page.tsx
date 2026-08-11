@@ -18,11 +18,11 @@ export async function generateMetadata(): Promise<Metadata> {
     locale,
     path: "/learn",
     title: hi
-      ? `ज्योतिष सीखें — कुंडली, पश्चिमी, केपी व अंक ज्योतिष | ${siteConfig.brandName}`
-      : `Learn Astrology — Kundli, Western, KP & Numerology | ${siteConfig.brandName}`,
+      ? "ज्योतिष सीखें — वैदिक, पश्चिमी, केपी व अंक ज्योतिष"
+      : "Learn Astrology — Vedic, Western, KP & Numerology",
     description: hi
-      ? "Astrologics पर ज्योतिष सीखें — कुंडली मूल बातें, पश्चिमी ज्योतिष, केपी, अंक ज्योतिष, राशि, ग्रह, भाव और शब्दावली हिंदी व अंग्रेज़ी में।"
-      : "Learn astrology on Astrologics — kundli foundations, Western astrology, KP, numerology, signs, planets, houses and a glossary in English & Hindi.",
+      ? "मुफ्त ज्योतिष गाइड — वैदिक राशि, ग्रह, भाव, पश्चिमी ज्योतिष, केपी सब-लॉर्ड, अंक ज्योतिष और दशा — स्पष्ट भाषा में।"
+      : "Free astrology guides covering Vedic zodiac, planets, houses, Western astrology, KP sub-lords, numerology and dashas — explained clearly.",
     keywords: hi
       ? [
           "ज्योतिष सीखें",
@@ -57,7 +57,7 @@ export default async function LearnHubPage() {
       />
       <PageHero
         eyebrow={hi ? "शिक्षा केंद्र" : "Education hub"}
-        title={hi ? "ज्योतिष सीखें" : "Learn about astrology"}
+        title={hi ? "ज्योतिष सीखें — परंपराओं के पार गाइड" : "Learn Astrology — Guides Across Traditions"}
         description={
           hi
             ? "Astrologics पर राशियाँ, ग्रह, भाव, केपी, पश्चिमी आस्पेक्ट और व्यावहारिक विषय — एक जगह, सरल भाषा में।"

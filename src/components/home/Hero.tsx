@@ -48,7 +48,8 @@ export function Hero() {
                   <span className="hero-title-line1">
                     Birth Chart, Calculators & AI Astrology
                   </span>
-                  <span className="hero-title-line2">— in One Place</span>
+                  <span className="hero-title-line2">— All in One Place</span>
+                  <span className="hero-title-line2">— All in One Place</span>
                 </>
               )}
             </h1>

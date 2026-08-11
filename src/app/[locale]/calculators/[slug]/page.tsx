@@ -27,14 +27,25 @@ export async function generateMetadata({
   const content = getCalcContent(slug);
   if (!meta) return {};
   const locale = await getLocale();
-  const title = locale === "hi" ? content.h1.hi : content.h1.en;
-  const description = locale === "hi" ? content.intro.hi : content.intro.en;
+  const hi = locale === "hi";
+  const title = content.seoTitle
+    ? hi
+      ? content.seoTitle.hi
+      : content.seoTitle.en
+    : `${hi ? content.h1.hi : content.h1.en} | Free Astrology Tool`;
+  const description = content.seoDescription
+    ? hi
+      ? content.seoDescription.hi
+      : content.seoDescription.en
+    : hi
+      ? content.intro.hi
+      : content.intro.en;
   const name = locale === "hi" ? meta.title.hi : meta.title.en;
 
   return buildPageMetadata({
     locale,
     path: `/calculators/${slug}`,
-    title: `${title} | Free Astrology Tool`,
+    title,
     description,
     keywords: [
       name,

@@ -51,11 +51,11 @@ export async function generateMetadata(): Promise<Metadata> {
     locale,
     path: "/panchang",
     title: hi
-      ? "आज का पंचांग | सूर्योदय, तिथि, नक्षत्र व मुहूर्त"
-      : "Today Panchang | Sunrise, Tithi, Nakshatra & Muhurat",
+      ? "आज का पंचांग — तिथि, नक्षत्र, राहु काल लाइव"
+      : "Today's Panchang — Tithi, Nakshatra, Rahu Kaal Live",
     description: hi
-      ? "आज का दैनिक पंचांग — सूर्योदय, सूर्यास्त, चंद्रोदय, चंद्रास्त, तिथि, नक्षत्र, योग, करण, राहु काल व ग्रह स्थिति। तिथि और शहर बदलें।"
-      : "Today’s daily Panchangam with sunrise, sunset, moonrise, moonset, tithi, nakshatra, yoga, karana, Rahu Kaal and planetary positions. Change date and city anytime.",
+      ? "आज का लाइव पंचांग — तिथि, नक्षत्र, योग, करण, राहु काल, चौघड़िया और होरा, आपके स्थान के अनुसार।"
+      : "Live Panchang for today — Tithi, Nakshatra, Yoga, Karana, Rahu Kaal, Choghadiya and Hora, recalculated in real time for your location.",
     keywords: [
       "today panchang",
       "daily panchangam",
@@ -100,7 +100,7 @@ export default async function PanchangPage() {
       <div className="min-h-screen bg-[#faf8f5]">
         <PageHero
           eyebrow={hi ? "दैनिक पंचांग" : "Daily Panchangam"}
-          title={hi ? "आज का पंचांग" : "Today Panchang"}
+          title={hi ? "आज का पंचांग" : "Today's Panchang"}
           description={intro}
           crumbs={[
             { label: hi ? "होम" : "Home", href: "/" },
@@ -109,6 +109,24 @@ export default async function PanchangPage() {
         />
         <div className="container-page py-6 sm:py-8">
           <TodayPanchangView />
+          <article className="mx-auto mt-10 max-w-3xl space-y-4 text-[15px] leading-relaxed text-ink-muted">
+            <h2 className="font-display text-xl font-bold text-ink">
+              {hi ? "पंचांग क्या है?" : "What is Panchang?"}
+            </h2>
+            <p>
+              {hi
+                ? "पंचांग का शाब्दिक अर्थ पाँच अंग है — तिथि, वार, नक्षत्र, योग और करण। ये पाँच तत्व पारंपरिक रूप से दैनिक शुभ-अशुभ समय और धार्मिक/सामाजिक कार्यों के चयन में सहायक माने जाते हैं। Astrologics आपके शहर के लिए सूर्योदय-अस्त के साथ इन अंगों की गणना लाहिरी पद्धति से करता है।"
+                : "Panchang literally means five limbs — Tithi, Vara (weekday), Nakshatra, Yoga and Karana. Together they form the traditional daily calendar used for muhurat, festivals and everyday timing decisions. Astrologics calculates these limbs for your city with sunrise/sunset using the Lahiri standard."}
+            </p>
+            <h2 className="font-display text-xl font-bold text-ink">
+              {hi ? "चौघड़िया और राहु काल कैसे उपयोग करें" : "Using Choghadiya and Rahu Kaal"}
+            </h2>
+            <p>
+              {hi
+                ? "राहु काल को प्रायः नए शुभ कार्य शुरू करने से बचने का समय माना जाता है — यात्रा या समारोह योजना में इसे ध्यान में रखें। चौघड़िया दिन-रात को खंडों में बाँटती है; Ambija/Shubh जैसे खंड सामान्य कार्यों हेतु अनुकूल माने जाते हैं। ये संकेत मार्गदर्शन हैं, निश्चित भविष्य नहीं।"
+                : "Rahu Kaal is traditionally treated as a window to avoid starting auspicious new work — useful when planning travel or ceremonies. Choghadiya divides day and night into rated segments; favourable windows are often preferred for routine starts. These are guidance frameworks, not guaranteed outcomes."}
+            </p>
+          </article>
         </div>
       </div>
     </>

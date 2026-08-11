@@ -12,6 +12,7 @@ import { TopAstrologers } from "@/components/home/TopAstrologers";
 import { TodayAstrology } from "@/components/home/TodayAstrology";
 import { LearnAstrologyStrip } from "@/components/home/LearnAstrologyStrip";
 import { HomeFaq } from "@/components/home/HomeFaq";
+import { HomeSeoIntro } from "@/components/home/HomeSeoIntro";
 import { FinalCta } from "@/components/home/FinalCta";
 import { siteConfig } from "@/lib/site-config";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -179,6 +180,7 @@ export default async function HomePage({
       {/* Lean homepage flow — fewer overlapping sections */}
       <AnnouncementBar locale={locale} />
       <Hero />
+      <HomeSeoIntro />
       <QuickTools locale={locale} />
       <TopAstrologers locale={locale} />
       <WhyAstrologics locale={locale} />

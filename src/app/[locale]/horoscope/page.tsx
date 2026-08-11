@@ -21,11 +21,11 @@ export async function generateMetadata(): Promise<Metadata> {
     locale,
     path: "/horoscope",
     title: hi
-      ? `आज का राशिफल — 12 राशियाँ दैनिक, साप्ताहिक, मासिक | ${siteConfig.brandName}`
-      : `Today’s Horoscope — 12 Zodiac Signs Daily, Weekly, Monthly | ${siteConfig.brandName}`,
+      ? "दैनिक राशिफल — आज का राशिफल, सभी 12 राशियाँ"
+      : "Daily Horoscope — Today's Rashifal for All 12 Signs",
     description: hi
-      ? "मेष से मीन तक दैनिक, साप्ताहिक और मासिक राशिफल — लकी नंबर, रंग, शासक ग्रह, उपाय और एआई गुरु मार्गदर्शन।"
-      : "Daily, weekly and monthly horoscopes for all 12 signs — lucky numbers, colours, ruling planets, remedies and AI Guru guidance.",
+      ? "सभी 12 राशियों का आज का राशिफल पढ़ें। प्रेम, करियर और धन पर दैनिक संकेत — वैदिक व पश्चिमी संदर्भ सहित।"
+      : "Read today's horoscope for all 12 zodiac signs. Daily predictions on love, career and finance based on Vedic and Western positions.",
     keywords: hi
       ? [
           "राशिफल",
@@ -79,7 +79,7 @@ export default async function HoroscopeIndexPage() {
 
       <PageHero
         eyebrow={hi ? "एआई ज्योतिष · दैनिक राशिफल" : "AI Astrology · Daily horoscope"}
-        title={hi ? "राशिफल — 12 राशियाँ" : "Horoscope — 12 Zodiac Signs"}
+        title={hi ? "आज का राशिफल — सभी राशियाँ" : "Today's Horoscope — All Zodiac Signs"}
         description={
           hi
             ? "अपनी राशि चुनें — दैनिक / साप्ताहिक / मासिक मार्गदर्शन, लकी मैट्रिक्स, उपाय और एआई गुरु।"

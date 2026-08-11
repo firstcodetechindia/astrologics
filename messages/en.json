@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Free Kundli, AI Astrology & Calculators | Astrologics",
-    "description": "Explore astrology online — free Janam Kundli, Western guides, KP tools, numerology, horoscope, Panchang and AI chart chat. Clear tools in English and Hindi."
+    "title": "Free Kundli, AI Astrology & 30+ Calculators | Astrologics",
+    "description": "Generate your free Janam Kundli, explore Western & KP astrology, numerology and Panchang, and ask AI Guru about your chart — in English & Hindi."
   },
   "nav": {
     "home": "Home",
@@ -35,7 +35,7 @@
   },
   "home": {
     "eyebrow": "Free tools · AI chat · Hindi & English",
-    "title": "Birth Chart, Calculators & AI Astrology — in One Place",
+    "title": "Birth Chart, Calculators & AI Astrology — All in One Place",
     "subtitle": "Create your free Janam Kundli, try Western, KP and numerology tools, and get clear AI answers about your chart.",
     "ctaPrimary": "Generate Free Kundli",
     "ctaSecondary": "Ask AI Guru",
@@ -72,8 +72,8 @@
     "ctaBandText": "Your free kundli is a clear starting map. For gemstones, mantras, marriage matching and career timing, talk to us directly."
   },
   "kundliForm": {
-    "title": "Generate your Janam Kundli",
-    "subtitle": "Accurate birth time gives the best lagna. Choose your birth city from the suggestions.",
+    "title": "Generate Your Free Janam Kundli",
+    "subtitle": "Accurate birth time gives the best Lagna. Choose your birth city from the suggestions.",
     "name": "Full name",
     "gender": "Gender",
     "male": "Male",
