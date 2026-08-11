@@ -149,27 +149,34 @@ export function PullToRefresh() {
 
   const visible = pull > 6 || refreshing;
   const ready = pull >= THRESHOLD || refreshing;
+  const dim = refreshing
+    ? 0.42
+    : Math.min(0.42, (Math.max(0, pull - 8) / THRESHOLD) * 0.42);
 
   return (
     <div
       className={cn(
-        "pointer-events-none fixed inset-x-0 top-0 z-[90] flex justify-center transition-opacity duration-150",
+        "pointer-events-none fixed inset-0 z-[90] flex items-center justify-center transition-opacity duration-200",
         visible ? "opacity-100" : "opacity-0"
       )}
-      style={{
-        paddingTop: "max(0.5rem, env(safe-area-inset-top))",
-        transform: `translateY(${Math.max(0, pull - 12)}px)`,
-      }}
       aria-hidden={!visible}
     >
       <div
+        className="absolute inset-0 bg-[#2a2118] transition-opacity duration-200"
+        style={{ opacity: dim }}
+      />
+
+      <div
         className={cn(
-          "flex items-center gap-2.5 rounded-full border border-saffron/25 bg-white/95 px-3.5 py-2 shadow-[0_10px_28px_-12px_rgba(240,106,0,0.45)] backdrop-blur-md",
+          "relative flex flex-col items-center gap-3 rounded-2xl border border-saffron/25 bg-white/95 px-6 py-5 shadow-[0_16px_40px_-14px_rgba(240,106,0,0.45)] backdrop-blur-md transition-transform duration-150",
           ready && "border-saffron/45"
         )}
+        style={{
+          transform: `scale(${0.92 + Math.min(pull, THRESHOLD) / THRESHOLD * 0.08})`,
+        }}
       >
-        <AstrologySpinner size="sm" />
-        <span className="text-[12px] font-semibold text-saffron-deep">
+        <AstrologySpinner size={ready ? "md" : "sm"} />
+        <span className="text-center text-[13px] font-semibold text-saffron-deep">
           {refreshing
             ? hi
               ? "तारों को संरेखित कर रहे हैं…"
