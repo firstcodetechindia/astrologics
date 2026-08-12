@@ -38,6 +38,9 @@ import {
 import { computeVimshottari } from "../src/lib/astrology/dasha";
 import { ASTRO_CONFIG } from "../src/lib/astrology/config";
 import type { PlanetPosition } from "../src/lib/astrology/types";
+import { ASTRONOMY_ENGINE_VERSION } from "../src/lib/astrology/engine-version";
+import fs from "node:fs";
+import path from "node:path";
 import { buildChartSummary, systemPrompt } from "../src/lib/ai/providers";
 
 let failed = 0;
@@ -49,6 +52,27 @@ function assert(cond: boolean, msg: string) {
 }
 function dms(d: number, m: number, s: number) {
   return d + m / 60 + s / 3600;
+}
+
+console.log("=== 0. Engine version pin vs installed package ===");
+{
+  const pkgPath = path.join(
+    process.cwd(),
+    "node_modules",
+    "astronomy-engine",
+    "package.json"
+  );
+  const installed = JSON.parse(fs.readFileSync(pkgPath, "utf8")).version as string;
+  assert(
+    ASTRONOMY_ENGINE_VERSION === installed,
+    `ASTRONOMY_ENGINE_VERSION ${ASTRONOMY_ENGINE_VERSION} matches installed ${installed}`
+  );
+  if (ASTRONOMY_ENGINE_VERSION === installed) {
+    console.log(
+      "OK:",
+      `ASTRONOMY_ENGINE_VERSION ${ASTRONOMY_ENGINE_VERSION} matches installed ${installed}`
+    );
+  }
 }
 
 console.log("=== 1. LAHIRI vs SE/JH Jan-1 tables ===");
@@ -324,7 +348,7 @@ console.log("\n=== 13–14. Live chart + transit + Sade Sati + SSOT ===");
 }
 
 console.log("\n=== TZ mode documented ===");
-assert(ASTRO_CONFIG.timezoneMode === "fixed_offset_minutes", "fixed offset mode");
+assert(ASTRO_CONFIG.timezoneMode === "iana_historical", "IANA historical TZ mode");
 
 console.log("\n=== EXTRA VARGAS / YOGINI / KP AYANAMSA ===");
 assert(horaSignIndex(5) === 4, "hora odd first half → Leo");

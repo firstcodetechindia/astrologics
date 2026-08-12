@@ -55,9 +55,11 @@ export async function POST(req: Request) {
       lat,
       lon,
       timezoneOffsetMinutes,
+      timeZone: data.timeZone,
       ayanamsa: data.ayanamsa,
       houseSystem: data.houseSystem,
       nodeMode: data.nodeMode,
+      birthTimeApproximate: data.birthTimeApproximate,
     });
 
     return NextResponse.json({ ok: true, kundli: result });

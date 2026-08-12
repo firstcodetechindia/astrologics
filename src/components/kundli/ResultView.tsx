@@ -9,7 +9,11 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { PageHero } from "@/components/ui/PageHero";
 import { KundliReport } from "./KundliReport";
 
-const STORAGE_KEYS = ["astrologics_kundli", "vedic_kundli"] as const;
+const STORAGE_KEYS = [
+  "cosmicgpt_kundli",
+  "astrologics_kundli", // legacy brand key
+  "vedic_kundli",
+] as const;
 
 /** Minimum shape needed to render the report without crashing. */
 function isUsableKundli(value: unknown): value is KundliResult {
@@ -47,7 +51,7 @@ function EmptyResult({
   hi: boolean;
 }) {
   return (
-    <div className="bg-[#faf8f5]">
+    <div className="bg-cosmic-navy">
       <PageHero
         eyebrow="Kundli"
         title={title}
@@ -105,10 +109,36 @@ export function ResultView() {
         parsed.settings = {
           zodiac: "sidereal",
           ayanamsa: "lahiri",
+          ayanamsaDegrees: parsed.ayanamsa ?? 0,
           houseSystem: "whole-sign",
+          houseSystemByChart: {
+            d1: "whole_sign",
+            kp: "placidus",
+            bhavChalit: "sripati",
+          },
           nodeType: "mean",
           ephemerisEngine: "astronomy-engine",
+          ephemerisEngineVersion: "2.1.19",
+          dayBoundary: "sunrise",
+          timezoneMode: "iana_historical",
+          timeZone: "Asia/Kolkata",
+          timezoneOffsetMinutes: 330,
         };
+      } else {
+        const s = parsed.settings;
+        if (s.ayanamsaDegrees == null) s.ayanamsaDegrees = parsed.ayanamsa ?? 0;
+        if (!s.houseSystemByChart) {
+          s.houseSystemByChart = {
+            d1: "whole_sign",
+            kp: "placidus",
+            bhavChalit: "sripati",
+          };
+        }
+        if (!s.dayBoundary) s.dayBoundary = "sunrise";
+        if (!s.timezoneMode) s.timezoneMode = "iana_historical";
+        if (!s.timeZone) s.timeZone = "Asia/Kolkata";
+        if (s.timezoneOffsetMinutes == null) s.timezoneOffsetMinutes = 330;
+        if (!s.ephemerisEngineVersion) s.ephemerisEngineVersion = "2.1.19";
       }
       if (!parsed.yogas) parsed.yogas = [];
       if (!parsed.insights) parsed.insights = [];
@@ -144,7 +174,7 @@ export function ResultView() {
 
   if (!ready) {
     return (
-      <div className="bg-[#faf8f5] min-h-[40vh] flex items-center justify-center">
+      <div className="bg-cosmic-navy min-h-[40vh] flex items-center justify-center">
         <p className="text-sm text-ink-muted">
           {hi ? "कुंडली लोड हो रही है…" : "Loading your kundli…"}
         </p>
@@ -170,8 +200,8 @@ export function ResultView() {
   }
 
   return (
-    <div className="bg-[#faf8f5] pb-24 sm:pb-10">
-      <div className="border-b border-black/[0.04] bg-gradient-to-b from-[#fff6ea] to-[#faf8f5]">
+    <div className="bg-cosmic-navy pb-24 sm:pb-10">
+      <div className="border-b border-white/10 surface-wash">
         <div className="container-page flex flex-wrap items-center justify-between gap-3 py-3 text-sm">
           <nav className="flex flex-wrap items-center gap-1.5 text-ink-muted">
             <Link href="/" className="hover:text-ink">
@@ -186,12 +216,31 @@ export function ResultView() {
           </nav>
           <Link
             href="/kundli"
-            className="inline-flex items-center justify-center rounded-lg border border-saffron/30 bg-white/80 px-3 py-1.5 text-xs font-semibold text-saffron-deep hover:bg-[#fff1e6]"
+            className="inline-flex items-center justify-center rounded-lg border border-saffron/30 bg-surface/85 px-3 py-1.5 text-xs font-semibold text-saffron-deep hover:bg-cosmic-purple/15"
           >
             {t("newKundli")}
           </Link>
         </div>
       </div>
+
+      {Boolean(kundli.settings?.birthTimeApproximate) ? (
+        <div className="container-page pt-4">
+          <p
+            className="rounded-xl border border-saffron/30 bg-saffron/10 px-3.5 py-3 text-sm leading-relaxed text-ink"
+            role="status"
+          >
+            {hi
+              ? "जन्म समय अनुमानित चिह्नित है। लग्न, भाव क्रम और भाव-आधारित योग/दोष सीमा के पास बदल सकते हैं — चंद्र राशि, नक्षत्र व दशा पर अधिक भरोसा करें, या जन्म-समय सुधार आज़माएँ।"
+              : "Birth time was marked approximate. Lagna, house order, and house-based yogas/doshas can flip near sign boundaries — lean on Moon sign, Nakshatra and dasha, or try birth-time rectification."}{" "}
+            <Link
+              href="/calculators/birth-time-rectification"
+              className="font-semibold text-saffron-deep underline"
+            >
+              {hi ? "समय सुधार" : "Rectify time"}
+            </Link>
+          </p>
+        </div>
+      ) : null}
       <motion.div
         className="container-page py-6 sm:py-8"
         initial={{ opacity: 0, y: 10 }}

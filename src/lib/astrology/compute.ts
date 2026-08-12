@@ -5,6 +5,7 @@ import { computeAvakhada } from "./avakhada";
 import { computeCharaDasha } from "./chara-dasha";
 import { ASTRO_CONFIG } from "./config";
 import { SIGNS } from "./constants";
+import { astronomyEngineVersion } from "./engine-version";
 import { computeVimshottari } from "./dasha";
 import { computeYogini } from "./yogini-dasha";
 import { combustionInfo, planetDignity } from "./dignity";
@@ -36,25 +37,35 @@ import { computeAllVargas } from "./vargas";
 import { detectYogas } from "./yogas";
 import { createLalKitabChart } from "./lalkitab";
 import { computeVarshphal } from "./varshphal";
+import {
+  parseBirthDateTime,
+  resolveBirthTimeZone,
+} from "./timezone";
 
-export function parseBirthDateTime(input: BirthInput): Date {
-  const [y, m, d] = input.date.split("-").map(Number);
-  const parts = input.time.split(":").map(Number);
-  const hh = parts[0] ?? 0;
-  const mm = parts[1] ?? 0;
-  const ss = parts[2] ?? 0;
-  const offset = input.timezoneOffsetMinutes ?? 330;
-  const utcMs = Date.UTC(y, m - 1, d, hh, mm, ss) - offset * 60 * 1000;
-  return new Date(utcMs);
+function formatOffset(totalMinutes: number): string {
+  const whole = Math.floor(totalMinutes);
+  const h = Math.floor(whole / 60);
+  const m = whole % 60;
+  const frac = totalMinutes - whole;
+  const s = Math.round(frac * 60);
+  if (s) {
+    return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  }
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
 }
 
-function chartReliability(input: BirthInput): KundliResult["reliability"] {
+/** Re-export for callers that historically imported from compute. */
+export { parseBirthDateTime, resolveBirthTimeZone };
+
+function chartReliability(
+  input: BirthInput,
+  tzMeta: { timeZone: string; offsetMinutes: number }
+): KundliResult["reliability"] {
   const reasons: { en: string; hi: string }[] = [];
   const hasCoords =
     Number.isFinite(input.lat) &&
     Number.isFinite(input.lon) &&
     !(input.lat === 0 && input.lon === 0);
-  const hasTz = input.timezoneOffsetMinutes != null;
   const hasTime = /^\d{1,2}:\d{2}/.test(input.time || "");
   const hasPlace = Boolean(input.place?.trim());
 
@@ -69,15 +80,19 @@ function chartReliability(input: BirthInput): KundliResult["reliability"] {
       hi: "निर्देशांक अनुपलब्ध — लग्न अनुमानित हो सकता है",
     });
 
-  if (hasTz)
+  const offLabel =
+    tzMeta.offsetMinutes >= 0
+      ? `UTC+${formatOffset(tzMeta.offsetMinutes)}`
+      : `UTC-${formatOffset(Math.abs(tzMeta.offsetMinutes))}`;
+  if (tzMeta.timeZone)
     reasons.push({
-      en: "Timezone: fixed civil UTC offset (minutes) from place — not live IANA DST at birth instant",
-      hi: "टाइमज़ोन: स्थान से स्थिर UTC ऑफ़सेट (मिनट) — जन्म क्षण पर लाइव IANA DST नहीं",
+      en: `Timezone: IANA ${tzMeta.timeZone} at birth → ${offLabel}`,
+      hi: `टाइमज़ोन: जन्म पर IANA ${tzMeta.timeZone} → ${offLabel}`,
     });
   else
     reasons.push({
-      en: "Timezone defaulted to IST (+05:30)",
-      hi: "टाइमज़ोन डिफ़ॉल्ट IST (+05:30)",
+      en: `Timezone defaulted via IANA Asia/Kolkata → ${offLabel}`,
+      hi: `टाइमज़ोन डिफ़ॉल्ट IANA Asia/Kolkata → ${offLabel}`,
     });
 
   if (hasTime)
@@ -91,6 +106,13 @@ function chartReliability(input: BirthInput): KundliResult["reliability"] {
       hi: "जन्म समय अधूरा",
     });
 
+  if (input.birthTimeApproximate) {
+    reasons.push({
+      en: "Birth time marked approximate — Lagna, houses, and house-based yogas/doshas may flip near sign boundaries; prefer Moon/Nakshatra themes or rectification.",
+      hi: "जन्म समय अनुमानित चिह्नित — लग्न, भाव व भाव-आधारित योग/दोष राशि सीमा पर बदल सकते हैं; चंद्र/नक्षत्र या समय-सुधार को प्राथमिकता दें।",
+    });
+  }
+
   if (hasPlace)
     reasons.push({
       en: `Place: ${input.place}`,
@@ -102,8 +124,10 @@ function chartReliability(input: BirthInput): KundliResult["reliability"] {
   }
 
   let level: "high" | "moderate" | "limited" = "limited";
-  if (hasCoords && hasTz && hasTime) level = "high";
-  else if (hasCoords && hasTime) level = "moderate";
+  // IANA zone is always resolved from place/coords; treat as available when coords exist.
+  if (hasCoords && hasTime) level = "high";
+  else if (hasCoords || hasTime) level = "moderate";
+  if (input.birthTimeApproximate && level === "high") level = "moderate";
 
   return { level, reasons };
 }
@@ -120,7 +144,8 @@ export function computeKundli(input: BirthInput): KundliResult {
     );
   }
 
-  const date = parseBirthDateTime(input);
+  const tzMeta = resolveBirthTimeZone(input);
+  const date = tzMeta.instant;
   if (Number.isNaN(date.getTime())) {
     throw new Error(
       "Unable to calculate your birth chart accurately. Please verify your birth date, time and place of birth."
@@ -186,14 +211,14 @@ export function computeKundli(input: BirthInput): KundliResult {
   const aspects = computeGrahaDrishti(planets);
   const manglik = mangalDosha(planets, lagnaSign);
   const kaalSarp = kaalSarpDosha(planets);
-  const sade = sadeSati(moon.signIndex, new Date());
+  const sade = sadeSati(moon.signIndex, new Date(), { includeWindow: true });
   const pitra = pitraDosha(planets);
 
   const vargas = computeAllVargas(planets, lagnaLon);
   const transits = computeTransits(new Date(), lagnaLon, moon.longitude);
 
   const panchang = computePanchang(date, {
-    timezoneOffsetMinutes: input.timezoneOffsetMinutes ?? 330,
+    timezoneOffsetMinutes: tzMeta.offsetMinutes,
   });
 
   const avakhada = computeAvakhada({
@@ -244,7 +269,7 @@ export function computeKundli(input: BirthInput): KundliResult {
     ayanamsa,
     planets,
     lagnaLon,
-    timezoneOffsetMinutes: input.timezoneOffsetMinutes,
+    timezoneOffsetMinutes: tzMeta.offsetMinutes,
   });
 
   const partial: KundliResult = {
@@ -253,9 +278,17 @@ export function computeKundli(input: BirthInput): KundliResult {
     settings: {
       zodiac: "sidereal",
       ayanamsa: ayanamsaId,
+      ayanamsaDegrees: Number(ayanamsa.toFixed(6)),
       houseSystem: houseSystemId === "whole_sign" ? "whole-sign" : houseSystemId,
+      houseSystemByChart: { ...ASTRO_CONFIG.houseSystemByChart },
       nodeType: nodeMode,
       ephemerisEngine: ASTRO_CONFIG.ephemerisEngine,
+      ephemerisEngineVersion: astronomyEngineVersion(),
+      dayBoundary: ASTRO_CONFIG.dayBoundary,
+      timezoneMode: ASTRO_CONFIG.timezoneMode,
+      timeZone: tzMeta.timeZone,
+      timezoneOffsetMinutes: Number(tzMeta.offsetMinutes.toFixed(4)),
+      birthTimeApproximate: Boolean(input.birthTimeApproximate),
     },
     lagna: {
       signIndex: lagnaSign,
@@ -282,9 +315,9 @@ export function computeKundli(input: BirthInput): KundliResult {
       manglik,
       kaalSarp,
       sadeSati: {
+        ...sade,
         present: sade.active,
         meaning: sade.phaseLabel,
-        ...sade,
       },
       pitra: {
         ...pitra,
@@ -320,7 +353,7 @@ export function computeKundli(input: BirthInput): KundliResult {
     kp,
     transits,
     insights: [],
-    reliability: chartReliability(input),
+    reliability: chartReliability(input, tzMeta),
     computedAt: new Date().toISOString(),
   };
 

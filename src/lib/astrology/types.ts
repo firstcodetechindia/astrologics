@@ -8,13 +8,18 @@ export interface BirthInput {
   place: string;
   lat: number;
   lon: number;
+  /** Civil offset hint (minutes east of UTC); used to pick IANA zone when timeZone omitted. */
   timezoneOffsetMinutes?: number;
+  /** IANA zone id (e.g. Asia/Kolkata). Preferred for historical offset at birth. */
+  timeZone?: string;
   /** Chart ayanamsa preference (default lahiri). */
   ayanamsa?: "lahiri" | "raman" | "kp" | "true_chitra";
   /** Primary house system for display (Parashari whole-sign remains available). */
   houseSystem?: "whole_sign" | "sripati" | "placidus";
   /** Lunar node mode. */
   nodeMode?: "mean" | "true";
+  /** User marked birth time as approximate (Lagna/houses less reliable). */
+  birthTimeApproximate?: boolean;
 }
 
 export interface PlanetPosition {
@@ -94,9 +99,25 @@ export interface KundliResult {
   settings: {
     zodiac: "sidereal";
     ayanamsa: "lahiri" | "raman" | "kp" | "true_chitra";
+    /** Date-specific ayanamsa degrees used for this chart (audit). */
+    ayanamsaDegrees: number;
     houseSystem: "whole-sign" | "whole_sign" | "sripati" | "placidus";
+    houseSystemByChart: {
+      d1: "whole_sign";
+      kp: "placidus";
+      bhavChalit: "sripati";
+    };
     nodeType: "mean" | "true";
     ephemerisEngine: string;
+    /** Resolved installed astronomy-engine version (not the package.json range). */
+    ephemerisEngineVersion?: string;
+    dayBoundary: "sunrise";
+    timezoneMode: "iana_historical" | "fixed_offset_minutes";
+    timeZone: string;
+    /** Effective civil offset (minutes east of UTC) at the birth instant. */
+    timezoneOffsetMinutes: number;
+    /** True when the user marked birth time as approximate. */
+    birthTimeApproximate?: boolean;
   };
   lagna: {
     signIndex: number;
