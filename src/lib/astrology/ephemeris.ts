@@ -17,6 +17,8 @@ export function ephemerisCapabilityNotes(): string[] {
     `Engine: ${ASTRO_CONFIG.ephemerisEngine}`,
     `Ayanamsa: ${ASTRO_CONFIG.ayanamsaLabel}`,
     `Nodes: ${ASTRO_CONFIG.nodeMode}`,
+    `Timezone: ${ASTRO_CONFIG.timezoneMode}`,
+    `Day boundary: ${ASTRO_CONFIG.dayBoundary}`,
     "Swiss Ephemeris not bundled (AGPL/GPL licensing constraint for this product).",
   ];
 }
