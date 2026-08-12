@@ -58,6 +58,91 @@ type Comet = {
   len: number;
 };
 
+const MAX_COMETS_DESKTOP = 3;
+const MAX_COMETS_MOBILE = 2;
+
+/** Spawn a slow long-distance comet from a random edge, aimed across the hero. */
+function createComet(w: number, h: number): Comet {
+  const edge = Math.floor(Math.random() * 4); // 0 L, 1 R, 2 T, 3 B
+  const margin = 50;
+  let x = 0;
+  let y = 0;
+  let angle = 0;
+
+  if (edge === 0) {
+    x = -margin;
+    y = h * (0.05 + Math.random() * 0.9);
+    angle = -0.55 + Math.random() * 1.1; // mostly rightward
+  } else if (edge === 1) {
+    x = w + margin;
+    y = h * (0.05 + Math.random() * 0.9);
+    angle = Math.PI - 0.55 + Math.random() * 1.1; // mostly leftward
+  } else if (edge === 2) {
+    x = w * (0.05 + Math.random() * 0.9);
+    y = -margin;
+    angle = Math.PI * 0.15 + Math.random() * Math.PI * 0.7; // downward fan
+  } else {
+    x = w * (0.05 + Math.random() * 0.9);
+    y = h + margin;
+    angle = -Math.PI * 0.85 + Math.random() * Math.PI * 0.7; // upward fan
+  }
+
+  // Slow glide — long distance across the full hero
+  const speed = 1.15 + Math.random() * 0.75;
+  const diag = Math.hypot(w, h);
+  const framesToCross = Math.max(280, Math.round((diag * 1.15) / speed));
+
+  return {
+    x,
+    y,
+    vx: Math.cos(angle) * speed,
+    vy: Math.sin(angle) * speed,
+    life: 0,
+    maxLife: framesToCross + Math.floor(Math.random() * 60),
+    len: 160 + Math.random() * 120,
+  };
+}
+
+function drawComet(ctx: CanvasRenderingContext2D, c: Comet, fade: number) {
+  const ang = Math.atan2(c.vy, c.vx);
+  const cos = Math.cos(ang);
+  const sin = Math.sin(ang);
+  const tx = c.x - cos * c.len;
+  const ty = c.y - sin * c.len;
+
+  const gWide = ctx.createLinearGradient(tx, ty, c.x, c.y);
+  gWide.addColorStop(0, "rgba(140,170,255,0)");
+  gWide.addColorStop(0.45, `rgba(160,190,255,${0.22 * fade})`);
+  gWide.addColorStop(1, `rgba(255,255,255,${0.55 * fade})`);
+  ctx.strokeStyle = gWide;
+  ctx.lineWidth = 4.5;
+  ctx.lineCap = "round";
+  ctx.beginPath();
+  ctx.moveTo(tx, ty);
+  ctx.lineTo(c.x, c.y);
+  ctx.stroke();
+
+  const gCore = ctx.createLinearGradient(tx, ty, c.x, c.y);
+  gCore.addColorStop(0, "rgba(255,255,255,0)");
+  gCore.addColorStop(0.55, `rgba(200,220,255,${0.5 * fade})`);
+  gCore.addColorStop(1, `rgba(255,255,255,${0.98 * fade})`);
+  ctx.strokeStyle = gCore;
+  ctx.lineWidth = 1.6;
+  ctx.beginPath();
+  ctx.moveTo(c.x - cos * c.len * 0.72, c.y - sin * c.len * 0.72);
+  ctx.lineTo(c.x, c.y);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.fillStyle = `rgba(255,255,255,${0.98 * fade})`;
+  ctx.arc(c.x, c.y, 2.2, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.fillStyle = `rgba(190,210,255,${0.35 * fade})`;
+  ctx.arc(c.x, c.y, 4.2, 0, Math.PI * 2);
+  ctx.fill();
+}
+
 /** Approved preview depth shifts (far / mid / near). */
 const DEPTH_SHIFT = [
   { x: 4, y: 3 },
@@ -151,7 +236,7 @@ export function GalaxyHeroBackground({
   const rootRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const starsRef = useRef<Star[]>([]);
-  const cometRef = useRef<Comet | null>(null);
+  const cometsRef = useRef<Comet[]>([]);
   const nextCometAtRef = useRef(0);
   const cometScheduledOnceRef = useRef(false);
   const rafRef = useRef(0);
@@ -197,48 +282,41 @@ export function GalaxyHeroBackground({
 
   const scheduleNextComet = useCallback(
     (now: number) => {
-      // Deliver on a normal cadence — only the travel animation is slow.
-      // Home is a bit richer, still within the same performance budget.
+      // Frequent enough that multiple long trails can overlap on screen.
       const first = !cometScheduledOnceRef.current;
       cometScheduledOnceRef.current = true;
       const min = first
-        ? 1200
+        ? 900
         : mobileRef.current
           ? isHome
-            ? 7000
-            : 9000
+            ? 2800
+            : 3600
           : isHome
-            ? 4800
-            : 6500;
+            ? 1800
+            : 2400;
       const max = first
-        ? 2000
+        ? 1600
         : mobileRef.current
           ? isHome
-            ? 13000
-            : 16000
+            ? 5200
+            : 6500
           : isHome
-            ? 8500
-            : 11000;
+            ? 3800
+            : 4800;
       nextCometAtRef.current = now + min + Math.random() * (max - min);
     },
     [isHome]
   );
 
   const spawnComet = useCallback((w: number, h: number) => {
-    const fromLeft = Math.random() > 0.4;
-    // Slow glide across the sky (not a quick streak)
-    const speed = 1.55 + Math.random() * 0.85;
-    cometRef.current = {
-      x: fromLeft ? -40 : w + 40,
-      y: h * (0.1 + Math.random() * 0.38),
-      vx: fromLeft ? speed : -speed,
-      vy: speed * (0.22 + Math.random() * 0.22),
-      life: 0,
-      // Long enough life so a slow comet still crosses most of the hero
-      maxLife: 220 + Math.random() * 80,
-      // Long puchhal (tail)
-      len: 140 + Math.random() * 90,
-    };
+    const max = mobileRef.current ? MAX_COMETS_MOBILE : MAX_COMETS_DESKTOP;
+    if (cometsRef.current.length >= max) return;
+    // Sometimes spawn a pair for a richer sky
+    const burst = Math.random() < 0.35 && cometsRef.current.length + 1 < max ? 2 : 1;
+    for (let i = 0; i < burst; i++) {
+      if (cometsRef.current.length >= max) break;
+      cometsRef.current.push(createComet(w, h));
+    }
   }, []);
 
   const drawFrame = useCallback(
@@ -320,66 +398,32 @@ export function GalaxyHeroBackground({
       }
 
       if (!reduce) {
-        if (!cometRef.current && now >= nextCometAtRef.current) {
+        const max = mobileRef.current ? MAX_COMETS_MOBILE : MAX_COMETS_DESKTOP;
+        if (
+          now >= nextCometAtRef.current &&
+          cometsRef.current.length < max
+        ) {
           spawnComet(w, h);
           scheduleNextComet(now);
         }
-        const c = cometRef.current;
-        if (c) {
+
+        const pad = 180;
+        const next: Comet[] = [];
+        for (const c of cometsRef.current) {
           c.life += 1;
           c.x += c.vx;
           c.y += c.vy;
-          const fade = 1 - c.life / c.maxLife;
-          const ang = Math.atan2(c.vy, c.vx);
-          const cos = Math.cos(ang);
-          const sin = Math.sin(ang);
-          const tx = c.x - cos * c.len;
-          const ty = c.y - sin * c.len;
-
-          // Wide soft puchhal
-          const gWide = ctx.createLinearGradient(tx, ty, c.x, c.y);
-          gWide.addColorStop(0, "rgba(140,170,255,0)");
-          gWide.addColorStop(0.45, `rgba(160,190,255,${0.22 * fade})`);
-          gWide.addColorStop(1, `rgba(255,255,255,${0.55 * fade})`);
-          ctx.strokeStyle = gWide;
-          ctx.lineWidth = 4.5;
-          ctx.lineCap = "round";
-          ctx.beginPath();
-          ctx.moveTo(tx, ty);
-          ctx.lineTo(c.x, c.y);
-          ctx.stroke();
-
-          // Bright core trail
-          const gCore = ctx.createLinearGradient(tx, ty, c.x, c.y);
-          gCore.addColorStop(0, "rgba(255,255,255,0)");
-          gCore.addColorStop(0.55, `rgba(200,220,255,${0.5 * fade})`);
-          gCore.addColorStop(1, `rgba(255,255,255,${0.98 * fade})`);
-          ctx.strokeStyle = gCore;
-          ctx.lineWidth = 1.6;
-          ctx.beginPath();
-          ctx.moveTo(c.x - cos * c.len * 0.72, c.y - sin * c.len * 0.72);
-          ctx.lineTo(c.x, c.y);
-          ctx.stroke();
-
-          // Head
-          ctx.beginPath();
-          ctx.fillStyle = `rgba(255,255,255,${0.98 * fade})`;
-          ctx.arc(c.x, c.y, 2.2, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.beginPath();
-          ctx.fillStyle = `rgba(190,210,255,${0.35 * fade})`;
-          ctx.arc(c.x, c.y, 4.2, 0, Math.PI * 2);
-          ctx.fill();
-
-          if (
-            c.life >= c.maxLife ||
-            c.x < -160 ||
-            c.x > w + 160 ||
-            c.y > h + 120
-          ) {
-            cometRef.current = null;
-          }
+          const fade = Math.max(0, 1 - c.life / c.maxLife);
+          drawComet(ctx, c, fade);
+          const alive =
+            c.life < c.maxLife &&
+            c.x > -pad &&
+            c.x < w + pad &&
+            c.y > -pad &&
+            c.y < h + pad;
+          if (alive) next.push(c);
         }
+        cometsRef.current = next;
       }
     },
     [intensityClamped, parallax, parallaxMul, scheduleNextComet, spawnComet]
@@ -463,7 +507,7 @@ export function GalaxyHeroBackground({
       reduceRef.current = mq.matches;
       if (mq.matches) {
         stopLoop();
-        cometRef.current = null;
+        cometsRef.current = [];
         drawFrame(performance.now());
       } else if (visibleRef.current && ready) {
         scheduleNextComet(performance.now());
