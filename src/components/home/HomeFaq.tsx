@@ -17,10 +17,10 @@ export function HomeFaq({ locale }: { locale: string }) {
   const items = HOME_FAQ.slice(0, HOME_FAQ_PREVIEW);
 
   return (
-    <section className="bg-[#faf7f4] py-10 sm:py-12" id="faq">
+    <section className="border-b border-white/[0.06] py-10 sm:py-12" id="faq">
       <div className="container-page">
         <Reveal>
-          <div className="overflow-hidden rounded-2xl border border-black/[0.06] bg-[#f7f4f0]">
+          <div className="overflow-hidden rounded-2xl border border-white/[0.08] bg-[rgba(26,31,59,0.65)]">
             <HomeSplitGrid
               imageSide="left"
               image={
@@ -29,8 +29,8 @@ export function HomeFaq({ locale }: { locale: string }) {
                   src="/images/home/home-faq-astrology-books.jpg"
                   alt={
                     hi
-                      ? "ज्योतिष ग्रंथ और नक्षत्र मानचित्र — प्रश्न व उत्तर"
-                      : "Astrology books and star map — questions answered"
+                      ? "ब्रह्मांडीय ज्योतिष उपकरण और नक्षत्र मानचित्र — प्रश्न व उत्तर"
+                      : "Cosmic astrology tools and star map — questions answered"
                   }
                   minHeightClass="min-h-[220px] sm:min-h-[260px] lg:min-h-full"
                   className="rounded-none"
@@ -50,7 +50,7 @@ export function HomeFaq({ locale }: { locale: string }) {
               }
               content={
                 <div className="p-4 sm:p-5 lg:p-6">
-                  <div className="divide-y divide-black/[0.06] rounded-xl border border-black/[0.06] bg-white">
+                  <div className="divide-y divide-white/[0.08] rounded-xl border border-white/[0.1] bg-[#0B0F1F]/55">
                     {items.map((item, i) => {
                       const isOpen = open === i;
                       const q = hi ? item.q.hi : item.q.en;
@@ -60,12 +60,12 @@ export function HomeFaq({ locale }: { locale: string }) {
                           <button
                             type="button"
                             aria-expanded={isOpen}
-                            className="flex w-full items-center justify-between gap-3 px-3.5 py-2.5 text-left text-[13px] font-semibold text-ink sm:px-4 sm:text-sm"
+                            className="flex w-full items-center justify-between gap-3 px-3.5 py-2.5 text-left text-[13px] font-semibold text-white sm:px-4 sm:text-sm"
                             onClick={() => setOpen(isOpen ? null : i)}
                           >
                             <span className="leading-snug">{q}</span>
                             <ChevronDown
-                              className={`h-3.5 w-3.5 shrink-0 text-saffron-deep transition ${
+                              className={`h-3.5 w-3.5 shrink-0 text-cosmic-gold transition ${
                                 isOpen ? "rotate-180" : ""
                               }`}
                             />
@@ -82,7 +82,7 @@ export function HomeFaq({ locale }: { locale: string }) {
 
                   <Link
                     href="/faq"
-                    className="mt-3 inline-block text-[13px] font-semibold text-saffron-deep hover:underline"
+                    className="mt-3 inline-block text-[13px] font-semibold text-cosmic-gold hover:underline"
                   >
                     {hi ? "सभी प्रश्न देखें →" : "See all questions →"}
                   </Link>

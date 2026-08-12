@@ -5,112 +5,93 @@ import { HomeMediaPanel, HomeSplitGrid } from "./HomeMediaPanel";
 const STEPS = [
   {
     n: "01",
-    title: { en: "Birth details", hi: "जन्म विवरण" },
+    title: { en: "Enter Your Birth Details", hi: "जन्म विवरण दर्ज करें" },
     text: {
-      en: "Date, exact time and place.",
-      hi: "तिथि, सटीक समय और स्थान।",
+      en: "Date, time and place of birth.",
+      hi: "जन्म तिथि, समय और स्थान।",
     },
   },
   {
     n: "02",
-    title: { en: "Planetary positions", hi: "ग्रहीय स्थितियाँ" },
+    title: { en: "Ask Your Question", hi: "अपना प्रश्न पूछें" },
     text: {
-      en: "Planet positions for your birth moment (Lahiri for kundli).",
-      hi: "जन्म क्षण की ग्रह स्थिति (कुंडली के लिए लाहिरी)।",
+      en: "Ask anything about your life, career, love or future.",
+      hi: "जीवन, करियर, प्रेम या भविष्य के बारे में कुछ भी पूछें।",
     },
   },
   {
     n: "03",
-    title: { en: "Your chart & tools", hi: "आपका चार्ट व उपकरण" },
+    title: { en: "Get Personalized Guidance", hi: "व्यक्तिगत मार्गदर्शन पाएँ" },
     text: {
-      en: "Kundli houses & stars — plus KP, Western and numerology tools.",
-      hi: "कुंडली के भाव व नक्षत्र — साथ में केपी, पश्चिमी व अंक ज्योतिष।",
-    },
-  },
-  {
-    n: "04",
-    title: { en: "Timing systems", hi: "समय तंत्र" },
-    text: {
-      en: "Dashas and transits for changing life periods.",
-      hi: "दशा और गोचर—बदलते जीवन काल।",
-    },
-  },
-  {
-    n: "05",
-    title: { en: "Clear interpretation", hi: "स्पष्ट व्याख्या" },
-    text: {
-      en: "Calculate first. Explain clearly. You decide.",
-      hi: "पहले गणना। स्पष्ट व्याख्या। निर्णय आपका।",
+      en: "CosmicGPT analyzes your astrological information and explains the insights in simple language.",
+      hi: "CosmicGPT आपकी ज्योतिष जानकारी का विश्लेषण कर सरल भाषा में समझाता है।",
     },
   },
 ] as const;
 
-/** Image LEFT */
 export function HowAstrologyWorks({ locale }: { locale: string }) {
   const hi = locale === "hi";
   return (
-    <section className="border-y border-black/[0.04] bg-white py-10 sm:py-12">
-      <div className="container-page">
+    <section className="relative border-b border-white/[0.06] py-12 sm:py-16">
+      <div className="container-page relative">
         <Reveal>
-          <HomeSplitGrid
-            imageSide="left"
-            className="gap-6 lg:gap-8"
-            image={
-              <HomeMediaPanel
-                side="left"
-                src="/images/home/home-how-works-kundli.jpg"
-                alt={
-                  hi
-                    ? "पारंपरिक जन्म कुंडली चार्ट — गणना कैसे होती है"
-                    : "Traditional Janam Kundli chart — how astrology is calculated"
-                }
-                imageClassName="object-cover object-center"
-              >
-                <h2 className="font-display text-lg font-bold leading-snug text-white sm:text-xl">
-                  {hi
-                    ? "ज्योतिष कैसे काम करता है?"
-                    : "How Does Astrology Work?"}
-                </h2>
-                <p className="mt-1.5 text-[13px] leading-snug text-white/95">
-                  {hi
-                    ? "अनुमान नहीं—स्पष्ट गणना, स्पष्ट पद्धति।"
-                    : "Not guesswork—clear calculation, clear methods."}
-                </p>
-              </HomeMediaPanel>
-            }
-            content={
-              <ol className="grid h-full content-center gap-2 sm:grid-cols-2">
-                {STEPS.map((step) => (
-                  <li
-                    key={step.n}
-                    className="flex gap-3 rounded-xl border border-black/[0.06] bg-white px-3.5 py-3 transition hover:border-saffron/30"
-                  >
-                    <span className="font-display text-sm font-bold text-saffron-deep">
-                      {step.n}
-                    </span>
-                    <div className="min-w-0">
-                      <h3 className="text-[14px] font-semibold text-ink">
-                        {hi ? step.title.hi : step.title.en}
-                      </h3>
-                      <p className="mt-0.5 text-[12px] leading-snug text-ink-muted">
-                        {hi ? step.text.hi : step.text.en}
-                      </p>
-                    </div>
-                  </li>
-                ))}
-                <li className="flex items-center rounded-xl border border-dashed border-saffron/35 bg-[#fff7f0] px-3.5 py-3 sm:col-span-2">
-                  <Link
-                    href="/learn"
-                    className="text-sm font-semibold text-saffron-deep hover:underline"
-                  >
+          <div className="overflow-hidden rounded-2xl border border-white/[0.08] bg-[rgba(26,31,59,0.65)]">
+            <HomeSplitGrid
+              imageSide="right"
+              image={
+                <HomeMediaPanel
+                  side="right"
+                  src="/images/home/home-how-works-kundli.jpg"
+                  alt={
+                    hi
+                      ? "जन्म कुंडली चार्ट — गणना से मार्गदर्शन तक"
+                      : "Birth chart kundli — from calculation to guidance"
+                  }
+                  minHeightClass="min-h-[240px] sm:min-h-[280px] lg:min-h-full"
+                  className="rounded-none"
+                  imageClassName="object-cover object-center"
+                >
+                  <h2 className="font-display text-lg font-bold leading-snug text-white sm:text-xl">
+                    {hi ? "यह कैसे काम करता है" : "How it works"}
+                  </h2>
+                  <p className="mt-1.5 text-[13px] leading-snug text-white/90">
                     {hi
-                      ? "ज्योतिष सीखना शुरू करें →"
-                      : "Start learning astrology →"}
-                  </Link>
-                </li>
-              </ol>
-            }
-          />
+                      ? "तीन सरल चरण — गणना पहले, फिर स्पष्ट व्याख्या।"
+                      : "Three simple steps — calculate first, then clear explanation."}
+                  </p>
+                </HomeMediaPanel>
+              }
+              content={
+                <div className="flex h-full flex-col justify-center p-5 sm:p-6 lg:p-8">
+                  <ol className="space-y-4">
+                    {STEPS.map((step) => (
+                      <li key={step.n} className="flex gap-3">
+                        <span className="mt-0.5 font-ui text-xs font-bold tracking-[0.16em] text-gradient-brand">
+                          {step.n}
+                        </span>
+                        <div>
+                          <h3 className="font-display text-lg font-semibold text-white">
+                            {hi ? step.title.hi : step.title.en}
+                          </h3>
+                          <p className="mt-1 font-ui text-sm leading-relaxed text-ink-muted">
+                            {hi ? step.text.hi : step.text.en}
+                          </p>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                  <div className="mt-6">
+                    <Link
+                      href="/kundli"
+                      className="btn-grad inline-flex px-5 py-3 font-ui text-sm font-semibold text-white"
+                    >
+                      {hi ? "अभी शुरू करें" : "Get started"}
+                    </Link>
+                  </div>
+                </div>
+              }
+            />
+          </div>
         </Reveal>
       </div>
     </section>

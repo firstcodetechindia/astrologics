@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocale } from "next-intl";
 import { usePathname } from "@/i18n/navigation";
-import { AstrologicsLogo } from "@/components/brand/AstrologicsLogo";
+import { CosmicGPTLogo } from "@/components/brand/CosmicGPTLogo";
 import { AstrologySpinner } from "@/components/layout/AstrologySpinner";
 import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
@@ -62,7 +62,7 @@ export function AstrologyPageLoader() {
   return (
     <div
       className={cn(
-        "fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#fff8f1] transition-opacity duration-300",
+        "fixed inset-0 z-[100] flex flex-col items-center justify-center bg-cosmic-navy transition-opacity duration-300",
         exiting ? "opacity-0" : "opacity-100"
       )}
       role="status"
@@ -74,7 +74,7 @@ export function AstrologyPageLoader() {
         className="pointer-events-none absolute inset-0 opacity-70"
         style={{
           backgroundImage:
-            "radial-gradient(circle at 50% 42%, rgba(255,154,46,0.22), transparent 42%), radial-gradient(circle at 20% 80%, rgba(240,106,0,0.1), transparent 35%), radial-gradient(circle at 80% 18%, rgba(255,179,71,0.16), transparent 30%)",
+            "radial-gradient(circle at 50% 42%, rgba(108,60,255,0.28), transparent 42%), radial-gradient(circle at 20% 80%, rgba(255,92,168,0.12), transparent 35%), radial-gradient(circle at 80% 18%, rgba(255,138,61,0.16), transparent 30%)",
         }}
       />
 
@@ -82,15 +82,15 @@ export function AstrologyPageLoader() {
         <div className="relative h-[5.5rem] w-[5.5rem]">
           <AstrologySpinner size="lg" className="!h-full !w-full" />
           <div className="absolute inset-0 flex items-center justify-center">
-            <AstrologicsLogo className="h-10 w-10 drop-shadow-sm" />
+            <CosmicGPTLogo className="h-10 w-10 drop-shadow-sm" />
           </div>
         </div>
 
         <div>
-          <p className="font-display text-lg font-semibold tracking-tight text-ink">
+          <p className="font-display text-lg font-semibold tracking-tight text-white">
             {siteConfig.brandName}
           </p>
-          <p className="mt-1.5 text-[13px] font-medium text-saffron-deep">
+          <p className="mt-1.5 font-ui text-[13px] font-medium text-cosmic-gold">
             {hi ? "तारों को संरेखित किया जा रहा है…" : "Aligning the stars…"}
           </p>
         </div>

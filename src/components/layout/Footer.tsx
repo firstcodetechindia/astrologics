@@ -3,13 +3,12 @@
 import type { ReactNode } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { Mail, MessageCircle, Phone } from "lucide-react";
+import { ArrowRight, Mail, MessageCircle, Phone } from "lucide-react";
 import { siteConfig, telLink, whatsappLink } from "@/lib/site-config";
-import { AstrologicsLogo } from "@/components/brand/AstrologicsLogo";
+import { CosmicGPTWordmark } from "@/components/brand/CosmicGPTWordmark";
 import { ZodiacIcon } from "@/components/ui/ZodiacIcon";
 import { ZODIAC_SLUGS } from "@/lib/zodiac-icons";
 import { SIGNS } from "@/lib/astrology/constants";
-import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function Footer() {
@@ -41,6 +40,18 @@ export function Footer() {
     {
       href: "/calculators/sade-sati",
       label: hi ? "साढ़े साती" : "Sade Sati",
+    },
+    {
+      href: "/calculators/prashna-kundli",
+      label: hi ? "प्रश्न कुंडली" : "Prashna",
+    },
+    {
+      href: "/calculators/muhurta-electional",
+      label: hi ? "मुहूर्त" : "Muhurta",
+    },
+    {
+      href: "/calculators/birth-time-rectification",
+      label: hi ? "समय सुधार" : "Rectify time",
     },
     {
       href: "/calculators/mangal-dosha",
@@ -97,10 +108,10 @@ export function Footer() {
   ] as const;
 
   return (
-    <footer className="relative mt-0 overflow-hidden border-t border-saffron/20">
+    <footer className="relative mt-0 overflow-hidden border-t border-white/[0.08] bg-[#0B0F1F]">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.08]"
+        className="pointer-events-none absolute inset-0 opacity-[0.06]"
         style={{
           backgroundImage: "url(/images/Zodiac.jpg)",
           backgroundRepeat: "repeat",
@@ -109,31 +120,28 @@ export function Footer() {
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#fff7f0] to-[#ffe8d0]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(108,60,255,0.14),transparent_55%)]"
       />
 
       <div className="container-page relative z-10 py-8 sm:py-10">
-        <div className="border-b border-saffron/15 pb-6">
+        <div className="border-b border-white/[0.08] pb-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex min-w-0 items-center gap-3">
-              <AstrologicsLogo className="h-12 w-12 shrink-0 sm:h-14 sm:w-14" />
-              <p className="font-display text-lg font-bold leading-tight text-ink sm:text-xl">
-                {siteConfig.brandName}
-              </p>
+            <div className="min-w-0">
+              <CosmicGPTWordmark showTagline width={200} />
             </div>
             <div className="flex shrink-0 flex-wrap gap-2">
               <a
                 href={whatsappLink()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-lg bg-saffron-deep px-3 py-1.5 text-[12px] font-semibold text-white"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-cosmic-purple px-3 py-1.5 text-[12px] font-semibold text-white"
               >
                 <MessageCircle className="h-3.5 w-3.5" />
                 {hi ? "हमसे बात करें" : "Talk With Us"}
               </a>
               <a
                 href={telLink()}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-saffron/30 bg-white/80 px-3 py-1.5 text-[12px] font-semibold text-saffron-deep"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-cosmic-purple/45 bg-white/[0.04] px-3 py-1.5 text-[12px] font-semibold text-cosmic-gold"
               >
                 <Phone className="h-3.5 w-3.5" />
                 {hi ? "कॉल" : "Call"}
@@ -150,7 +158,7 @@ export function Footer() {
         <div className="grid grid-cols-4 py-6">
           <FooterCol
             title={hi ? "ज्योतिष" : "Astrology"}
-            className="border-r border-saffron/20 pr-2.5 sm:pr-5"
+            className="border-r border-white/[0.08] pr-2.5 sm:pr-5"
           >
             {astrology.map((item) => (
               <FooterLink key={item.href} href={item.href} label={item.label} />
@@ -158,7 +166,7 @@ export function Footer() {
           </FooterCol>
           <FooterCol
             title={hi ? "सीखें" : "Learn"}
-            className="border-r border-saffron/20 px-2.5 sm:px-5"
+            className="border-r border-white/[0.08] px-2.5 sm:px-5"
           >
             {learn.map((item) => (
               <FooterLink key={item.href} href={item.href} label={item.label} />
@@ -166,7 +174,7 @@ export function Footer() {
           </FooterCol>
           <FooterCol
             title={hi ? "उपकरण" : "Tools"}
-            className="border-r border-saffron/20 px-2.5 sm:px-5"
+            className="border-r border-white/[0.08] px-2.5 sm:px-5"
           >
             {tools.map((item) => (
               <FooterLink key={item.href} href={item.href} label={item.label} />
@@ -182,7 +190,7 @@ export function Footer() {
             <li>
               <a
                 href={`mailto:${siteConfig.email}`}
-                className="mt-0.5 flex flex-col items-start gap-1 text-[11px] leading-snug text-ink-muted transition hover:text-saffron-deep sm:flex-row sm:items-center sm:gap-1.5 sm:text-[13px]"
+                className="mt-0.5 flex flex-col items-start gap-1 text-[11px] leading-snug text-ink-muted transition hover:text-cosmic-gold sm:flex-row sm:items-center sm:gap-1.5 sm:text-[13px]"
               >
                 <Mail className="mt-0.5 h-3 w-3 shrink-0 opacity-70" />
                 <span className="max-w-full break-all">{siteConfig.email}</span>
@@ -191,10 +199,10 @@ export function Footer() {
           </FooterCol>
         </div>
 
-        <div className="border-t border-saffron/15 pt-5">
+        <div className="border-t border-white/[0.08] pt-5">
           <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-saffron-deep">
+              <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-cosmic-gold">
                 {hi ? "आज का राशिफल" : "Today’s Horoscope"}
               </p>
               <p className="mt-0.5 text-[12px] text-ink-muted">
@@ -205,7 +213,7 @@ export function Footer() {
             </div>
             <Link
               href="/horoscope"
-              className="inline-flex items-center gap-1 text-[12px] font-semibold text-saffron-deep hover:underline"
+              className="inline-flex items-center gap-1 text-[12px] font-semibold text-cosmic-gold hover:underline"
             >
               {hi ? "सभी राशिफल" : "All horoscopes"}
               <ArrowRight className="h-3.5 w-3.5" />
@@ -222,16 +230,16 @@ export function Footer() {
                   aria-label={
                     hi ? `${label} राशिफल` : `${label} horoscope`
                   }
-                  className="group flex flex-col items-center gap-1 rounded-xl border border-saffron/20 bg-white/90 px-1.5 py-2.5 text-center shadow-sm transition hover:-translate-y-0.5 hover:border-saffron-deep/45 hover:bg-[#fff1e6] hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-saffron-deep/40"
+                  className="group flex flex-col items-center gap-1 rounded-xl border border-white/[0.1] bg-white/[0.04] px-1.5 py-2.5 text-center shadow-sm transition hover:-translate-y-0.5 hover:border-cosmic-purple/50 hover:bg-cosmic-purple/10 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cosmic-purple/40"
                 >
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#fff1e6] ring-1 ring-saffron/20 transition group-hover:bg-saffron-deep/10 group-hover:ring-saffron/40">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-cosmic-purple/15 ring-1 ring-cosmic-purple/25 transition group-hover:bg-cosmic-purple/25 group-hover:ring-cosmic-purple/45">
                     <ZodiacIcon
                       slug={slug}
                       className="h-5 w-5"
-                      colorClassName="bg-[#c45a12]"
+                      colorClassName="bg-[#FFC857]"
                     />
                   </span>
-                  <span className="text-[10px] font-semibold leading-tight text-ink group-hover:text-saffron-deep sm:text-[11px]">
+                  <span className="text-[10px] font-semibold leading-tight text-white/90 group-hover:text-cosmic-gold sm:text-[11px]">
                     {label}
                   </span>
                 </Link>
@@ -240,9 +248,9 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-4 flex flex-col gap-1 border-t border-saffron/15 pt-4 text-[11px] text-ink-muted sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:text-[12px]">
+        <div className="mt-4 flex flex-col gap-1 border-t border-white/[0.08] pt-4 text-[11px] text-ink-muted sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:text-[12px]">
           <p className="leading-snug">{t("disclaimer")}</p>
-          <p className="shrink-0 font-medium text-ink/75">
+          <p className="shrink-0 font-medium text-white/70">
             © {year} {siteConfig.brandName}
           </p>
         </div>
@@ -262,7 +270,7 @@ function FooterCol({
 }) {
   return (
     <div className={cn("min-w-0", className)}>
-      <h3 className="text-[10px] font-bold uppercase tracking-[0.1em] text-ink sm:text-[11px]">
+      <h3 className="text-[10px] font-bold uppercase tracking-[0.1em] text-white sm:text-[11px]">
         {title}
       </h3>
       <ul className="mt-2 space-y-1.5">{children}</ul>
@@ -275,7 +283,7 @@ function FooterLink({ href, label }: { href: string; label: string }) {
     <li>
       <Link
         href={href}
-        className="text-[12px] text-ink-muted transition hover:text-saffron-deep sm:text-[13px]"
+        className="text-[12px] text-ink-muted transition hover:text-cosmic-gold sm:text-[13px]"
       >
         {label}
       </Link>

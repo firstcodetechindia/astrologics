@@ -3,44 +3,22 @@
 import { useLocale } from "next-intl";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
-import { AstrologicsLogoWhite } from "@/components/brand/AstrologicsLogo";
+import { CosmicGPTWordmark } from "@/components/brand/CosmicGPTWordmark";
 import { AuthOtpForm } from "@/components/auth/AuthOtpForm";
 import { ZodiacIcon } from "@/components/ui/ZodiacIcon";
 import { Link } from "@/i18n/navigation";
 import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
-/** Logo + rings that hug the mark and stay inside the desktop brand panel. */
+/** Animated CosmicGPT lockup for the auth brand panel. */
 function AuthBrandOrbit() {
-  const reduce = useReducedMotion();
-
-  const rings = [
-    { size: "h-[6.85rem] w-[6.85rem]", border: "border border-white/50", duration: 36, reverse: false },
-    { size: "h-44 w-44", border: "border border-dashed border-white/35", duration: 55, reverse: true },
-    { size: "h-60 w-60", border: "border border-white/25", duration: 80, reverse: false },
-    { size: "h-80 w-80", border: "border border-white/16", duration: 100, reverse: true },
-  ] as const;
-
   return (
-    <div className="relative flex h-24 w-24 items-center justify-center">
-      {rings.map((ring) => (
-        <motion.div
-          key={ring.size}
-          aria-hidden
-          className={cn(
-            "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full",
-            ring.size,
-            ring.border
-          )}
-          animate={reduce ? undefined : { rotate: ring.reverse ? -360 : 360 }}
-          transition={
-            reduce
-              ? undefined
-              : { duration: ring.duration, repeat: Infinity, ease: "linear" }
-          }
-        />
-      ))}
-      <AstrologicsLogoWhite className="relative z-10 h-[6.1rem] w-[6.1rem]" />
+    <div className="relative flex items-center justify-center px-2">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -inset-8 rounded-full bg-[radial-gradient(circle,rgba(108,60,255,0.35),transparent_65%)] blur-2xl"
+      />
+      <CosmicGPTWordmark size="lg" showTagline className="relative z-10" />
     </div>
   );
 }
@@ -76,7 +54,7 @@ function BrandPanelMotion() {
           <ZodiacIcon
             slug={item.slug}
             className="h-full w-full"
-            colorClassName="bg-white"
+            colorClassName="bg-surface"
           />
         </motion.div>
       ))}
@@ -103,7 +81,7 @@ function WhySignUpCard({ hi }: { hi: boolean }) {
       ];
 
   return (
-    <div className="w-full max-w-[26rem] overflow-hidden rounded-[1.35rem] border border-white/35 bg-white/65 text-left shadow-[0_16px_36px_-16px_rgba(42,33,24,0.3)] backdrop-blur-[2px]">
+    <div className="w-full max-w-[26rem] overflow-hidden rounded-[1.35rem] border border-white/35 bg-surface/70 text-left shadow-[0_16px_36px_-16px_rgba(42,33,24,0.3)] backdrop-blur-[2px]">
       <div className="pt-5">
         <h2
           className="inline-flex max-w-[92%] items-center bg-[#F06A00] py-2.5 pl-5 pr-9 text-[1.25rem] font-bold leading-none text-white"
@@ -118,7 +96,7 @@ function WhySignUpCard({ hi }: { hi: boolean }) {
         {items.map((item) => (
           <li
             key={item}
-            className="flex items-start gap-3 text-[15px] font-medium leading-snug text-[#1a1a1a]/92"
+            className="flex items-start gap-3 text-[15px] font-medium leading-snug text-white/90"
           >
             <span
               aria-hidden
@@ -137,7 +115,7 @@ export function AuthClient() {
   const hi = locale === "hi";
 
   return (
-    <div className="relative flex h-full min-h-0 w-full max-w-[100vw] flex-col overflow-x-hidden overflow-y-hidden bg-[#fff8f1] lg:flex-row">
+    <div className="relative flex h-full min-h-0 w-full max-w-[100vw] flex-col overflow-x-hidden overflow-y-hidden bg-cosmic-navy lg:flex-row">
       {/* Desktop brand column only — never on mobile */}
       <aside className="relative hidden h-full w-[46%] shrink-0 overflow-hidden bg-[#F06A00] text-white lg:flex xl:w-[48%]">
         <BrandPanelMotion />
@@ -170,17 +148,14 @@ export function AuthClient() {
       </aside>
 
       {/* Login form — full width on mobile, right column on desktop */}
-      <section className="relative flex min-h-0 w-full min-w-0 max-w-[100vw] flex-1 flex-col overflow-x-hidden overflow-y-hidden bg-[#fff8f1]">
+      <section className="relative flex min-h-0 w-full min-w-0 max-w-[100vw] flex-1 flex-col overflow-x-hidden overflow-y-hidden bg-cosmic-navy">
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[#fff8f1]"
+          className="pointer-events-none absolute inset-0 bg-cosmic-navy"
         />
-        <div className="relative z-10 flex shrink-0 items-center justify-between border-b border-saffron/15 bg-[#F06A00] px-4 py-3 text-white lg:hidden">
-          <Link href="/" className="inline-flex min-w-0 items-center gap-2.5">
-            <AstrologicsLogoWhite className="h-9 w-9 shrink-0" />
-            <span className="truncate font-display text-base font-semibold">
-              {siteConfig.brandName}
-            </span>
+        <div className="relative z-10 flex shrink-0 items-center justify-between border-b border-white/10 bg-cosmic-navy px-4 py-3 text-white lg:hidden">
+          <Link href="/" className="inline-flex min-w-0 items-center">
+            <CosmicGPTWordmark size="sm" showTagline={false} />
           </Link>
           <Link
             href="/"

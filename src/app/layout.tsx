@@ -3,14 +3,14 @@ import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "https://www.astrologics.co"
+    process.env.NEXT_PUBLIC_SITE_URL || "https://www.cosmicgpt.in"
   ),
   title: {
-    default: `${siteConfig.brandName} — Free Kundli, AI Astrology & Horoscope`,
+    default: `${siteConfig.brandName} — ${siteConfig.tagline.en}`,
     template: `%s | ${siteConfig.brandName}`,
   },
   description:
-    "Free kundli, AI astrology chat, Western guides, KP tools, numerology, daily horoscope, Panchang and 30+ calculators in English & Hindi.",
+    "Let's Decode Your Stars — free kundli, AI astrology chat, Western guides, KP tools, numerology, daily horoscope, Panchang and 30+ calculators in English & Hindi.",
   applicationName: siteConfig.brandName,
   keywords: [
     "free kundli online",
@@ -35,13 +35,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: siteConfig.brandName,
-    title: `${siteConfig.brandName} — Free Kundli & AI Astrology`,
+    title: `${siteConfig.brandName} — ${siteConfig.tagline.en}`,
     description:
-      "Generate free janam kundali, explore Western, KP and numerology tools, read horoscope and chat with AI Guru — English & Hindi.",
+      "Let's Decode Your Stars — generate free janam kundali, explore Western, KP and numerology tools, read horoscope and chat with AI — English & Hindi.",
     url: siteConfig.siteUrl,
     images: [
       {
-        url: "/astrologics-icon-512.png",
+        url: "/cosmicgpt-icon-512.png",
         width: 512,
         height: 512,
         alt: siteConfig.brandName,
@@ -50,10 +50,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.brandName} — Free Kundli & AI Astrology`,
+    title: `${siteConfig.brandName} — ${siteConfig.tagline.en}`,
     description:
-      "Free kundli, Western, KP, numerology, horoscope and AI chart guidance in EN & HI.",
-    images: ["/astrologics-icon-512.png"],
+      "Let's Decode Your Stars — free kundli, Western, KP, numerology, horoscope and AI chart guidance in EN & HI.",
+    images: ["/cosmicgpt-icon-512.png"],
   },
   robots: {
     index: true,

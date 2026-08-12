@@ -1,27 +1,15 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
-import { AnnouncementBar } from "@/components/home/AnnouncementBar";
 import { Hero } from "@/components/home/Hero";
-import { QuickTools } from "@/components/home/QuickTools";
-import { WhyAstrologics } from "@/components/home/WhyAstrologics";
+import { ServiceCards } from "@/components/home/ServiceCards";
+import { WhyCosmicGPT } from "@/components/home/WhyCosmicGPT";
 import { HowAstrologyWorks } from "@/components/home/HowAstrologyWorks";
-import { KundliExplore } from "@/components/home/KundliExplore";
-import { HomeToolsGrid } from "@/components/home/HomeToolsGrid";
-import { AiGuruSection } from "@/components/home/AiGuruSection";
-import { TopAstrologers } from "@/components/home/TopAstrologers";
-import { TodayAstrology } from "@/components/home/TodayAstrology";
-import { LearnAstrologyStrip } from "@/components/home/LearnAstrologyStrip";
+import { TrustSection } from "@/components/home/TrustSection";
 import { HomeFaq } from "@/components/home/HomeFaq";
-import { HomeSeoIntro } from "@/components/home/HomeSeoIntro";
 import { FinalCta } from "@/components/home/FinalCta";
 import { siteConfig } from "@/lib/site-config";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildPageMetadata, absoluteUrl } from "@/lib/seo/page-meta";
-import { computePanchang } from "@/lib/astrology/panchang";
-import { SIGNS } from "@/lib/astrology/constants";
-import { signIndexFromLongitude } from "@/lib/astrology/math";
-import { lahiriAyanamsaFromDate } from "@/lib/astrology/math";
-import { getSiderealPlanets } from "@/lib/astrology/planets";
 import { faqForLocale } from "@/lib/home/faq";
 
 export async function generateMetadata({
@@ -83,23 +71,6 @@ export default async function HomePage({
   setRequestLocale(locale);
   const tm = await getTranslations("meta");
   const faqItems = faqForLocale(locale);
-
-  const now = new Date();
-  const p = computePanchang(now);
-  const ayanamsa = lahiriAyanamsaFromDate(now);
-  const { planets } = getSiderealPlanets(now, ayanamsa);
-  const moon = planets.find((x) => x.id === "moon");
-  const moonSi = moon ? signIndexFromLongitude(moon.longitude) : 0;
-  const panchang = {
-    weekday: { en: p.weekday.en, hi: p.weekday.hi },
-    paksha: { en: p.paksha.en, hi: p.paksha.hi },
-    tithi: { en: p.tithi.name.en, hi: p.tithi.name.hi },
-    nakshatra: { en: p.nakshatra.name.en, hi: p.nakshatra.name.hi },
-    yoga: { en: p.yoga.name.en, hi: p.yoga.name.hi },
-    karana: { en: p.karana.name.en, hi: p.karana.name.hi },
-    moonSign: { en: SIGNS[moonSi].en, hi: SIGNS[moonSi].hi },
-  };
-
   const homeUrl = absoluteUrl(locale, "");
 
   return (
@@ -121,10 +92,19 @@ export default async function HomePage({
               "@type": "Organization",
               "@id": `${siteConfig.siteUrl}/#organization`,
               name: siteConfig.brandName,
-              alternateName: ["Astrologics AI Astrology", "Astrologics Astrology"],
+              alternateName: [
+                "CosmicGPT",
+                "Let's Decode Your Stars",
+                "आइए अपने सितारों को समझें",
+                "CosmicGPT AI Astrology",
+              ],
+              description:
+                locale === "hi"
+                  ? siteConfig.tagline.hi
+                  : siteConfig.tagline.en,
               url: siteConfig.siteUrl,
-              logo: `${siteConfig.siteUrl}/astrologics-icon-512.png`,
-              image: `${siteConfig.siteUrl}/astrologics-icon-512.png`,
+              logo: `${siteConfig.siteUrl}/cosmicgpt-icon-512.png`,
+              image: `${siteConfig.siteUrl}/cosmicgpt-icon-512.png`,
               email: siteConfig.email,
               telephone: siteConfig.phone,
               sameAs: [`https://wa.me/${siteConfig.whatsapp}`],
@@ -177,19 +157,11 @@ export default async function HomePage({
         }}
       />
 
-      {/* Lean homepage flow — fewer overlapping sections */}
-      <AnnouncementBar locale={locale} />
       <Hero />
-      <HomeSeoIntro />
-      <QuickTools locale={locale} />
-      <TopAstrologers locale={locale} />
-      <WhyAstrologics locale={locale} />
+      <ServiceCards locale={locale} />
+      <WhyCosmicGPT locale={locale} />
       <HowAstrologyWorks locale={locale} />
-      <TodayAstrology locale={locale} panchang={panchang} />
-      <HomeToolsGrid locale={locale} />
-      <AiGuruSection locale={locale} />
-      <KundliExplore locale={locale} />
-      <LearnAstrologyStrip locale={locale} />
+      <TrustSection locale={locale} />
       <HomeFaq locale={locale} />
       <FinalCta locale={locale} />
     </>

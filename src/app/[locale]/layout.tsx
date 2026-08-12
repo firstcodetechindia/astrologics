@@ -8,9 +8,13 @@ import { organizationJsonLd, websiteJsonLd } from "@/lib/seo/page-meta";
 import { cn } from "@/lib/utils";
 
 /** Self-hosted via Fontsource — no Google Fonts fetch during Vercel builds. */
+import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
+import "@fontsource/fraunces/500.css";
+import "@fontsource/fraunces/600.css";
+import "@fontsource/fraunces/700.css";
 import "@fontsource/noto-sans-devanagari/400.css";
 import "@fontsource/noto-sans-devanagari/500.css";
 import "@fontsource/noto-sans-devanagari/600.css";

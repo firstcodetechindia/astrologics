@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { useLocale } from "next-intl";
 import { Check, Sparkles, Users, Wallet, Globe2, Shield } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-import { AstrologicsLogoWhite } from "@/components/brand/AstrologicsLogo";
+import { CosmicGPTWordmark } from "@/components/brand/CosmicGPTWordmark";
 import { siteConfig } from "@/lib/site-config";
 
 const REASONS = [
@@ -49,7 +49,7 @@ export function AstrologerAuthShell({
   const hi = locale === "hi";
 
   return (
-    <div className="relative flex h-full min-h-0 w-full max-w-[100vw] flex-col overflow-x-hidden overflow-y-hidden bg-[#fff8f1] lg:flex-row">
+    <div className="relative flex h-full min-h-0 w-full max-w-[100vw] flex-col overflow-x-hidden overflow-y-hidden bg-cosmic-navy lg:flex-row">
       <aside className="relative hidden h-full w-[46%] shrink-0 overflow-hidden bg-[#F06A00] text-white lg:flex xl:w-[48%]">
         <div
           aria-hidden
@@ -61,11 +61,8 @@ export function AstrologerAuthShell({
         />
 
         <div className="relative z-10 flex h-full w-full flex-col px-8 py-8 xl:px-12">
-          <Link href="/" className="inline-flex items-center gap-3">
-            <AstrologicsLogoWhite className="h-11 w-11" />
-            <span className="font-display text-xl font-semibold tracking-tight">
-              {siteConfig.brandName}
-            </span>
+          <Link href="/" className="inline-flex items-center">
+            <CosmicGPTWordmark size="md" showTagline />
           </Link>
 
           <div className="mt-10 flex-1 overflow-y-auto pr-1">
@@ -76,8 +73,8 @@ export function AstrologerAuthShell({
             <h1 className="mt-4 max-w-md font-display text-[2rem] font-semibold leading-tight tracking-tight xl:text-[2.35rem]">
               {mode === "signup"
                 ? hi
-                  ? "Astrologics के साथ सत्यापित ज्योतिषी बनें"
-                  : "Become a verified Astrologics astrologer"
+                  ? "CosmicGPT के साथ सत्यापित ज्योतिषी बनें"
+                  : "Become a verified CosmicGPT astrologer"
                 : hi
                   ? "ज्योतिषी पार्टनर पोर्टल में साइन इन करें"
                   : "Sign in to the astrologer partner portal"}
@@ -138,17 +135,14 @@ export function AstrologerAuthShell({
         </div>
       </aside>
 
-      <section className="relative flex min-h-0 w-full min-w-0 max-w-[100vw] flex-1 flex-col overflow-x-hidden overflow-y-hidden bg-[#fff8f1]">
+      <section className="relative flex min-h-0 w-full min-w-0 max-w-[100vw] flex-1 flex-col overflow-x-hidden overflow-y-hidden bg-cosmic-navy">
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[#fff8f1]"
+          className="pointer-events-none absolute inset-0 bg-cosmic-navy"
         />
-        <div className="relative z-10 flex shrink-0 items-center border-b border-saffron/15 bg-[#F06A00] px-4 py-3 text-white lg:hidden">
-          <Link href="/" className="inline-flex min-w-0 items-center gap-2.5">
-            <AstrologicsLogoWhite className="h-9 w-9 shrink-0" />
-            <span className="truncate font-display text-base font-semibold">
-              {siteConfig.brandName}
-            </span>
+        <div className="relative z-10 flex shrink-0 items-center border-b border-white/10 bg-cosmic-navy px-4 py-3 text-white lg:hidden">
+          <Link href="/" className="inline-flex min-w-0 items-center">
+            <CosmicGPTWordmark size="sm" showTagline={false} />
           </Link>
         </div>
 

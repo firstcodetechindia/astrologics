@@ -1,54 +1,40 @@
+import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { Reveal } from "./Reveal";
+import { CosmicBackground } from "./CosmicBackground";
 
 export function FinalCta({ locale }: { locale: string }) {
   const hi = locale === "hi";
   return (
-    <section className="relative overflow-hidden py-12 sm:py-14">
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-gradient-to-br from-[#6B1C1C] via-[#8f2e14] to-[#F06A00]"
-      />
-      <div
-        aria-hidden
-        className="absolute inset-0 opacity-20"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 30% 40%, rgba(255,255,255,0.25), transparent 40%)",
-        }}
-      />
-      <div className="container-page relative z-10 text-center text-ivory">
-        <Reveal>
-          <h2 className="mx-auto max-w-3xl font-display text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">
-            {hi
-              ? "आपकी जन्म कुंडली व्यक्तिगत है। आपकी समझ भी वैसी ही होनी चाहिए।"
-              : "Your Birth Chart Is Personal. Your Understanding Should Be Too."}
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-sm text-white/85 sm:text-base">
-            {hi
-              ? "जन्म विवरण से शुरू करें और कुंडली, दशा, नक्षत्र व जीवन विषयों को एक जगह देखें।"
-              : "Start with your birth details and explore your Kundli, Dashas, Nakshatra and life themes in one place."}
-          </p>
-          <p className="mx-auto mt-3 max-w-xl text-[13px] font-medium text-white/70">
-            {hi
-              ? "समझें अपनी कुंडली। समझें अपने पैटर्न। खोजें अपनी संभावनाएँ।"
-              : "Understand your chart. Understand your patterns. Explore your possibilities."}
-          </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Link
-              href="/kundli"
-              className="inline-flex rounded-xl bg-white px-5 py-3 text-sm font-semibold text-[#6B1C1C] shadow-md transition hover:bg-[#fff7f0]"
-            >
-              {hi ? "मुफ्त कुंडली बनाएँ" : "Generate Free Kundli"}
-            </Link>
-            <Link
-              href="/calculators"
-              className="inline-flex rounded-xl border border-white/40 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
-            >
-              {hi ? "ज्योतिष उपकरण देखें" : "Explore Astrology Tools"}
-            </Link>
-          </div>
-        </Reveal>
+    <section className="relative overflow-hidden py-16 sm:py-20">
+      <CosmicBackground />
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <Image
+          src="/images/home/home-hero-cosmic.jpg"
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover object-[center_45%] opacity-[0.35]"
+        />
+        <div className="absolute inset-0 bg-[#0B0F1F]/70" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(108,60,255,0.28),transparent_60%)]" />
+      </div>
+      <div className="container-page relative z-10 text-center">
+        <h2 className="mx-auto max-w-3xl font-display text-3xl font-semibold tracking-tight text-white sm:text-5xl">
+          {hi
+            ? "क्या आप जानना चाहते हैं आपके सितारे क्या कहते हैं?"
+            : "Ready to Discover What Your Stars Say?"}
+        </h2>
+        <p className="mx-auto mt-4 max-w-xl font-ui text-sm text-ink-muted sm:text-base">
+          {hi
+            ? "CosmicGPT के साथ अपनी व्यक्तिगत ज्योतिष यात्रा शुरू करें।"
+            : "Start your personalized astrology journey with CosmicGPT."}
+        </p>
+        <Link
+          href="/chat"
+          className="btn-grad mt-8 inline-flex px-8 py-3.5 font-ui text-sm font-semibold text-white"
+        >
+          {hi ? "मुफ़्त शुरू करें" : "Start Free"}
+        </Link>
       </div>
     </section>
   );

@@ -1,16 +1,16 @@
-/** Astrologics brand mark — zodiac wheel, sun, crescent, orbits. */
+/** CosmicGPT brand mark — zodiac wheel, sun, crescent, orbits. */
 import Image from "next/image";
 
-export function AstrologicsLogo({
+export function CosmicGPTLogo({
   className = "h-9 w-9",
-  title = "Astrologics",
+  title = "CosmicGPT",
 }: {
   className?: string;
   title?: string;
 }) {
   return (
     <Image
-      src="/astrologics-logo.png"
+      src="/cosmicgpt-logo.png"
       alt={title}
       width={44}
       height={44}
@@ -46,9 +46,9 @@ function polar(cx: number, cy: number, radius: number, deg: number) {
 }
 
 /** Inline SVG fallback (crisp at tiny sizes / favicon source). */
-export function AstrologicsLogoSvg({
+export function CosmicGPTLogoSvg({
   className = "h-9 w-9",
-  title = "Astrologics",
+  title = "CosmicGPT",
 }: {
   className?: string;
   title?: string;
@@ -184,9 +184,9 @@ export function AstrologicsLogoSvg({
 }
 
 /** White mark for orange / dark panels — no plate background needed. */
-export function AstrologicsLogoWhite({
+export function CosmicGPTLogoWhite({
   className = "h-9 w-9",
-  title = "Astrologics",
+  title = "CosmicGPT",
 }: {
   className?: string;
   title?: string;

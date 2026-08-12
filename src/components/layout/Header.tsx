@@ -4,13 +4,10 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import {
   BookOpen,
-  Building2,
   Calculator,
   ChevronDown,
-  GraduationCap,
   Home,
   IndianRupee,
-  Hash,
   MessageCircle,
   Sparkles,
   Wrench,
@@ -20,7 +17,7 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { UserAccountMenu } from "./UserAccountMenu";
 import { siteConfig, whatsappLink } from "@/lib/site-config";
-import { AstrologicsLogo } from "@/components/brand/AstrologicsLogo";
+import { CosmicGPTWordmark } from "@/components/brand/CosmicGPTWordmark";
 import {
   FEATURES_MENU,
   FREE_TOOLS_MENU,
@@ -75,10 +72,10 @@ function MegaGridPanel({
             : "w-[min(96vw,640px)]"
       }`}
     >
-      <div className="flex max-h-[min(72vh,560px)] flex-col overflow-hidden rounded-2xl border border-black/[0.08] bg-white shadow-[0_20px_50px_-20px_rgba(42,33,24,0.35)]">
+      <div className="flex max-h-[min(72vh,560px)] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1A1F3B] shadow-[0_24px_60px_-20px_rgba(0,0,0,0.65)]">
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
           <div
-            className={`grid grid-cols-1 md:divide-x md:divide-black/[0.06] ${
+            className={`grid grid-cols-1 md:divide-x md:divide-white/[0.08] ${
               colCount >= 3
                 ? "md:grid-cols-3"
                 : colCount === 2
@@ -93,7 +90,7 @@ function MegaGridPanel({
               >
                 {col.groups.map((group) => (
                   <div key={pick(locale, group.heading)}>
-                    <p className="mb-1 border-b border-black/[0.06] pb-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-[#8a7a6a]">
+                    <p className="mb-1 border-b border-white/[0.08] pb-1.5 font-ui text-[10px] font-bold uppercase tracking-[0.12em] text-ink-muted">
                       {pick(locale, group.heading)}
                     </p>
                     <ul className="grid grid-cols-1 gap-0">
@@ -102,12 +99,12 @@ function MegaGridPanel({
                           <Link
                             href={link.href}
                             onClick={onNavigate}
-                            className={`group flex items-start gap-2 rounded-lg px-1.5 font-medium text-[#3d342c] transition-colors hover:bg-[#fff1e6] hover:text-saffron-deep ${
+                            className={`group flex items-start gap-2 rounded-lg px-1.5 font-ui font-medium text-white/90 transition-colors hover:bg-cosmic-purple/15 hover:text-white ${
                               dense ? "py-1.5 text-[12.5px]" : "py-2 text-[13px]"
                             }`}
                           >
                             <span
-                              className={`mt-0.5 flex shrink-0 items-center justify-center rounded-md bg-[#f7f4f0]/80 text-[#9a8b7a] group-hover:bg-white group-hover:text-saffron-deep ${
+                              className={`mt-0.5 flex shrink-0 items-center justify-center rounded-md bg-white/[0.06] text-cosmic-gold group-hover:bg-cosmic-purple/20 group-hover:text-white ${
                                 dense ? "h-6 w-6 text-[13px]" : "h-7 w-7 text-[15px]"
                               }`}
                               aria-hidden
@@ -119,7 +116,7 @@ function MegaGridPanel({
                                 {pick(locale, link.title)}
                               </span>
                               {!dense && link.description ? (
-                                <span className="mt-0.5 block text-[11px] font-normal leading-snug text-[#8a7a6a] line-clamp-1">
+                                <span className="mt-0.5 block text-[11px] font-normal leading-snug text-ink-muted line-clamp-1">
                                   {pick(locale, link.description)}
                                 </span>
                               ) : null}
@@ -135,7 +132,7 @@ function MegaGridPanel({
           </div>
         </div>
         {footer ? (
-          <div className="flex shrink-0 flex-wrap items-center gap-x-5 gap-y-2 border-t border-black/[0.06] bg-[#faf8f6] px-5 py-2.5 text-[13px]">
+          <div className="flex shrink-0 flex-wrap items-center gap-x-5 gap-y-2 border-t border-white/[0.08] bg-[#12172E] px-5 py-2.5 font-ui text-[13px] text-ink-muted">
             {footer}
           </div>
         ) : null}
@@ -146,10 +143,10 @@ function MegaGridPanel({
 
 function navItemClass(active: boolean, open?: boolean) {
   return cn(
-    "relative inline-flex items-center gap-1 rounded-full px-4 py-1.5 text-[13px] font-semibold transition-all",
+    "relative inline-flex items-center gap-1 rounded-full px-4 py-1.5 font-ui text-[13px] font-semibold transition-all",
     active || open
-      ? "bg-gradient-to-r from-saffron via-[#ff8a1f] to-maroon text-white shadow-[0_6px_18px_-8px_rgba(240,106,0,0.65)]"
-      : "text-ink-muted hover:bg-white/80 hover:text-saffron-deep"
+      ? "bg-[linear-gradient(90deg,#6C3CFF,#FF8A3D)] text-white shadow-[0_6px_18px_-8px_rgba(108,60,255,0.65)]"
+      : "text-ink-muted hover:bg-white/[0.06] hover:text-white"
   );
 }
 
@@ -181,8 +178,6 @@ export function Header() {
     calculators: pathMatches(pathname, ["/calculators"]),
     learn: pathMatches(pathname, ["/learn", "/blog"]),
     pricing: pathMatches(pathname, ["/pricing"]),
-    numerology: pathMatches(pathname, ["/numerology"]),
-    vastu: pathMatches(pathname, ["/vastu"]),
     home: pathname === "/" || pathname === "",
   };
 
@@ -248,7 +243,7 @@ export function Header() {
           <Link
             href="/pricing"
             onClick={() => setMenu(null)}
-            className="text-[#6b5c4c] hover:text-saffron-deep"
+            className="text-ink-muted hover:text-saffron-deep"
           >
             {t("pricing")}
           </Link>
@@ -273,7 +268,7 @@ export function Header() {
           <Link
             href="/chat"
             onClick={() => setMenu(null)}
-            className="text-[#6b5c4c] hover:text-saffron-deep"
+            className="text-ink-muted hover:text-saffron-deep"
           >
             {hi ? "एआई चैट" : "AI Chat"}
           </Link>
@@ -300,14 +295,14 @@ export function Header() {
         <Link
           href="/blog"
           onClick={() => setMenu(null)}
-          className="text-[#6b5c4c] hover:text-saffron-deep"
+          className="text-ink-muted hover:text-saffron-deep"
         >
           {hi ? "ब्लॉग" : "Blog"}
         </Link>
         <Link
           href="/learn/glossary"
           onClick={() => setMenu(null)}
-          className="text-[#6b5c4c] hover:text-saffron-deep"
+          className="text-ink-muted hover:text-saffron-deep"
         >
           {hi ? "शब्दावली" : "Glossary"}
         </Link>
@@ -319,7 +314,7 @@ export function Header() {
   const LearnIcon = learnMenu.icon;
 
   return (
-    <header className="sticky top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-white/[0.07] bg-[#0B0F1F]/92 shadow-[0_8px_32px_-16px_rgba(0,0,0,0.55)] backdrop-blur-xl">
       {/* Top brand bar */}
       <div className="container-page flex items-center justify-between gap-2 py-2.5 sm:gap-3 sm:py-3">
         <nav className="sr-only" aria-label={hi ? "मुख्य लिंक" : "Primary links"}>
@@ -366,10 +361,12 @@ export function Header() {
           href="/"
           className="group flex min-w-0 flex-1 items-center gap-2 sm:max-w-none sm:flex-none sm:gap-2.5"
         >
-          <AstrologicsLogo className="h-9 w-9 shrink-0 transition group-hover:scale-[1.04] sm:h-11 sm:w-11" />
-          <span className="truncate font-display text-[15px] font-semibold tracking-tight text-ink sm:text-lg">
-            {siteConfig.brandName}
-          </span>
+          <CosmicGPTWordmark
+            size="sm"
+            showTagline
+            width={168}
+            className="transition duration-300 group-hover:brightness-110"
+          />
         </Link>
 
         <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
@@ -380,28 +377,28 @@ export function Header() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={tc("talkNow")}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-saffron/30 p-2 text-xs font-semibold text-saffron-deep transition hover:bg-[#fff1e6] sm:px-3 sm:py-2"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-cosmic-purple/40 p-2 font-ui text-xs font-semibold text-white transition hover:bg-cosmic-purple/15 sm:px-3 sm:py-2"
           >
             <MessageCircle className="h-4 w-4 shrink-0" />
             <span className="hidden sm:inline">{tc("talkNow")}</span>
           </a>
           <Link
-            href="/astrologer/signup"
-            aria-label={hi ? "ज्योतिषी बनें" : "Join as Astrologer"}
-            title={hi ? "ज्योतिषी बनें" : "Join as Astrologer"}
-            className="inline-flex items-center gap-1 rounded-xl bg-[#F06A00] px-2 py-2 text-xs font-semibold text-white shadow-[0_8px_18px_-12px_rgba(240,106,0,0.9)] transition hover:bg-[#e85d04] sm:gap-1.5 sm:px-3"
+            href="/chat"
+            aria-label={hi ? "एआई से बात करें" : "Talk to AI"}
+            title={hi ? "एआई से बात करें" : "Talk to AI"}
+            className="btn-grad inline-flex items-center gap-1 px-2 py-2 font-ui text-xs font-semibold text-white sm:gap-1.5 sm:px-3"
           >
-            <GraduationCap className="h-4 w-4 shrink-0" strokeWidth={2.1} />
-            <span className="md:hidden">{hi ? "गुरु" : "Guru"}</span>
+            <Sparkles className="h-4 w-4 shrink-0" strokeWidth={2.1} />
+            <span className="md:hidden">{hi ? "एआई" : "AI"}</span>
             <span className="hidden md:inline">
-              {hi ? "ज्योतिषी बनें" : "Join as Astrologer"}
+              {hi ? "एआई से पूछें" : "Ask AI"}
             </span>
           </Link>
         </div>
       </div>
 
       {/* Secondary menu bar */}
-      <div className="hidden border-t border-black/[0.05] bg-gradient-to-r from-[#fff8f1]/90 via-white/80 to-[#fff1e6]/70 lg:block">
+      <div className="hidden border-t border-white/[0.06] bg-[#12172E]/85 lg:block">
         <nav
           ref={navRef}
           className="container-page relative flex flex-wrap items-center justify-center gap-2.5 py-2.5 sm:gap-3"
@@ -471,26 +468,6 @@ export function Header() {
             />
           </button>
 
-          <Link
-            href="/numerology"
-            className={navItemClass(sectionActive.numerology)}
-            onMouseEnter={() => openMenu(null)}
-            aria-current={sectionActive.numerology ? "page" : undefined}
-          >
-            <Hash className="h-3.5 w-3.5 shrink-0" strokeWidth={2.15} />
-            {hi ? "अंक ज्योतिष" : "Numerology"}
-          </Link>
-
-          <Link
-            href="/vastu"
-            className={navItemClass(sectionActive.vastu)}
-            onMouseEnter={() => openMenu(null)}
-            aria-current={sectionActive.vastu ? "page" : undefined}
-          >
-            <Building2 className="h-3.5 w-3.5 shrink-0" strokeWidth={2.15} />
-            {hi ? "वास्तु" : "Vastu"}
-          </Link>
-
           <button
             type="button"
             className={navItemClass(learnMenu.active, menu === "learn")}
@@ -548,14 +525,14 @@ export function Header() {
                   <Link
                     href="/kundli"
                     onClick={() => setMenu(null)}
-                    className="text-[#6b5c4c] hover:text-saffron-deep"
+                    className="text-ink-muted hover:text-saffron-deep"
                   >
                     {hi ? "पूर्ण कुंडली" : "Full kundli"}
                   </Link>
                   <Link
                     href="/chat"
                     onClick={() => setMenu(null)}
-                    className="text-[#6b5c4c] hover:text-saffron-deep"
+                    className="text-ink-muted hover:text-saffron-deep"
                   >
                     {hi ? "एआई चैट" : "AI Chat"}
                   </Link>
