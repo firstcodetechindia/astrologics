@@ -9,7 +9,7 @@ export function TopAstrologers({ locale }: { locale: string }) {
   const featured = getFeaturedAstrologers(8);
 
   return (
-    <section className="relative overflow-hidden border-y border-saffron/15 bg-[linear-gradient(180deg,#fff8f1_0%,#ffffff_55%,#fff3ea_100%)] py-10 sm:py-12">
+    <section className="relative overflow-hidden border-y border-saffron/15 bg-cosmic-navy py-10 sm:py-12">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-40"

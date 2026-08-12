@@ -63,7 +63,7 @@ export default async function ServicesPage({
   ];
 
   return (
-    <div className="bg-[#faf8f5]">
+    <div className="bg-cosmic-navy">
       <JsonLd
         data={breadcrumbJsonLd(locale, [
           { name: hi ? "होम" : "Home", path: "" },
@@ -112,8 +112,8 @@ export default async function ServicesPage({
           </h2>
           <p>
             {hi
-              ? "Astrologics पर आप मुफ्त जन्म कुंडली (janam kundali) बना सकते हैं, गुण मिलान चला सकते हैं और एआई गुरु से प्रश्न पूछ सकते हैं — फिर गहन पढ़ाई के लिए व्यक्तिगत सत्र बुक करें।"
-              : "On Astrologics you can generate a free janam kundali, run gun milan and ask AI Guru — then book a personal session for a deeper reading."}
+              ? "CosmicGPT पर आप मुफ्त जन्म कुंडली (janam kundali) बना सकते हैं, गुण मिलान चला सकते हैं और एआई गुरु से प्रश्न पूछ सकते हैं — फिर गहन पढ़ाई के लिए व्यक्तिगत सत्र बुक करें।"
+              : "On CosmicGPT you can generate a free janam kundali, run gun milan and ask AI Guru — then book a personal session for a deeper reading."}
           </p>
           <p>
             {hi

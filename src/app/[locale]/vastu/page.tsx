@@ -133,7 +133,7 @@ export default async function VastuPage() {
   }));
 
   return (
-    <div className="bg-[#faf8f5]">
+    <div className="bg-cosmic-navy">
       <JsonLd
         data={breadcrumbJsonLd(locale, [
           { name: hi ? "होम" : "Home", path: "" },
@@ -165,11 +165,12 @@ export default async function VastuPage() {
         ]}
       />
 
-      <div className="container-page max-w-4xl space-y-12 py-10 sm:py-12">
-        <p className="rounded-2xl border border-saffron/15 bg-white px-5 py-4 text-[15px] leading-relaxed text-ink">
+      <div className="container-page py-10 sm:py-12">
+        <div className="space-y-12">
+        <p className="rounded-2xl border border-saffron/15 bg-surface px-5 py-4 text-[15px] leading-relaxed text-ink">
           {hi ? (
             <>
-              Astrologics का मुफ़्त वास्तु शास्त्र चेकर घर के कक्षों को दिशाओं से
+              CosmicGPT का मुफ़्त वास्तु शास्त्र चेकर घर के कक्षों को दिशाओं से
               मिलाकर क्षेत्र-वार दोष चिह्नित करता है और डिफ़ॉल्ट रूप से
               गैर-संरचनात्मक उपाय सुझाता है — दीवार तोड़ना अंतिम विकल्प। वैकल्पिक
               एस्ट्रो-वास्तु{" "}
@@ -190,7 +191,7 @@ export default async function VastuPage() {
             </>
           ) : (
             <>
-              Astrologics’ free Vastu Shastra checker matches your home’s rooms
+              CosmicGPT’s free Vastu Shastra checker matches your home’s rooms
               to classical directions, flags zone-by-zone Doshas, and defaults to
               non-structural remedies — rebuilding walls is a last resort.
               Optional Astro-Vastu personalises priorities using your{" "}
@@ -208,7 +209,7 @@ export default async function VastuPage() {
               >
                 Methodology
               </Link>{" "}
-              for how Astrologics separates calculation from interpretation.
+              for how CosmicGPT separates calculation from interpretation.
             </>
           )}
         </p>
@@ -230,7 +231,7 @@ export default async function VastuPage() {
             {DIRECTIONS.map((d) => (
               <article
                 key={d.id}
-                className="rounded-2xl border border-black/[0.06] bg-white p-4"
+                className="rounded-2xl border border-white/10 bg-surface p-4"
               >
                 <h3 className="font-semibold text-ink">
                   {hi ? d.label.hi : d.label.en}
@@ -256,9 +257,9 @@ export default async function VastuPage() {
               ? "रसोई वास्तु दिशा, मुख्य द्वार वास्तु, बेडरूम वास्तु — नीचे सारणी में आदर्श व वर्जित दिशाएँ।"
               : "Kitchen Vastu direction, main door Vastu, bedroom Vastu — ideal and avoid directions in the table below."}
           </p>
-          <div className="overflow-x-auto rounded-2xl border border-black/[0.06] bg-white">
+          <div className="overflow-x-auto rounded-2xl border border-white/10 bg-surface">
             <table className="w-full min-w-[36rem] text-left text-[13px]">
-              <thead className="border-b border-black/5 bg-[#fff7f0] text-[11px] uppercase tracking-wider text-ink-muted">
+              <thead className="border-b border-white/10 bg-deep-indigo/80 text-[11px] uppercase tracking-wider text-ink-muted">
                 <tr>
                   <th className="px-3 py-3 font-bold">
                     {hi ? "कक्ष" : "Room"}
@@ -273,7 +274,7 @@ export default async function VastuPage() {
               </thead>
               <tbody>
                 {PLACEMENT_RULES.map((r) => (
-                  <tr key={r.room} className="border-b border-black/[0.04]">
+                  <tr key={r.room} className="border-b border-white/10">
                     <td className="px-3 py-3 font-semibold text-ink">
                       {hi ? r.label.hi : r.label.en}
                     </td>
@@ -417,7 +418,7 @@ export default async function VastuPage() {
             {faqs.map((f) => (
               <div
                 key={f.q}
-                className="rounded-xl border border-black/[0.06] bg-white px-4 py-3"
+                className="rounded-xl border border-white/10 bg-surface px-4 py-3"
               >
                 <dt className="font-semibold text-ink">{f.q}</dt>
                 <dd className="mt-1.5 text-[14px] text-ink-muted">{f.a}</dd>
@@ -426,7 +427,7 @@ export default async function VastuPage() {
           </dl>
         </section>
 
-        <section className="rounded-2xl border border-saffron/20 bg-gradient-to-br from-[#fff7f0] to-white p-5 sm:p-6">
+        <section className="rounded-2xl border border-saffron/20 surface-wash p-5 sm:p-6">
           <h2 className="font-display text-xl font-bold text-ink">
             {hi ? "आगे देखें" : "Explore next"}
           </h2>
@@ -462,6 +463,7 @@ export default async function VastuPage() {
             </li>
           </ul>
         </section>
+        </div>
       </div>
     </div>
   );

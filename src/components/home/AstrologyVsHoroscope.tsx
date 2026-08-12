@@ -7,7 +7,7 @@ export function AstrologyVsHoroscope({ locale }: { locale: string }) {
     <section className="py-12 sm:py-16">
       <div className="container-page">
         <Reveal>
-          <div className="grid gap-8 rounded-3xl border border-saffron/20 bg-gradient-to-br from-white via-[#fff7f0] to-[#ffe8d4] p-6 sm:p-10 lg:grid-cols-2">
+          <div className="grid gap-8 rounded-3xl border border-saffron/20 surface-wash p-6 sm:p-10 lg:grid-cols-2">
             <div>
               <h2 className="heading-1 font-display tracking-tight text-ink">
                 {hi
@@ -21,7 +21,7 @@ export function AstrologyVsHoroscope({ locale }: { locale: string }) {
               </p>
             </div>
             <div className="space-y-3 text-sm text-ink">
-              <p className="rounded-xl bg-white/80 px-4 py-3 border border-black/[0.05]">
+              <p className="rounded-xl bg-surface/85 px-4 py-3 border border-white/10">
                 <span className="font-semibold text-saffron-deep">
                   {hi ? "राशिफल: " : "Horoscope: "}
                 </span>
@@ -29,8 +29,8 @@ export function AstrologyVsHoroscope({ locale }: { locale: string }) {
                   ? "त्वरित दैनिक झलक—शुरुआत के लिए उपयोगी।"
                   : "A quick daily snapshot—useful as a starting point."}
               </p>
-              <p className="rounded-xl bg-white/80 px-4 py-3 border border-black/[0.05]">
-                <span className="font-semibold text-[#6B1C1C]">
+              <p className="rounded-xl bg-surface/85 px-4 py-3 border border-white/10">
+                <span className="font-semibold text-white">
                   {hi ? "कुंडली: " : "Kundli: "}
                 </span>
                 {hi

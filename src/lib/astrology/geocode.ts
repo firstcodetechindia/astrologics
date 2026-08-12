@@ -143,7 +143,7 @@ async function nominatimSearch(
 
   const res = await fetch(url.toString(), {
     headers: {
-      "User-Agent": "AstrologicsKundli/1.0 (https://astrologics.co; place search)",
+      "User-Agent": "CosmicGPTKundli/1.0 (https://cosmicgpt.in; place search)",
       Accept: "application/json",
     },
     next: { revalidate: 86400 },

@@ -83,7 +83,7 @@ export default async function GlossaryTermPage({
   };
 
   return (
-    <div className="bg-[#faf8f5]">
+    <div className="bg-cosmic-navy">
       <JsonLd
         data={breadcrumbJsonLd(locale, [
           { name: hi ? "होम" : "Home", path: "" },

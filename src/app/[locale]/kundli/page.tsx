@@ -5,7 +5,6 @@ import { BirthForm } from "@/components/kundli/BirthForm";
 import { PageHero } from "@/components/ui/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Link } from "@/i18n/navigation";
-import { siteConfig } from "@/lib/site-config";
 import { KUNDLI_PAGE_FAQS } from "@/lib/seo/kundli-page-content";
 import {
   breadcrumbJsonLd,

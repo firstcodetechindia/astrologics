@@ -224,12 +224,12 @@ function deepGuide(i: number): LocaleText[] {
   const r = SIGN_LORDS[i];
   return [
     L(
-      `A complete ${n.en} horoscope page should answer more than “will today be good?” Searchers look for ${n.en} daily horoscope, weekly forecast, monthly prediction, lucky colour, lucky number, ruling planet ${r.en}, career guidance, love compatibility and simple remedies. Astrologics combines classical Jyotish language with clear modern English so both beginners and experienced readers can use this page as a reliable reference.`,
-      `पूर्ण ${n.hi} राशिफल पृष्ठ केवल “आज अच्छा होगा?” से अधिक उत्तर दे। लोग ${n.hi} दैनिक राशिफल, साप्ताहिक, मासिक, लकी रंग-नंबर, शासक ${r.hi}, करियर, प्रेम अनुकूलता और सरल उपाय खोजते हैं। Astrologics शास्त्रीय ज्योतिष भाषा को स्पष्ट आधुनिक शैली से जोड़ता है।`
+      `A complete ${n.en} horoscope page should answer more than “will today be good?” Searchers look for ${n.en} daily horoscope, weekly forecast, monthly prediction, lucky colour, lucky number, ruling planet ${r.en}, career guidance, love compatibility and simple remedies. CosmicGPT combines classical Jyotish language with clear modern English so both beginners and experienced readers can use this page as a reliable reference.`,
+      `पूर्ण ${n.hi} राशिफल पृष्ठ केवल “आज अच्छा होगा?” से अधिक उत्तर दे। लोग ${n.hi} दैनिक राशिफल, साप्ताहिक, मासिक, लकी रंग-नंबर, शासक ${r.hi}, करियर, प्रेम अनुकूलता और सरल उपाय खोजते हैं। CosmicGPT शास्त्रीय ज्योतिष भाषा को स्पष्ट आधुनिक शैली से जोड़ता है।`
     ),
     L(
-      `In Vedic practice, many astrologers prefer the Moon sign (Chandra Rashi) for day-to-day guidance because the Moon reflects the mind and fluctuating mood. Your Sun sign still describes core vitality. For precision beyond any free ${n.en} horoscope, generate a full kundli with birth time and place, then ask Astrologics AI Guru about dasha periods, yogas and house lords specific to you.`,
-      `वैदिक परंपरा में दैनिक मार्गदर्शन हेतु अक्सर चंद्र राशि प्राथमिक है क्योंकि चंद्र मन और बदलते मूड को दर्शाता है। सूर्य राशि मूल ऊर्जा बताती है। मुफ़्त ${n.hi} राशिफल से आगे सटीकता के लिए जन्म समय-स्थान से पूर्ण कुंडली बनाएँ और Astrologics एआई गुरु से दशा, योग व भावेश पूछें।`
+      `In Vedic practice, many astrologers prefer the Moon sign (Chandra Rashi) for day-to-day guidance because the Moon reflects the mind and fluctuating mood. Your Sun sign still describes core vitality. For precision beyond any free ${n.en} horoscope, generate a full kundli with birth time and place, then ask CosmicGPT AI Guru about dasha periods, yogas and house lords specific to you.`,
+      `वैदिक परंपरा में दैनिक मार्गदर्शन हेतु अक्सर चंद्र राशि प्राथमिक है क्योंकि चंद्र मन और बदलते मूड को दर्शाता है। सूर्य राशि मूल ऊर्जा बताती है। मुफ़्त ${n.hi} राशिफल से आगे सटीकता के लिए जन्म समय-स्थान से पूर्ण कुंडली बनाएँ और CosmicGPT एआई गुरु से दशा, योग व भावेश पूछें।`
     ),
     L(
       `Use this ${n.en} forecast as timing weather: supportive windows for action, quieter windows for repair. Pair it with today’s panchang (tithi, nakshatra, yoga) when choosing muhurat for travel, contracts or family rituals. That combination — sign horoscope + panchang + personal chart — is how intelligent astrology stays useful without fear-mongering.`,
@@ -276,8 +276,8 @@ function faqsFor(i: number): { q: LocaleText; a: LocaleText }[] {
     {
       q: L(`Is ${n.en} horoscope based on Sun or Moon sign?`, `${n.hi} राशिफल सूर्य या चंद्र पर?`),
       a: L(
-        `Astrologics presents Vedic-style guidance preferring Moon sign for daily life, while Sun sign remains useful context. For personal accuracy, use your full kundli.`,
-        `Astrologics वैदिक शैली में दैनिक जीवन हेतु चंद्र राशि प्राथमिक रखता है; सूर्य राशि सहायक संदर्भ है। व्यक्तिगत सटीकता हेतु पूर्ण कुंडली उपयोग करें।`
+        `CosmicGPT presents Vedic-style guidance preferring Moon sign for daily life, while Sun sign remains useful context. For personal accuracy, use your full kundli.`,
+        `CosmicGPT वैदिक शैली में दैनिक जीवन हेतु चंद्र राशि प्राथमिक रखता है; सूर्य राशि सहायक संदर्भ है। व्यक्तिगत सटीकता हेतु पूर्ण कुंडली उपयोग करें।`
       ),
     },
     {

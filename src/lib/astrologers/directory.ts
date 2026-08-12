@@ -63,22 +63,22 @@ export const BADGE_LABEL: Record<
   "rising-star": {
     en: "Rising Star",
     hi: "राइज़िंग स्टार",
-    className: "bg-[#fff1e6] text-[#c45a00] ring-[#F06A00]/20",
+    className: "bg-cosmic-purple/15 text-cosmic-gold ring-[#F06A00]/20",
   },
   "top-choice": {
     en: "Top Choice",
     hi: "टॉप चॉइस",
-    className: "bg-[#fff8e8] text-[#9a6b00] ring-[#e6b800]/25",
+    className: "bg-cosmic-gold/15 text-cosmic-gold ring-cosmic-gold/25",
   },
   celebrity: {
     en: "Celebrity",
     hi: "सेलिब्रिटी",
-    className: "bg-[#fde8ef] text-[#a61e4d] ring-[#e64980]/20",
+    className: "bg-cosmic-pink/15 text-cosmic-pink ring-cosmic-pink/25",
   },
   new: {
     en: "New",
     hi: "नया",
-    className: "bg-[#e8f7ef] text-[#0f7a45] ring-[#2f9e6b]/20",
+    className: "bg-emerald-500/15 text-emerald-200 ring-emerald-400/25",
   },
 };
 

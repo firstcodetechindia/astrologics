@@ -32,7 +32,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="relative min-h-[60vh] bg-[#faf8f5]">
+    <div className="relative min-h-[60vh] bg-cosmic-navy">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-[0.35]"

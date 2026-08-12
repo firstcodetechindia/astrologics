@@ -102,7 +102,7 @@ export function DashboardResultsPanel() {
                   {item.title}
                 </p>
                 <p className="mt-1 text-[13px] text-ink-muted">{item.summary}</p>
-                <p className="mt-1 text-[11px] text-[#9a8b7a]">
+                <p className="mt-1 text-[11px] text-ink-muted">
                   {new Date(item.createdAt).toLocaleString(
                     hi ? "hi-IN" : "en-IN"
                   )}
@@ -112,7 +112,7 @@ export function DashboardResultsPanel() {
                 {item.href ? (
                   <Link
                     href={item.href}
-                    className="rounded-lg border border-saffron/25 px-3 py-1.5 text-xs font-semibold text-saffron-deep hover:bg-[#fff1e6]"
+                    className="rounded-lg border border-saffron/25 px-3 py-1.5 text-xs font-semibold text-saffron-deep hover:bg-cosmic-purple/15"
                   >
                     {hi ? "खोलें" : "Open"}
                   </Link>
@@ -123,7 +123,7 @@ export function DashboardResultsPanel() {
                     removeRememberedResult(phone, item.id);
                     refresh(phone);
                   }}
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-[#8a7a6a] hover:bg-[#fff1e6] hover:text-saffron-deep"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-ink-muted hover:bg-cosmic-purple/15 hover:text-saffron-deep"
                   aria-label={hi ? "हटाएँ" : "Remove"}
                 >
                   <Trash2 className="h-4 w-4" />

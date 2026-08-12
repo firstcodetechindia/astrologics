@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { FormField } from "@/components/ui/FormField";
 import {
   LO_SHU_ORDER,
   buildNumerologyReport,
@@ -26,7 +27,7 @@ function ProfileCard({
   profile: NumberProfile;
 }) {
   return (
-    <div className="rounded-2xl border border-saffron/20 bg-white p-4 sm:p-5 shadow-sm">
+    <div className="rounded-2xl border border-saffron/20 bg-surface p-4 sm:p-5 shadow-sm">
       <p className="text-[11px] font-bold uppercase tracking-wider text-ink-muted">
         {label}
       </p>
@@ -108,10 +109,10 @@ function TierBadge({
           : "Neutral";
   const cls =
     tier === "friendly"
-      ? "bg-emerald-50 text-emerald-800 border-emerald-200"
+      ? "bg-emerald-500/15 text-emerald-200 border-emerald-400/30"
       : tier === "challenging"
-        ? "bg-rose-50 text-rose-800 border-rose-200"
-        : "bg-amber-50 text-amber-900 border-amber-200";
+        ? "bg-rose-500/15 text-rose-200 border-rose-400/30"
+        : "bg-amber-500/15 text-amber-100 border-amber-400/30";
   return (
     <span
       className={`inline-flex rounded-full border px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide ${cls}`}
@@ -138,7 +139,7 @@ function Results({
 
   return (
     <div className="space-y-8">
-      <div className="flex flex-wrap items-start justify-between gap-3 rounded-2xl border border-saffron/20 bg-gradient-to-br from-[#fff7f0] via-white to-[#ffe8d4]/50 p-5 sm:p-6">
+      <div className="flex flex-wrap items-start justify-between gap-3 rounded-2xl border border-saffron/20 surface-wash p-5 sm:p-6">
         <div>
           <p className="text-[11px] font-bold uppercase tracking-wider text-ink-muted">
             {hi ? "आपका अंक सार" : "Your number snapshot"}
@@ -188,7 +189,7 @@ function Results({
             : "In India, Chaldean is preferred for name analysis (9 is sacred and unused in the letter map). Pythagorean is the Western 1–9 sequence. Never mix tables — they produce different Name Numbers."}
         </p>
         <div className="grid gap-4 lg:grid-cols-2">
-          <div className="space-y-3 rounded-2xl border border-black/[0.06] bg-white p-4 sm:p-5">
+          <div className="space-y-3 rounded-2xl border border-white/10 bg-surface p-4 sm:p-5">
             <p className="text-[11px] font-bold uppercase tracking-wider text-saffron-deep">
               Chaldean
             </p>
@@ -206,7 +207,7 @@ function Results({
               ].map((x) => (
                 <div
                   key={x.l}
-                  className="rounded-xl border border-saffron/15 bg-[#fffaf6] px-2 py-3"
+                  className="rounded-xl border border-saffron/15 bg-cosmic-navy px-2 py-3"
                 >
                   <p className="font-display text-2xl font-bold tabular-nums text-saffron-deep">
                     {x.n}
@@ -221,7 +222,7 @@ function Results({
               {t(locale, report.chaldean.expressionProfile.traits)}
             </p>
           </div>
-          <div className="space-y-3 rounded-2xl border border-black/[0.06] bg-white p-4 sm:p-5">
+          <div className="space-y-3 rounded-2xl border border-white/10 bg-surface p-4 sm:p-5">
             <p className="text-[11px] font-bold uppercase tracking-wider text-ink-muted">
               Pythagorean
             </p>
@@ -242,7 +243,7 @@ function Results({
               ].map((x) => (
                 <div
                   key={x.l}
-                  className="rounded-xl border border-black/8 bg-[#faf8f5] px-2 py-3"
+                  className="rounded-xl border border-white/10 bg-cosmic-navy px-2 py-3"
                 >
                   <p className="font-display text-2xl font-bold tabular-nums text-ink">
                     {x.n}
@@ -259,7 +260,7 @@ function Results({
           </div>
         </div>
 
-        <div className="rounded-2xl border border-saffron/15 bg-white p-4 sm:p-5">
+        <div className="rounded-2xl border border-saffron/15 bg-surface p-4 sm:p-5">
           <div className="flex flex-wrap items-center gap-2">
             <p className="font-semibold text-ink">
               {hi
@@ -292,8 +293,8 @@ function Results({
                     key={n}
                     className={`aspect-square rounded-2xl border flex flex-col items-center justify-center ${
                       filled
-                        ? "border-saffron/35 bg-gradient-to-b from-white to-saffron/5 shadow-sm"
-                        : "border-black/8 bg-white"
+                        ? "border-saffron/35 surface-wash shadow-sm"
+                        : "border-white/10 bg-surface"
                     }`}
                     title={`${n}: ${count}`}
                   >
@@ -327,7 +328,7 @@ function Results({
                   {report.loShu.missing.map((n) => (
                     <li
                       key={n}
-                      className="rounded-xl border border-black/[0.06] bg-white px-3 py-2 text-sm"
+                      className="rounded-xl border border-white/10 bg-surface px-3 py-2 text-sm"
                     >
                       <span className="font-bold text-saffron-deep tabular-nums">
                         {n}
@@ -356,7 +357,7 @@ function Results({
                   {report.loShu.activeArrows.map((a) => (
                     <li
                       key={a.id}
-                      className="rounded-xl border border-emerald-100 bg-emerald-50/50 px-3 py-2 text-sm"
+                      className="rounded-xl border border-emerald-400/25 bg-emerald-500/15 px-3 py-2 text-sm"
                     >
                       <p className="font-semibold text-ink">{t(locale, a.title)}</p>
                       <p className="text-ink-muted">{t(locale, a.meaning)}</p>
@@ -369,7 +370,7 @@ function Results({
         </div>
       </section>
 
-      <section className="rounded-2xl border border-saffron/20 bg-white p-5 sm:p-6">
+      <section className="rounded-2xl border border-saffron/20 bg-surface p-5 sm:p-6">
         <h3 className="font-display text-xl font-bold text-ink">
           {hi
             ? `व्यक्तिगत वर्ष ${report.personalYear.year}`
@@ -390,7 +391,7 @@ function Results({
         </div>
       </section>
 
-      <p className="text-[13px] leading-relaxed text-ink-muted border-t border-black/5 pt-4">
+      <p className="text-[13px] leading-relaxed text-ink-muted border-t border-white/10 pt-4">
         {hi
           ? "अंक ज्योतिष चिंतन का ढाँचा है — चिकित्सा, कानूनी या वित्तीय सलाह नहीं। कुंडली मिलान के लिए जन्म कुंडली उपकरण भी देखें।"
           : "Numerology is a reflective framework — not medical, legal or financial advice. For marriage matching, also use Janam Kundli tools."}
@@ -405,19 +406,31 @@ export function NumerologyClient({ locale }: { locale: string }) {
   const [date, setDate] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [report, setReport] = useState<NumerologyReport | null>(null);
+  const [shakeKey, setShakeKey] = useState(0);
+  const [tried, setTried] = useState(false);
 
-  const canSubmit = useMemo(
-    () => name.trim().length >= 2 && /^\d{4}-\d{2}-\d{2}$/.test(date),
-    [name, date]
-  );
+  const nameOk = name.trim().length >= 2;
+  const dateOk = /^\d{4}-\d{2}-\d{2}$/.test(date);
+  const canSubmit = nameOk && dateOk;
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setTried(true);
+    if (!canSubmit) {
+      setShakeKey((k) => k + 1);
+      setError(
+        hi
+          ? "कृपया मान्य नाम और जन्म तिथि दर्ज करें।"
+          : "Please enter a valid name and birth date."
+      );
+      return;
+    }
     setError(null);
     try {
       const r = buildNumerologyReport(name, date);
       setReport(r);
     } catch {
+      setShakeKey((k) => k + 1);
       setError(
         hi
           ? "कृपया मान्य नाम और जन्म तिथि दर्ज करें।"
@@ -439,13 +452,14 @@ export function NumerologyClient({ locale }: { locale: string }) {
   return (
     <form
       onSubmit={onSubmit}
-      className="rounded-2xl border border-saffron/20 bg-white p-5 sm:p-6 shadow-sm space-y-5"
+      className="space-y-5 rounded-2xl border border-saffron/20 bg-surface p-5 shadow-sm sm:p-6"
+      noValidate
     >
       <div>
         <h2 className="font-display text-xl font-bold text-ink">
           {hi ? "अपने अंक जाँचें" : "Check your numbers"}
         </h2>
-        <p className="mt-1 text-[14px] text-ink-muted leading-relaxed">
+        <p className="mt-1 text-[14px] leading-relaxed text-ink-muted">
           {hi
             ? "नाम और जन्म तिथि से मूलांक, भाग्यांक, कैल्डियन/पाइथागोरस नाम अंक और लो शू ग्रिड एक साथ।"
             : "From name and date of birth — Mulank, Bhagyank, Chaldean/Pythagorean name numbers and Lo Shu grid together."}
@@ -453,40 +467,54 @@ export function NumerologyClient({ locale }: { locale: string }) {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <label className="block space-y-1.5">
-          <span className="text-[13px] font-semibold text-ink">
-            {hi ? "पूरा नाम" : "Full name"}
-          </span>
+        <FormField
+          label={hi ? "पूरा नाम" : "Full name"}
+          required
+          error={
+            tried && !nameOk
+              ? hi
+                ? "आवश्यक"
+                : "Required"
+              : false
+          }
+          shakeKey={shakeKey}
+        >
           <input
             className="field w-full"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder={hi ? "जैसे Priya Sharma" : "e.g. Priya Sharma"}
             autoComplete="name"
-            required
           />
-        </label>
-        <label className="block space-y-1.5">
-          <span className="text-[13px] font-semibold text-ink">
-            {hi ? "जन्म तिथि" : "Date of birth"}
-          </span>
+        </FormField>
+        <FormField
+          label={hi ? "जन्म तिथि" : "Date of birth"}
+          required
+          error={
+            tried && !dateOk
+              ? hi
+                ? "आवश्यक"
+                : "Required"
+              : false
+          }
+          shakeKey={shakeKey}
+        >
           <input
             type="date"
             className="field w-full"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            required
           />
-        </label>
+        </FormField>
       </div>
 
       {error && (
-        <p className="text-sm text-rose-700" role="alert">
+        <p className="text-sm text-cosmic-pink" role="alert">
           {error}
         </p>
       )}
 
-      <Button type="submit" disabled={!canSubmit} className="w-full sm:w-auto">
+      <Button type="submit" className="w-full sm:w-auto">
         {hi ? "अंक रिपोर्ट देखें" : "See numerology report"}
       </Button>
     </form>

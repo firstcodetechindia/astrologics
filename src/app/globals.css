@@ -3,6 +3,8 @@
 :root {
   /* CosmicGPT brand system */
   --cosmic-navy: #0b0f1f;
+  /* Fixed header height — brand row (mobile) / brand + nav (desktop) */
+  --site-header-h: 3.5rem;
   --deep-indigo: #1a1f3b;
   --cosmic-purple: #6c3cff;
   --cosmic-pink: #ff5ca8;
@@ -61,6 +63,13 @@
   --font-display-en: "Fraunces";
   --font-hindi: "Noto Sans Devanagari";
   --font-hindi-display: "Noto Serif Devanagari";
+}
+
+@media (min-width: 1024px) {
+  :root {
+    /* Brand row (~3.75rem) + page menu (~3rem) */
+    --site-header-h: 6.75rem;
+  }
 }
 
 @theme inline {

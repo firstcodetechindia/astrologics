@@ -66,7 +66,7 @@ export default async function BlogPostPage({
   const url = absoluteUrl(locale, `/blog/${slug}`);
 
   return (
-    <article className="bg-[#faf8f5]">
+    <article className="bg-cosmic-navy">
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -87,7 +87,7 @@ export default async function BlogPostPage({
             url: siteConfig.siteUrl,
             logo: {
               "@type": "ImageObject",
-              url: `${siteConfig.siteUrl}/astrologics-icon-512.png`,
+              url: `${siteConfig.siteUrl}/cosmicgpt-icon-512.png`,
             },
           },
           mainEntityOfPage: url,

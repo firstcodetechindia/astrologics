@@ -54,7 +54,7 @@ export function buildPageMetadata({
       type,
       images: [
         {
-          url: "/astrologics-icon-512.png",
+          url: "/cosmicgpt-icon-512.png",
           width: 512,
           height: 512,
           alt: `${siteConfig.brandName} — Kundli, AI astrology & calculators`,
@@ -65,7 +65,7 @@ export function buildPageMetadata({
       card: "summary_large_image",
       title,
       description: desc,
-      images: ["/astrologics-icon-512.png"],
+      images: ["/cosmicgpt-icon-512.png"],
     },
     robots: noIndex
       ? { index: false, follow: false, googleBot: { index: false, follow: false } }
@@ -94,7 +94,7 @@ export function organizationJsonLd() {
     "@type": "Organization",
     name: siteConfig.brandName,
     url: siteConfig.siteUrl,
-    logo: `${siteConfig.siteUrl}/astrologics-icon-512.png`,
+    logo: `${siteConfig.siteUrl}/cosmicgpt-icon-512.png`,
     email: siteConfig.email,
     telephone: siteConfig.phone,
     sameAs: [
@@ -133,8 +133,8 @@ export function howToKundliJsonLd(locale: string) {
     "@context": "https://schema.org",
     "@type": "HowTo",
     name: hi
-      ? "Astrologics पर मुफ्त कुंडली कैसे बनाएँ"
-      : "How to generate a free kundli on Astrologics",
+      ? "CosmicGPT पर मुफ्त कुंडली कैसे बनाएँ"
+      : "How to generate a free kundli on CosmicGPT",
     description: hi
       ? "जन्म तिथि, समय और स्थान से लाहिरी निरयण जन्म कुंडली बनाएँ।"
       : "Create a Lahiri sidereal janam kundali from birth date, time and place.",

@@ -76,7 +76,7 @@ export function DashboardAccountNav() {
         className="pointer-events-none absolute -inset-x-4 -inset-y-3 hidden rounded-[2rem] bg-[radial-gradient(ellipse_at_center,rgba(240,106,0,0.1),transparent_70%)] sm:block"
       />
 
-      <div className="relative overflow-hidden rounded-[1.35rem] border border-[#f0d4b8]/90 bg-[linear-gradient(180deg,#fffdfb_0%,#fff7f0_100%)] shadow-[0_18px_40px_-28px_rgba(78,48,20,0.45)]">
+      <div className="relative overflow-hidden rounded-[1.35rem] border border-white/12 bg-gradient-to-b from-surface-elevated to-surface shadow-[0_18px_40px_-28px_rgba(78,48,20,0.45)]">
         {/* Top hairline accent */}
         <div
           aria-hidden
@@ -86,11 +86,11 @@ export function DashboardAccountNav() {
         <div className="relative px-2 py-2 sm:px-3 sm:py-2.5">
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-7 bg-gradient-to-r from-[#fffaf6] to-transparent sm:hidden"
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-7 bg-gradient-to-r from-cosmic-navy to-transparent sm:hidden"
           />
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-7 bg-gradient-to-l from-[#fffaf6] to-transparent sm:hidden"
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-7 bg-gradient-to-l from-cosmic-navy to-transparent sm:hidden"
           />
 
           <div className="overflow-x-auto overscroll-x-contain [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -113,7 +113,7 @@ export function DashboardAccountNav() {
                     aria-current={active ? "page" : undefined}
                     className={cn(
                       "group relative flex min-w-[5.75rem] flex-1 flex-col items-center gap-1.5 rounded-[1.05rem] px-3 py-2.5 transition-colors sm:min-w-0 sm:px-2.5 sm:py-3 md:px-3",
-                      !active && "hover:bg-white/70"
+                      !active && "hover:bg-surface/75"
                     )}
                   >
                     {active ? (
@@ -134,7 +134,7 @@ export function DashboardAccountNav() {
                         "relative z-[1] inline-flex h-9 w-9 items-center justify-center rounded-full transition duration-300",
                         active
                           ? "bg-white/18 text-white ring-1 ring-white/35"
-                          : "bg-[#fff1e6] text-saffron-deep ring-1 ring-saffron/15 group-hover:bg-white group-hover:ring-saffron/30"
+                          : "bg-cosmic-purple/15 text-saffron-deep ring-1 ring-saffron/15 group-hover:bg-surface group-hover:ring-saffron/30"
                       )}
                     >
                       <Icon className="h-[17px] w-[17px]" strokeWidth={2.05} />
@@ -145,7 +145,7 @@ export function DashboardAccountNav() {
                         "relative z-[1] whitespace-nowrap text-[11.5px] font-semibold tracking-[0.01em] sm:text-[12.5px]",
                         active
                           ? "text-white"
-                          : "text-[#5c4a3a] group-hover:text-saffron-deep"
+                          : "text-ink-muted group-hover:text-saffron-deep"
                       )}
                     >
                       {hi ? tab.hi : tab.en}
@@ -155,7 +155,7 @@ export function DashboardAccountNav() {
                       <motion.span
                         layoutId={reduce ? undefined : "dashboard-tab-dot"}
                         aria-hidden
-                        className="relative z-[1] h-1 w-1 rounded-full bg-[#ffe0b8]"
+                        className="relative z-[1] h-1 w-1 rounded-full bg-cosmic-gold/40"
                       />
                     ) : (
                       <span aria-hidden className="relative z-[1] h-1 w-1" />

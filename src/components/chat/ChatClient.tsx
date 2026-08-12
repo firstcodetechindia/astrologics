@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocale } from "next-intl";
 import { Compass, HeartHandshake, MoonStar, RotateCcw, Send, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { FormField } from "@/components/ui/FormField";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PageHero } from "@/components/ui/PageHero";
 import { PlaceAutocomplete } from "@/components/ui/PlaceAutocomplete";
@@ -12,6 +13,7 @@ import { KundliChart } from "@/components/kundli/KundliChart";
 import { Link, useRouter } from "@/i18n/navigation";
 import type { City } from "@/lib/astrology/cities";
 import { formatPlaceLabel } from "@/lib/astrology/cities";
+import { timeZoneForPlace } from "@/lib/astrology/timezone";
 import type { KundliResult } from "@/lib/astrology/types";
 import {
   FREE_CHAT_LIMIT,
@@ -19,7 +21,7 @@ import {
 } from "@/lib/ai/chat-limits";
 import { cn } from "@/lib/utils";
 
-const FREE_USAGE_KEY = "astrologics_free_chats_used";
+const FREE_USAGE_KEY = "cosmicgpt_free_chats_used";
 
 type Msg = {
   role: "user" | "assistant";
@@ -45,6 +47,7 @@ type BirthPayload = {
   lat?: number;
   lon?: number;
   timezoneOffsetMinutes?: number;
+  timeZone?: string;
 };
 
 function readFreeUsed(): number {
@@ -139,7 +142,7 @@ function FreeGateCard({
   return (
     <div className="flex items-end gap-2">
       <GuruAvatar hi={hi} />
-      <div className="min-w-0 flex-1 space-y-3 rounded-2xl rounded-bl-md bg-white p-3.5 text-ink shadow-sm ring-1 ring-black/[0.06]">
+      <div className="min-w-0 flex-1 space-y-3 rounded-2xl rounded-bl-md bg-surface p-3.5 text-ink shadow-sm ring-1 ring-black/[0.06]">
         <div>
           <p className="mb-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-saffron-deep">
             {hi ? "एआई गुरु" : "AI Guru"}
@@ -162,7 +165,7 @@ function FreeGateCard({
               key={p.text}
               className="flex items-start gap-2.5 text-[12px] leading-snug text-ink"
             >
-              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#ffe8d6] text-saffron-deep">
+              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-cosmic-purple/20 text-saffron-deep">
                 <p.icon className="h-3 w-3" />
               </span>
               <span className="pt-0.5">{p.text}</span>
@@ -198,6 +201,7 @@ export function ChatClient() {
   const [birth, setBirth] = useState<BirthPayload | null>(null);
   const [card, setCard] = useState<ChartCard | null>(null);
   const [kundli, setKundli] = useState<KundliResult | null>(null);
+  const [chartKey, setChartKey] = useState<string | null>(null);
   const [starterSuggestions, setStarterSuggestions] = useState<string[]>([]);
   const [followUps, setFollowUps] = useState<string[]>([]);
 
@@ -207,6 +211,8 @@ export function ChatClient() {
   const [preparing, setPreparing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [freeUsed, setFreeUsed] = useState(0);
+  const [shakeKey, setShakeKey] = useState(0);
+  const [triedBirth, setTriedBirth] = useState(false);
 
   const freeExhausted = freeUsed >= FREE_CHAT_LIMIT;
   const userQuestionCount = useMemo(
@@ -226,15 +232,27 @@ export function ChatClient() {
   }, [messages, loading, followUps, freeUsed]);
 
   function birthPayload(): BirthPayload | null {
-    if (!date || !time || place.trim().length < 2) return null;
+    if (
+      name.trim().length < 2 ||
+      !date ||
+      !time ||
+      place.trim().length < 2
+    ) {
+      return null;
+    }
     return {
-      name: name.trim() || (hi ? "जातक" : "Native"),
+      name: name.trim(),
       date,
       time,
       place: city ? formatPlaceLabel(city) : place.trim(),
       lat: city?.lat,
       lon: city?.lon,
       timezoneOffsetMinutes: city?.timezoneOffsetMinutes,
+      timeZone: timeZoneForPlace({
+        lat: city?.lat,
+        lon: city?.lon,
+        offsetMinutes: city?.timezoneOffsetMinutes ?? 330,
+      }),
     };
   }
 
@@ -245,6 +263,8 @@ export function ChatClient() {
   async function startChat() {
     const payload = birthPayload();
     if (!payload) {
+      setTriedBirth(true);
+      setShakeKey((k) => k + 1);
       setError(
         hi
           ? "जन्म तिथि, समय और स्थान आवश्यक हैं।"
@@ -252,6 +272,7 @@ export function ChatClient() {
       );
       return;
     }
+    setTriedBirth(false);
     setError(null);
     setPreparing(true);
     try {
@@ -268,6 +289,7 @@ export function ChatClient() {
       setBirth(payload);
       setCard(data.card);
       setKundli(data.kundli ?? null);
+      setChartKey(typeof data.chartKey === "string" ? data.chartKey : null);
       setStarterSuggestions(data.suggestions || []);
       setFollowUps([]);
 
@@ -344,6 +366,7 @@ export function ChatClient() {
           locale,
           history,
           birth,
+          chartKey,
         }),
       });
 
@@ -450,6 +473,7 @@ export function ChatClient() {
     setMessages([]);
     setBirth(null);
     setKundli(null);
+    setChartKey(null);
     setCard(null);
     setFollowUps([]);
     setStarterSuggestions([]);
@@ -466,7 +490,7 @@ export function ChatClient() {
     !loading && followUps.length > 0 && !hasGate;
 
   return (
-    <div className="bg-[#faf8f5]">
+    <div className="bg-cosmic-navy">
       <PageHero
         title={hi ? "एआई एस्ट्रो चैट" : "AI Astro Chat"}
         description={
@@ -481,19 +505,14 @@ export function ChatClient() {
         actions={
           <Link
             href="/kundli"
-            className="inline-flex items-center justify-center rounded-lg border border-saffron/30 bg-white/80 px-3 py-1.5 text-xs font-semibold text-saffron-deep hover:bg-[#fff1e6]"
+            className="inline-flex items-center justify-center rounded-lg border border-saffron/30 bg-surface/85 px-3 py-1.5 text-xs font-semibold text-saffron-deep hover:bg-cosmic-purple/15"
           >
             {hi ? "पूर्ण कुंडली →" : "Full kundli →"}
           </Link>
         }
       />
 
-      <div
-        className={cn(
-          "container-page py-6 sm:py-8",
-          step === "chat" ? undefined : "max-w-3xl"
-        )}
-      >
+      <div className="container-page py-6 sm:py-8">
         {step === "kundli" ? (
           <GlassCard strong className="space-y-5">
             <div>
@@ -512,30 +531,79 @@ export function ChatClient() {
             </div>
 
             <div className="grid gap-3 sm:grid-cols-2">
-              <input
-                className="rounded-xl border border-saffron/25 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-saffron/20"
-                placeholder={hi ? "नाम" : "Name"}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              <input
-                type="date"
-                className="rounded-xl border border-saffron/25 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-saffron/20"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-              />
-              <input
-                type="time"
-                className="rounded-xl border border-saffron/25 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-saffron/20"
-                value={time}
-                onChange={(e) => setTime(e.target.value)}
-              />
+              <FormField
+                label={hi ? "नाम" : "Name"}
+                required
+                error={
+                  triedBirth && name.trim().length < 2
+                    ? hi
+                      ? "आवश्यक"
+                      : "Required"
+                    : false
+                }
+                shakeKey={shakeKey}
+              >
+                <input
+                  className="field"
+                  placeholder={hi ? "आपका नाम" : "Your name"}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </FormField>
+              <FormField
+                label={hi ? "जन्म तिथि" : "Date of birth"}
+                required
+                error={
+                  triedBirth && !date
+                    ? hi
+                      ? "आवश्यक"
+                      : "Required"
+                    : false
+                }
+                shakeKey={shakeKey}
+              >
+                <input
+                  type="date"
+                  className="field"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                />
+              </FormField>
+              <FormField
+                label={hi ? "जन्म समय" : "Time of birth"}
+                required
+                error={
+                  triedBirth && !time
+                    ? hi
+                      ? "आवश्यक"
+                      : "Required"
+                    : false
+                }
+                shakeKey={shakeKey}
+              >
+                <input
+                  type="time"
+                  className="field"
+                  value={time}
+                  onChange={(e) => setTime(e.target.value)}
+                />
+              </FormField>
               <PlaceAutocomplete
+                label={hi ? "जन्म स्थान" : "Place of birth"}
+                required
                 value={place}
                 onChange={setPlace}
                 onCity={setCity}
                 placeholder={hi ? "जन्म स्थान" : "Place of birth"}
-                inputClassName="rounded-xl border border-saffron/25 bg-white px-3 py-2.5 text-sm outline-none focus:border-saffron focus:ring-2 focus:ring-saffron/20"
+                error={
+                  triedBirth && place.trim().length < 2
+                    ? hi
+                      ? "आवश्यक"
+                      : "Required"
+                    : false
+                }
+                shakeKey={shakeKey}
+                inputClassName="!py-2.5"
               />
             </div>
 
@@ -581,7 +649,7 @@ export function ChatClient() {
                   <button
                     type="button"
                     onClick={resetKundli}
-                    className="inline-flex items-center gap-1 rounded-lg border border-saffron/25 px-2 py-1 text-[11px] font-semibold text-saffron-deep hover:bg-[#fff1e6]"
+                    className="inline-flex items-center gap-1 rounded-lg border border-saffron/25 px-2 py-1 text-[11px] font-semibold text-saffron-deep hover:bg-cosmic-purple/15"
                   >
                     <RotateCcw className="h-3 w-3" />
                     {hi ? "कुंडली बदलें" : "Change kundli"}
@@ -609,7 +677,7 @@ export function ChatClient() {
                     ].map(([label, value]) => (
                       <div
                         key={label}
-                        className="rounded-lg border border-black/[0.06] bg-[#fffaf6] px-2.5 py-1.5"
+                        className="rounded-lg border border-white/10 bg-cosmic-navy px-2.5 py-1.5"
                       >
                         <p className="text-[9px] font-semibold uppercase tracking-wide text-ink-muted">
                           {label}
@@ -627,7 +695,7 @@ export function ChatClient() {
             <section className="space-y-2.5">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-saffron/25 bg-white px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-saffron-deep">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-saffron/25 bg-surface px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-saffron-deep">
                     <Sparkles className="h-3 w-3" />
                     {hi ? "एआई गुरु" : "AI Guru"}
                   </span>
@@ -657,7 +725,7 @@ export function ChatClient() {
                       type="button"
                       disabled={loading}
                       onClick={() => void send(q)}
-                      className="rounded-lg border border-saffron/25 bg-white px-2.5 py-2 text-left text-[11px] font-medium leading-snug text-ink transition hover:border-saffron/50 hover:bg-[#fff1e6] disabled:opacity-50"
+                      className="rounded-lg border border-saffron/25 bg-surface px-2.5 py-2 text-left text-[11px] font-medium leading-snug text-ink transition hover:border-saffron/50 hover:bg-cosmic-purple/15 disabled:opacity-50"
                     >
                       {q}
                     </button>
@@ -705,7 +773,7 @@ export function ChatClient() {
                             "max-w-[min(100%,26rem)] rounded-2xl px-3 py-2 text-[12.5px] leading-relaxed whitespace-pre-wrap shadow-sm",
                             isUser
                               ? "rounded-br-md bg-saffron text-white"
-                              : "rounded-bl-md bg-white text-ink ring-1 ring-black/[0.06]"
+                              : "rounded-bl-md bg-surface text-ink ring-1 ring-black/[0.06]"
                           )}
                         >
                           {!isUser ? (
@@ -728,7 +796,7 @@ export function ChatClient() {
                           )}
 
                           {isLastAssistant ? (
-                            <p className="mt-2 border-t border-black/[0.06] pt-1.5 text-[10px] text-ink-muted">
+                            <p className="mt-2 border-t border-white/10 pt-1.5 text-[10px] text-ink-muted">
                               {hi
                                 ? `${freeUsed}/${FREE_CHAT_LIMIT} मुफ़्त प्रश्न उपयोग`
                                 : `${freeUsed}/${FREE_CHAT_LIMIT} free questions used`}
@@ -742,7 +810,7 @@ export function ChatClient() {
 
                 <div className="flex gap-2 border-t border-saffron/15 p-2.5">
                   <input
-                    className="flex-1 rounded-xl border border-saffron/25 bg-white px-3 py-2 text-[13px] outline-none focus:ring-2 focus:ring-saffron/20 disabled:bg-[#faf8f5]"
+                    className="flex-1 rounded-xl border border-saffron/25 bg-surface px-3 py-2 text-[13px] outline-none focus:ring-2 focus:ring-saffron/20 disabled:bg-cosmic-navy"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={(e) =>
@@ -802,7 +870,7 @@ export function ChatClient() {
                       type="button"
                       disabled={loading}
                       onClick={() => void send(q)}
-                      className="rounded-lg border border-black/10 bg-white px-2.5 py-2 text-left text-[11px] font-medium leading-snug text-ink transition hover:border-saffron/40 hover:bg-[#fff1e6]"
+                      className="rounded-lg border border-white/10 bg-surface px-2.5 py-2 text-left text-[11px] font-medium leading-snug text-ink transition hover:border-saffron/40 hover:bg-cosmic-purple/15"
                     >
                       {q}
                     </button>

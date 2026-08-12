@@ -1,36 +1,23 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   BookOpen,
   Calculator,
   Home,
-  LayoutGrid,
+  Menu,
+  MessageCircle,
+  Orbit,
   Sparkles,
+  Sun,
+  Wrench,
   X,
+  type LucideIcon,
 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
-import {
-  FEATURES_MENU,
-  FREE_TOOLS_MENU,
-  calculatorsMegaColumns,
-  learnMegaColumns,
-  type MegaColumn,
-  type MegaColumnStack,
-} from "@/lib/navigation/menus";
 import { cn } from "@/lib/utils";
-
-type MenuKey = "features" | "tools" | "calculators" | "learn";
-
-function pick(locale: string, t: { en: string; hi: string }) {
-  return locale === "hi" ? t.hi : t.en;
-}
-
-function asStacks(columns: MegaColumn[]): MegaColumnStack[] {
-  return columns.map((col) => ({ groups: [col] }));
-}
 
 function pathMatches(pathname: string, prefixes: string[]) {
   return prefixes.some(
@@ -38,216 +25,123 @@ function pathMatches(pathname: string, prefixes: string[]) {
   );
 }
 
-type SheetDef = {
-  key: MenuKey;
+type DirectTab = {
+  href: string;
   label: string;
-  shortLabel: string;
-  icon: typeof Home;
-  stacks: MegaColumnStack[];
+  icon: LucideIcon;
   active: boolean;
-  dense?: boolean;
-  footer?: ReactNode;
 };
 
+type MoreLink = {
+  href: string;
+  label: string;
+  icon: LucideIcon;
+};
+
+/** Mobile: Kundli · Horoscope · Chat · Calculators · More */
 export function MobileBottomNav() {
   const t = useTranslations("nav");
   const locale = useLocale();
   const pathname = usePathname();
   const hi = locale === "hi";
   const reduceMotion = useReducedMotion();
-  const [menu, setMenu] = useState<MenuKey | null>(null);
+  const [moreOpen, setMoreOpen] = useState(false);
 
-  const calcColumns = calculatorsMegaColumns();
-  const featuresStacks = asStacks(FEATURES_MENU);
-  const toolsStacks = asStacks(FREE_TOOLS_MENU);
-  const learnStacks = learnMegaColumns();
+  const kundliActive = pathMatches(pathname, ["/kundli"]);
+  const horoscopeActive = pathMatches(pathname, ["/horoscope"]);
+  const chatActive = pathMatches(pathname, ["/chat"]);
+  const calcActive = pathMatches(pathname, ["/calculators"]);
+  const moreActive = pathMatches(pathname, [
+    "/features",
+    "/services",
+    "/panchang",
+    "/numerology",
+    "/vastu",
+    "/learn",
+    "/blog",
+    "/pricing",
+    "/about",
+    "/contact",
+    "/faq",
+  ]);
 
-  const sectionActive = {
-    features: pathMatches(pathname, ["/features", "/services"]),
-    tools: pathMatches(pathname, [
-      "/kundli",
-      "/chat",
-      "/chat-with-astrologer",
-      "/panchang",
-      "/horoscope",
-      "/numerology",
-      "/vastu",
-    ]),
-    calculators: pathMatches(pathname, ["/calculators"]),
-    learn: pathMatches(pathname, ["/learn", "/blog"]),
-    home: pathname === "/" || pathname === "",
-  };
-
-  const sheets: SheetDef[] = [
+  const leftTabs: DirectTab[] = [
     {
-      key: "features",
-      label: t("features"),
-      shortLabel: hi ? "फीचर्स" : "Features",
-      icon: Sparkles,
-      stacks: featuresStacks,
-      active: sectionActive.features,
-      footer: (
-        <>
-          <Link
-            href="/features"
-            onClick={() => setMenu(null)}
-            className="font-semibold text-saffron-deep"
-          >
-            {hi ? "सभी विशेषताएँ →" : "All features →"}
-          </Link>
-          <Link
-            href="/pricing"
-            onClick={() => setMenu(null)}
-            className="text-[#6b5c4c]"
-          >
-            {t("pricing")}
-          </Link>
-        </>
-      ),
+      href: "/kundli",
+      label: hi ? "कुंडली" : "Kundli",
+      icon: Orbit,
+      active: kundliActive,
     },
     {
-      key: "tools",
-      label: t("freeTools"),
-      shortLabel: hi ? "टूल्स" : "Tools",
-      icon: LayoutGrid,
-      stacks: toolsStacks,
-      active: sectionActive.tools,
-      footer: (
-        <>
-          <Link
-            href="/numerology"
-            onClick={() => setMenu(null)}
-            className="font-semibold text-saffron-deep"
-          >
-            {hi ? "अंक ज्योतिष →" : "Numerology →"}
-          </Link>
-          <Link
-            href="/vastu"
-            onClick={() => setMenu(null)}
-            className="font-semibold text-saffron-deep"
-          >
-            {hi ? "वास्तु →" : "Vastu →"}
-          </Link>
-          <Link
-            href="/calculators"
-            onClick={() => setMenu(null)}
-            className="text-[#6b5c4c]"
-          >
-            {hi ? "सभी उपकरण →" : "All tools →"}
-          </Link>
-          <Link
-            href="/chat"
-            onClick={() => setMenu(null)}
-            className="text-[#6b5c4c]"
-          >
-            {hi ? "एआई चैट" : "AI Chat"}
-          </Link>
-        </>
-      ),
-    },
-    {
-      key: "calculators",
-      label: t("calculators"),
-      shortLabel: hi ? "कैलक" : "Calcs",
-      icon: Calculator,
-      stacks: calcColumns,
-      active: sectionActive.calculators,
-      dense: true,
-      footer: (
-        <>
-          <Link
-            href="/calculators"
-            onClick={() => setMenu(null)}
-            className="font-semibold text-saffron-deep"
-          >
-            {hi ? "सभी कैलकुलेटर →" : "All calculators →"}
-          </Link>
-          <Link
-            href="/kundli"
-            onClick={() => setMenu(null)}
-            className="text-[#6b5c4c]"
-          >
-            {hi ? "कुंडली" : "Kundli"}
-          </Link>
-        </>
-      ),
-    },
-    {
-      key: "learn",
-      label: t("learn"),
-      shortLabel: hi ? "सीखें" : "Learn",
-      icon: BookOpen,
-      stacks: learnStacks,
-      active: sectionActive.learn,
-      footer: (
-        <>
-          <Link
-            href="/learn"
-            onClick={() => setMenu(null)}
-            className="font-semibold text-saffron-deep"
-          >
-            {hi ? "सभी गाइड →" : "All guides →"}
-          </Link>
-          <Link
-            href="/blog"
-            onClick={() => setMenu(null)}
-            className="text-[#6b5c4c]"
-          >
-            {t("blog")}
-          </Link>
-        </>
-      ),
+      href: "/horoscope",
+      label: hi ? "राशिफल" : "Horoscope",
+      icon: Sun,
+      active: horoscopeActive,
     },
   ];
 
-  const leftTabs = sheets.filter((s) => s.key === "features" || s.key === "tools");
-  const rightTabs = sheets.filter(
-    (s) => s.key === "calculators" || s.key === "learn"
-  );
-  const activeSheet = sheets.find((s) => s.key === menu) ?? null;
+  const rightTabs: DirectTab[] = [
+    {
+      href: "/calculators",
+      label: hi ? "कैलक" : "Calcs",
+      icon: Calculator,
+      active: calcActive,
+    },
+  ];
 
-  function toggleMenu(key: MenuKey) {
-    setMenu((current) => (current === key ? null : key));
-  }
+  const moreLinks: MoreLink[] = [
+    { href: "/", label: t("home"), icon: Home },
+    { href: "/features", label: t("features"), icon: Sparkles },
+    { href: "/panchang", label: hi ? "पंचांग" : "Panchang", icon: Sun },
+    {
+      href: "/numerology",
+      label: hi ? "अंक ज्योतिष" : "Numerology",
+      icon: Calculator,
+    },
+    { href: "/vastu", label: hi ? "वास्तु" : "Vastu", icon: Wrench },
+    { href: "/learn", label: t("learn"), icon: BookOpen },
+    { href: "/pricing", label: t("pricing"), icon: Sparkles },
+    { href: "/blog", label: t("blog"), icon: BookOpen },
+  ];
 
   useEffect(() => {
-    setMenu(null);
+    setMoreOpen(false);
   }, [pathname]);
 
   useEffect(() => {
-    if (!menu) return;
+    if (!moreOpen) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = prev;
     };
-  }, [menu]);
+  }, [moreOpen]);
 
   return (
     <div className="lg:hidden">
       <AnimatePresence>
-        {menu && activeSheet ? (
+        {moreOpen ? (
           <motion.div
-            key="mobile-sheet-root"
+            key="mobile-more-sheet"
             className="fixed inset-0 z-[60]"
             data-mobile-sheet="open"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: reduceMotion ? 0 : 0.18 }}
+            transition={{ duration: reduceMotion ? 0 : 0.15 }}
           >
             <button
               type="button"
               aria-label={hi ? "मेनू बंद करें" : "Close menu"}
-              className="absolute inset-0 bg-[#2a2118]/45 backdrop-blur-[2px]"
-              onClick={() => setMenu(null)}
+              className="absolute inset-0 bg-[#0B0F1F]/72"
+              onClick={() => setMoreOpen(false)}
             />
 
             <motion.div
               role="dialog"
               aria-modal="true"
-              aria-label={activeSheet.label}
-              className="absolute inset-x-0 bottom-0 z-10 flex max-h-[min(78vh,640px)] flex-col rounded-t-[1.35rem] border border-black/[0.08] border-b-0 bg-white shadow-[0_-18px_50px_-20px_rgba(42,33,24,0.4)]"
+              aria-label={hi ? "और मेनू" : "More menu"}
+              className="absolute inset-x-0 bottom-0 z-10 flex max-h-[min(72vh,560px)] flex-col rounded-t-[1.35rem] border border-white/10 border-b-0 bg-[#12172E] shadow-[0_-18px_50px_-20px_rgba(0,0,0,0.65)]"
               style={{
                 paddingBottom: "calc(4.85rem + env(safe-area-inset-bottom))",
               }}
@@ -256,326 +150,164 @@ export function MobileBottomNav() {
               exit={reduceMotion ? undefined : { y: "100%" }}
               transition={{
                 type: "spring",
-                damping: 28,
-                stiffness: 320,
-                mass: 0.85,
+                damping: 30,
+                stiffness: 340,
+                mass: 0.8,
               }}
             >
-              <div className="flex shrink-0 items-center justify-between gap-3 border-b border-black/[0.06] px-4 pb-3 pt-3">
+              <div className="flex shrink-0 items-center justify-between gap-3 border-b border-white/10 px-4 pb-3 pt-3">
                 <div className="min-w-0">
-                  <div className="mx-auto mb-2 h-1 w-10 rounded-full bg-black/10" />
-                  <p className="truncate text-sm font-bold text-ink">
-                    {activeSheet.label}
+                  <div className="mx-auto mb-2 h-1 w-10 rounded-full bg-white/20" />
+                  <p className="font-ui text-sm font-bold text-white">
+                    {hi ? "और विकल्प" : "More"}
                   </p>
                 </div>
                 <button
                   type="button"
-                  onClick={() => setMenu(null)}
-                  className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-black/[0.08] bg-[#faf8f6] text-ink-muted transition hover:bg-[#fff1e6] hover:text-saffron-deep"
+                  onClick={() => setMoreOpen(false)}
+                  className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-white/15 text-ink-muted hover:bg-white/[0.06] hover:text-white"
                   aria-label={hi ? "बंद करें" : "Close"}
                 >
                   <X className="h-5 w-5" />
                 </button>
               </div>
 
-              <div
-                key={activeSheet.key}
-                className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 py-3 sm:px-4"
-              >
-                {activeSheet.key === "tools" ? (
-                  <div className="mb-4 space-y-2">
-                    <Link
-                      href="/numerology"
-                      onClick={() => setMenu(null)}
-                      className={cn(
-                        "flex items-center gap-3 rounded-2xl border px-3.5 py-3 transition",
-                        pathMatches(pathname, ["/numerology"])
-                          ? "border-saffron/40 bg-gradient-to-r from-saffron to-maroon text-white shadow-sm"
-                          : "border-saffron/25 bg-gradient-to-br from-[#fff7f0] to-white hover:border-saffron/40"
-                      )}
-                    >
-                      <span
-                        className={cn(
-                          "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-lg",
-                          pathMatches(pathname, ["/numerology"])
-                            ? "bg-white/20"
-                            : "bg-white text-saffron-deep shadow-sm"
-                        )}
-                        aria-hidden
-                      >
-                        🔢
-                      </span>
-                      <span className="min-w-0 flex-1">
-                        <span className="block text-sm font-bold">
-                          {hi ? "अंक ज्योतिष" : "Numerology"}
-                        </span>
-                        <span
+              <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 py-3">
+                <ul className="space-y-1">
+                  {moreLinks.map((link) => {
+                    const Icon = link.icon;
+                    const active =
+                      link.href === "/"
+                        ? pathname === "/" || pathname === ""
+                        : pathMatches(pathname, [link.href]);
+                    return (
+                      <li key={link.href}>
+                        <Link
+                          href={link.href}
+                          onClick={() => setMoreOpen(false)}
                           className={cn(
-                            "mt-0.5 block text-[12px] leading-snug",
-                            pathMatches(pathname, ["/numerology"])
-                              ? "text-white/85"
-                              : "text-ink-muted"
+                            "flex items-center gap-3 rounded-xl px-3 py-3 font-ui text-[14px] font-semibold",
+                            active
+                              ? "bg-[linear-gradient(90deg,#6C3CFF,#FF8A3D)] text-white"
+                              : "text-white/90 hover:bg-white/[0.06]"
                           )}
                         >
-                          {hi
-                            ? "मूलांक, भाग्यांक, नाम अंक व लो शू"
-                            : "Mulank, Bhagyank, name number & Lo Shu"}
-                        </span>
-                      </span>
-                      <span
-                        className={cn(
-                          "text-sm font-semibold",
-                          pathMatches(pathname, ["/numerology"])
-                            ? "text-white"
-                            : "text-saffron-deep"
-                        )}
-                      >
-                        →
-                      </span>
-                    </Link>
-                    <Link
-                      href="/vastu"
-                      onClick={() => setMenu(null)}
-                      className={cn(
-                        "flex items-center gap-3 rounded-2xl border px-3.5 py-3 transition",
-                        pathMatches(pathname, ["/vastu"])
-                          ? "border-saffron/40 bg-gradient-to-r from-saffron to-maroon text-white shadow-sm"
-                          : "border-saffron/25 bg-gradient-to-br from-[#fff7f0] to-white hover:border-saffron/40"
-                      )}
-                    >
-                      <span
-                        className={cn(
-                          "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-lg",
-                          pathMatches(pathname, ["/vastu"])
-                            ? "bg-white/20"
-                            : "bg-white text-saffron-deep shadow-sm"
-                        )}
-                        aria-hidden
-                      >
-                        🏠
-                      </span>
-                      <span className="min-w-0 flex-1">
-                        <span className="block text-sm font-bold">
-                          {hi ? "वास्तु" : "Vastu"}
-                        </span>
-                        <span
-                          className={cn(
-                            "mt-0.5 block text-[12px] leading-snug",
-                            pathMatches(pathname, ["/vastu"])
-                              ? "text-white/85"
-                              : "text-ink-muted"
-                          )}
-                        >
-                          {hi
-                            ? "क्षेत्र दोष, स्कोर व उपाय"
-                            : "Zone Dosha, score & remedies"}
-                        </span>
-                      </span>
-                      <span
-                        className={cn(
-                          "text-sm font-semibold",
-                          pathMatches(pathname, ["/vastu"])
-                            ? "text-white"
-                            : "text-saffron-deep"
-                        )}
-                      >
-                        →
-                      </span>
-                    </Link>
-                  </div>
-                ) : null}
-                <div className="space-y-5">
-                  {activeSheet.stacks.map((col, ci) =>
-                    col.groups.map((group) => (
-                      <div key={`${ci}-${pick(locale, group.heading)}`}>
-                        <p className="mb-1.5 border-b border-black/[0.06] pb-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-[#8a7a6a]">
-                          {pick(locale, group.heading)}
-                        </p>
-                        <ul
-                          className={cn(
-                            "grid gap-0.5",
-                            activeSheet.dense
-                              ? "grid-cols-1 sm:grid-cols-2"
-                              : "grid-cols-1"
-                          )}
-                        >
-                          {group.links.map((link) => {
-                            const linkActive =
-                              pathname === link.href ||
-                              pathname.startsWith(`${link.href}/`);
-                            return (
-                              <li key={link.href}>
-                                <Link
-                                  href={link.href}
-                                  onClick={() => setMenu(null)}
-                                  className={cn(
-                                    "flex items-start gap-2.5 rounded-xl px-2 py-2 transition",
-                                    linkActive
-                                      ? "bg-gradient-to-r from-saffron to-maroon text-white shadow-sm"
-                                      : "hover:bg-[#fff1e6]"
-                                  )}
-                                >
-                                  <span
-                                    className={cn(
-                                      "mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[15px]",
-                                      linkActive
-                                        ? "bg-white/20"
-                                        : "bg-[#f7f4f0] text-[#9a8b7a]"
-                                    )}
-                                    aria-hidden
-                                  >
-                                    {link.icon || "•"}
-                                  </span>
-                                  <span className="min-w-0 leading-snug">
-                                    <span
-                                      className={cn(
-                                        "block text-[13px] font-semibold",
-                                        linkActive
-                                          ? "text-white"
-                                          : "text-[#3d342c]"
-                                      )}
-                                    >
-                                      {pick(locale, link.title)}
-                                    </span>
-                                    {!activeSheet.dense && link.description ? (
-                                      <span
-                                        className={cn(
-                                          "mt-0.5 block text-[11px] font-normal leading-snug line-clamp-2",
-                                          linkActive
-                                            ? "text-white/85"
-                                            : "text-[#8a7a6a]"
-                                        )}
-                                      >
-                                        {pick(locale, link.description)}
-                                      </span>
-                                    ) : null}
-                                  </span>
-                                </Link>
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      </div>
-                    ))
-                  )}
+                          <Icon className="h-4 w-4 shrink-0" strokeWidth={2.1} />
+                          {link.label}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+                <div className="mt-3 border-t border-white/10 px-1 pt-3">
+                  <Link
+                    href="/features"
+                    onClick={() => setMoreOpen(false)}
+                    className="font-ui text-[13px] font-semibold text-cosmic-gold hover:underline"
+                  >
+                    {hi ? "सभी विशेषताएँ देखें →" : "View all features →"}
+                  </Link>
                 </div>
               </div>
-
-              {activeSheet.footer ? (
-                <div
-                  key={`${activeSheet.key}-footer`}
-                  className="flex shrink-0 flex-wrap items-center gap-x-5 gap-y-2 border-t border-black/[0.06] bg-[#faf8f6] px-4 py-3 text-[13px]"
-                >
-                  {activeSheet.footer}
-                </div>
-              ) : null}
             </motion.div>
           </motion.div>
         ) : null}
       </AnimatePresence>
 
       <nav
-        className="fixed inset-x-0 bottom-0 z-[70] w-full max-w-[100vw] border-t border-black/[0.06] bg-white"
+        className="fixed inset-x-0 bottom-0 z-[70] w-full max-w-[100vw] border-t border-white/10 bg-[#0B0F1F]"
         style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
         aria-label={hi ? "मोबाइल मेनू" : "Mobile menu"}
       >
         <div className="relative mx-auto grid h-[3.85rem] max-w-lg grid-cols-5 px-1">
-            {leftTabs.map((item) => (
-              <TabButton
-                key={item.key}
-                item={item}
-                open={menu === item.key}
-                onClick={() => toggleMenu(item.key)}
-              />
-            ))}
+          {leftTabs.map((item) => (
+            <DirectTabLink key={item.href} item={item} />
+          ))}
 
-            <Link
-              href="/"
-              onClick={() => setMenu(null)}
-              className="relative flex h-full min-w-0 flex-col items-center justify-center gap-0.5 px-0.5 pb-1.5 pt-1"
-              aria-current={sectionActive.home ? "page" : undefined}
-              aria-label={t("home")}
+          <Link
+            href="/chat"
+            onClick={() => setMoreOpen(false)}
+            className="relative flex h-full min-w-0 flex-col items-center justify-center gap-0.5 px-0.5 pb-1.5 pt-1"
+            aria-current={chatActive ? "page" : undefined}
+            aria-label={hi ? "एआई चैट" : "AI Chat"}
+          >
+            <span className="absolute left-1/2 top-0 z-20 flex size-[3.05rem] -translate-x-1/2 -translate-y-[54%] items-center justify-center rounded-full bg-[linear-gradient(135deg,#6C3CFF,#FF8A3D)] shadow-[0_8px_20px_-6px_rgba(108,60,255,0.75)] ring-[5px] ring-[#0B0F1F]">
+              <MessageCircle
+                className="relative h-[1.25rem] w-[1.25rem] text-white"
+                strokeWidth={2.25}
+              />
+            </span>
+            <span className="h-8 w-8 shrink-0 opacity-0" aria-hidden />
+            <span
+              className={cn(
+                "max-w-full truncate text-[10px] font-semibold leading-none",
+                chatActive ? "text-cosmic-gold" : "text-ink-muted"
+              )}
             >
-              {/* FAB sits above the bar with a white ring so it reads cleanly */}
-              <span className="absolute left-1/2 top-0 z-20 flex size-[3.05rem] -translate-x-1/2 -translate-y-[54%] items-center justify-center rounded-full bg-gradient-to-br from-[#ff9a2e] via-saffron to-[#d45500] shadow-[0_8px_20px_-6px_rgba(240,106,0,0.75)] ring-[5px] ring-white transition-transform active:scale-95">
-                <span
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_30%_28%,rgba(255,255,255,0.32),transparent_55%)]"
-                />
-                <Home
-                  className="relative h-[1.25rem] w-[1.25rem] text-white"
-                  strokeWidth={2.25}
-                />
-              </span>
-              {/* Matches TabButton icon slot so "Home" lines up with other labels */}
-              <span className="h-8 w-8 shrink-0 opacity-0" aria-hidden />
-              <span
-                className={cn(
-                  "max-w-full truncate text-[10px] font-semibold leading-none",
-                  sectionActive.home ? "text-saffron-deep" : "text-[#8a7a6a]"
-                )}
-              >
-                {hi ? "होम" : "Home"}
-              </span>
-            </Link>
+              {hi ? "चैट" : "Chat"}
+            </span>
+          </Link>
 
-            {rightTabs.map((item) => (
-              <TabButton
-                key={item.key}
-                item={item}
-                open={menu === item.key}
-                onClick={() => toggleMenu(item.key)}
-              />
-            ))}
+          {rightTabs.map((item) => (
+            <DirectTabLink key={item.href} item={item} />
+          ))}
+
+          <button
+            type="button"
+            onClick={() => setMoreOpen((v) => !v)}
+            aria-expanded={moreOpen}
+            aria-label={hi ? "और मेनू" : "More menu"}
+            className={cn(
+              "flex h-full min-w-0 flex-col items-center justify-center gap-0.5 px-0.5 pb-1.5 pt-1",
+              moreOpen || moreActive ? "text-cosmic-gold" : "text-ink-muted"
+            )}
+          >
+            <span
+              className={cn(
+                "flex h-8 w-8 items-center justify-center rounded-xl",
+                moreOpen
+                  ? "bg-[linear-gradient(135deg,#6C3CFF,#FF8A3D)] text-white"
+                  : moreActive
+                    ? "bg-cosmic-purple/20 text-cosmic-gold"
+                    : "bg-transparent"
+              )}
+            >
+              <Menu className="h-[1.15rem] w-[1.15rem]" strokeWidth={2.1} />
+            </span>
+            <span className="max-w-full truncate text-[10px] font-semibold leading-none">
+              {hi ? "और" : "More"}
+            </span>
+          </button>
         </div>
       </nav>
     </div>
   );
 }
 
-function TabButton({
-  item,
-  open,
-  onClick,
-}: {
-  item: SheetDef;
-  open: boolean;
-  onClick: () => void;
-}) {
+function DirectTabLink({ item }: { item: DirectTab }) {
   const Icon = item.icon;
-  const lit = open || item.active;
-
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-expanded={open}
-      aria-current={item.active ? "true" : undefined}
+    <Link
+      href={item.href}
       className={cn(
-        "flex h-full min-w-0 flex-col items-center justify-center gap-0.5 px-0.5 pb-1.5 pt-1 transition",
-        lit ? "text-saffron-deep" : "text-[#8a7a6a]"
+        "flex h-full min-w-0 flex-col items-center justify-center gap-0.5 px-0.5 pb-1.5 pt-1",
+        item.active ? "text-cosmic-gold" : "text-ink-muted"
       )}
+      aria-current={item.active ? "page" : undefined}
     >
       <span
         className={cn(
-          "flex h-8 w-8 items-center justify-center rounded-xl transition",
-          open
-            ? "bg-gradient-to-br from-saffron to-maroon text-white shadow-md shadow-saffron/25"
-            : item.active
-              ? "bg-saffron/12 text-saffron-deep"
-              : "bg-transparent"
+          "flex h-8 w-8 items-center justify-center rounded-xl",
+          item.active
+            ? "bg-cosmic-purple/20 text-cosmic-gold"
+            : "bg-transparent"
         )}
       >
         <Icon className="h-[1.15rem] w-[1.15rem]" strokeWidth={2.1} />
       </span>
-      <span
-        className={cn(
-          "max-w-full truncate text-[10px] font-semibold leading-none",
-          lit ? "text-saffron-deep" : "text-[#8a7a6a]"
-        )}
-      >
-        {item.shortLabel}
+      <span className="max-w-full truncate text-[10px] font-semibold leading-none">
+        {item.label}
       </span>
-    </button>
+    </Link>
   );
 }

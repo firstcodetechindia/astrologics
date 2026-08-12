@@ -46,8 +46,8 @@ function PanelHeader({
   tone: "features" | "tools" | "learn";
 }) {
   const tones = {
-    features: "bg-[#fff1e6] text-saffron-deep",
-    tools: "bg-white text-saffron-deep ring-1 ring-saffron/20",
+    features: "bg-cosmic-purple/15 text-saffron-deep",
+    tools: "bg-surface text-saffron-deep ring-1 ring-saffron/20",
     learn: "bg-ink/[0.05] text-maroon",
   };
   return (
@@ -119,7 +119,7 @@ export function HomeExplore({
   ];
 
   return (
-    <section className="border-y border-black/[0.05] bg-[#faf7f4] py-12 sm:py-16 md:py-20">
+    <section className="border-y border-white/10 bg-cosmic-navy py-12 sm:py-16 md:py-20">
       <div className="container-page">
         <div className="mx-auto max-w-2xl text-center sm:mx-0 sm:max-w-xl sm:text-left">
           <h2 className="heading-1 font-display tracking-tight text-ink">
@@ -135,12 +135,12 @@ export function HomeExplore({
 
         {/* 4 columns — same shell so Panchang matches Features/Tools/Learn */}
         <div className="mt-8 grid grid-cols-1 gap-4 sm:mt-10 sm:gap-5 md:grid-cols-2 xl:grid-cols-4 xl:items-stretch">
-          <article className="flex h-full flex-col rounded-2xl border border-black/[0.06] bg-white p-4 sm:p-5 shadow-[0_8px_24px_-20px_rgba(42,33,24,0.35)]">
+          <article className="flex h-full flex-col rounded-2xl border border-white/10 bg-surface p-4 sm:p-5 shadow-[0_8px_24px_-20px_rgba(42,33,24,0.35)]">
             <LivePanchangPeek locale={locale} panchang={panchang} />
           </article>
 
           {/* Features */}
-          <article className="flex h-full flex-col rounded-2xl border border-black/[0.06] bg-white p-4 sm:p-5 shadow-[0_8px_24px_-20px_rgba(42,33,24,0.35)]">
+          <article className="flex h-full flex-col rounded-2xl border border-white/10 bg-surface p-4 sm:p-5 shadow-[0_8px_24px_-20px_rgba(42,33,24,0.35)]">
             <PanelHeader
               icon={Sparkles}
               title={hi ? "विशेषताएँ" : "Features"}
@@ -154,9 +154,9 @@ export function HomeExplore({
                   <li key={f.href}>
                     <Link
                       href={f.href}
-                      className="flex items-center gap-2.5 rounded-xl px-1.5 py-2 text-[13px] font-medium text-ink transition hover:bg-[#fff1e6] hover:text-saffron-deep"
+                      className="flex items-center gap-2.5 rounded-xl px-1.5 py-2 text-[13px] font-medium text-ink transition hover:bg-cosmic-purple/15 hover:text-saffron-deep"
                     >
-                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#fff1e6] text-saffron-deep">
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-cosmic-purple/15 text-saffron-deep">
                         <Icon className="h-3.5 w-3.5" />
                       </span>
                       {f.label}
@@ -175,7 +175,7 @@ export function HomeExplore({
           </article>
 
           {/* Calculators */}
-          <article className="flex h-full flex-col rounded-2xl border border-dashed border-saffron/30 bg-[#fffdfb] p-4 sm:p-5">
+          <article className="flex h-full flex-col rounded-2xl border border-dashed border-saffron/30 bg-surface p-4 sm:p-5">
             <PanelHeader
               icon={Calculator}
               title={hi ? "कैलकुलेटर" : "Calculators"}
@@ -187,9 +187,9 @@ export function HomeExplore({
                 <li key={c.href}>
                   <Link
                     href={c.href}
-                    className="flex items-center gap-3 rounded-xl px-1.5 py-2 text-[13px] font-medium text-ink transition hover:bg-white hover:text-saffron-deep"
+                    className="flex items-center gap-3 rounded-xl px-1.5 py-2 text-[13px] font-medium text-ink transition hover:bg-surface hover:text-saffron-deep"
                   >
-                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white text-[11px] font-bold tabular-nums text-ink-muted ring-1 ring-black/[0.05]">
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-surface text-[11px] font-bold tabular-nums text-ink-muted ring-1 ring-black/[0.05]">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     {c.label}
@@ -207,7 +207,7 @@ export function HomeExplore({
           </article>
 
           {/* Learn */}
-          <article className="flex h-full flex-col rounded-2xl border border-black/[0.06] bg-white p-4 sm:p-5 shadow-[0_8px_24px_-20px_rgba(42,33,24,0.35)]">
+          <article className="flex h-full flex-col rounded-2xl border border-white/10 bg-surface p-4 sm:p-5 shadow-[0_8px_24px_-20px_rgba(42,33,24,0.35)]">
             <PanelHeader
               icon={BookOpen}
               title={hi ? "ज्योतिष सीखें" : "Learn Astrology"}
@@ -219,7 +219,7 @@ export function HomeExplore({
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="block rounded-r-xl px-2 py-2 text-[13px] font-medium text-ink transition hover:bg-[#fff1e6] hover:text-saffron-deep"
+                    className="block rounded-r-xl px-2 py-2 text-[13px] font-medium text-ink transition hover:bg-cosmic-purple/15 hover:text-saffron-deep"
                   >
                     {item.label}
                   </Link>
@@ -237,7 +237,7 @@ export function HomeExplore({
         </div>
 
         {/* Today's signs */}
-        <div className="mt-5 rounded-2xl border border-black/[0.06] bg-white p-5 shadow-[0_8px_24px_-20px_rgba(42,33,24,0.3)] sm:mt-6 sm:p-6 md:p-7">
+        <div className="mt-5 rounded-2xl border border-white/10 bg-surface p-5 shadow-[0_8px_24px_-20px_rgba(42,33,24,0.3)] sm:mt-6 sm:p-6 md:p-7">
           <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
             <div>
               <h3 className="heading-2 font-display text-ink">
@@ -267,7 +267,7 @@ export function HomeExplore({
                   <ZodiacIcon
                     index={i}
                     className="h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24"
-                    colorClassName="bg-[#c45a12]/80"
+                    colorClassName="bg-cosmic-gold"
                   />
                 </span>
                 <span className="text-[12px] font-semibold leading-tight text-ink transition-colors group-hover/sign:text-saffron-deep sm:text-[13px]">

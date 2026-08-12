@@ -49,7 +49,7 @@ const AREAS = [
 export function WhyAstrology({ locale }: { locale: string }) {
   const hi = locale === "hi";
   return (
-    <section className="bg-[#f7f4f0] py-14 sm:py-20">
+    <section className="bg-deep-indigo/70 py-14 sm:py-20">
       <div className="container-page">
         <Reveal>
           <h2 className="heading-1 max-w-3xl font-display tracking-tight text-ink">
@@ -65,8 +65,8 @@ export function WhyAstrology({ locale }: { locale: string }) {
             </p>
             <p>
               {hi
-                ? "Astrologics गणना को पहले रखता है, फिर व्याख्या को सरल भाषा में—ताकि आप स्वयं सोच सकें।"
-                : "Astrologics puts calculation first, then explanation in plain language—so you can think for yourself."}
+                ? "CosmicGPT गणना को पहले रखता है, फिर व्याख्या को सरल भाषा में—ताकि आप स्वयं सोच सकें।"
+                : "CosmicGPT puts calculation first, then explanation in plain language—so you can think for yourself."}
             </p>
           </div>
         </Reveal>
@@ -87,7 +87,7 @@ export function WhyAstrology({ locale }: { locale: string }) {
         </div>
 
         <Reveal className="mt-10 max-w-2xl">
-          <p className="text-[15px] font-medium italic leading-relaxed text-[#6B1C1C] sm:text-base">
+          <p className="text-[15px] font-medium italic leading-relaxed text-white sm:text-base">
             {hi
               ? "आपकी कुंडली आपके लिए निर्णय नहीं लेती। यह विचार करने के लिए एक और दृष्टिकोण देती है।"
               : "Your chart doesn’t make decisions for you. It gives you another perspective to consider."}

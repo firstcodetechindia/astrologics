@@ -5,17 +5,17 @@ import {
   type ZodiacSlug,
 } from "@/lib/zodiac-icons";
 
-/** KundliGPT-style masked line-art zodiac icon (color via background). */
+/** CosmicGPT masked line-art zodiac icon (color via background). */
 export function ZodiacIcon({
   slug,
   index,
   className,
-  colorClassName = "bg-[#c45a12]",
+  /** Tailwind bg-* class — mask reveals this color. Default: cosmic gold for dark UI. */
+  colorClassName = "bg-cosmic-gold",
 }: {
   slug?: ZodiacSlug | string;
   index?: number;
   className?: string;
-  /** Tailwind bg-* class — mask reveals this color */
   colorClassName?: string;
 }) {
   const resolved =
@@ -25,10 +25,15 @@ export function ZodiacIcon({
   return (
     <span
       aria-hidden
-      className={cn("inline-block shrink-0", colorClassName, className)}
+      className={cn(
+        "inline-block shrink-0",
+        colorClassName,
+        className
+      )}
       style={{
         mask: `url(${src}) center / contain no-repeat`,
         WebkitMask: `url(${src}) center / contain no-repeat`,
+        filter: "drop-shadow(0 0 6px rgba(255, 200, 87, 0.35))",
       }}
     />
   );

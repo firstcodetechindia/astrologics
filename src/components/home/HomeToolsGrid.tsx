@@ -53,7 +53,7 @@ export function HomeToolsGrid({ locale }: { locale: string }) {
               <Link
                 key={c.slug}
                 href={`/calculators/${c.slug}`}
-                className="group flex gap-3 rounded-xl border border-black/[0.07] bg-white p-3.5 transition hover:border-saffron/30 hover:shadow-sm"
+                className="group flex gap-3 rounded-xl border border-white/10 bg-surface p-3.5 transition hover:border-saffron/30 hover:shadow-sm"
               >
                 <span className="text-xl shrink-0" aria-hidden>
                   {c.icon}

@@ -18,7 +18,7 @@ import {
 } from "@/lib/auth/dashboard-store";
 
 const fieldClass =
-  "mt-1.5 w-full rounded-xl border border-saffron/20 bg-white px-3 py-2.5 text-sm text-ink outline-none transition focus:border-saffron/50 focus:ring-[3px] focus:ring-saffron/15";
+  "mt-1.5 w-full rounded-xl border border-saffron/20 bg-surface px-3 py-2.5 text-sm text-ink outline-none transition focus:border-saffron/50 focus:ring-[3px] focus:ring-saffron/15";
 
 const emptyForm = {
   label: "",
@@ -102,7 +102,7 @@ export function DashboardSavedPanel() {
           className="grid gap-4 border-b border-saffron/10 px-5 py-6 sm:grid-cols-2 sm:px-8"
         >
           <label className="block">
-            <span className="text-[12px] font-semibold text-[#5c4f42]">
+            <span className="text-[12px] font-semibold text-ink-muted">
               {hi ? "लेबल" : "Label"}
             </span>
             <input
@@ -113,7 +113,7 @@ export function DashboardSavedPanel() {
             />
           </label>
           <label className="block">
-            <span className="text-[12px] font-semibold text-[#5c4f42]">
+            <span className="text-[12px] font-semibold text-ink-muted">
               {hi ? "संबंध" : "Relation"}
             </span>
             <input
@@ -126,7 +126,7 @@ export function DashboardSavedPanel() {
             />
           </label>
           <label className="block sm:col-span-2">
-            <span className="text-[12px] font-semibold text-[#5c4f42]">
+            <span className="text-[12px] font-semibold text-ink-muted">
               {hi ? "नाम*" : "Name*"}
             </span>
             <input
@@ -139,7 +139,7 @@ export function DashboardSavedPanel() {
             />
           </label>
           <label className="block">
-            <span className="text-[12px] font-semibold text-[#5c4f42]">
+            <span className="text-[12px] font-semibold text-ink-muted">
               {hi ? "जन्म तिथि*" : "Birth Date*"}
             </span>
             <input
@@ -153,7 +153,7 @@ export function DashboardSavedPanel() {
             />
           </label>
           <label className="block">
-            <span className="text-[12px] font-semibold text-[#5c4f42]">
+            <span className="text-[12px] font-semibold text-ink-muted">
               {hi ? "जन्म समय" : "Birth Time"}
             </span>
             <input
@@ -166,7 +166,7 @@ export function DashboardSavedPanel() {
             />
           </label>
           <label className="block sm:col-span-2">
-            <span className="text-[12px] font-semibold text-[#5c4f42]">
+            <span className="text-[12px] font-semibold text-ink-muted">
               {hi ? "जन्म स्थान*" : "Birth Place*"}
             </span>
             <input
@@ -179,7 +179,7 @@ export function DashboardSavedPanel() {
             />
           </label>
           <label className="block sm:col-span-2">
-            <span className="text-[12px] font-semibold text-[#5c4f42]">
+            <span className="text-[12px] font-semibold text-ink-muted">
               {hi ? "नोट्स" : "Notes"}
             </span>
             <textarea
@@ -224,7 +224,7 @@ export function DashboardSavedPanel() {
           {items.map((item) => (
             <li
               key={item.id}
-              className="rounded-2xl border border-saffron/12 bg-[#fffaf6] p-4"
+              className="rounded-2xl border border-saffron/12 bg-cosmic-navy p-4"
             >
               <div className="flex items-start justify-between gap-2">
                 <div>
@@ -241,7 +241,7 @@ export function DashboardSavedPanel() {
                     removeSavedKundli(phone, item.id);
                     refresh(phone);
                   }}
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-[#8a7a6a] hover:bg-white hover:text-saffron-deep"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-ink-muted hover:bg-surface hover:text-saffron-deep"
                   aria-label={hi ? "हटाएँ" : "Remove"}
                 >
                   <Trash2 className="h-4 w-4" />
@@ -256,7 +256,7 @@ export function DashboardSavedPanel() {
               </p>
               <p className="text-[13px] text-ink-muted">{item.birthPlace}</p>
               {item.notes ? (
-                <p className="mt-2 text-[12px] leading-relaxed text-[#7a6b5c]">
+                <p className="mt-2 text-[12px] leading-relaxed text-ink-muted">
                   {item.notes}
                 </p>
               ) : null}

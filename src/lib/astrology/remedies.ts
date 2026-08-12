@@ -1,5 +1,5 @@
 import { PLANET_META, SIGNS } from "./constants";
-export { gemstoneForSign, recommendGemstones } from "./gemstones";
+export { gemstoneForSign, recommendGemstones, luckyGemstoneCalculatorReport } from "./gemstones";
 
 const RUDRAKSHA_BY_PLANET: Record<string, { mukhi: number; en: string; hi: string }> = {
   sun: { mukhi: 1, en: "1 Mukhi", hi: "एक मुखी" },

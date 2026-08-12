@@ -14,7 +14,7 @@ export function RelatedSidebar({ excludeSlug }: { excludeSlug?: string }) {
         g.items.length === 0 ? null : (
           <div
             key={locale === "hi" ? g.heading.hi : g.heading.en}
-            className="rounded-2xl border border-black/8 bg-white p-4 shadow-sm"
+            className="rounded-2xl border border-white/10 bg-surface p-4 shadow-sm"
           >
             <p className="text-[11px] font-bold tracking-wider text-ink-muted uppercase mb-3">
               {locale === "hi" ? g.heading.hi : g.heading.en}

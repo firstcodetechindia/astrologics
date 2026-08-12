@@ -52,7 +52,7 @@ export function ScrollToTop() {
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       aria-label={hi ? "ऊपर जाएँ" : "Back to top"}
       className={cn(
-        "fixed z-[55] flex h-12 w-12 items-center justify-center rounded-full bg-white/95 text-saffron-deep shadow-[0_10px_28px_-12px_rgba(42,33,24,0.45)] ring-1 ring-black/[0.06] backdrop-blur transition-all duration-300",
+        "fixed z-[55] flex h-12 w-12 items-center justify-center rounded-full bg-surface/95 text-saffron-deep shadow-[0_10px_28px_-12px_rgba(42,33,24,0.45)] ring-1 ring-black/[0.06] backdrop-blur transition-all duration-300",
         "right-3 bottom-[calc(5.25rem+env(safe-area-inset-bottom))] lg:bottom-6 lg:right-5",
         visible
           ? "pointer-events-auto translate-y-0 opacity-100"

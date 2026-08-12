@@ -18,7 +18,7 @@ import {
 } from "@/lib/auth/dashboard-store";
 
 const fieldClass =
-  "mt-1.5 w-full rounded-xl border border-saffron/20 bg-white px-3 py-2.5 text-sm text-ink outline-none transition focus:border-saffron/50 focus:ring-[3px] focus:ring-saffron/15";
+  "mt-1.5 w-full rounded-xl border border-saffron/20 bg-surface px-3 py-2.5 text-sm text-ink outline-none transition focus:border-saffron/50 focus:ring-[3px] focus:ring-saffron/15";
 
 export function DashboardKundliCheckPanel() {
   const locale = useLocale();
@@ -81,7 +81,7 @@ export function DashboardKundliCheckPanel() {
         className="grid gap-4 border-b border-saffron/10 px-5 py-6 sm:grid-cols-2 sm:px-8"
       >
         <label className="block sm:col-span-2">
-          <span className="text-[12px] font-semibold text-[#5c4f42]">
+          <span className="text-[12px] font-semibold text-ink-muted">
             {hi ? "व्यक्ति का नाम*" : "Person Name*"}
           </span>
           <input
@@ -93,7 +93,7 @@ export function DashboardKundliCheckPanel() {
           />
         </label>
         <label className="block">
-          <span className="text-[12px] font-semibold text-[#5c4f42]">
+          <span className="text-[12px] font-semibold text-ink-muted">
             {hi ? "जन्म तिथि*" : "Birth Date*"}
           </span>
           <input
@@ -105,7 +105,7 @@ export function DashboardKundliCheckPanel() {
           />
         </label>
         <label className="block">
-          <span className="text-[12px] font-semibold text-[#5c4f42]">
+          <span className="text-[12px] font-semibold text-ink-muted">
             {hi ? "जन्म समय*" : "Birth Time*"}
           </span>
           <input
@@ -117,7 +117,7 @@ export function DashboardKundliCheckPanel() {
           />
         </label>
         <label className="block sm:col-span-2">
-          <span className="text-[12px] font-semibold text-[#5c4f42]">
+          <span className="text-[12px] font-semibold text-ink-muted">
             {hi ? "जन्म स्थान*" : "Birth Place*"}
           </span>
           <input
@@ -171,7 +171,7 @@ export function DashboardKundliCheckPanel() {
                   {" · "}
                   {item.birthPlace}
                 </p>
-                <p className="mt-1 text-[11px] text-[#9a8b7a]">
+                <p className="mt-1 text-[11px] text-ink-muted">
                   {new Date(item.checkedAt).toLocaleString(
                     hi ? "hi-IN" : "en-IN"
                   )}
@@ -180,7 +180,7 @@ export function DashboardKundliCheckPanel() {
               <div className="flex items-center gap-2">
                 <Link
                   href="/kundli"
-                  className="rounded-lg border border-saffron/25 px-3 py-1.5 text-xs font-semibold text-saffron-deep hover:bg-[#fff1e6]"
+                  className="rounded-lg border border-saffron/25 px-3 py-1.5 text-xs font-semibold text-saffron-deep hover:bg-cosmic-purple/15"
                 >
                   {hi ? "फिर खोलें" : "Open again"}
                 </Link>
@@ -190,7 +190,7 @@ export function DashboardKundliCheckPanel() {
                     removeKundliCheck(phone, item.id);
                     refresh(phone);
                   }}
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-[#8a7a6a] hover:bg-[#fff1e6] hover:text-saffron-deep"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-ink-muted hover:bg-cosmic-purple/15 hover:text-saffron-deep"
                   aria-label={hi ? "हटाएँ" : "Remove"}
                 >
                   <Trash2 className="h-4 w-4" />

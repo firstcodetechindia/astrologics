@@ -501,6 +501,18 @@ export function explainCalculatorResult(
     case "sade-sati": {
       const active = Boolean(raw.active);
       const phase = String(raw.phase || "none");
+      const cycle = Array.isArray(raw.fullCycle)
+        ? (raw.fullCycle as {
+            phase: number;
+            start: string;
+            end: string;
+            label?: Loc;
+          }[])
+        : [];
+      const window = raw.currentWindow as
+        | { start?: string; end?: string }
+        | null
+        | undefined;
       return {
         kind: "explained",
         slug,
@@ -529,6 +541,14 @@ export function explainCalculatorResult(
             label: L("Phase", "चरण"),
             value: asLoc(raw.phaseLabel) || "—",
           },
+          ...(window?.start
+            ? [
+                {
+                  label: L("Current window", "वर्तमान अवधि"),
+                  value: `${window.start} → ${window.end || "—"}`,
+                },
+              ]
+            : []),
         ],
         sections: [
           {
@@ -539,12 +559,31 @@ export function explainCalculatorResult(
               L("Setting (2nd from Moon): rebuilding stability and resources.", "अंतिम (चंद्र से 2रा): स्थिरता व संसाधन पुनर्निर्माण।"),
             ],
           },
+          ...(cycle.length
+            ? [
+                {
+                  title: L("Cycle timeline", "चक्र समयरेखा"),
+                  bullets: cycle.map((c) =>
+                    L(
+                      `Phase ${c.phase}: ${c.start} → ${c.end}`,
+                      `चरण ${c.phase}: ${c.start} → ${c.end}`
+                    )
+                  ),
+                },
+              ]
+            : []),
         ],
         tips: [
-          L(
-            "Support with discipline, health routine and ethical work — avoid fear content.",
-            "अनुशासन, स्वास्थ्य दिनचर्या और नैतिक कर्म से सहारा लें — भय सामग्री से बचें।"
-          ),
+          asLoc(raw.intensityHint) ||
+            L(
+              "Support with discipline, health routine and ethical work — avoid fear content.",
+              "अनुशासन, स्वास्थ्य दिनचर्या और नैतिक कर्म से सहारा लें — भय सामग्री से बचें।"
+            ),
+          asLoc(raw.disclaimer) ||
+            L(
+              "Results vary with dasha — not destiny. Confirm with an astrologer for life decisions.",
+              "परिणाम दशा से बदलते हैं — नियति नहीं। जीवन निर्णयों हेतु ज्योतिषी से पुष्टि करें।"
+            ),
         ],
       };
     }
@@ -599,22 +638,30 @@ export function explainCalculatorResult(
       const byLagna = raw.byLagna as Record<string, unknown>;
       const byMoon = raw.byMoon as Record<string, unknown>;
       const isGem = slug === "gemstone";
-      const report = raw.report as
+      const lucky = raw.lucky as
         | {
-            recommendations?: {
-              primary?: { en: string; hi: string };
+            method?: { en: string; hi: string };
+            primary?: {
+              label?: { en: string; hi: string };
+              gem?: { en: string; hi: string; wear?: { en: string; hi: string } };
               planet?: { en: string; hi: string };
-              reason?: { en: string; hi: string };
+              sign?: { en: string; hi: string };
               benefits?: { en: string; hi: string };
               substitute?: { en: string; hi: string };
-              status?: string;
               wearing?: {
                 finger?: { en: string; hi: string };
                 metal?: { en: string; hi: string };
                 day?: { en: string; hi: string };
               };
-            }[];
-            conflicts?: { note?: { en: string; hi: string } }[];
+            };
+            ascendant?: {
+              label?: { en: string; hi: string };
+              gem?: { en: string; hi: string };
+              planet?: { en: string; hi: string };
+              sign?: { en: string; hi: string };
+              benefits?: { en: string; hi: string };
+            } | null;
+            chartNotes?: { note?: { en: string; hi: string } }[];
             mantraFirst?: { en: string; hi: string };
             purityNote?: { en: string; hi: string };
             consultNote?: { en: string; hi: string };
@@ -622,80 +669,97 @@ export function explainCalculatorResult(
           }
         | undefined;
 
-      if (isGem && report?.recommendations?.length) {
-        const top = report.recommendations[0];
+      if (isGem && lucky?.primary) {
+        const p = lucky.primary;
+        const asc = lucky.ascendant;
         return {
           kind: "explained",
           slug,
           hero: {
             icon: "💎",
-            title: L(
-              "Gemstone recommendations (Ratna Shastra)",
-              "रत्न सुझाव (रत्न शास्त्र)"
-            ),
+            title: L("Find your lucky gemstone", "अपना शुभ रत्न खोजें"),
             badge: L("Confirm before wearing", "पहनने से पहले पुष्टि करें"),
             badgeTone: "warn",
             summary:
-              asLoc(top?.reason) ||
+              asLoc(lucky.method) ||
               L(
-                "Chart-weighted suggestions with friendship checks — not Moon-sign-only luck lists.",
-                "मित्रता जाँच सहित कुंडली-भारित सुझाव — केवल चंद्र राशि भाग्य सूची नहीं।"
+                "Moon-sign lord method — the standard lucky-gemstone calculation.",
+                "चंद्र राशि स्वामी विधि — मानक शुभ-रत्न गणना।"
               ),
           },
-          highlights: report.recommendations.slice(0, 3).map((r) => ({
-            label: asLoc(r.planet) || L("Planet", "ग्रह"),
-            value: asLoc(r.primary) || "—",
-            note: asLoc(r.benefits) || undefined,
-          })),
-          sections: [
+          highlights: [
             {
-              title: L("Why these stones", "ये रत्न क्यों"),
-              bullets: report.recommendations.slice(0, 4).map(
-                (r) =>
-                  asLoc(r.reason) ||
-                  L("Chart factor based.", "कुंडली कारक आधारित।")
+              label:
+                asLoc(p.label) ||
+                L("Your stone (Moon-sign lord)", "आपका रत्न (चंद्र राशि स्वामी)"),
+              value: asLoc(p.gem) || "—",
+              note: L(
+                `Ruling planet: ${p.planet?.en || "—"}`,
+                `शासक ग्रह: ${p.planet?.hi || "—"}`
               ),
             },
-            {
-              title: L("How to wear (top pick)", "पहनने का तरीका (शीर्ष)"),
-              bullets: [
-                asLoc(top?.wearing?.finger)
-                  ? L(
-                      `Finger: ${top?.wearing?.finger?.en}`,
-                      `उंगली: ${top?.wearing?.finger?.hi}`
-                    )
-                  : L("See report for finger.", "उंगली हेतु रिपोर्ट देखें।"),
-                asLoc(top?.wearing?.metal)
-                  ? L(
-                      `Metal: ${top?.wearing?.metal?.en}`,
-                      `धातु: ${top?.wearing?.metal?.hi}`
-                    )
-                  : L("See report for metal.", "धातु हेतु रिपोर्ट देखें।"),
-                asLoc(top?.wearing?.day)
-                  ? L(
-                      `Day: ${top?.wearing?.day?.en}`,
-                      `दिन: ${top?.wearing?.day?.hi}`
-                    )
-                  : L("See report for day.", "दिन हेतु रिपोर्ट देखें।"),
-                asLoc(top?.substitute)
-                  ? L(
-                      `Substitute: ${top?.substitute?.en}`,
-                      `विकल्प: ${top?.substitute?.hi}`
-                    )
-                  : L("See substitutes in detail.", "विस्तार में विकल्प देखें।"),
-              ],
-            },
-            ...(report.conflicts?.length
+            ...(asc
               ? [
                   {
-                    title: L(
-                      "Conflicts — do not combine silently",
-                      "संघर्ष — चुपचाप न मिलाएँ"
+                    label:
+                      asLoc(asc.label) ||
+                      L("Ascendant stone (Lagna lord)", "लग्न रत्न (लग्न स्वामी)"),
+                    value: asLoc(asc.gem) || "—",
+                    note: L(
+                      `Lagna ${asc.sign?.en || "—"} · ${asc.planet?.en || "—"}`,
+                      `लग्न ${asc.sign?.hi || "—"} · ${asc.planet?.hi || "—"}`
                     ),
-                    bullets: report.conflicts.map(
+                  },
+                ]
+              : []),
+          ],
+          sections: [
+            {
+              title: L("About your stone", "आपके रत्न के बारे में"),
+              bullets: [
+                asLoc(p.benefits) ||
+                  L("Supports the Moon-sign ruling planet.", "चंद्र राशि शासक ग्रह को सहारा।"),
+                asLoc(p.gem?.wear) ||
+                  (p.wearing
+                    ? L(
+                        `Set in ${p.wearing.metal?.en}, worn on the ${p.wearing.finger?.en} on ${p.wearing.day?.en}`,
+                        `${p.wearing.metal?.hi} में जड़ें, ${p.wearing.finger?.hi} पर ${p.wearing.day?.hi} पहनें`
+                      )
+                    : L("See wearing guidance below.", "पहनने का मार्गदर्शन नीचे देखें।")),
+                p.substitute
+                  ? L(
+                      `Budget-friendly substitutes: ${p.substitute.en}`,
+                      `किफ़ायती विकल्प: ${p.substitute.hi}`
+                    )
+                  : L("Ask for natural untreated stone.", "प्राकृतिक अनुपचारित रत्न माँगें।"),
+              ],
+            },
+            ...(asc
+              ? [
+                  {
+                    title: L("Ascendant-based stone", "लग्न आधारित रत्न"),
+                    bullets: [
+                      asLoc(asc.benefits) ||
+                        L(
+                          "Lagna-lord gem for overall chart strength when birth time is reliable.",
+                          "विश्वसनीय जन्म समय पर लग्न-स्वामी रत्न कुल बल हेतु।"
+                        ),
+                      L(
+                        "Do not wear Moon-sign and Lagna stones together if they conflict — confirm with an astrologer.",
+                        "चंद्र व लग्न रत्न यदि टकराएँ तो एक साथ न पहनें — ज्योतिषी से पूछें।"
+                      ),
+                    ],
+                  },
+                ]
+              : []),
+            ...(lucky.chartNotes?.length
+              ? [
+                  {
+                    title: L("Chart cautions", "कुंडली सावधानियाँ"),
+                    bullets: lucky.chartNotes.map(
                       (c) =>
                         asLoc(c.note) ||
-                        L("Conflicting gems flagged.", "विरोधी रत्न चिह्नित।")
+                        L("See full chart before combining gems.", "रत्न मिलाने से पहले पूर्ण कुंडली देखें।")
                     ),
                   },
                 ]
@@ -703,14 +767,12 @@ export function explainCalculatorResult(
             {
               title: L("Ethics & purity", "नैतिकता व शुद्धता"),
               bullets: [
-                asLoc(report.mantraFirst) ||
+                asLoc(lucky.mantraFirst) ||
                   L("Prefer mantra/lifestyle first.", "पहले मंत्र/जीवनशैली।"),
-                asLoc(report.purityNote) ||
+                asLoc(lucky.purityNote) ||
                   L("Natural untreated stones preferred.", "प्राकृतिक अनुपचारित बेहतर।"),
-                asLoc(report.consultNote) ||
+                asLoc(lucky.consultNote) ||
                   L("Confirm with an astrologer.", "ज्योतिषी से पुष्टि करें।"),
-                asLoc(report.tierNote) ||
-                  L("Gemstones are Tier 2 remedies.", "रत्न स्तर-2 उपाय हैं।"),
               ],
             },
           ],
@@ -740,6 +802,15 @@ export function explainCalculatorResult(
         },
         highlights: [
           {
+            label: L("By Moon (lucky gem)", "चंद्र से (शुभ रत्न)"),
+            value: isGem
+              ? asLoc((byMoon?.gem as { en?: string; hi?: string }) || byMoon?.gem) ||
+                str((byMoon?.gem as { en?: string })?.en)
+              : asLoc((byMoon?.bead as { en?: string; hi?: string }) || byMoon?.bead) ||
+                `${(byMoon?.bead as { mukhi?: number })?.mukhi || "—"} mukhi`,
+            note: asLoc(byMoon?.sign) || undefined,
+          },
+          {
             label: L("By Lagna", "लग्न से"),
             value: isGem
               ? asLoc((byLagna?.gem as { en?: string; hi?: string }) || byLagna?.gem) ||
@@ -747,15 +818,6 @@ export function explainCalculatorResult(
               : asLoc((byLagna?.bead as { en?: string; hi?: string }) || byLagna?.bead) ||
                 `${(byLagna?.bead as { mukhi?: number })?.mukhi || "—"} mukhi`,
             note: asLoc(byLagna?.sign) || undefined,
-          },
-          {
-            label: L("By Moon", "चंद्र से"),
-            value: isGem
-              ? asLoc((byMoon?.gem as { en?: string; hi?: string }) || byMoon?.gem) ||
-                str((byMoon?.gem as { en?: string })?.en)
-              : asLoc((byMoon?.bead as { en?: string; hi?: string }) || byMoon?.bead) ||
-                `${(byMoon?.bead as { mukhi?: number })?.mukhi || "—"} mukhi`,
-            note: asLoc(byMoon?.sign) || undefined,
           },
         ],
         sections: [
@@ -1448,6 +1510,204 @@ export function explainCalculatorResult(
             ),
           },
         ],
+      };
+    }
+
+    case "prashna-kundli": {
+      const lean = raw.lean as
+        | { kind?: string; label?: Loc; basedOn?: Loc }
+        | undefined;
+      const kind = String(lean?.kind || "insufficient");
+      const sigs = Array.isArray(raw.significators)
+        ? (raw.significators as {
+            house?: number;
+            sign?: Loc;
+            lord?: Loc;
+            lordHouse?: number;
+            basedOn?: Loc;
+          }[])
+        : [];
+      const timing = raw.timingHint as
+        | {
+            maha?: Loc;
+            antar?: Loc;
+            window?: { start?: string; end?: string };
+            basedOn?: Loc;
+          }
+        | undefined;
+      const tone =
+        kind === "strong_yes" ? "good" : kind === "caution" ? "warn" : "neutral";
+      return {
+        kind: "explained",
+        slug,
+        hero: {
+          icon: "❓",
+          title: asLoc(raw.topicLabel) || L("Prashna chart", "प्रश्न कुंडली"),
+          badge: asLoc(lean?.label) || L("Question-time sky", "प्रश्न-काल आकाश"),
+          badgeTone: tone,
+          summary: L(
+            "Prashna reads the sky at the moment of asking for this topic — lean/caution only, not fate rewrite or %-odds.",
+            "प्रश्न इस विषय हेतु पूछने के क्षण का आकाश पढ़ता है — केवल झुकाव/सावधानी, भाग्य पुनर्लेखन या %-संभावना नहीं।"
+          ),
+        },
+        highlights: [
+          {
+            label: L("Prashna Lagna", "प्रश्न लग्न"),
+            value: asLoc((raw.lagna as { sign?: Loc })?.sign) || "—",
+          },
+          {
+            label: L("Moon / nakshatra", "चंद्र / नक्षत्र"),
+            value: L(
+              `${asLoc(raw.moonRashi)?.en || "—"} · ${asLoc((raw.nakshatra as { name?: Loc })?.name)?.en || "—"}`,
+              `${asLoc(raw.moonRashi)?.hi || "—"} · ${asLoc((raw.nakshatra as { name?: Loc })?.name)?.hi || "—"}`
+            ),
+          },
+          {
+            label: L("Lean", "झुकाव"),
+            value: asLoc(lean?.label) || "—",
+          },
+          {
+            label: L("Significator houses", "कारक भाव"),
+            value: Array.isArray(raw.significatorHouses)
+              ? (raw.significatorHouses as number[]).join(", ")
+              : "—",
+          },
+        ],
+        sections: [
+          {
+            title: L("Significators", "कारक"),
+            bullets: sigs.map((s) =>
+              L(
+                `H${s.house}: ${asLoc(s.sign)?.en} · lord ${asLoc(s.lord)?.en} in H${s.lordHouse}`,
+                `भाव ${s.house}: ${asLoc(s.sign)?.hi || asLoc(s.sign)?.en} · स्वामी ${asLoc(s.lord)?.hi || asLoc(s.lord)?.en} भाव ${s.lordHouse}`
+              )
+            ),
+          },
+          {
+            title: L("Why this lean", "यह झुकाव क्यों"),
+            body: asLoc(lean?.basedOn) || L("—", "—"),
+          },
+          {
+            title: L("Timing hint (Prashna Moon dasha)", "समय संकेत (प्रश्न चंद्र दशा)"),
+            body: asLoc(timing?.basedOn) ||
+              L(
+                `${asLoc(timing?.maha)?.en}/${asLoc(timing?.antar)?.en}`,
+                `${asLoc(timing?.maha)?.hi || asLoc(timing?.maha)?.en}/${asLoc(timing?.antar)?.hi || asLoc(timing?.antar)?.en}`
+              ),
+          },
+          {
+            title: L("Ethics", "नीति"),
+            body: asLoc(raw.ethics as Loc) ||
+              L(
+                "Not medical diagnosis or legal verdict.",
+                "चिकित्सकीय निदान या कानूनी फैसला नहीं।"
+              ),
+          },
+        ],
+        nextStep: asLoc(raw.disclaimer as Loc) ||
+          L(
+            "For life decisions, prefer a full birth kundli with dasha context.",
+            "जीवन निर्णयों हेतु पूर्ण जन्म कुंडली व दशा संदर्भ बेहतर।"
+          ),
+      };
+    }
+
+    case "muhurta-electional": {
+      const summary = raw.summary as
+        | { pass?: number; caution?: number; avoid?: number }
+        | undefined;
+      const topPass = Array.isArray(raw.topPass)
+        ? (raw.topPass as {
+            date?: string;
+            start?: string;
+            end?: string;
+            choghadiya?: Loc;
+            score?: string;
+          }[])
+        : [];
+      const avoidSample = Array.isArray(raw.windows)
+        ? (raw.windows as { score?: string; date?: string; start?: string; end?: string; basedOn?: Loc }[])
+            .filter((w) => w.score === "avoid")
+            .slice(0, 6)
+        : [];
+      return {
+        kind: "explained",
+        slug,
+        hero: {
+          icon: "🕊️",
+          title: asLoc(raw.activityLabel) || L("Muhurta windows", "मुहूर्त खिड़कियाँ"),
+          badge: L(
+            `${summary?.pass ?? 0} pass · ${summary?.caution ?? 0} caution · ${summary?.avoid ?? 0} avoid`,
+            `${summary?.pass ?? 0} पास · ${summary?.caution ?? 0} सावधानी · ${summary?.avoid ?? 0} बचें`
+          ),
+          badgeTone: (summary?.pass ?? 0) > 0 ? "good" : "warn",
+          summary: L(
+            "Electional windows scored pass / caution / avoid from daytime Choghadiya + Panchang — traditional timing odds, not guaranteed outcomes.",
+            "दिन चौघड़िया + पंचांग से पास / सावधानी / बचें — पारंपरिक समय-संभावना, गारंटी नहीं।",
+          ),
+        },
+        highlights: [
+          {
+            label: L("Range", "सीमा"),
+            value: `${String(raw.startDate)} → ${String(raw.endDate)} (${String(raw.daysScanned)}d)`,
+          },
+          {
+            label: L("Place", "स्थान"),
+            value: String(raw.place || "—"),
+          },
+          {
+            label: L("Grain", "कण"),
+            value: asLoc(raw.grain as Loc) || "—",
+          },
+          {
+            label: L("Natal filter", "जन्म फ़िल्टर"),
+            value: raw.natalFilter
+              ? L("On (Moon 8th)", "चालू (चंद्र 8वाँ)")
+              : L("Off", "बंद"),
+          },
+        ],
+        sections: [
+          {
+            title: L("Top pass windows", "शीर्ष पास खिड़कियाँ"),
+            bullets:
+              topPass.length > 0
+                ? topPass.map((w) =>
+                    L(
+                      `${w.date} ${w.start}–${w.end} · ${asLoc(w.choghadiya)?.en || ""}`,
+                      `${w.date} ${w.start}–${w.end} · ${asLoc(w.choghadiya)?.hi || asLoc(w.choghadiya)?.en || ""}`
+                    )
+                  )
+                : [
+                    L(
+                      "No pass windows in this range — try another activity or dates.",
+                      "इस सीमा में पास खिड़की नहीं — गतिविधि या तिथियाँ बदलें।"
+                    ),
+                  ],
+          },
+          ...(avoidSample.length
+            ? [
+                {
+                  title: L("Sample avoid windows", "नमूना बचें खिड़कियाँ"),
+                  bullets: avoidSample.map((w) =>
+                    L(
+                      `${w.date} ${w.start}–${w.end}: ${asLoc(w.basedOn)?.en || "hard factor"}`,
+                      `${w.date} ${w.start}–${w.end}: ${asLoc(w.basedOn)?.hi || asLoc(w.basedOn)?.en || ""}`
+                    )
+                  ),
+                },
+              ]
+            : []),
+          {
+            title: L("Methodology", "पद्धति"),
+            body: asLoc(raw.methodology as Loc) || L("—", "—"),
+          },
+        ],
+        nextStep:
+          asLoc(raw.disclaimer as Loc) ||
+          L(
+            "Not medical clearance. Pair with full kundli for life decisions.",
+            "चिकित्सकीय स्वीकृति नहीं। जीवन निर्णयों हेतु पूर्ण कुंडली जोड़ें।"
+          ),
       };
     }
 

@@ -25,7 +25,7 @@ import { siteConfig } from "@/lib/site-config";
 type ProfileTab = "details" | "language" | "account";
 
 const fieldClass =
-  "mt-1.5 w-full rounded-xl border border-saffron/20 bg-white px-3 py-2.5 text-sm text-ink outline-none transition focus:border-saffron/50 focus:ring-[3px] focus:ring-saffron/15";
+  "mt-1.5 w-full rounded-xl border border-saffron/20 bg-surface px-3 py-2.5 text-sm text-ink outline-none transition focus:border-saffron/50 focus:ring-[3px] focus:ring-saffron/15";
 
 const DEACTIVATE_REASONS = [
   { en: "Too expensive", hi: "बहुत महंगा" },
@@ -149,7 +149,7 @@ export function DashboardProfilePanel() {
                 "rounded-xl border px-3.5 py-2.5 text-[13px] font-semibold transition sm:px-4",
                 active
                   ? "border-saffron/40 bg-[#F06A00] text-white shadow-[0_10px_22px_-14px_rgba(240,106,0,0.9)]"
-                  : "border-saffron/20 bg-white text-ink hover:border-saffron/35 hover:bg-[#fff8f1]"
+                  : "border-saffron/20 bg-surface text-ink hover:border-saffron/35 hover:bg-cosmic-navy"
               )}
             >
               {hi ? item.hi : item.en}
@@ -176,19 +176,19 @@ export function DashboardProfilePanel() {
             className="space-y-4 px-5 py-6 sm:px-8 sm:py-7"
           >
             <label className="block">
-              <span className="text-[12px] font-semibold text-[#5c4f42]">
+              <span className="text-[12px] font-semibold text-ink-muted">
                 {hi ? "मोबाइल नंबर" : "Mobile Number"}
               </span>
               <input
                 value={formatPhoneDisplay(phone)}
                 disabled
-                className={`${fieldClass} cursor-not-allowed bg-[#fff8f1] text-ink-muted`}
+                className={`${fieldClass} cursor-not-allowed bg-cosmic-navy text-ink-muted`}
               />
             </label>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="block">
-                <span className="text-[12px] font-semibold text-[#5c4f42]">
+                <span className="text-[12px] font-semibold text-ink-muted">
                   {hi ? "पहला नाम*" : "First Name*"}
                 </span>
                 <input
@@ -210,7 +210,7 @@ export function DashboardProfilePanel() {
               </label>
 
               <label className="block">
-                <span className="text-[12px] font-semibold text-[#5c4f42]">
+                <span className="text-[12px] font-semibold text-ink-muted">
                   {hi ? "उपनाम" : "Last Name"}
                 </span>
                 <input
@@ -226,7 +226,7 @@ export function DashboardProfilePanel() {
               </label>
 
               <label className="block">
-                <span className="text-[12px] font-semibold text-[#5c4f42]">
+                <span className="text-[12px] font-semibold text-ink-muted">
                   {hi ? "ईमेल (वैकल्पिक)" : "Email (Optional)"}
                 </span>
                 <input
@@ -243,7 +243,7 @@ export function DashboardProfilePanel() {
               </label>
 
               <label className="block">
-                <span className="text-[12px] font-semibold text-[#5c4f42]">
+                <span className="text-[12px] font-semibold text-ink-muted">
                   {hi ? "लिंग" : "Gender"}
                 </span>
                 <select
@@ -269,7 +269,7 @@ export function DashboardProfilePanel() {
               </label>
 
               <label className="block">
-                <span className="text-[12px] font-semibold text-[#5c4f42]">
+                <span className="text-[12px] font-semibold text-ink-muted">
                   {hi ? "जन्म तिथि" : "Birth Date"}
                 </span>
                 <input
@@ -285,7 +285,7 @@ export function DashboardProfilePanel() {
               </label>
 
               <label className="block">
-                <span className="text-[12px] font-semibold text-[#5c4f42]">
+                <span className="text-[12px] font-semibold text-ink-muted">
                   {hi ? "जन्म समय" : "Birth Time"}
                 </span>
                 <input
@@ -301,7 +301,7 @@ export function DashboardProfilePanel() {
               </label>
 
               <label className="block sm:col-span-2">
-                <span className="text-[12px] font-semibold text-[#5c4f42]">
+                <span className="text-[12px] font-semibold text-ink-muted">
                   {hi ? "जन्म स्थान" : "Birth Place"}
                 </span>
                 <input
@@ -353,7 +353,7 @@ export function DashboardProfilePanel() {
             className="space-y-4 px-5 py-6 sm:px-8 sm:py-7"
           >
             <label className="block max-w-md">
-              <span className="text-[12px] font-semibold text-[#5c4f42]">
+              <span className="text-[12px] font-semibold text-ink-muted">
                 {hi ? "प्राथमिक भाषा*" : "Primary Language*"}
               </span>
               <select
@@ -378,7 +378,7 @@ export function DashboardProfilePanel() {
             </label>
 
             <label className="block max-w-md">
-              <span className="text-[12px] font-semibold text-[#5c4f42]">
+              <span className="text-[12px] font-semibold text-ink-muted">
                 {hi ? "द्वितीय भाषा (वैकल्पिक)" : "Secondary Language (Optional)"}
               </span>
               <select
@@ -450,8 +450,8 @@ export function DashboardProfilePanel() {
               className={cn(
                 "w-full rounded-2xl border px-4 py-4 text-left transition",
                 accountMode === "deactivate"
-                  ? "border-saffron/40 bg-[#fff8f1]"
-                  : "border-saffron/15 bg-white hover:bg-[#fffaf6]"
+                  ? "border-saffron/40 bg-cosmic-navy"
+                  : "border-saffron/15 bg-surface hover:bg-cosmic-navy"
               )}
             >
               <span className="flex items-start gap-3">
@@ -491,8 +491,8 @@ export function DashboardProfilePanel() {
               className={cn(
                 "w-full rounded-2xl border px-4 py-4 text-left transition",
                 accountMode === "delete"
-                  ? "border-saffron/40 bg-[#fff8f1]"
-                  : "border-saffron/15 bg-white hover:bg-[#fffaf6]"
+                  ? "border-saffron/40 bg-cosmic-navy"
+                  : "border-saffron/15 bg-surface hover:bg-cosmic-navy"
               )}
             >
               <span className="flex items-start gap-3">
@@ -566,7 +566,7 @@ export function DashboardProfilePanel() {
             </label>
 
             {accountError ? (
-              <p className="rounded-xl border border-saffron/20 bg-[#fff1e6] px-3 py-2.5 text-[13px] text-saffron-deep">
+              <p className="rounded-xl border border-saffron/20 bg-cosmic-purple/15 px-3 py-2.5 text-[13px] text-saffron-deep">
                 {accountError}
               </p>
             ) : null}

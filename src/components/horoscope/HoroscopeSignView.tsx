@@ -68,10 +68,10 @@ function GlassPanel({
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-2xl border border-white/60 shadow-[0_12px_40px_-18px_rgba(240,106,0,0.28)] backdrop-blur-xl",
+        "relative overflow-hidden rounded-2xl border border-white/12 shadow-[0_12px_40px_-18px_rgba(108,60,255,0.28)] backdrop-blur-xl",
         strong
-          ? "bg-gradient-to-br from-white/90 via-[#fffaf6]/85 to-[#ffe8d4]/55"
-          : "bg-white/55",
+          ? "surface-wash"
+          : "bg-surface/90",
         className
       )}
     >
@@ -193,8 +193,8 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
           label: hi ? "लकी नंबर" : "Lucky number",
           value: sign.luckyNumber,
           Icon: Hash,
-          accent: "from-[#ff8a1f]/25 to-[#f06a00]/10",
-          iconBg: "bg-saffron text-white",
+          accent: "from-cosmic-purple/30 via-deep-indigo/50 to-surface",
+          iconBg: "bg-gradient-to-br from-cosmic-purple to-cosmic-pink text-white shadow-[0_0_16px_rgba(108,60,255,0.45)]",
           featured: true,
         },
         {
@@ -202,8 +202,8 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
           label: hi ? "लकी रंग" : "Lucky colour",
           value: pickL(locale, sign.luckyColour),
           Icon: Palette,
-          accent: "from-[#ffb347]/30 to-[#ffe0b8]/20",
-          iconBg: "bg-[#fff1e6] text-saffron-deep",
+          accent: "from-cosmic-gold/20 via-deep-indigo/50 to-surface",
+          iconBg: "bg-cosmic-gold/20 text-cosmic-gold ring-1 ring-cosmic-gold/35",
           swatch: guessColour(pickL(locale, sign.luckyColour)),
         },
         {
@@ -211,40 +211,40 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
           label: hi ? "लकी दिन" : "Lucky day",
           value: pickL(locale, sign.luckyDay),
           Icon: CalendarDays,
-          accent: "from-sky-100/80 to-white/40",
-          iconBg: "bg-sky-50 text-sky-700",
+          accent: "from-sky-500/20 via-deep-indigo/50 to-surface",
+          iconBg: "bg-sky-500/20 text-sky-200 ring-1 ring-sky-400/30",
         },
         {
           id: "gem",
           label: hi ? "रत्न" : "Gemstone",
           value: pickL(locale, sign.gemstone),
           Icon: Gem,
-          accent: "from-violet-100/70 to-white/40",
-          iconBg: "bg-violet-50 text-violet-700",
+          accent: "from-violet-500/20 via-deep-indigo/50 to-surface",
+          iconBg: "bg-violet-500/20 text-violet-200 ring-1 ring-violet-400/30",
         },
         {
           id: "metal",
           label: hi ? "धातु" : "Metal",
           value: pickL(locale, sign.metal),
           Icon: CircleDot,
-          accent: "from-amber-100/80 to-white/40",
-          iconBg: "bg-amber-50 text-amber-800",
+          accent: "from-cosmic-gold/15 via-deep-indigo/50 to-surface",
+          iconBg: "bg-cosmic-gold/20 text-cosmic-gold ring-1 ring-cosmic-gold/30",
         },
         {
           id: "direction",
           label: hi ? "दिशा" : "Direction",
           value: pickL(locale, sign.direction),
           Icon: Navigation,
-          accent: "from-emerald-100/70 to-white/40",
-          iconBg: "bg-emerald-50 text-emerald-700",
+          accent: "from-emerald-500/20 via-deep-indigo/50 to-surface",
+          iconBg: "bg-emerald-500/20 text-emerald-200 ring-1 ring-emerald-400/30",
         },
         {
           id: "deity",
           label: hi ? "देवता" : "Deity",
           value: pickL(locale, sign.deity),
           Icon: Flame,
-          accent: "from-orange-100/80 to-white/40",
-          iconBg: "bg-orange-50 text-orange-700",
+          accent: "from-cosmic-pink/20 via-deep-indigo/50 to-surface",
+          iconBg: "bg-cosmic-pink/20 text-cosmic-pink ring-1 ring-cosmic-pink/35",
           wide: true,
         },
         {
@@ -252,8 +252,8 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
           label: hi ? "मंत्र" : "Mantra",
           value: sign.mantra,
           Icon: Mic2,
-          accent: "from-[#ffe8d6]/90 to-white/50",
-          iconBg: "bg-[#fff1e6] text-saffron-deep",
+          accent: "from-cosmic-purple/25 via-deep-indigo/50 to-surface",
+          iconBg: "bg-cosmic-purple/25 text-cosmic-gold ring-1 ring-cosmic-purple/40",
           wide: true,
         },
       ] as {
@@ -284,10 +284,10 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
   }, [hi]);
 
   return (
-    <div className="relative overflow-hidden bg-[#faf8f5]">
+    <div className="relative overflow-hidden bg-cosmic-navy">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[28rem] bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(255,138,31,0.22),transparent_70%)]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[28rem] bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(108,60,255,0.28),transparent_70%)]"
       />
 
       <PageHero
@@ -309,11 +309,11 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
         ]}
         actions={
           <div className="flex items-center gap-3">
-            <div className="grid h-14 w-14 place-items-center rounded-2xl border border-white/70 bg-white/50 shadow-sm backdrop-blur-md">
+            <div className="grid h-14 w-14 place-items-center rounded-2xl border border-white/12 bg-surface/90 shadow-sm backdrop-blur-md">
               <ZodiacIcon
                 slug={sign.slug}
                 className="h-10 w-10"
-                colorClassName="bg-saffron"
+                colorClassName="bg-cosmic-gold"
               />
             </div>
           </div>
@@ -340,7 +340,7 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
           </div>
           <Link
             href="/chat"
-            className="inline-flex items-center gap-1.5 rounded-full border border-saffron/30 bg-white/70 px-3 py-1.5 text-[11px] font-semibold text-saffron-deep backdrop-blur hover:bg-[#fff1e6]"
+            className="inline-flex items-center gap-1.5 rounded-full border border-saffron/30 bg-surface/75 px-3 py-1.5 text-[11px] font-semibold text-saffron-deep backdrop-blur hover:bg-cosmic-purple/15"
           >
             <Sparkles className="h-3 w-3" />
             {hi ? "व्यक्तिगत प्रश्न पूछें" : "Ask a personal question"}
@@ -364,7 +364,7 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
                       : "Moon-sign style general guidance — structured by AI."}
                   </p>
                 </div>
-                <div className="inline-flex rounded-xl border border-saffron/20 bg-white/70 p-1 backdrop-blur">
+                <div className="inline-flex rounded-xl border border-saffron/20 bg-surface/75 p-1 backdrop-blur">
                   {PERIODS.map((p) => (
                     <button
                       key={p.id}
@@ -374,7 +374,7 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
                         "rounded-lg px-3 py-1.5 text-[11px] font-semibold transition sm:px-3.5",
                         period === p.id
                           ? "bg-gradient-to-r from-saffron to-maroon text-white shadow-sm"
-                          : "text-ink-muted hover:bg-[#fff1e6]"
+                          : "text-ink-muted hover:bg-cosmic-purple/15"
                       )}
                     >
                       {hi ? p.hi : p.en}
@@ -396,7 +396,7 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
                 </motion.p>
               </AnimatePresence>
 
-              <div className="mt-4 rounded-xl border border-saffron/25 bg-[#fff8f1]/80 p-4">
+              <div className="mt-4 rounded-xl border border-saffron/25 bg-cosmic-navy/80 p-4">
                 <p className="text-[11px] font-semibold uppercase tracking-wide text-saffron-deep">
                   {hi ? "लाइव गोचर आधारित" : "Live transit-based"}
                 </p>
@@ -420,7 +420,7 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
                         ).map(([k, label]) => (
                           <span
                             key={k}
-                            className="rounded-full border border-saffron/15 bg-white/80 px-2.5 py-1"
+                            className="rounded-full border border-saffron/15 bg-surface/85 px-2.5 py-1"
                           >
                             {label} {liveScores[k]}
                           </span>
@@ -440,10 +440,10 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
                 {SECTION_META.map(({ key, en, hi: hiLabel, Icon }) => (
                   <div
                     key={key}
-                    className="rounded-xl border border-white/70 bg-white/45 p-3.5 backdrop-blur-md transition hover:bg-white/70"
+                    className="rounded-xl border border-white/12 bg-surface/85 p-3.5 backdrop-blur-md transition hover:bg-surface/75"
                   >
                     <h3 className="flex items-center gap-2 text-[13px] font-bold text-ink">
-                      <span className="grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-[#ffe8d6] to-[#ffd4a8] text-saffron-deep">
+                      <span className="grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-cosmic-purple/25 to-cosmic-orange/20 text-saffron-deep">
                         <Icon className="h-3.5 w-3.5" />
                       </span>
                       {hi ? hiLabel : en}
@@ -472,8 +472,8 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
                 </p>
 
                 <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                  <div className="rounded-xl border border-emerald-500/15 bg-emerald-50/50 p-3.5">
-                    <p className="text-[11px] font-bold uppercase tracking-wide text-emerald-800">
+                  <div className="rounded-xl border border-emerald-500/15 bg-emerald-500/15 p-3.5">
+                    <p className="text-[11px] font-bold uppercase tracking-wide text-emerald-200">
                       {hi ? "शक्तियाँ" : "Strengths"}
                     </p>
                     <ul className="mt-2 space-y-1.5">
@@ -482,14 +482,14 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
                           key={pickL(locale, s)}
                           className="flex items-start gap-2 text-[12.5px] text-ink"
                         >
-                          <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" />
+                          <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-300" />
                           {pickL(locale, s)}
                         </li>
                       ))}
                     </ul>
                   </div>
-                  <div className="rounded-xl border border-amber-500/15 bg-amber-50/40 p-3.5">
-                    <p className="text-[11px] font-bold uppercase tracking-wide text-amber-900">
+                  <div className="rounded-xl border border-amber-500/15 bg-amber-500/15 p-3.5">
+                    <p className="text-[11px] font-bold uppercase tracking-wide text-amber-100">
                       {hi ? "सावधानियाँ" : "Growth edges"}
                     </p>
                     <ul className="mt-2 space-y-1.5">
@@ -498,7 +498,7 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
                           key={pickL(locale, s)}
                           className="flex items-start gap-2 text-[12.5px] text-ink"
                         >
-                          <Shield className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-700" />
+                          <Shield className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-200" />
                           {pickL(locale, s)}
                         </li>
                       ))}
@@ -507,7 +507,7 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
                 </div>
 
                 <div className="mt-4 grid gap-3 sm:grid-cols-3">
-                  <div className="rounded-xl border border-white/70 bg-white/50 p-3">
+                  <div className="rounded-xl border border-white/12 bg-surface/90 p-3">
                     <p className="text-[10px] font-bold uppercase tracking-wide text-ink-muted">
                       {hi ? "शरीर फोकस" : "Body focus"}
                     </p>
@@ -515,7 +515,7 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
                       {pickL(locale, seo.bodyFocus)}
                     </p>
                   </div>
-                  <div className="rounded-xl border border-white/70 bg-white/50 p-3 sm:col-span-2">
+                  <div className="rounded-xl border border-white/12 bg-surface/90 p-3 sm:col-span-2">
                     <p className="text-[10px] font-bold uppercase tracking-wide text-ink-muted">
                       {hi ? "करियर क्षेत्र" : "Career fields"}
                     </p>
@@ -556,7 +556,7 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
                 {(seo?.faqs ?? []).map((f) => (
                   <details
                     key={pickL(locale, f.q)}
-                    className="group rounded-xl border border-white/70 bg-white/50 px-3.5 py-2.5 backdrop-blur open:bg-white/80"
+                    className="group rounded-xl border border-white/12 bg-surface/90 px-3.5 py-2.5 backdrop-blur open:bg-surface-elevated"
                   >
                     <summary className="cursor-pointer list-none text-[13px] font-semibold text-ink marker:content-none">
                       {pickL(locale, f.q)}
@@ -572,64 +572,71 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
 
           {/* Sidebar */}
           <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
-            <GlassPanel strong className="p-4">
+            <GlassPanel strong className="relative overflow-hidden p-4 shine-border">
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_10%_0%,rgba(108,60,255,0.28),transparent_55%),radial-gradient(ellipse_50%_40%_at_100%_20%,rgba(255,92,168,0.14),transparent_50%)]"
+              />
+              <div className="relative">
               <div className="flex items-start justify-between gap-2">
                 <div>
-                  <p className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-saffron-deep">
-                    <Sparkles className="h-3 w-3" />
+                  <p className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-cosmic-gold">
+                    <Sparkles className="h-3.5 w-3.5 text-cosmic-gold drop-shadow-[0_0_8px_rgba(255,200,87,0.7)]" />
                     {hi ? "एआई लकी मैट्रिक्स" : "AI Lucky Matrix"}
                   </p>
-                  <p className="mt-1 text-[11px] leading-snug text-ink-muted">
+                  <p className="mt-1.5 text-[12px] leading-snug text-ink-muted">
                     {hi
                       ? `${name} के लिए शास्त्रीय संकेत — एआई द्वारा संरचित`
                       : `Classical cues for ${name} — structured by AI`}
                   </p>
                 </div>
-                <span className="shrink-0 rounded-full border border-saffron/25 bg-white/80 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-saffron-deep">
+                <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-cosmic-purple/40 bg-cosmic-purple/25 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wide text-white shadow-[0_0_12px_rgba(108,60,255,0.35)]">
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-cosmic-gold" />
                   {hi ? "लाइव" : "Live"}
                 </span>
               </div>
 
-              <div className="mt-3 grid grid-cols-2 gap-2">
+              <div className="mt-4 grid grid-cols-2 gap-2.5">
                 {lucky.map((item) => (
                   <div
                     key={item.id}
                     className={cn(
-                      "relative overflow-hidden rounded-xl border border-white/80 bg-gradient-to-br p-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)] backdrop-blur-md",
+                      "relative overflow-hidden rounded-xl border border-white/12 bg-gradient-to-br p-3 shadow-[0_8px_24px_-16px_rgba(0,0,0,0.55)] backdrop-blur-md transition hover:border-cosmic-purple/35",
                       item.accent,
                       item.wide && "col-span-2",
-                      item.featured && "ring-1 ring-saffron/25"
+                      item.featured &&
+                        "border-cosmic-purple/40 ring-1 ring-cosmic-purple/30 shadow-[0_0_24px_-8px_rgba(108,60,255,0.45)]"
                     )}
                   >
-                    <div className="flex items-start gap-2">
+                    <div className="flex items-start gap-2.5">
                       <span
                         className={cn(
-                          "mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-lg shadow-sm",
+                          "mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg",
                           item.iconBg
                         )}
                       >
-                        <item.Icon className="h-3.5 w-3.5" />
+                        <item.Icon className="h-3.5 w-3.5" strokeWidth={2.2} />
                       </span>
                       <div className="min-w-0 flex-1">
-                        <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-ink-muted/90">
+                        <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-ink-muted">
                           {item.label}
                         </p>
-                        <div className="mt-0.5 flex items-center gap-1.5">
+                        <div className="mt-1 flex items-center gap-1.5">
                           {item.swatch ? (
                             <span
-                              className="h-3 w-3 shrink-0 rounded-full border border-black/10 shadow-sm"
+                              className="h-3 w-3 shrink-0 rounded-full border border-white/25 shadow-[0_0_8px_rgba(255,255,255,0.2)]"
                               style={{ background: item.swatch }}
                               aria-hidden
                             />
                           ) : null}
                           <p
                             className={cn(
-                              "font-semibold leading-snug text-ink",
+                              "font-semibold leading-snug text-white",
                               item.featured
-                                ? "font-display text-xl tabular-nums text-saffron-deep"
+                                ? "font-display text-2xl tabular-nums text-gradient-brand"
                                 : item.wide
-                                  ? "text-[12.5px]"
-                                  : "text-[13px]"
+                                  ? "text-[13px]"
+                                  : "text-[13.5px]"
                             )}
                           >
                             {item.value}
@@ -641,12 +648,13 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
                 ))}
               </div>
 
-              <p className="mt-3 flex items-center gap-1.5 text-[10px] text-ink-muted">
-                <Bot className="h-3 w-3 text-saffron-deep" />
+              <p className="mt-3.5 flex items-center gap-1.5 text-[10px] text-ink-muted">
+                <Bot className="h-3.5 w-3.5 text-cosmic-gold" />
                 {hi
                   ? "सामान्य राशि संकेत · व्यक्तिगत कुंडली से और गहराई"
                   : "General sign cues · deepen with your kundli"}
               </p>
+              </div>
             </GlassPanel>
 
             <GlassPanel className="p-4">
@@ -697,7 +705,7 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
                         key={pickL(locale, d)}
                         className="flex gap-2 text-[12px] text-ink"
                       >
-                        <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" />
+                        <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-300" />
                         {pickL(locale, d)}
                       </li>
                     ))}
@@ -721,7 +729,7 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
                     {seo.remedies.map((r) => (
                       <li
                         key={pickL(locale, r)}
-                        className="rounded-lg border border-white/70 bg-white/50 px-2.5 py-2 text-[12px] leading-snug text-ink"
+                        className="rounded-lg border border-white/12 bg-surface/90 px-2.5 py-2 text-[12px] leading-snug text-ink"
                       >
                         {pickL(locale, r)}
                       </li>
@@ -770,14 +778,18 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
                   className={cn(
                     "flex flex-col items-center gap-1.5 rounded-2xl border px-2 py-3 text-center backdrop-blur transition",
                     active
-                      ? "border-saffron/45 bg-gradient-to-b from-[#fff1e6] to-white shadow-sm"
-                      : "border-white/70 bg-white/45 hover:border-saffron/30 hover:bg-white/80"
+                      ? "border-cosmic-purple/50 bg-gradient-to-b from-cosmic-purple/25 to-surface shadow-[0_0_24px_-8px_rgba(108,60,255,0.55)]"
+                      : "border-white/12 bg-surface/85 hover:border-cosmic-gold/40 hover:bg-surface-elevated"
                   )}
                 >
                   <ZodiacIcon
                     slug={s.slug}
                     className="h-9 w-9"
-                    colorClassName={active ? "bg-saffron" : "bg-[#c45a12]/75"}
+                    colorClassName={
+                      active
+                        ? "bg-cosmic-purple drop-shadow-[0_0_10px_rgba(108,60,255,0.75)]"
+                        : "bg-cosmic-gold"
+                    }
                   />
                   <span className="text-[11px] font-semibold text-ink">
                     {pickL(locale, s.name)}

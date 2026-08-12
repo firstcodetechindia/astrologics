@@ -29,10 +29,10 @@ type Step = "details" | "otp";
 const OTP_LENGTH = 6;
 
 const fieldClass =
-  "mt-1 w-full rounded-xl border border-[#e8ddd2] bg-white px-3 py-2.5 text-sm text-ink outline-none transition placeholder:text-[#b0a090] focus:border-[#F06A00]/50 focus:ring-[3px] focus:ring-[#F06A00]/12";
+  "mt-1 w-full rounded-xl border border-white/12 bg-surface px-3 py-2.5 text-sm text-ink outline-none transition placeholder:text-ink-muted focus:border-[#F06A00]/50 focus:ring-[3px] focus:ring-[#F06A00]/12";
 
 const labelClass =
-  "text-[11px] font-semibold uppercase tracking-[0.08em] text-[#6b5c4c]";
+  "text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-muted";
 
 export function AstrologerSignupForm() {
   const locale = useLocale();
@@ -187,8 +187,8 @@ export function AstrologerSignupForm() {
   }
 
   return (
-    <div className="rounded-2xl border border-[#e8ddd2] bg-white shadow-[0_20px_48px_-28px_rgba(42,33,24,0.45)]">
-      <div className="relative overflow-hidden rounded-t-2xl border-b border-[#f0e6dc] bg-[linear-gradient(135deg,#fff8f1_0%,#ffffff_55%,#fff1e6_100%)] px-5 py-4 sm:px-6">
+    <div className="rounded-2xl border border-white/12 bg-surface shadow-[0_20px_48px_-28px_rgba(42,33,24,0.45)]">
+      <div className="relative overflow-hidden rounded-t-2xl border-b border-white/10 surface-wash px-5 py-4 sm:px-6">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-[0.35]"
@@ -228,7 +228,7 @@ export function AstrologerSignupForm() {
                       "flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[11px] font-bold",
                       active || done
                         ? "bg-[#F06A00] text-white"
-                        : "bg-[#f3ebe3] text-[#8a7a6a]"
+                        : "bg-white/[0.08] text-ink-muted"
                     )}
                   >
                     {i + 1}
@@ -236,7 +236,7 @@ export function AstrologerSignupForm() {
                   <span
                     className={cn(
                       "truncate text-[12px] font-semibold",
-                      active || done ? "text-ink" : "text-[#9a8b7a]"
+                      active || done ? "text-ink" : "text-ink-muted"
                     )}
                   >
                     {hi ? s.hi : s.en}
@@ -245,7 +245,7 @@ export function AstrologerSignupForm() {
                     <span
                       className={cn(
                         "mx-1 h-px flex-1",
-                        done ? "bg-[#F06A00]/50" : "bg-[#e8ddd2]"
+                        done ? "bg-cosmic-purple/50" : "bg-white/15"
                       )}
                     />
                   ) : null}
@@ -274,7 +274,7 @@ export function AstrologerSignupForm() {
                 {hi ? "लिंग" : "Gender"}
                 <span className="text-[#F06A00]"> *</span>
               </span>
-              <div className="mt-1.5 grid grid-cols-3 gap-1.5 rounded-xl bg-[#f7f1ea] p-1">
+              <div className="mt-1.5 grid grid-cols-3 gap-1.5 rounded-xl bg-white/[0.06] p-1">
                 {(
                   [
                     { id: "male" as const, en: "Male", hi: "पुरुष" },
@@ -289,8 +289,8 @@ export function AstrologerSignupForm() {
                     className={cn(
                       "rounded-lg px-2 py-2 text-[12px] font-semibold transition",
                       gender === g.id
-                        ? "bg-white text-[#F06A00] shadow-sm ring-1 ring-[#F06A00]/20"
-                        : "text-[#6b5c4c] hover:text-ink"
+                        ? "bg-surface text-[#F06A00] shadow-sm ring-1 ring-[#F06A00]/20"
+                        : "text-ink-muted hover:text-ink"
                     )}
                   >
                     {hi ? g.hi : g.en}
@@ -305,10 +305,10 @@ export function AstrologerSignupForm() {
                   {hi ? "मोबाइल" : "Mobile"}
                   <span className="text-[#F06A00]"> *</span>
                 </span>
-                <div className="mt-1 flex overflow-hidden rounded-xl border border-[#e8ddd2] focus-within:border-[#F06A00]/50 focus-within:ring-[3px] focus-within:ring-[#F06A00]/12">
-                  <div className="flex shrink-0 items-center gap-1 border-r border-[#efe4d8] bg-[#fff8f1] px-2.5 text-[12px] font-semibold text-ink">
+                <div className="mt-1 flex overflow-hidden rounded-xl border border-white/12 focus-within:border-[#F06A00]/50 focus-within:ring-[3px] focus-within:ring-[#F06A00]/12">
+                  <div className="flex shrink-0 items-center gap-1 border-r border-[#efe4d8] bg-cosmic-navy px-2.5 text-[12px] font-semibold text-ink">
                     +91
-                    <ChevronDown className="h-3 w-3 text-[#8a7a6a]" />
+                    <ChevronDown className="h-3 w-3 text-ink-muted" />
                   </div>
                   <input
                     type="tel"
@@ -328,12 +328,12 @@ export function AstrologerSignupForm() {
               <label className="block">
                 <span className={labelClass}>
                   {hi ? "ईमेल" : "Email"}{" "}
-                  <span className="normal-case tracking-normal text-[#9a8b7a]">
+                  <span className="normal-case tracking-normal text-ink-muted">
                     ({hi ? "वैकल्पिक" : "optional"})
                   </span>
                 </span>
                 <div className="relative mt-1">
-                  <Mail className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#b0a090]" />
+                  <Mail className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-ink-muted" />
                   <input
                     type="email"
                     autoComplete="email"
@@ -363,7 +363,7 @@ export function AstrologerSignupForm() {
               <label className="block min-w-0">
                 <span className={labelClass}>
                   {hi ? "मध्य" : "Middle"}{" "}
-                  <span className="normal-case tracking-normal text-[#9a8b7a]">
+                  <span className="normal-case tracking-normal text-ink-muted">
                     ({hi ? "वैकल्पिक" : "opt."})
                   </span>
                 </span>
@@ -419,7 +419,7 @@ export function AstrologerSignupForm() {
               hi={hi}
             />
 
-            <label className="flex cursor-pointer items-start gap-2.5 rounded-xl bg-[#faf6f1] px-3 py-2.5 text-[12.5px] text-ink">
+            <label className="flex cursor-pointer items-start gap-2.5 rounded-xl bg-white/[0.06] px-3 py-2.5 text-[12.5px] text-ink">
               <input
                 type="checkbox"
                 checked={agree}
@@ -439,7 +439,7 @@ export function AstrologerSignupForm() {
             </label>
 
             {error ? (
-              <p className="rounded-xl border border-[#F06A00]/20 bg-[#fff1e6] px-3 py-2 text-[12.5px] text-[#c45a00]">
+              <p className="rounded-xl border border-[#F06A00]/20 bg-cosmic-purple/15 px-3 py-2 text-[12.5px] text-cosmic-gold">
                 {error}
               </p>
             ) : null}
@@ -514,14 +514,14 @@ export function AstrologerSignupForm() {
                       applyOtpValue(e.clipboardData.getData("text"), index);
                     }}
                     onFocus={(e) => e.target.select()}
-                    className="h-12 min-w-0 flex-1 rounded-xl border border-[#e8ddd2] text-center text-base font-semibold text-ink outline-none focus:border-[#F06A00]/55 focus:ring-[3px] focus:ring-[#F06A00]/12 sm:h-13 sm:text-lg"
+                    className="h-12 min-w-0 flex-1 rounded-xl border border-white/12 text-center text-base font-semibold text-ink outline-none focus:border-[#F06A00]/55 focus:ring-[3px] focus:ring-[#F06A00]/12 sm:h-13 sm:text-lg"
                   />
                 ))}
               </div>
             </fieldset>
 
             {error ? (
-              <p className="rounded-xl border border-[#F06A00]/20 bg-[#fff1e6] px-3 py-2 text-[12.5px] text-[#c45a00]">
+              <p className="rounded-xl border border-[#F06A00]/20 bg-cosmic-purple/15 px-3 py-2 text-[12.5px] text-cosmic-gold">
                 {error}
               </p>
             ) : null}

@@ -1,10 +1,8 @@
 import { NextResponse } from "next/server";
-import { computeKundli } from "@/lib/astrology/compute";
 import { resolvePlace } from "@/lib/astrology/geocode";
 import type { BirthInput } from "@/lib/astrology/types";
 import {
   buildChartCard,
-  buildChartSummary,
   fallbackProvider,
   resolveProvider,
   streamAi,
@@ -13,6 +11,8 @@ import {
   type AiProvider,
   type ChatMessage,
 } from "@/lib/ai/providers";
+import { getOrComputeChart } from "@/lib/ai/chart-fact-cache";
+import { filterAiAgainstFactSheet } from "@/lib/ai/ai-post-filter";
 import { assertChatQuota, consumeChatQuota } from "@/lib/ai/chat-quota";
 import { FREE_CHAT_LIMIT } from "@/lib/ai/chat-limits";
 import {
@@ -31,13 +31,12 @@ type BirthBody = {
   lat?: number;
   lon?: number;
   timezoneOffsetMinutes?: number;
+  timeZone?: string;
 };
 
-async function resolveBirth(birth: BirthBody): Promise<{
-  input: BirthInput;
-  summary: string;
-  card: ReturnType<typeof buildChartCard>;
-} | null> {
+async function resolveBirthInput(
+  birth: BirthBody
+): Promise<BirthInput | null> {
   if (!birth?.date) return null;
   const placeQuery = String(birth.place || "").trim();
   if (!placeQuery) return null;
@@ -45,6 +44,7 @@ async function resolveBirth(birth: BirthBody): Promise<{
   let lat = Number(birth.lat);
   let lon = Number(birth.lon);
   let tz = Number(birth.timezoneOffsetMinutes ?? NaN);
+  let timeZone = birth.timeZone?.trim() || undefined;
 
   if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
     const place = await resolvePlace(placeQuery);
@@ -54,8 +54,11 @@ async function resolveBirth(birth: BirthBody): Promise<{
     tz = place.timezoneOffsetMinutes ?? 330;
   }
   if (!Number.isFinite(tz)) tz = 330;
+  if (!timeZone) {
+    timeZone = tz === 330 ? "Asia/Kolkata" : undefined;
+  }
 
-  const input: BirthInput = {
+  return {
     name: String(birth.name || "Native").trim() || "Native",
     date: String(birth.date),
     time: String(birth.time || "12:00"),
@@ -63,16 +66,11 @@ async function resolveBirth(birth: BirthBody): Promise<{
     lat,
     lon,
     timezoneOffsetMinutes: tz,
-  };
-  const k = computeKundli(input);
-  return {
-    input,
-    summary: buildChartSummary(k),
-    card: buildChartCard(k, "en"),
+    timeZone,
   };
 }
 
-/** Prepare kundli context + suggestions before chat */
+/** Prepare kundli context + suggestions before chat (cached fact-sheet). */
 export async function PUT(req: Request) {
   try {
     const ip = clientIp(req);
@@ -81,8 +79,8 @@ export async function PUT(req: Request) {
 
     const body = await req.json();
     const locale = body.locale === "hi" ? "hi" : "en";
-    const resolved = await resolveBirth(body.birth || {});
-    if (!resolved) {
+    const input = await resolveBirthInput(body.birth || {});
+    if (!input) {
       return NextResponse.json(
         {
           error:
@@ -94,18 +92,21 @@ export async function PUT(req: Request) {
       );
     }
 
-    const k = computeKundli(resolved.input);
+    const cached = getOrComputeChart({ input });
     const quota = assertChatQuota(req.headers.get("cookie"));
 
     return NextResponse.json({
       ok: true,
-      chartSummary: resolved.summary,
-      card: buildChartCard(k, locale),
-      kundli: k,
+      chartKey: cached.key,
+      chartSummary: cached.summary,
+      factSheet: cached.factSheet,
+      card: buildChartCard(cached.kundli, locale),
+      kundli: cached.kundli,
       suggestions: suggestedQuestions(locale),
       aiReady: Boolean(resolveProvider()),
       freeUsed: quota.used,
       freeLimit: FREE_CHAT_LIMIT,
+      cacheHits: cached.hits,
     });
   } catch (e) {
     console.error(e);
@@ -113,7 +114,7 @@ export async function PUT(req: Request) {
   }
 }
 
-/** Real-time streaming chat (SSE) — provider chosen server-side */
+/** Real-time streaming chat — uses cached fact-sheet; post-filters AI text. */
 export async function POST(req: Request) {
   try {
     const ip = clientIp(req);
@@ -124,6 +125,7 @@ export async function POST(req: Request) {
     const message = String(body.message || "").trim();
     const history = Array.isArray(body.history) ? body.history.slice(-10) : [];
     const locale = body.locale === "hi" ? "hi" : "en";
+    const chartKey = body.chartKey ? String(body.chartKey) : null;
     const provider = resolveProvider();
 
     if (!message || message.length > 2000) {
@@ -146,8 +148,11 @@ export async function POST(req: Request) {
       );
     }
 
-    const resolved = await resolveBirth(body.birth || {});
-    if (!resolved) {
+    const input = await resolveBirthInput(body.birth || {});
+    let cached;
+    try {
+      cached = getOrComputeChart({ chartKey, input });
+    } catch {
       return NextResponse.json(
         {
           error:
@@ -164,8 +169,8 @@ export async function POST(req: Request) {
     if (!provider) {
       const fallback =
         locale === "hi"
-          ? `आपकी कुंडली तैयार है, पर अभी एआई सेवा उपलब्ध नहीं है। नीचे सारांश है — बाद में फिर कोशिश करें।\n\n${resolved.summary}`
-          : `Your kundli is ready, but our AI is temporarily unavailable. Here is your chart summary — please try again later.\n\n${resolved.summary}`;
+          ? `आपकी कुंडली तैयार है, पर अभी एआई सेवा उपलब्ध नहीं है। नीचे सारांश है — बाद में फिर कोशिश करें।\n\n${cached.summary}`
+          : `Your kundli is ready, but our AI is temporarily unavailable. Here is your chart summary — please try again later.\n\n${cached.summary}`;
 
       const encoder = new TextEncoder();
       const stream = new ReadableStream({
@@ -178,6 +183,7 @@ export async function POST(req: Request) {
               `data: ${JSON.stringify({
                 done: true,
                 mode: "fallback",
+                chartKey: cached.key,
                 freeUsed: consumed.used,
                 freeLimit: FREE_CHAT_LIMIT,
               })}\n\n`
@@ -200,7 +206,7 @@ export async function POST(req: Request) {
       { role: "system", content: systemPrompt(locale) },
       {
         role: "system",
-        content: `Birth chart context for this user:\n${resolved.summary}`,
+        content: `Birth chart context for this user (cached fact-sheet key ${cached.key} — do not recalculate):\n${cached.summary}`,
       },
       ...history.map((h: { role?: string; content?: string }) => ({
         role: (h.role === "assistant" ? "assistant" : "user") as
@@ -219,24 +225,46 @@ export async function POST(req: Request) {
             encoder.encode(`data: ${JSON.stringify(payload)}\n\n`)
           );
         };
-        const tryProvider = async (p: AiProvider) => {
+
+        const collectFrom = async (p: AiProvider) => {
+          let full = "";
           await streamAi(p, messages, (delta) => {
-            send({ delta });
+            full += delta;
           });
+          return full;
         };
 
         try {
+          let raw = "";
           try {
-            await tryProvider(provider);
+            raw = await collectFrom(provider);
           } catch (primaryErr) {
             console.error(primaryErr);
             const alt = fallbackProvider(provider);
             if (!alt) throw primaryErr;
-            await tryProvider(alt);
+            raw = await collectFrom(alt);
+          }
+
+          const filtered = filterAiAgainstFactSheet(
+            raw,
+            cached.factSheet,
+            locale
+          );
+          // Emit filtered text in chunks for SSE clients
+          const chunkSize = 48;
+          for (let i = 0; i < filtered.text.length; i += chunkSize) {
+            send({ delta: filtered.text.slice(i, i + chunkSize) });
           }
           send({
             done: true,
             mode: "ok",
+            chartKey: cached.key,
+            cacheHits: cached.hits,
+            filter: {
+              flagged: filtered.flagged,
+              violationCount: filtered.violations.length,
+              violations: filtered.violations.slice(0, 8),
+            },
             freeUsed: consumed.used,
             freeLimit: FREE_CHAT_LIMIT,
           });
@@ -251,6 +279,7 @@ export async function POST(req: Request) {
           send({
             done: true,
             mode: "error",
+            chartKey: cached.key,
             freeUsed: consumed.used,
             freeLimit: FREE_CHAT_LIMIT,
           });

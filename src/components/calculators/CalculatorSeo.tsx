@@ -84,7 +84,7 @@ export function CalculatorSeo({ content }: { content: CalcPageContent }) {
       )}
 
       {content.disclaimer && (
-        <p className="text-xs text-ink-muted leading-relaxed border-t border-black/5 pt-6">
+        <p className="text-xs text-ink-muted leading-relaxed border-t border-white/10 pt-6">
           <T locale={locale} t={content.disclaimer} />
         </p>
       )}
@@ -105,7 +105,7 @@ export function PromoBanner({
 }) {
   const locale = useLocale();
   return (
-    <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-2xl border border-saffron/25 bg-gradient-to-r from-[#fff3ea] to-[#ffe8d4] px-4 py-3.5">
+    <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-2xl border border-saffron/25 surface-wash px-4 py-3.5">
       <p className="text-sm text-ink font-medium">
         {locale === "hi" ? text.hi : text.en}
       </p>

@@ -12,7 +12,7 @@ const OPTIONS = [
   { locale: "hi" as const, label: "Hindi", native: "हिंदी" },
 ];
 
-export function LocaleSwitcher() {
+export function LocaleSwitcher({ className }: { className?: string }) {
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
@@ -58,12 +58,13 @@ export function LocaleSwitcher() {
         aria-haspopup="listbox"
         aria-label={locale === "hi" ? "भाषा चुनें" : "Choose language"}
         className={cn(
-          "inline-flex h-9 w-9 items-center justify-center rounded-full border border-saffron/30 bg-[#fff1e6] text-saffron-deep transition hover:border-saffron/50 hover:bg-[#ffe8d4] sm:h-10 sm:w-10",
-          open && "border-saffron/55 bg-[#ffe8d4] ring-2 ring-saffron/20"
+          "inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/20 text-white/85 hover:border-white/35 hover:bg-white/[0.06] hover:text-white",
+          className,
+          open && "border-white/40 bg-white/[0.08] text-white"
         )}
       >
         <span
-          className="select-none text-[13px] font-bold leading-none tracking-tight text-saffron-deep"
+          className="select-none text-[12.5px] font-semibold leading-none tracking-tight"
           aria-hidden
         >
           <span style={{ fontFamily: "var(--font-hindi), sans-serif" }}>अ</span>
@@ -75,7 +76,7 @@ export function LocaleSwitcher() {
         <div
           role="listbox"
           aria-label={locale === "hi" ? "भाषा" : "Language"}
-          className="absolute right-0 top-full z-[80] mt-1.5 min-w-[10.5rem] overflow-hidden rounded-xl border border-black/[0.08] bg-white py-1 shadow-[0_16px_40px_-18px_rgba(42,33,24,0.45)]"
+          className="absolute right-0 top-full z-[80] mt-1.5 min-w-[10.5rem] overflow-hidden rounded-xl border border-white/10 bg-surface py-1 shadow-[0_16px_40px_-18px_rgba(42,33,24,0.45)]"
         >
           {OPTIONS.map((opt) => {
             const active = locale === opt.locale;
@@ -90,12 +91,12 @@ export function LocaleSwitcher() {
                   "flex w-full items-center justify-between gap-3 px-3 py-2.5 text-left text-sm transition",
                   active
                     ? "bg-gradient-to-r from-saffron/12 to-maroon/8 font-semibold text-saffron-deep"
-                    : "font-medium text-ink hover:bg-[#fff1e6]"
+                    : "font-medium text-ink hover:bg-cosmic-purple/15"
                 )}
               >
                 <span>
                   <span className="block leading-tight">{opt.native}</span>
-                  <span className="block text-[11px] font-normal text-[#8a7a6a]">
+                  <span className="block text-[11px] font-normal text-ink-muted">
                     {opt.label}
                   </span>
                 </span>

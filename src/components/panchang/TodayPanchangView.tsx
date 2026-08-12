@@ -70,7 +70,7 @@ function Panel({
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-2xl border border-black/[0.06] bg-white shadow-[0_10px_30px_-16px_rgba(42,33,24,0.28)]",
+        "relative overflow-hidden rounded-2xl border border-white/10 bg-surface shadow-[0_10px_30px_-16px_rgba(42,33,24,0.28)]",
         className
       )}
     >
@@ -101,7 +101,7 @@ function TimingCard({
 }) {
   return (
     <Panel accent="none" className="px-3 py-4 text-center sm:px-4">
-      <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-[#fff4e8] text-saffron-deep">
+      <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-cosmic-purple/15 text-saffron-deep">
         <Icon className="h-5 w-5" />
       </div>
       <p className="mt-2 text-[12px] font-semibold text-ink-muted">{label}</p>
@@ -122,8 +122,8 @@ function LimbRow({
   until?: string;
 }) {
   return (
-    <div className="flex items-center justify-between gap-3 border-b border-black/[0.06] py-3 last:border-0">
-      <p className="text-[14px] font-medium text-[#6b5c4c]">{label}</p>
+    <div className="flex items-center justify-between gap-3 border-b border-white/10 py-3 last:border-0">
+      <p className="text-[14px] font-medium text-ink-muted">{label}</p>
       <p className="max-w-[62%] text-right text-[14px] font-semibold text-ink">
         {value}
         {until && until !== "—" ? (
@@ -191,7 +191,7 @@ export function TodayPanchangView() {
               type="date"
               value={draftDate}
               onChange={(e) => setDraftDate(e.target.value)}
-              className="w-full rounded-xl border border-black/10 bg-[#faf8f5] px-3 py-2.5 text-sm font-medium text-ink outline-none focus:border-saffron/50 focus:ring-2 focus:ring-saffron/20"
+              className="w-full rounded-xl border border-white/10 bg-cosmic-navy px-3 py-2.5 text-sm font-medium text-ink outline-none focus:border-saffron/50 focus:ring-2 focus:ring-saffron/20"
             />
           </label>
           <div className="min-w-[14rem] flex-[2] space-y-1.5">
@@ -223,14 +223,14 @@ export function TodayPanchangView() {
             <button
               type="button"
               aria-label="Previous day"
-              className="rounded-lg border border-black/10 bg-white p-1.5 hover:bg-[#fff1e6]"
+              className="rounded-lg border border-white/10 bg-surface p-1.5 hover:bg-cosmic-purple/15"
               onClick={() => goDay(-1)}
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
             <button
               type="button"
-              className="rounded-lg border border-saffron/25 bg-[#fff1e6] px-3 py-1.5 text-[12px] font-semibold text-saffron-deep"
+              className="rounded-lg border border-saffron/25 bg-cosmic-purple/15 px-3 py-1.5 text-[12px] font-semibold text-saffron-deep"
               onClick={() => {
                 const t = ymdLocal();
                 setDate(t);
@@ -242,7 +242,7 @@ export function TodayPanchangView() {
             <button
               type="button"
               aria-label="Next day"
-              className="rounded-lg border border-black/10 bg-white p-1.5 hover:bg-[#fff1e6]"
+              className="rounded-lg border border-white/10 bg-surface p-1.5 hover:bg-cosmic-purple/15"
               onClick={() => goDay(1)}
             >
               <ChevronRight className="h-4 w-4" />
@@ -312,8 +312,8 @@ export function TodayPanchangView() {
           </Panel>
 
           <Panel className="px-4 pt-5 sm:px-5">
-            <div className="flex items-center justify-between gap-3 border-b border-black/[0.06] py-3">
-              <p className="text-[14px] font-medium text-[#6b5c4c]">
+            <div className="flex items-center justify-between gap-3 border-b border-white/10 py-3">
+              <p className="text-[14px] font-medium text-ink-muted">
                 Shaka Samvat
               </p>
               <p className="text-right text-[14px] font-semibold text-ink">
@@ -321,15 +321,15 @@ export function TodayPanchangView() {
               </p>
             </div>
             <div className="flex items-center justify-between gap-3 py-3">
-              <p className="text-[14px] font-medium text-[#6b5c4c]">
+              <p className="text-[14px] font-medium text-ink-muted">
                 Vikram Samvat
               </p>
               <p className="text-right text-[14px] font-semibold text-ink">
                 {tx(locale, data.samvat.vikram.label)}
               </p>
             </div>
-            <div className="mt-2 rounded-xl bg-[#fff8f1] px-3 py-3">
-              <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-emerald-700">
+            <div className="mt-2 rounded-xl bg-cosmic-navy px-3 py-3">
+              <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-emerald-300">
                 {hi ? "अभिजित मुहूर्त" : "Abhijit muhurat"}
               </p>
               <p className="mt-1 text-[16px] font-semibold tabular-nums text-ink">
@@ -349,19 +349,19 @@ export function TodayPanchangView() {
             {data.ashubha.map((w) => (
               <div
                 key={w.id}
-                className="flex flex-col gap-0.5 border-b border-black/[0.06] py-3 last:border-0 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
+                className="flex flex-col gap-0.5 border-b border-white/10 py-3 last:border-0 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
               >
                 <p className="text-[14px] font-semibold text-ink">
                   {tx(locale, w.name)}
                 </p>
                 <p className="text-[13px] text-ink-muted sm:text-right">
-                  <span className="font-medium text-[#8a7a6a]">
+                  <span className="font-medium text-ink-muted">
                     {hi ? "से" : "From"}
                   </span>{" "}
                   <span className="font-semibold tabular-nums text-ink">
                     {w.from}
                   </span>{" "}
-                  <span className="font-medium text-[#8a7a6a]">
+                  <span className="font-medium text-ink-muted">
                     {hi ? "तक" : "To"}
                   </span>{" "}
                   <span className="font-semibold tabular-nums text-ink">
@@ -403,7 +403,7 @@ export function TodayPanchangView() {
           </p>
           <table className="mt-3 w-full min-w-[32rem] text-left text-[13px]">
             <thead>
-              <tr className="border-b border-black/10 text-[11px] uppercase tracking-wide text-ink-muted">
+              <tr className="border-b border-white/10 text-[11px] uppercase tracking-wide text-ink-muted">
                 <th className="py-2 pr-2 font-bold">{hi ? "ग्रह" : "Planet"}</th>
                 <th className="py-2 pr-2 font-bold">{hi ? "राशि" : "Rashi"}</th>
                 <th className="py-2 pr-2 font-bold">
@@ -417,7 +417,7 @@ export function TodayPanchangView() {
             </thead>
             <tbody>
               {data.planets.map((p) => (
-                <tr key={p.id} className="border-b border-black/[0.04]">
+                <tr key={p.id} className="border-b border-white/10">
                   <td className="py-2 pr-2 font-semibold text-ink">
                     {tx(locale, p.name)}
                   </td>
@@ -455,7 +455,7 @@ export function TodayPanchangView() {
             <Link
               key={r.href}
               href={r.href}
-              className="rounded-full border border-saffron/20 bg-[#fff8f1] px-3.5 py-1.5 text-[13px] font-semibold text-saffron-deep hover:bg-[#fff1e6]"
+              className="rounded-full border border-saffron/20 bg-cosmic-navy px-3.5 py-1.5 text-[13px] font-semibold text-saffron-deep hover:bg-cosmic-purple/15"
             >
               {r.label}
             </Link>

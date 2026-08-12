@@ -20,7 +20,7 @@ const QUESTIONS = [
 export function AiGuruSection({ locale }: { locale: string }) {
   const hi = locale === "hi";
   return (
-    <section className="border-y border-saffron/15 bg-gradient-to-b from-[#fff7f0] to-white py-10 sm:py-12">
+    <section className="border-y border-saffron/15 surface-wash py-10 sm:py-12">
       <div className="container-page">
         <div className="grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-10">
           <Reveal>
@@ -47,7 +47,7 @@ export function AiGuruSection({ locale }: { locale: string }) {
                 <li key={q.en}>
                   <Link
                     href="/chat"
-                    className="block rounded-xl border border-black/[0.06] bg-white px-4 py-3 text-[13px] font-medium text-ink transition hover:border-saffron/35"
+                    className="block rounded-xl border border-white/10 bg-surface px-4 py-3 text-[13px] font-medium text-ink transition hover:border-saffron/35"
                   >
                     “{hi ? q.hi : q.en}”
                   </Link>

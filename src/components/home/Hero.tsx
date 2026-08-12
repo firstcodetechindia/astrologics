@@ -20,7 +20,7 @@ export function Hero() {
   const reduce = useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden border-b border-white/[0.06]">
+    <section className="relative -mt-[var(--site-header-h)] overflow-hidden border-b border-white/[0.06] pt-[var(--site-header-h)]">
       <HomeGalaxyBackground />
       <div aria-hidden className="pointer-events-none absolute inset-0 z-[1]">
         {/* Light photo wash only — galaxy + nebula carry the scene */}
@@ -32,12 +32,12 @@ export function Hero() {
           sizes="100vw"
           className="object-cover object-[center_35%] opacity-[0.08]"
         />
-        {/* Left-weighted readability — leave bottom-right clear for planet */}
+        {/* Soft side wash — leave breathing room under header so menu stays clear */}
         <div className="absolute inset-y-0 left-0 w-[min(100%,42rem)] bg-gradient-to-r from-[#0B0F1F]/95 via-[#0B0F1F]/62 to-transparent" />
-        <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#0B0F1F]/65 to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-[calc(var(--site-header-h)+1.25rem)] bg-gradient-to-b from-[#0B0F1F]/75 via-[#0B0F1F]/35 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0B0F1F] via-[#0B0F1F]/55 to-transparent [mask-image:linear-gradient(90deg,#000_0%,#000_55%,transparent_88%)] [-webkit-mask-image:linear-gradient(90deg,#000_0%,#000_55%,transparent_88%)]" />
       </div>
-      <div className="container-page relative z-10 py-10 sm:py-14 lg:py-16">
+      <div className="container-page relative z-10 pb-10 pt-6 sm:pb-14 sm:pt-8 lg:pb-16 lg:pt-10">
         <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-12">
           <motion.div
             initial={reduce ? false : { opacity: 0, y: 16 }}

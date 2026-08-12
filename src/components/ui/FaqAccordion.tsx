@@ -21,7 +21,7 @@ export function FaqAccordion({
         return (
           <div
             key={f.q}
-            className="rounded-2xl border border-black/[0.08] bg-white shadow-sm overflow-hidden h-fit"
+            className="rounded-2xl border border-white/10 bg-surface shadow-sm overflow-hidden h-fit"
           >
             <button
               type="button"
@@ -40,7 +40,7 @@ export function FaqAccordion({
             </button>
             {isOpen && (
               <div className="px-5 pb-4 -mt-1">
-                <p className="text-sm text-ink-muted leading-relaxed border-t border-black/[0.05] pt-3">
+                <p className="text-sm text-ink-muted leading-relaxed border-t border-white/10 pt-3">
                   {f.a}
                 </p>
               </div>

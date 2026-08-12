@@ -9,8 +9,8 @@ import {
 
 export { DEV_OTP, formatPhoneDisplay, normalizePhone, verifyDevOtp };
 
-const ASTROLOGERS_KEY = "astrologics_astrologers_v1";
-const ASTROLOGER_SESSION_KEY = "astrologics_astrologer_session_v1";
+const ASTROLOGERS_KEY = "cosmicgpt_astrologers_v1";
+const ASTROLOGER_SESSION_KEY = "cosmicgpt_astrologer_session_v1";
 
 export type AstrologerOption = { id: string; en: string; hi: string };
 export type AstrologerOptionSection = {
@@ -158,13 +158,13 @@ export function getAstrologerSession(): AstrologerProfile | null {
 export function setAstrologerSession(profile: AstrologerProfile) {
   if (!canUseStorage()) return;
   localStorage.setItem(ASTROLOGER_SESSION_KEY, JSON.stringify(profile));
-  window.dispatchEvent(new Event("astrologics-astrologer-auth-changed"));
+  window.dispatchEvent(new Event("cosmicgpt-astrologer-auth-changed"));
 }
 
 export function clearAstrologerSession() {
   if (!canUseStorage()) return;
   localStorage.removeItem(ASTROLOGER_SESSION_KEY);
-  window.dispatchEvent(new Event("astrologics-astrologer-auth-changed"));
+  window.dispatchEvent(new Event("cosmicgpt-astrologer-auth-changed"));
 }
 
 export function findAstrologerByPhone(phoneRaw: string) {

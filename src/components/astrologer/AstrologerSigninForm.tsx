@@ -117,7 +117,7 @@ export function AstrologerSigninForm() {
   }
 
   return (
-    <div className="rounded-[1.35rem] border border-saffron/20 bg-white p-5 shadow-[0_12px_32px_-20px_rgba(42,33,24,0.28)] sm:p-7">
+    <div className="rounded-[1.35rem] border border-saffron/20 bg-surface p-5 shadow-[0_12px_32px_-20px_rgba(42,33,24,0.28)] sm:p-7">
       <h2 className="font-display text-[1.55rem] font-semibold tracking-tight text-ink">
         {hi ? "ज्योतिषी साइन इन" : "Astrologer Sign In"}
       </h2>
@@ -134,13 +134,13 @@ export function AstrologerSigninForm() {
       {step === "phone" ? (
         <form className="mt-5 space-y-4" onSubmit={onSendOtp}>
           <label className="block">
-            <span className="text-[12px] font-semibold text-[#5c4f42]">
+            <span className="text-[12px] font-semibold text-ink-muted">
               {hi ? "मोबाइल नंबर*" : "Mobile Number*"}
             </span>
             <div className="mt-1.5 flex overflow-hidden rounded-xl border border-saffron/25 focus-within:border-saffron/55 focus-within:ring-[3px] focus-within:ring-saffron/15">
-              <div className="flex shrink-0 items-center gap-1 border-r border-saffron/15 bg-[#fff8f1] px-3 text-[13px] font-semibold text-ink">
+              <div className="flex shrink-0 items-center gap-1 border-r border-saffron/15 bg-cosmic-navy px-3 text-[13px] font-semibold text-ink">
                 +91 (IN)
-                <ChevronDown className="h-3.5 w-3.5 text-[#8a7a6a]" />
+                <ChevronDown className="h-3.5 w-3.5 text-ink-muted" />
               </div>
               <input
                 type="tel"
@@ -158,7 +158,7 @@ export function AstrologerSigninForm() {
           </label>
 
           {error ? (
-            <p className="rounded-xl border border-saffron/20 bg-[#fff1e6] px-3 py-2.5 text-[13px] text-saffron-deep">
+            <p className="rounded-xl border border-saffron/20 bg-cosmic-purple/15 px-3 py-2.5 text-[13px] text-saffron-deep">
               {error}
             </p>
           ) : null}
@@ -183,7 +183,7 @@ export function AstrologerSigninForm() {
       ) : (
         <form className="mt-5 space-y-4" onSubmit={onVerify}>
           <fieldset>
-            <legend className="mb-2 text-[12px] font-semibold text-[#5c4f42]">
+            <legend className="mb-2 text-[12px] font-semibold text-ink-muted">
               {hi ? "OTP*" : "OTP*"}
             </legend>
             <div className="flex w-full min-w-0 gap-1.5 sm:gap-2">
@@ -240,7 +240,7 @@ export function AstrologerSigninForm() {
           </fieldset>
 
           {error ? (
-            <p className="rounded-xl border border-saffron/20 bg-[#fff1e6] px-3 py-2.5 text-[13px] text-saffron-deep">
+            <p className="rounded-xl border border-saffron/20 bg-cosmic-purple/15 px-3 py-2.5 text-[13px] text-saffron-deep">
               {error}
             </p>
           ) : null}

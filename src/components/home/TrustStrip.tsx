@@ -11,7 +11,7 @@ const ITEMS = [
 export function TrustStrip({ locale }: { locale: string }) {
   const hi = locale === "hi";
   return (
-    <section aria-label={hi ? "विश्वास संकेत" : "Trust indicators"} className="border-b border-black/[0.05] bg-white/70">
+    <section aria-label={hi ? "विश्वास संकेत" : "Trust indicators"} className="border-b border-white/10 bg-surface/75">
       <Reveal>
             <div className="container-page py-3">
           <ul className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 sm:gap-x-6">

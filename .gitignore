@@ -53,3 +53,10 @@ next-env.d.ts
 /public/tmp-galaxy-preview/
 /public/tmp-home-galaxy/
 /public/tmp-galaxy-motion-preview.html
+
+# local agent / IDE scratch (not for production)
+/.agents/
+/.cursor/
+/skills-lock.json
+/archive/
+/scripts/fixtures/cross-validation/last-report.json

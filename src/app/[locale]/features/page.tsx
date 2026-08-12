@@ -20,8 +20,8 @@ export async function generateMetadata(): Promise<Metadata> {
       ? `प्लेटफ़ॉर्म विशेषताएँ — कुंडली, एआई गुरु | ${siteConfig.brandName}`
       : `Platform Features — Kundli, AI Guru & 30+ Tools | ${siteConfig.brandName}`,
     description: hi
-      ? "Astrologics पर मुफ्त जन्म कुंडली, एआई गुरु चैट, गुण मिलान, राशिफल, पंचांग, केपी, अंक ज्योतिष और 30+ कैलकुलेटर — सब एक जगह।"
-      : "Explore Astrologics platform features: free janam kundali, AI Guru chat, gun milan, horoscope, panchang, KP, numerology and 30+ calculators in one place.",
+      ? "CosmicGPT पर मुफ्त जन्म कुंडली, एआई गुरु चैट, गुण मिलान, राशिफल, पंचांग, केपी, अंक ज्योतिष और 30+ कैलकुलेटर — सब एक जगह।"
+      : "Explore CosmicGPT platform features: free janam kundali, AI Guru chat, gun milan, horoscope, panchang, KP, numerology and 30+ calculators in one place.",
     keywords: hi
       ? [
           "कुंडली विशेषताएँ",
@@ -122,7 +122,7 @@ export default async function FeaturesPage() {
   const hi = locale === "hi";
 
   return (
-    <div className="bg-[#faf8f5]">
+    <div className="bg-cosmic-navy">
       <JsonLd
         data={breadcrumbJsonLd(locale, [
           { name: hi ? "होम" : "Home", path: "" },
@@ -134,8 +134,8 @@ export default async function FeaturesPage() {
         title={hi ? "प्लेटफ़ॉर्म विशेषताएँ" : "Platform features"}
         description={
           hi
-            ? "Astrologics पर मुफ्त कुंडली से लेकर एआई चैट और दर्जनों कैलकुलेटर तक — एक जगह।"
-            : "On Astrologics: free kundli, AI chat, and dozens of calculators — in one place."
+            ? "CosmicGPT पर मुफ्त कुंडली से लेकर एआई चैट और दर्जनों कैलकुलेटर तक — एक जगह।"
+            : "On CosmicGPT: free kundli, AI chat, and dozens of calculators — in one place."
         }
         crumbs={[
           { label: hi ? "होम" : "Home", href: "/" },
@@ -151,7 +151,7 @@ export default async function FeaturesPage() {
             </Link>
             <Link
               href="/calculators"
-              className="inline-flex items-center justify-center rounded-xl border border-saffron/30 bg-white/80 px-4 py-2.5 text-sm font-semibold text-saffron-deep hover:bg-[#fff1e6]"
+              className="inline-flex items-center justify-center rounded-xl border border-saffron/30 bg-surface/85 px-4 py-2.5 text-sm font-semibold text-saffron-deep hover:bg-cosmic-purple/15"
             >
               {hi ? "कैलकुलेटर देखें" : "Browse calculators"}
             </Link>
@@ -176,7 +176,7 @@ export default async function FeaturesPage() {
           ))}
         </div>
 
-        <section className="mt-12 max-w-3xl space-y-4 text-[15px] leading-relaxed text-ink-muted">
+        <section className="mt-12 space-y-4 text-[15px] leading-relaxed text-ink-muted">
           <h2 className="font-display text-2xl font-bold text-ink">
             {hi
               ? "कुंडली, पश्चिमी, केपी व एआई ज्योतिष एक प्लेटफ़ॉर्म पर"
@@ -184,8 +184,8 @@ export default async function FeaturesPage() {
           </h2>
           <p>
             {hi
-              ? "Astrologics मुफ्त जन्म कुंडली, दैनिक राशिफल, गुण मिलान, पश्चिमी/केपी/अंक ज्योतिष उपकरण और एआई गुरु चैट को एक जगह लाता है — सरल भाषा में।"
-              : "Astrologics brings free janam kundali, daily horoscope, gun milan, Western/KP/numerology tools and AI Guru chat together — in plain English or Hindi."}
+              ? "CosmicGPT मुफ्त जन्म कुंडली, दैनिक राशिफल, गुण मिलान, पश्चिमी/केपी/अंक ज्योतिष उपकरण और एआई गुरु चैट को एक जगह लाता है — सरल भाषा में।"
+              : "CosmicGPT brings free janam kundali, daily horoscope, gun milan, Western/KP/numerology tools and AI Guru chat together — in plain English or Hindi."}
           </p>
           <p>
             {hi

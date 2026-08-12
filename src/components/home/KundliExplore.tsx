@@ -53,7 +53,7 @@ const REVEALS = [
 export function KundliExplore({ locale }: { locale: string }) {
   const hi = locale === "hi";
   return (
-    <section className="bg-[#faf7f4] py-10 sm:py-12">
+    <section className="bg-cosmic-navy py-10 sm:py-12">
       <div className="container-page">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-3">
@@ -83,7 +83,7 @@ export function KundliExplore({ locale }: { locale: string }) {
             <Link
               key={item.title.en}
               href={item.href}
-              className="rounded-xl border border-black/[0.06] bg-white px-4 py-3.5 transition hover:border-saffron/35"
+              className="rounded-xl border border-white/10 bg-surface px-4 py-3.5 transition hover:border-saffron/35"
             >
               <h3 className="text-[14px] font-semibold text-ink">
                 {hi ? item.title.hi : item.title.en}

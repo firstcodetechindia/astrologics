@@ -32,6 +32,20 @@ export interface CalculatorMeta {
 
 export const CALCULATORS: CalculatorMeta[] = [
   {
+    slug: "birth-time-rectification",
+    category: "signs",
+    input: "birth",
+    icon: "⏳",
+    title: {
+      en: "Birth Time Rectification",
+      hi: "जन्म समय सुधार",
+    },
+    description: {
+      en: "Estimate a candidate birth time from dated life events (heuristic).",
+      hi: "दिनांकित जीवन घटनाओं से उम्मीदवार जन्म समय (अनुमान)।",
+    },
+  },
+  {
     slug: "moon-sign",
     category: "signs",
     input: "birth-optional-time",
@@ -197,6 +211,17 @@ export const CALCULATORS: CalculatorMeta[] = [
     },
   },
   {
+    slug: "prashna-kundli",
+    category: "kp",
+    input: "birth",
+    icon: "❓",
+    title: { en: "Prashna Kundli", hi: "प्रश्न कुंडली" },
+    description: {
+      en: "Question-time chart with topic significators and lean/caution flags.",
+      hi: "प्रश्न-काल कुंडली — विषय कारक भाव व झुकाव/सावधानी।",
+    },
+  },
+  {
     slug: "kp-horary",
     category: "kp",
     input: "number",
@@ -260,6 +285,17 @@ export const CALCULATORS: CalculatorMeta[] = [
     description: {
       en: "Find Moon sign & auspicious starting letters from birth details.",
       hi: "जन्म विवरण से चंद्र राशि और शुभ आरंभ अक्षर।",
+    },
+  },
+  {
+    slug: "muhurta-electional",
+    category: "panchang",
+    input: "place-date",
+    icon: "🕊️",
+    title: { en: "Muhurta Finder", hi: "मुहूर्त खोज" },
+    description: {
+      en: "Pass / caution / avoid windows for an activity over up to 14 days.",
+      hi: "गतिविधि हेतु 14 दिनों तक पास / सावधानी / बचें खिड़कियाँ।",
     },
   },
   {

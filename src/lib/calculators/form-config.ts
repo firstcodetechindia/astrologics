@@ -147,6 +147,12 @@ const SLUG_OVERRIDES: Partial<Record<string, Partial<CalcFormConfig>>> = {
       "लग्न के लिए सटीक जन्म समय और स्थान आवश्यक हैं।"
     ),
   },
+  "birth-time-rectification": {
+    hint: L(
+      "Approximate birth time + at least 3 dated life events. Heuristic dasha alignment — not certificate-grade proof. Prefer hospital records.",
+      "अनुमानित जन्म समय + कम से कम 3 दिनांकित घटनाएँ। दशा संरेखण अनुमान — प्रमाण नहीं। अस्पताल अभिलेख प्राथमिक।"
+    ),
+  },
   "kundli-matching": {
     askName: true,
     nameRequired: false,
@@ -187,6 +193,15 @@ const SLUG_OVERRIDES: Partial<Record<string, Partial<CalcFormConfig>>> = {
   "house-number": {
     valueLabel: L("House / flat number", "मकान / फ्लैट नंबर"),
   },
+  "prashna-kundli": {
+    dateLabel: L("Date of question", "प्रश्न तिथि"),
+    timeLabel: L("Time of asking", "प्रश्न समय"),
+    placeLabel: L("Place of asking", "प्रश्न स्थान"),
+    hint: L(
+      "Casts a chart for the moment you ask. Pick a topic — lean/caution only, not %-odds. Not medical or legal advice.",
+      "जिस क्षण आप पूछते हैं उसी का चार्ट। विषय चुनें — केवल झुकाव/सावधानी, %-संभावना नहीं। चिकित्सकीय/कानूनी सलाह नहीं।"
+    ),
+  },
   "kp-horary": {
     hint: L(
       "Pick a number from 1–249 for the question you have in mind.",
@@ -215,6 +230,14 @@ const SLUG_OVERRIDES: Partial<Record<string, Partial<CalcFormConfig>>> = {
     hint: L(
       "South-Indian day/night quality windows — city and date only.",
       "दक्षिण भारतीय दिन/रात गुणवत्ता खंड — केवल शहर और तिथि।"
+    ),
+  },
+  "muhurta-electional": {
+    dateLabel: L("Start date", "आरंभ तिथि"),
+    placeLabel: L("Place", "स्थान"),
+    hint: L(
+      "Pick an activity and date range (max 14 days). Windows use daytime Choghadiya + Panchang — pass / caution / avoid only, no luck %. Optional natal Moon 8th filter is off by default.",
+      "गतिविधि और तिथि सीमा चुनें (अधिकतम 14 दिन)। दिन चौघड़िया + पंचांग — केवल पास / सावधानी / बचें, भाग्य-% नहीं। जन्म चंद्र 8वाँ फ़िल्टर डिफ़ॉल्ट बंद।"
     ),
   },
   "today-panchang": {

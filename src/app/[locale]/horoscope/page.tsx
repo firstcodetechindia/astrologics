@@ -52,7 +52,7 @@ export default async function HoroscopeIndexPage() {
   const hi = locale === "hi";
 
   return (
-    <div className="relative overflow-hidden bg-[#faf8f5]">
+    <div className="relative overflow-hidden bg-cosmic-navy">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 h-[24rem] bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,rgba(255,138,31,0.2),transparent_70%)]"
@@ -92,7 +92,7 @@ export default async function HoroscopeIndexPage() {
       />
 
       <div className="container-page relative py-8">
-        <div className="mb-6 rounded-2xl border border-white/70 bg-white/55 p-4 text-[13px] leading-relaxed text-ink-muted shadow-sm backdrop-blur-xl sm:p-5">
+        <div className="mb-6 rounded-2xl border border-white/12 bg-surface/90 p-4 text-[13px] leading-relaxed text-ink-muted shadow-sm backdrop-blur-xl sm:p-5">
           <p className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-saffron-deep">
             <Sparkles className="h-3 w-3" />
             {hi ? "खोजने योग्य ज्योतिष सामग्री" : "Crawl-ready astrology content"}
@@ -111,13 +111,13 @@ export default async function HoroscopeIndexPage() {
               <Link
                 key={s.slug}
                 href={`/horoscope/${s.slug}`}
-                className="group flex flex-col items-center gap-2 rounded-2xl border border-white/70 bg-white/55 px-3 py-5 text-center shadow-[0_10px_30px_-18px_rgba(240,106,0,0.35)] backdrop-blur-xl transition hover:-translate-y-0.5 hover:border-saffron/35 hover:bg-white/80"
+                className="group flex flex-col items-center gap-2 rounded-2xl border border-white/12 bg-surface/90 px-3 py-5 text-center shadow-[0_10px_30px_-18px_rgba(108,60,255,0.35)] backdrop-blur-xl transition hover:-translate-y-0.5 hover:border-cosmic-gold/40 hover:bg-surface-elevated"
               >
-                <span className="grid h-16 w-16 place-items-center rounded-2xl border border-white/80 bg-gradient-to-br from-[#fff7f0] to-[#ffe8d4]/80 transition group-hover:scale-105 sm:h-20 sm:w-20">
+                <span className="grid h-16 w-16 place-items-center rounded-2xl border border-white/12 surface-wash/80 transition group-hover:scale-105 sm:h-20 sm:w-20">
                   <ZodiacIcon
                     slug={s.slug}
                     className="h-12 w-12 sm:h-14 sm:w-14"
-                    colorClassName="bg-[#c45a12]/85"
+                    colorClassName="bg-cosmic-gold"
                   />
                 </span>
                 <span className="font-display text-[15px] font-bold text-ink">

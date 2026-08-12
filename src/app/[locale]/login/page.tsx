@@ -15,8 +15,8 @@ export async function generateMetadata(): Promise<Metadata> {
       ? `लॉगिन | ${siteConfig.brandName}`
       : `Login | ${siteConfig.brandName}`,
     description: hi
-      ? "मोबाइल OTP से Astrologics में लॉगिन या साइन अप करें।"
-      : "Login or sign up to Astrologics with mobile OTP.",
+      ? "मोबाइल OTP से CosmicGPT में लॉगिन या साइन अप करें।"
+      : "Login or sign up to CosmicGPT with mobile OTP.",
     noIndex: true,
   });
 }
@@ -25,7 +25,7 @@ export default function LoginPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex h-dvh items-center justify-center bg-[#fffaf6] text-sm text-ink-muted">
+        <div className="flex h-dvh items-center justify-center bg-cosmic-navy text-sm text-ink-muted">
           Loading…
         </div>
       }

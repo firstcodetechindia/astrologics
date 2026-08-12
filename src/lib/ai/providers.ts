@@ -55,7 +55,7 @@ export function buildChartSummary(k: KundliResult): string {
     `Name: ${k.input.name}`,
     `Birth (local): ${k.input.date} ${k.input.time} @ ${k.input.place}`,
     `Coords: lat ${k.input.lat}, lon ${k.input.lon}; TZ offset min: ${k.input.timezoneOffsetMinutes ?? "default IST"}`,
-    `Settings: sidereal + Lahiri ayanamsa ${k.ayanamsa.toFixed(4)}°; whole-sign houses; ${k.settings.nodeType} nodes; engine ${k.settings.ephemerisEngine}`,
+    `Settings: sidereal + ${k.settings.ayanamsa} ayanamsa ${k.ayanamsa.toFixed(4)}°; houses D1=${k.settings.houseSystemByChart?.d1 ?? k.settings.houseSystem} / KP=${k.settings.houseSystemByChart?.kp ?? "placidus"}; ${k.settings.nodeType} nodes; dayBoundary=${k.settings.dayBoundary ?? "sunrise"}; TZ=${k.settings.timeZone ?? "Asia/Kolkata"} (${k.settings.timezoneOffsetMinutes ?? "?"} min); engine ${k.settings.ephemerisEngine}`,
     `Calculation reliability: ${k.reliability.level.toUpperCase()} (${k.reliability.reasons.map((r) => r.en).join("; ")})`,
     `Lagna: ${k.lagna.sign.en} ${fmtDeg(k.lagna.degree)} (lon ${k.lagna.longitude.toFixed(4)}°)`,
     `Moon rashi: ${k.moonRashi.en} | Nakshatra ${k.nakshatra.name.en} pada ${k.nakshatra.pada} | lord ${k.nakshatra.lord.en}`,
@@ -67,9 +67,20 @@ export function buildChartSummary(k: KundliResult): string {
     yogaLines,
     `Manglik: ${k.doshas.manglik.present ? "present" : "not present"} — ${k.doshas.manglik.meaning.en}`,
     `Kaal Sarp: ${k.doshas.kaalSarp.present ? "present" : "not present"} — ${k.doshas.kaalSarp.meaning.en}`,
-    k.doshas.sadeSati
-      ? `Sade Sati: ${k.doshas.sadeSati.present ? "active" : "not active"} — ${k.doshas.sadeSati.meaning.en}`
-      : "",
+    (() => {
+      const ss = k.doshas.sadeSati as unknown as {
+        present?: boolean;
+        active?: boolean;
+        meaning?: { en: string };
+        fullCycle?: { phase: number; start: string; end: string }[];
+      };
+      if (!ss) return "";
+      const active = Boolean(ss.present || ss.active);
+      const cycle = ss.fullCycle?.length
+        ? ` | cycle: ${ss.fullCycle.map((c) => `P${c.phase} ${c.start}→${c.end}`).join("; ")}`
+        : "";
+      return `Sade Sati: ${active ? "active" : "not active"} — ${ss.meaning?.en ?? ""}${cycle}`;
+    })(),
     `Vimshottari start lord: ${k.dasha.startLord?.en ?? "n/a"}; balance years at birth: ${k.dasha.balanceYears ?? "n/a"}`,
     `Current Mahadasha: ${k.dasha.currentMaha.planet.en} (${k.dasha.currentMaha.start} → ${k.dasha.currentMaha.end})`,
     `Current Antardasha: ${k.dasha.currentAntar.planet.en} (${k.dasha.currentAntar.start} → ${k.dasha.currentAntar.end})`,
@@ -128,6 +139,47 @@ export function buildChartSummary(k: KundliResult): string {
       const conflicts = g.conflicts.map((c) => c.note.en).join(" | ");
       return `Gemstone engine (Ratna): ${lines || "none"}${conflicts ? ` | CONFLICTS: ${conflicts}` : ""} | Tier2 after mantra/lifestyle; natural untreated only; confirm with astrologer.`;
     })(),
+    (() => {
+      const lk = k.lalkitab as
+        | {
+            planets?: { id: string; house: number; pakkaGhar: number; inPakkaGhar: boolean }[];
+            andha?: { planetId: string; house: number }[];
+            rin?: { id: string; present: boolean; name: { en: string } }[];
+            remedies?: { forPlanet: string; trigger: string }[];
+            methodology?: { en: string };
+          }
+        | undefined;
+      if (!lk?.planets?.length) return "";
+      const pakka = lk.planets
+        .map(
+          (p) =>
+            `${p.id}:H${p.house}/pakka${p.pakkaGhar}${p.inPakkaGhar ? "" : "(away)"}`
+        )
+        .join("; ");
+      const andha =
+        lk.andha?.map((a) => `${a.planetId}@H${a.house}`).join(", ") || "none";
+      const rin =
+        (lk.rin || [])
+          .filter((r) => r.present)
+          .map((r) => r.name.en)
+          .join(", ") || "none present";
+      return `Lal Kitab (whole-sign D1 rules): ${lk.methodology?.en || ""} | Pakka: ${pakka} | Andha: ${andha} | Rin: ${rin} | Tier1 remedies for: ${(lk.remedies || []).map((r) => r.forPlanet).join(", ") || "none"}`;
+    })(),
+    (() => {
+      const vp = k.varshphal as
+        | {
+            targetYear?: number;
+            solarReturnAt?: string;
+            varshaLagna?: { sign: { en: string } };
+            muntha?: { sign: { en: string }; houseFromVarshaLagna: number };
+            varsheshwara?: { name: { en: string } };
+            sahams?: { name: { en: string }; sign: { en: string } }[];
+            methodology?: { en: string };
+          }
+        | undefined;
+      if (!vp?.varshaLagna) return "";
+      return `Varshphal ${vp.targetYear}: solarReturn ${vp.solarReturnAt}; Varsha Lagna ${vp.varshaLagna.sign.en}; Muntha ${vp.muntha?.sign.en} H${vp.muntha?.houseFromVarshaLagna}; Varsheshwara ${vp.varsheshwara?.name.en}; Sahams: ${(vp.sahams || []).map((s) => `${s.name.en}=${s.sign.en}`).join(", ") || "none"} | ${vp.methodology?.en || ""}`;
+    })(),
     "=== END CALCULATED CHART ===",
     "",
     predictionBlock,
@@ -152,7 +204,7 @@ export function buildChartCard(k: KundliResult, locale: "en" | "hi") {
 export { FREE_CHAT_LIMIT, followUpQuestions, suggestedQuestions } from "./chat-limits";
 
 export function systemPrompt(locale: "en" | "hi"): string {
-  return `You are ${siteConfig.brandName}'s proprietary AI astrology assistant (astrologics.co).
+  return `You are ${siteConfig.brandName}'s proprietary AI astrology assistant (cosmicgpt.in).
 Never mention OpenAI, GPT, Gemini, Google, Claude, or any third-party model names — you are simply "${siteConfig.brandName} AI".
 Answer in ${locale === "hi" ? "clear Hindi (Devanagari script)" : "clear, warm English"}.
 

@@ -2,8 +2,10 @@
 
 export const DEV_OTP = "112233";
 
-const USERS_KEY = "astrologics_users_v1";
-const SESSION_KEY = "astrologics_session_v1";
+const USERS_KEY = "cosmicgpt_users_v1";
+const SESSION_KEY = "cosmicgpt_session_v1";
+const LEGACY_USERS_KEY = "astrologics_users_v1";
+const LEGACY_SESSION_KEY = "astrologics_session_v1";
 
 export type AuthUser = {
   phone: string;
@@ -30,8 +32,20 @@ function canUseStorage() {
   return typeof window !== "undefined" && typeof localStorage !== "undefined";
 }
 
+function migrateKey(from: string, to: string) {
+  if (!canUseStorage()) return;
+  try {
+    if (localStorage.getItem(to)) return;
+    const legacy = localStorage.getItem(from);
+    if (legacy) localStorage.setItem(to, legacy);
+  } catch {
+    /* ignore */
+  }
+}
+
 function readUsers(): AuthUser[] {
   if (!canUseStorage()) return [];
+  migrateKey(LEGACY_USERS_KEY, USERS_KEY);
   try {
     const raw = localStorage.getItem(USERS_KEY);
     if (!raw) return [];
@@ -66,6 +80,7 @@ export function verifyDevOtp(otp: string) {
 
 export function getSession(): AuthUser | null {
   if (!canUseStorage()) return null;
+  migrateKey(LEGACY_SESSION_KEY, SESSION_KEY);
   try {
     const raw = localStorage.getItem(SESSION_KEY);
     if (!raw) return null;
@@ -78,13 +93,13 @@ export function getSession(): AuthUser | null {
 export function setSession(user: AuthUser) {
   if (!canUseStorage()) return;
   localStorage.setItem(SESSION_KEY, JSON.stringify(user));
-  window.dispatchEvent(new Event("astrologics-auth-changed"));
+  window.dispatchEvent(new Event("cosmicgpt-auth-changed"));
 }
 
 export function clearSession() {
   if (!canUseStorage()) return;
   localStorage.removeItem(SESSION_KEY);
-  window.dispatchEvent(new Event("astrologics-auth-changed"));
+  window.dispatchEvent(new Event("cosmicgpt-auth-changed"));
 }
 
 /** Sync profile fields onto the session user until DB exists. */

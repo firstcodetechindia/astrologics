@@ -1,0 +1,704 @@
+{
+  "generatedBy": "scripts/gen-se-goldens.py (dev only)",
+  "ayanamsa": "Lahiri SIDM_LAHIRI",
+  "node": "mean",
+  "cases": [
+    {
+      "id": "delhi_1990_dawn",
+      "category": "modern",
+      "name": "Delhi dawn",
+      "date": "1990-05-15",
+      "time": "06:30",
+      "place": "New Delhi",
+      "lat": 28.6139,
+      "lon": 77.209,
+      "timeZone": "Asia/Kolkata",
+      "source": "swiss_ephemeris",
+      "sourceDetail": "pyswisseph SIDM_LAHIRI + MEAN_NODE; lagna=Placidus ASC trop\u2212Lahiri",
+      "jd_ut": 2448026.5416666665,
+      "ayanamsa": 23.722533,
+      "lagna": {
+        "longitude": 45.3005,
+        "sign": "Taurus",
+        "degreeInSign": 15.3005,
+        "nakshatra": "Rohini",
+        "pada": 2
+      },
+      "planets": {
+        "sun": {
+          "longitude": 30.2284,
+          "sign": "Taurus",
+          "degreeInSign": 0.2284,
+          "nakshatra": "Krittika",
+          "pada": 2
+        },
+        "moon": {
+          "longitude": 267.7968,
+          "sign": "Sagittarius",
+          "degreeInSign": 27.7968,
+          "nakshatra": "Uttara Ashadha",
+          "pada": 1
+        },
+        "mercury": {
+          "longitude": 14.3497,
+          "sign": "Aries",
+          "degreeInSign": 14.3497,
+          "nakshatra": "Bharani",
+          "pada": 1
+        },
+        "venus": {
+          "longitude": 348.5699,
+          "sign": "Pisces",
+          "degreeInSign": 18.5699,
+          "nakshatra": "Revati",
+          "pada": 1
+        },
+        "mars": {
+          "longitude": 324.2676,
+          "sign": "Aquarius",
+          "degreeInSign": 24.2676,
+          "nakshatra": "Purva Bhadrapada",
+          "pada": 2
+        },
+        "jupiter": {
+          "longitude": 75.7293,
+          "sign": "Gemini",
+          "degreeInSign": 15.7293,
+          "nakshatra": "Ardra",
+          "pada": 3
+        },
+        "saturn": {
+          "longitude": 271.5312,
+          "sign": "Capricorn",
+          "degreeInSign": 1.5312,
+          "nakshatra": "Uttara Ashadha",
+          "pada": 2
+        },
+        "rahu": {
+          "longitude": 287.6376,
+          "sign": "Capricorn",
+          "degreeInSign": 17.6376,
+          "nakshatra": "Shravana",
+          "pada": 3
+        },
+        "ketu": {
+          "longitude": 107.6376,
+          "sign": "Cancer",
+          "degreeInSign": 17.6376,
+          "nakshatra": "Ashlesha",
+          "pada": 1
+        }
+      }
+    },
+    {
+      "id": "mumbai_1985_night",
+      "category": "modern",
+      "name": "Mumbai night",
+      "date": "1985-12-01",
+      "time": "23:45",
+      "place": "Mumbai",
+      "lat": 19.076,
+      "lon": 72.8777,
+      "timeZone": "Asia/Kolkata",
+      "source": "swiss_ephemeris",
+      "sourceDetail": "pyswisseph SIDM_LAHIRI + MEAN_NODE; lagna=Placidus ASC trop\u2212Lahiri",
+      "jd_ut": 2446401.2604166665,
+      "ayanamsa": 23.660378,
+      "lagna": {
+        "longitude": 125.5149,
+        "sign": "Leo",
+        "degreeInSign": 5.5149,
+        "nakshatra": "Magha",
+        "pada": 2
+      },
+      "planets": {
+        "sun": {
+          "longitude": 225.846,
+          "sign": "Scorpio",
+          "degreeInSign": 15.846,
+          "nakshatra": "Anuradha",
+          "pada": 4
+        },
+        "moon": {
+          "longitude": 92.8377,
+          "sign": "Cancer",
+          "degreeInSign": 2.8377,
+          "nakshatra": "Punarvasu",
+          "pada": 4
+        },
+        "mercury": {
+          "longitude": 219.2347,
+          "sign": "Scorpio",
+          "degreeInSign": 9.2347,
+          "nakshatra": "Anuradha",
+          "pada": 2
+        },
+        "venus": {
+          "longitude": 214.104,
+          "sign": "Scorpio",
+          "degreeInSign": 4.104,
+          "nakshatra": "Anuradha",
+          "pada": 1
+        },
+        "mars": {
+          "longitude": 178.2722,
+          "sign": "Virgo",
+          "degreeInSign": 28.2722,
+          "nakshatra": "Chitra",
+          "pada": 2
+        },
+        "jupiter": {
+          "longitude": 288.8011,
+          "sign": "Capricorn",
+          "degreeInSign": 18.8011,
+          "nakshatra": "Shravana",
+          "pada": 3
+        },
+        "saturn": {
+          "longitude": 218.0868,
+          "sign": "Scorpio",
+          "degreeInSign": 8.0868,
+          "nakshatra": "Anuradha",
+          "pada": 2
+        },
+        "rahu": {
+          "longitude": 13.7646,
+          "sign": "Aries",
+          "degreeInSign": 13.7646,
+          "nakshatra": "Bharani",
+          "pada": 1
+        },
+        "ketu": {
+          "longitude": 193.7646,
+          "sign": "Libra",
+          "degreeInSign": 13.7646,
+          "nakshatra": "Swati",
+          "pada": 3
+        }
+      }
+    },
+    {
+      "id": "sydney_1988",
+      "category": "southern_hemisphere",
+      "name": "Sydney",
+      "date": "1988-07-04",
+      "time": "09:15",
+      "place": "Sydney",
+      "lat": -33.8688,
+      "lon": 151.2093,
+      "timeZone": "Australia/Sydney",
+      "source": "swiss_ephemeris",
+      "sourceDetail": "pyswisseph SIDM_LAHIRI + MEAN_NODE; lagna=Placidus ASC trop\u2212Lahiri",
+      "jd_ut": 2447346.46875,
+      "ayanamsa": 23.696525,
+      "lagna": {
+        "longitude": 115.6577,
+        "sign": "Cancer",
+        "degreeInSign": 25.6577,
+        "nakshatra": "Ashlesha",
+        "pada": 3
+      },
+      "planets": {
+        "sun": {
+          "longitude": 78.5101,
+          "sign": "Gemini",
+          "degreeInSign": 18.5101,
+          "nakshatra": "Ardra",
+          "pada": 4
+        },
+        "moon": {
+          "longitude": 315.1999,
+          "sign": "Aquarius",
+          "degreeInSign": 15.1999,
+          "nakshatra": "Shatabhisha",
+          "pada": 3
+        },
+        "mercury": {
+          "longitude": 57.7043,
+          "sign": "Taurus",
+          "degreeInSign": 27.7043,
+          "nakshatra": "Mrigashira",
+          "pada": 2
+        },
+        "venus": {
+          "longitude": 50.2354,
+          "sign": "Taurus",
+          "degreeInSign": 20.2354,
+          "nakshatra": "Rohini",
+          "pada": 4
+        },
+        "mars": {
+          "longitude": 331.4625,
+          "sign": "Pisces",
+          "degreeInSign": 1.4625,
+          "nakshatra": "Purva Bhadrapada",
+          "pada": 4
+        },
+        "jupiter": {
+          "longitude": 32.9508,
+          "sign": "Taurus",
+          "degreeInSign": 2.9508,
+          "nakshatra": "Krittika",
+          "pada": 2
+        },
+        "saturn": {
+          "longitude": 244.5696,
+          "sign": "Sagittarius",
+          "degreeInSign": 4.5696,
+          "nakshatra": "Mula",
+          "pada": 2
+        },
+        "rahu": {
+          "longitude": 323.6761,
+          "sign": "Aquarius",
+          "degreeInSign": 23.6761,
+          "nakshatra": "Purva Bhadrapada",
+          "pada": 2
+        },
+        "ketu": {
+          "longitude": 143.6761,
+          "sign": "Leo",
+          "degreeInSign": 23.6761,
+          "nakshatra": "Purva Phalguni",
+          "pada": 4
+        }
+      }
+    },
+    {
+      "id": "kolkata_1941_wartime",
+      "category": "historical_pre1947",
+      "name": "Kolkata wartime",
+      "date": "1941-10-01",
+      "time": "12:00",
+      "place": "Kolkata",
+      "lat": 22.5726,
+      "lon": 88.3639,
+      "timeZone": "Asia/Kolkata",
+      "source": "swiss_ephemeris",
+      "sourceDetail": "pyswisseph SIDM_LAHIRI + MEAN_NODE; lagna=Placidus ASC trop\u2212Lahiri",
+      "jd_ut": 2430268.7291666665,
+      "ayanamsa": 23.043492,
+      "lagna": {
+        "longitude": 237.9439,
+        "sign": "Scorpio",
+        "degreeInSign": 27.9439,
+        "nakshatra": "Jyeshtha",
+        "pada": 4
+      },
+      "planets": {
+        "sun": {
+          "longitude": 164.6027,
+          "sign": "Virgo",
+          "degreeInSign": 14.6027,
+          "nakshatra": "Hasta",
+          "pada": 2
+        },
+        "moon": {
+          "longitude": 296.8562,
+          "sign": "Capricorn",
+          "degreeInSign": 26.8562,
+          "nakshatra": "Dhanishta",
+          "pada": 2
+        },
+        "mercury": {
+          "longitude": 190.0984,
+          "sign": "Libra",
+          "degreeInSign": 10.0984,
+          "nakshatra": "Swati",
+          "pada": 2
+        },
+        "venus": {
+          "longitude": 205.8436,
+          "sign": "Libra",
+          "degreeInSign": 25.8436,
+          "nakshatra": "Vishakha",
+          "pada": 2
+        },
+        "mars": {
+          "longitude": 356.6486,
+          "sign": "Pisces",
+          "degreeInSign": 26.6486,
+          "nakshatra": "Revati",
+          "pada": 3
+        },
+        "jupiter": {
+          "longitude": 58.2659,
+          "sign": "Taurus",
+          "degreeInSign": 28.2659,
+          "nakshatra": "Mrigashira",
+          "pada": 2
+        },
+        "saturn": {
+          "longitude": 35.1323,
+          "sign": "Taurus",
+          "degreeInSign": 5.1323,
+          "nakshatra": "Krittika",
+          "pada": 3
+        },
+        "rahu": {
+          "longitude": 148.6604,
+          "sign": "Leo",
+          "degreeInSign": 28.6604,
+          "nakshatra": "Uttara Phalguni",
+          "pada": 1
+        },
+        "ketu": {
+          "longitude": 328.6604,
+          "sign": "Aquarius",
+          "degreeInSign": 28.6604,
+          "nakshatra": "Purva Bhadrapada",
+          "pada": 3
+        }
+      }
+    },
+    {
+      "id": "delhi_1900_lmt",
+      "category": "historical_pre1947",
+      "name": "Delhi 1900",
+      "date": "1900-06-15",
+      "time": "12:00",
+      "place": "Delhi",
+      "lat": 28.6139,
+      "lon": 77.209,
+      "timeZone": "Asia/Kolkata",
+      "source": "swiss_ephemeris",
+      "sourceDetail": "pyswisseph SIDM_LAHIRI + MEAN_NODE; lagna=Placidus ASC trop\u2212Lahiri",
+      "jd_ut": 2415185.7769675925,
+      "ayanamsa": 22.466849,
+      "lagna": {
+        "longitude": 148.7333,
+        "sign": "Leo",
+        "degreeInSign": 28.7333,
+        "nakshatra": "Uttara Phalguni",
+        "pada": 1
+      },
+      "planets": {
+        "sun": {
+          "longitude": 61.2066,
+          "sign": "Gemini",
+          "degreeInSign": 1.2066,
+          "nakshatra": "Mrigashira",
+          "pada": 3
+        },
+        "moon": {
+          "longitude": 268.215,
+          "sign": "Sagittarius",
+          "degreeInSign": 28.215,
+          "nakshatra": "Uttara Ashadha",
+          "pada": 1
+        },
+        "mercury": {
+          "longitude": 78.7622,
+          "sign": "Gemini",
+          "degreeInSign": 18.7622,
+          "nakshatra": "Ardra",
+          "pada": 4
+        },
+        "venus": {
+          "longitude": 91.4769,
+          "sign": "Cancer",
+          "degreeInSign": 1.4769,
+          "nakshatra": "Punarvasu",
+          "pada": 4
+        },
+        "mars": {
+          "longitude": 28.8376,
+          "sign": "Aries",
+          "degreeInSign": 28.8376,
+          "nakshatra": "Krittika",
+          "pada": 1
+        },
+        "jupiter": {
+          "longitude": 221.266,
+          "sign": "Scorpio",
+          "degreeInSign": 11.266,
+          "nakshatra": "Anuradha",
+          "pada": 3
+        },
+        "saturn": {
+          "longitude": 249.8941,
+          "sign": "Sagittarius",
+          "degreeInSign": 9.8941,
+          "nakshatra": "Mula",
+          "pada": 3
+        },
+        "rahu": {
+          "longitude": 227.9376,
+          "sign": "Scorpio",
+          "degreeInSign": 17.9376,
+          "nakshatra": "Jyeshtha",
+          "pada": 1
+        },
+        "ketu": {
+          "longitude": 47.9376,
+          "sign": "Taurus",
+          "degreeInSign": 17.9376,
+          "nakshatra": "Rohini",
+          "pada": 3
+        }
+      }
+    },
+    {
+      "id": "approx_time_noon",
+      "category": "approximate_time",
+      "name": "Approx noon only",
+      "date": "1995-03-21",
+      "time": "12:00",
+      "place": "Varanasi",
+      "lat": 25.3176,
+      "lon": 82.9739,
+      "timeZone": "Asia/Kolkata",
+      "source": "swiss_ephemeris",
+      "sourceDetail": "pyswisseph SIDM_LAHIRI + MEAN_NODE; lagna=Placidus ASC trop\u2212Lahiri",
+      "jd_ut": 2449797.7708333335,
+      "ayanamsa": 23.790271,
+      "lagna": {
+        "longitude": 75.7886,
+        "sign": "Gemini",
+        "degreeInSign": 15.7886,
+        "nakshatra": "Ardra",
+        "pada": 3
+      },
+      "planets": {
+        "sun": {
+          "longitude": 336.383,
+          "sign": "Pisces",
+          "degreeInSign": 6.383,
+          "nakshatra": "Uttara Bhadrapada",
+          "pada": 1
+        },
+        "moon": {
+          "longitude": 212.3468,
+          "sign": "Scorpio",
+          "degreeInSign": 2.3468,
+          "nakshatra": "Vishakha",
+          "pada": 4
+        },
+        "mercury": {
+          "longitude": 315.7391,
+          "sign": "Aquarius",
+          "degreeInSign": 15.7391,
+          "nakshatra": "Shatabhisha",
+          "pada": 3
+        },
+        "venus": {
+          "longitude": 297.9132,
+          "sign": "Capricorn",
+          "degreeInSign": 27.9132,
+          "nakshatra": "Dhanishta",
+          "pada": 2
+        },
+        "mars": {
+          "longitude": 109.4454,
+          "sign": "Cancer",
+          "degreeInSign": 19.4454,
+          "nakshatra": "Ashlesha",
+          "pada": 1
+        },
+        "jupiter": {
+          "longitude": 231.3924,
+          "sign": "Scorpio",
+          "degreeInSign": 21.3924,
+          "nakshatra": "Jyeshtha",
+          "pada": 2
+        },
+        "saturn": {
+          "longitude": 323.075,
+          "sign": "Aquarius",
+          "degreeInSign": 23.075,
+          "nakshatra": "Purva Bhadrapada",
+          "pada": 1
+        },
+        "rahu": {
+          "longitude": 193.7766,
+          "sign": "Libra",
+          "degreeInSign": 13.7766,
+          "nakshatra": "Swati",
+          "pada": 3
+        },
+        "ketu": {
+          "longitude": 13.7766,
+          "sign": "Aries",
+          "degreeInSign": 13.7766,
+          "nakshatra": "Bharani",
+          "pada": 1
+        }
+      },
+      "notes": "Approximate birth time modeled as local noon"
+    },
+    {
+      "id": "sign_cusp_probe",
+      "category": "boundary",
+      "name": "Near tropical Aries ingress (sidereal Sun still Pisces)",
+      "date": "2024-03-20",
+      "time": "12:00",
+      "place": "Delhi",
+      "lat": 28.61,
+      "lon": 77.21,
+      "timeZone": "Asia/Kolkata",
+      "source": "swiss_ephemeris",
+      "sourceDetail": "pyswisseph SIDM_LAHIRI + MEAN_NODE; lagna=Placidus ASC trop\u2212Lahiri",
+      "jd_ut": 2460389.7708333335,
+      "ayanamsa": 24.195376,
+      "lagna": {
+        "longitude": 71.8469,
+        "sign": "Gemini",
+        "degreeInSign": 11.8469,
+        "nakshatra": "Ardra",
+        "pada": 2
+      },
+      "planets": {
+        "sun": {
+          "longitude": 335.9463,
+          "sign": "Pisces",
+          "degreeInSign": 5.9463,
+          "nakshatra": "Uttara Bhadrapada",
+          "pada": 1
+        },
+        "moon": {
+          "longitude": 101.3327,
+          "sign": "Cancer",
+          "degreeInSign": 11.3327,
+          "nakshatra": "Pushya",
+          "pada": 3
+        },
+        "mercury": {
+          "longitude": 353.4518,
+          "sign": "Pisces",
+          "degreeInSign": 23.4518,
+          "nakshatra": "Revati",
+          "pada": 3
+        },
+        "venus": {
+          "longitude": 316.1524,
+          "sign": "Aquarius",
+          "degreeInSign": 16.1524,
+          "nakshatra": "Shatabhisha",
+          "pada": 3
+        },
+        "mars": {
+          "longitude": 303.6895,
+          "sign": "Aquarius",
+          "degreeInSign": 3.6895,
+          "nakshatra": "Dhanishta",
+          "pada": 4
+        },
+        "jupiter": {
+          "longitude": 20.72,
+          "sign": "Aries",
+          "degreeInSign": 20.72,
+          "nakshatra": "Bharani",
+          "pada": 3
+        },
+        "saturn": {
+          "longitude": 318.0481,
+          "sign": "Aquarius",
+          "degreeInSign": 18.0481,
+          "nakshatra": "Shatabhisha",
+          "pada": 4
+        },
+        "rahu": {
+          "longitude": 352.4853,
+          "sign": "Pisces",
+          "degreeInSign": 22.4853,
+          "nakshatra": "Revati",
+          "pada": 2
+        },
+        "ketu": {
+          "longitude": 172.4853,
+          "sign": "Virgo",
+          "degreeInSign": 22.4853,
+          "nakshatra": "Hasta",
+          "pada": 4
+        }
+      }
+    },
+    {
+      "id": "london_2000",
+      "category": "modern",
+      "name": "London Y2K",
+      "date": "2000-01-01",
+      "time": "00:00",
+      "place": "London",
+      "lat": 51.5074,
+      "lon": -0.1278,
+      "timeZone": "Europe/London",
+      "source": "swiss_ephemeris",
+      "sourceDetail": "pyswisseph SIDM_LAHIRI + MEAN_NODE; lagna=Placidus ASC trop\u2212Lahiri",
+      "jd_ut": 2451544.5,
+      "ayanamsa": 23.857073,
+      "lagna": {
+        "longitude": 163.0796,
+        "sign": "Virgo",
+        "degreeInSign": 13.0796,
+        "nakshatra": "Hasta",
+        "pada": 1
+      },
+      "planets": {
+        "sun": {
+          "longitude": 256.006,
+          "sign": "Sagittarius",
+          "degreeInSign": 16.006,
+          "nakshatra": "Purva Ashadha",
+          "pada": 1
+        },
+        "moon": {
+          "longitude": 193.4402,
+          "sign": "Libra",
+          "degreeInSign": 13.4402,
+          "nakshatra": "Swati",
+          "pada": 3
+        },
+        "mercury": {
+          "longitude": 247.2586,
+          "sign": "Sagittarius",
+          "degreeInSign": 7.2586,
+          "nakshatra": "Mula",
+          "pada": 3
+        },
+        "venus": {
+          "longitude": 217.1082,
+          "sign": "Scorpio",
+          "degreeInSign": 7.1082,
+          "nakshatra": "Anuradha",
+          "pada": 2
+        },
+        "mars": {
+          "longitude": 303.7223,
+          "sign": "Aquarius",
+          "degreeInSign": 3.7223,
+          "nakshatra": "Dhanishta",
+          "pada": 4
+        },
+        "jupiter": {
+          "longitude": 1.3799,
+          "sign": "Aries",
+          "degreeInSign": 1.3799,
+          "nakshatra": "Ashwini",
+          "pada": 1
+        },
+        "saturn": {
+          "longitude": 16.5526,
+          "sign": "Aries",
+          "degreeInSign": 16.5526,
+          "nakshatra": "Bharani",
+          "pada": 1
+        },
+        "rahu": {
+          "longitude": 101.2139,
+          "sign": "Cancer",
+          "degreeInSign": 11.2139,
+          "nakshatra": "Pushya",
+          "pada": 3
+        },
+        "ketu": {
+          "longitude": 281.2139,
+          "sign": "Capricorn",
+          "degreeInSign": 11.2139,
+          "nakshatra": "Shravana",
+          "pada": 1
+        }
+      }
+    }
+  ]
+}

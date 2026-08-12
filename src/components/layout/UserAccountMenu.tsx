@@ -13,7 +13,13 @@ import {
 } from "@/lib/auth/client-auth";
 import { cn } from "@/lib/utils";
 
-export function UserAccountMenu() {
+export function UserAccountMenu({
+  quietClassName,
+  quietIconClassName,
+}: {
+  quietClassName?: string;
+  quietIconClassName?: string;
+}) {
   const locale = useLocale();
   const hi = locale === "hi";
   const router = useRouter();
@@ -28,10 +34,10 @@ export function UserAccountMenu() {
       setUser(getSession());
     }
     syncAuth();
-    window.addEventListener("astrologics-auth-changed", syncAuth);
+    window.addEventListener("cosmicgpt-auth-changed", syncAuth);
     window.addEventListener("storage", syncAuth);
     return () => {
-      window.removeEventListener("astrologics-auth-changed", syncAuth);
+      window.removeEventListener("cosmicgpt-auth-changed", syncAuth);
       window.removeEventListener("storage", syncAuth);
     };
   }, []);
@@ -74,9 +80,12 @@ export function UserAccountMenu() {
       <Link
         href="/login"
         aria-label={hi ? "लॉगिन" : "Login"}
-        className="inline-flex items-center gap-1.5 rounded-xl border border-saffron/30 p-2 text-xs font-semibold text-saffron-deep transition hover:bg-[#fff1e6] sm:px-3 sm:py-2"
+        className={
+          quietClassName ??
+          "inline-flex h-9 items-center gap-1.5 rounded-lg border border-white/20 px-3 text-[12.5px] font-medium text-white/85 hover:border-white/35 hover:bg-white/[0.06] hover:text-white"
+        }
       >
-        <User className="h-4 w-4 shrink-0" strokeWidth={2.1} />
+        <User className="h-3.5 w-3.5 shrink-0" strokeWidth={2.1} />
         <span className="hidden sm:inline">{hi ? "लॉगिन" : "Login"}</span>
       </Link>
     );
@@ -99,35 +108,37 @@ export function UserAccountMenu() {
         aria-label={hi ? "अकाउंट मेनू" : "Account menu"}
         onFocus={openMenu}
         className={cn(
-          "inline-flex h-9 w-9 items-center justify-center rounded-xl bg-[#F06A00] text-white shadow-[0_6px_16px_-10px_rgba(240,106,0,0.8)] transition hover:bg-[#e85d04]",
-          open && "ring-2 ring-saffron/30 ring-offset-2"
+          quietIconClassName ??
+            quietClassName ??
+            "inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/20 text-white/85 hover:border-white/35 hover:bg-white/[0.06]",
+          open && "border-white/40 bg-white/[0.08] text-white"
         )}
       >
-        <User className="h-4 w-4" strokeWidth={2.2} />
+        <User className="h-3.5 w-3.5" strokeWidth={2.2} />
       </button>
 
       {open ? (
         <div
           role="menu"
-          className="absolute right-0 top-[calc(100%+0.35rem)] z-60 min-w-[13.5rem] overflow-hidden rounded-xl border border-black/8 bg-white shadow-[0_16px_40px_-18px_rgba(42,33,24,0.45)]"
+          className="absolute right-0 top-[calc(100%+0.35rem)] z-60 min-w-[13.5rem] overflow-hidden rounded-xl border border-white/10 bg-surface shadow-[0_16px_40px_-18px_rgba(42,33,24,0.45)]"
           onMouseEnter={openMenu}
           onMouseLeave={scheduleClose}
         >
           <div className="flex flex-col items-center px-5 pb-3.5 pt-4 text-center">
             <span
-              className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-[#e8e4df] text-[#6b6560]"
+              className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-ink-muted"
               aria-hidden
             >
               <User className="h-6 w-6" strokeWidth={1.8} />
             </span>
             {displayName ? (
-              <p className="mt-2.5 text-[15px] font-bold leading-tight text-[#1e2a44]">
+              <p className="mt-2.5 text-[15px] font-bold leading-tight text-white">
                 {displayName}
               </p>
             ) : null}
             <p
               className={cn(
-                "text-[13px] font-semibold text-[#6b7280]",
+                "text-[13px] font-semibold text-ink-muted",
                 displayName ? "mt-1" : "mt-2.5"
               )}
             >
@@ -135,14 +146,14 @@ export function UserAccountMenu() {
             </p>
           </div>
 
-          <div className="mx-3 border-t border-dashed border-[#cfc8bf]" />
+          <div className="mx-3 border-t border-dashed border-white/15" />
 
           <div className="py-1.5">
             <Link
               href="/dashboard"
               role="menuitem"
               onClick={() => setOpen(false)}
-              className="block px-4 py-2.5 text-[13px] font-medium text-[#2f2924] transition hover:bg-[#fff1e6] hover:text-saffron-deep"
+              className="block px-4 py-2.5 text-[13px] font-medium text-white transition hover:bg-cosmic-purple/15 hover:text-saffron-deep"
             >
               {hi ? "मेरा अकाउंट" : "My Account"}
             </Link>
@@ -150,7 +161,7 @@ export function UserAccountMenu() {
               type="button"
               role="menuitem"
               onClick={logout}
-              className="block w-full px-4 py-2.5 text-left text-[13px] font-medium text-[#2f2924] transition hover:bg-[#fff1e6] hover:text-saffron-deep"
+              className="block w-full px-4 py-2.5 text-left text-[13px] font-medium text-white transition hover:bg-cosmic-purple/15 hover:text-saffron-deep"
             >
               {hi ? "लॉग आउट" : "Logout"}
             </button>

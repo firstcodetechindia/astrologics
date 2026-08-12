@@ -1,0 +1,8 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "src/app/api/places/search/route.ts": {
+      "maxDuration": 30
+    }
+  }
+}

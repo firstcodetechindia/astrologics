@@ -9,12 +9,13 @@ import {
   buildPageMetadata,
   faqPageJsonLd,
 } from "@/lib/seo/page-meta";
+import { SILENT_SETTINGS } from "@/lib/astrology/silent-settings";
 
 const FAQS = [
   {
     q: {
-      en: "What ayanamsa does Astrologics use?",
-      hi: "Astrologics कौन-सा अयनांश उपयोग करता है?",
+      en: "What ayanamsa does CosmicGPT use?",
+      hi: "CosmicGPT कौन-सा अयनांश उपयोग करता है?",
     },
     a: {
       en: "Lahiri (Chitrapaksha) ayanamsa — the standard used in India’s Rashtriya Panchang and most Vedic software.",
@@ -33,8 +34,8 @@ const FAQS = [
   },
   {
     q: {
-      en: "Does Astrologics sell my birth data?",
-      hi: "क्या Astrologics मेरा जन्म डेटा बेचता है?",
+      en: "Does CosmicGPT sell my birth data?",
+      hi: "क्या CosmicGPT मेरा जन्म डेटा बेचता है?",
     },
     a: {
       en: "No. Birth details are used to calculate your chart and are not sold to third parties, including remedy or gemstone sellers. You can request deletion via Contact.",
@@ -60,24 +61,24 @@ export async function generateMetadata(): Promise<Metadata> {
     locale,
     path: "/methodology",
     title: hi
-      ? "हमारी पद्धति — Astrologics कुंडली कैसे गणना करता है"
-      : "Our Methodology — How Astrologics Calculates Your Chart",
+      ? "हमारी पद्धति — CosmicGPT कुंडली कैसे गणना करता है"
+      : "Our Methodology — How CosmicGPT Calculates Your Chart",
     description: hi
-      ? "देखें Astrologics आपकी कुंडली कैसे गणना करता है — अयनांश, भाव पद्धति, इफेमेरिस स्रोत और एआई दृष्टिकोण, पारदर्शी रूप से।"
-      : "See exactly how Astrologics calculates your Kundli — ayanamsa, house system, ephemeris source and AI approach, explained transparently.",
+      ? "देखें CosmicGPT आपकी कुंडली कैसे गणना करता है — अयनांश, भाव पद्धति, इफेमेरिस स्रोत और एआई दृष्टिकोण, पारदर्शी रूप से।"
+      : "See exactly how CosmicGPT calculates your Kundli — ayanamsa, house system, ephemeris source and AI approach, explained transparently.",
     keywords: hi
       ? [
           "ज्योतिष पद्धति",
           "लाहिरी अयनांश",
           "कुंडली गणना",
-          "Astrologics methodology",
+          "CosmicGPT methodology",
         ]
       : [
           "astrology methodology",
           "lahiri ayanamsa",
           "how kundli is calculated",
           "vedic house system",
-          "Astrologics calculation method",
+          "CosmicGPT calculation method",
         ],
   });
 }
@@ -91,7 +92,7 @@ export default async function MethodologyPage() {
   }));
 
   return (
-    <div className="bg-[#faf8f5]">
+    <div className="bg-cosmic-navy">
       <JsonLd
         data={breadcrumbJsonLd(locale, [
           { name: hi ? "होम" : "Home", path: "" },
@@ -116,15 +117,16 @@ export default async function MethodologyPage() {
         ]}
       />
 
-      <article className="container-page max-w-3xl space-y-10 py-10 sm:py-12 text-[15px] leading-relaxed text-ink-muted">
+      <article className="container-page py-10 sm:py-12 text-[15px] leading-relaxed text-ink-muted">
+        <div className="space-y-10">
         <section className="space-y-3">
           <h2 className="font-display text-xl font-bold text-ink">
             {hi ? "हम यह पृष्ठ क्यों प्रकाशित करते हैं" : "Why we publish this"}
           </h2>
           <p>
             {hi
-              ? "अधिकांश ज्योतिष प्लेटफ़ॉर्म गणना का तरीका बताए बिना विश्वास माँगते हैं। हम इसे उल्टा मानते हैं — खासकर जन्म कुंडली जैसी व्यक्तिगत चीज़ के लिए। यह पृष्ठ बताता है कि Astrologics किन गणना विधियों, डेटा स्रोतों और एआई दृष्टिकोण का उपयोग करता है, ताकि आप हमारे काम की जाँच कर सकें — केवल हमारे शब्द पर भरोसा न करें।"
-              : "Most astrology platforms ask you to trust their calculations without ever showing how they arrived at them. We think that's backwards — especially for something as personal as your birth chart. This page explains exactly which calculation methods, data sources and AI approach Astrologics uses, so you can verify our work instead of just taking our word for it."}
+              ? "अधिकांश ज्योतिष प्लेटफ़ॉर्म गणना का तरीका बताए बिना विश्वास माँगते हैं। हम इसे उल्टा मानते हैं — खासकर जन्म कुंडली जैसी व्यक्तिगत चीज़ के लिए। यह पृष्ठ बताता है कि CosmicGPT किन गणना विधियों, डेटा स्रोतों और एआई दृष्टिकोण का उपयोग करता है, ताकि आप हमारे काम की जाँच कर सकें — केवल हमारे शब्द पर भरोसा न करें।"
+              : "Most astrology platforms ask you to trust their calculations without ever showing how they arrived at them. We think that's backwards — especially for something as personal as your birth chart. This page explains exactly which calculation methods, data sources and AI approach CosmicGPT uses, so you can verify our work instead of just taking our word for it."}
           </p>
         </section>
 
@@ -141,8 +143,8 @@ export default async function MethodologyPage() {
             </h3>
             <p>
               {hi
-                ? "हम लाहिरी अयनांश उपयोग करते हैं — वह विधि जो भारत सरकार के खगोलीय पंचांग (राष्ट्रीय पंचांग) द्वारा आधिकारिक रूप से अपनाई गई है और वैदिक ज्योतिष में सबसे व्यापक मानक है। यह ट्रॉपिकल राशिचक्र (पश्चिमी ज्योतिष) और साइडिरियल राशिचक्र (वैदिक/ज्योतिष) के बीच का अंतर निर्धारित करता है। यदि आपने पश्चिमी ज्योतिष ऐप इस्तेमाल किया और यहाँ अलग सूर्य राशि मिली, तो यह ऑफसेट — कोई त्रुटि नहीं — उसका कारण है।"
-                : "We use the Lahiri ayanamsa, the method officially adopted by the Indian government's astronomical almanac (Rashtriya Panchang) and the most widely used standard in Vedic astrology. This determines the offset between the tropical zodiac (used in Western astrology) and the sidereal zodiac (used in Vedic/Jyotish astrology). If you've used a Western astrology app and gotten a different Sun sign here, this offset — not an error — is why."}
+                ? "हम लाहिरी (चित्रापक्ष) अयनांश उपयोग करते हैं — भारत सरकार के राष्ट्रीय पंचांग का मानक — और इसे जन्म तिथि के लिए ताज़ा गणना करते हैं (स्थिर पुराना स्थिरांक नहीं)। कुंडली परिणाम में प्रयुक्त डिग्री मान ऑडिट हेतु संग्रहीत रहता है। यदि आपने पश्चिमी ज्योतिष ऐप इस्तेमाल किया और यहाँ अलग सूर्य राशि मिली, तो यह ऑफ़सेट — कोई त्रुटि नहीं — उसका कारण है।"
+                : "We use Lahiri (Chitrapaksha) ayanamsa — the Indian government’s Rashtriya Panchang standard — calculated fresh for your birth date (not a fixed stale constant). The numeric degree used for your chart is stored with the result for auditability. If you've used a Western astrology app and gotten a different Sun sign here, this offset — not an error — is why."}
             </p>
           </div>
 
@@ -152,8 +154,19 @@ export default async function MethodologyPage() {
             </h3>
             <p>
               {hi
-                ? "हम पूर्ण-राशि (whole-sign) पद्धति से भाव गणना करते हैं — वैदिक ज्योतिष की पारंपरिक विधि, जहाँ प्रत्येक भाव ठीक एक राशि के अनुरूप होता है, लग्न (उदय राशि) से शुरू। यह प्लैसिडस या कोख जैसी पश्चिमी पद्धतियों से भिन्न है, जो भावों को राशि के बजाय समय से विभाजित करती हैं।"
-                : "We calculate houses using the whole-sign system, the traditional method in Vedic astrology, where each house corresponds exactly to one zodiac sign starting from your Lagna (rising sign). This differs from Placidus or Koch systems used in Western astrology, which divide houses by time rather than by sign."}
+                ? "मुख्य D1 (राशि) भाव पूर्ण-राशि पद्धति से हैं — वैदिक परंपरा, जहाँ प्रत्येक भाव लग्न से ठीक एक राशि है। KP मॉड्यूल प्लैसिडस कुस्प उपयोग करता है; भाव चलित श्रीपति (भाव मध्य) उपयोग करता है। हम प्रति चार्ट प्रकार पद्धति स्पष्ट करते हैं।"
+                : "Primary D1 (Rashi) houses use whole-sign — the traditional Vedic method where each house is exactly one sign from Lagna. The KP module uses Placidus cusps; Bhav Chalit uses Sripati (Bhava Madhya). We state the system per chart type rather than mixing them silently."}
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <h3 className="font-semibold text-ink">
+              {hi ? "राहु–केतु (नोड)" : "Rahu–Ketu (lunar nodes)"}
+            </h3>
+            <p>
+              {hi
+                ? SILENT_SETTINGS.find((s) => s.id === "node")!.docText.hi
+                : SILENT_SETTINGS.find((s) => s.id === "node")!.docText.en}
             </p>
           </div>
 
@@ -182,15 +195,147 @@ export default async function MethodologyPage() {
           <div className="space-y-2">
             <h3 className="font-semibold text-ink">
               {hi
+                ? "सूर्योदय और वैदिक दिन"
+                : "Sunrise and the Vedic day"}
+            </h3>
+            <p>
+              {hi
+                ? SILENT_SETTINGS.find((s) => s.id === "sunrise_day_boundary")!
+                    .docText.hi
+                : SILENT_SETTINGS.find((s) => s.id === "sunrise_day_boundary")!
+                    .docText.en}
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <h3 className="font-semibold text-ink">
+              {hi
                 ? "समय क्षेत्र और स्थान"
                 : "Time zone and location handling"}
             </h3>
             <p>
               {hi
-                ? "जन्म समय आपके जन्म स्थान के ऐतिहासिक समय-क्षेत्र डेटा से परिवर्तित होता है, जिसमें आपके जन्म की तिथि पर लागू ऑफसेट शामिल हैं (उदाहरण के लिए भारत में समय-क्षेत्र नियम ऐतिहासिक रूप से बदले हैं)। यदि आपका शहर हमारे डेटाबेस में नहीं है, तो हम निकटतम सत्यापित निर्देशांक से गणना करते हैं और इसे कुंडली पर चिह्नित करते हैं।"
-                : "Birth time is converted using historical time zone data for your place of birth, including any offsets that were in effect on your specific birth date (India, for example, has used different time zone rules historically). If your birth city isn't in our database, we calculate from the nearest verified coordinates and flag this on your chart."}
+                ? SILENT_SETTINGS.find((s) => s.id === "timezone")!.docText.hi
+                : SILENT_SETTINGS.find((s) => s.id === "timezone")!.docText.en}{" "}
+              {hi
+                ? "यदि शहर डेटाबेस में नहीं है, तो निकटतम सत्यापित निर्देशांक से गणना होती है और कुंडली पर चिह्नित की जाती है।"
+                : "If your city isn’t in our database, we use the nearest verified coordinates and flag this on your chart."}
             </p>
           </div>
+        </section>
+
+        <section className="space-y-4">
+          <h2 className="font-display text-xl font-bold text-ink">
+            {hi
+              ? "पाँच मौन सेटिंग्स (लॉक)"
+              : "The five silent settings (locked)"}
+          </h2>
+          <p>
+            {hi
+              ? "एक ही जन्म डेटा पर प्लेटफ़ॉर्म असहमत क्यों होते हैं — हमारे डिफ़ॉल्ट, औचित्य और दस्तावेज़ी भाषा:"
+              : "Why platforms disagree on identical birth data — our defaults, justification, and documentation:"}
+          </p>
+          <div className="overflow-x-auto rounded-xl border border-white/10">
+            <table className="min-w-full text-left text-sm">
+              <thead className="bg-white/5 text-ink">
+                <tr>
+                  <th className="px-3 py-2 font-semibold">
+                    {hi ? "सेटिंग" : "Setting"}
+                  </th>
+                  <th className="px-3 py-2 font-semibold">
+                    {hi ? "डिफ़ॉल्ट" : "Default"}
+                  </th>
+                  <th className="px-3 py-2 font-semibold">
+                    {hi ? "औचित्य" : "Why"}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {SILENT_SETTINGS.map((row) => (
+                  <tr
+                    key={row.id}
+                    className="border-t border-white/10 align-top"
+                  >
+                    <td className="px-3 py-2 text-ink">
+                      {hi ? row.setting.hi : row.setting.en}
+                    </td>
+                    <td className="px-3 py-2">
+                      {hi ? row.currentDefault.hi : row.currentDefault.en}
+                    </td>
+                    <td className="px-3 py-2">
+                      {hi ? row.justification.hi : row.justification.en}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="font-display text-xl font-bold text-ink">
+            {hi ? "लाल किताब मॉड्यूल" : "Lal Kitab module"}
+          </h2>
+          <p>
+            {hi
+              ? "लाल किताब भाव वही पूर्ण-राशि D1 भाव उपयोग करते हैं; पक्का घर व ऋण नियम-तालिकाएँ हैं, दूसरा इफेमेरिस नहीं। रिपोर्ट में पक्का घर, Andha (शनि/राहु/केतु 6/8/12), पितृ/नारी/देव/मातृ ऋण स्क्रीन, और Tier-1 सांस्कृतिक उपाय — प्रत्येक basedOn प्लेसमेंट के साथ।"
+              : "Lal Kitab houses use the same whole-sign D1 houses; Pakka Ghar and Rin are rule tables, not a second ephemeris. The report lists Pakka Ghar status, Andha (Saturn/Rahu/Ketu in 6/8/12), Pitri/Nari/Dev/Maatru Rin screens, and Tier-1 cultural remedies — each with basedOn placements."}
+          </p>
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="font-display text-xl font-bold text-ink">
+            {hi ? "साढ़े साती ट्रैकर" : "Sade Sati tracker"}
+          </h2>
+          <p>
+            {hi
+              ? "साढ़े साती = जन्म चंद्र से 12वीं, समान या 2री राशि में शनि गोचर। चरण सीमा शनि सायन राशि-प्रवेश से (astronomy-engine + लाहिरी)। ढैया डिफ़ॉल्ट बंद। भय-% स्कोर नहीं — दशा के साथ पढ़ें।"
+              : "Sade Sati = Saturn transiting the 12th, same, or 2nd sign from natal Moon. Phase windows use Saturn sidereal sign ingress (astronomy-engine + Lahiri). Dhaiya off by default. No fear-% scores — read with dasha context."}
+          </p>
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="font-display text-xl font-bold text-ink">
+            {hi ? "वर्षफल (ताजिक)" : "Varshphal (Tajika)"}
+          </h2>
+          <p>
+            {hi
+              ? "वर्षफल = सूर्य वापसी (सायन सूर्य = जन्म सूर्य) + वर्ष लग्न + मुंथा + सरलीकृत वर्षेश्वर + सीमित सहाम। यह वार्षिक समय-परत है — जन्म कुंडली/विंशोत्तरी का विकल्प नहीं।"
+              : "Varshphal = solar return (sidereal Sun = natal Sun) + Varsha Lagna + Muntha + simplified Varsheshwara + a small Saham set. An annual timing overlay — not a replacement for the birth chart or Vimshottari."}
+          </p>
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="font-display text-xl font-bold text-ink">
+            {hi ? "प्रश्न कुंडली" : "Prashna Kundli"}
+          </h2>
+          <p>
+            {hi
+              ? "प्रश्न = पूछने के क्षण/स्थान की कुंडली (लाहिरी, पूर्ण-राशि लग्न)। विषय→भाव मानचित्र; कारक स्वामी के केन्द्र/त्रिकोण vs 6/8/12/अस्त/पाप युति से झुकाव/सावधानी/अपर्याप्त — basedOn सहित; %-संभावना नहीं। चिकित्सकीय/कानूनी फैसला नहीं।"
+              : "Prashna = chart for the asking instant/place (Lahiri, whole-sign Lagna). Topic→house map; lean/caution/insufficient from topic lords in kendra/trikona vs 6/8/12/combust/malefic contact — each with basedOn; no %-odds. Not medical or legal verdicts."}
+          </p>
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="font-display text-xl font-bold text-ink">
+            {hi ? "मुहूर्त (निर्वाचन)" : "Muhurta (electional)"}
+          </h2>
+          <p>
+            {hi
+              ? "मुहूर्त खोज = अधिकतम 14 दिन, दिन चौघड़िया खंड + पंचांग। कठोर: राहु काल, विष्टि। नरम/सहायक गतिविधि प्रोफ़ाइल। परिणाम पास / सावधानी / बचें — भाग्य-% नहीं। जन्म चंद्र 8वाँ फ़िल्टर वैकल्पिक (डिफ़ॉल्ट बंद)। एक-दिन चौघड़िया/होरा/राहु काल अलग रहते हैं।"
+              : "Muhurta Finder = up to 14 days of daytime Choghadiya segments + Panchang. Hard: Rahu Kaal, Vishti. Soft/support via activity profiles. Results are pass / caution / avoid — no luck %. Natal Moon 8th filter optional (off by default). Single-day Choghadiya/Hora/Rahu Kaal tools remain separate."}
+          </p>
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="font-display text-xl font-bold text-ink">
+            {hi ? "जन्म समय सुधार" : "Birth-time rectification"}
+          </h2>
+          <p>
+            {hi
+              ? "अनुमानित जन्म समय ± विंडो में विंशोत्तरी महा/अंतर स्वामियों का दिनांकित घटना भावों से मेल। विश्वसनीयता low/medium/high; स्कोर = घटना-मेल अनुपात (सही जन्म समय % नहीं)। लग्न-फ़्लिप सावधानी; कुंडली पर समय लागू करने से पहले उपयोगकर्ता पुष्टि। अनुमानित सहायता — प्रमाण-पत्र नहीं।"
+              : "Sweeps approximate birth time ± window; scores Vimshottari maha/antar lords vs dated event houses. Confidence low/medium/high; score = event-match ratio (not “% true birth time”). Lagna-flip caution; user confirms before applying time to kundli. Heuristic aid — not certificate-grade proof."}
+          </p>
         </section>
 
         <section className="space-y-3">
@@ -277,8 +422,8 @@ export default async function MethodologyPage() {
           </h2>
           <p>
             {hi
-              ? "Astrologics पर ज्योतिषी सूचीबद्ध होने से पहले समीक्षा से गुजरते हैं — दस्तावेज़ी प्रशिक्षण या वंश और वर्षों के अभ्यास के आधार पर। हम प्रत्येक प्रोफ़ाइल पर सत्यापित अनुभव और विशेषज्ञता स्पष्ट दिखाते हैं, केवल अविश्वसनीय स्टार रेटिंग के बजाय।"
-              : "Astrologers on Astrologics are reviewed before being listed, based on documented training or lineage, and years of practice. We show verified experience and specialization clearly on every profile rather than unverifiable star-only ratings."}
+              ? "CosmicGPT पर ज्योतिषी सूचीबद्ध होने से पहले समीक्षा से गुजरते हैं — दस्तावेज़ी प्रशिक्षण या वंश और वर्षों के अभ्यास के आधार पर। हम प्रत्येक प्रोफ़ाइल पर सत्यापित अनुभव और विशेषज्ञता स्पष्ट दिखाते हैं, केवल अविश्वसनीय स्टार रेटिंग के बजाय।"
+              : "Astrologers on CosmicGPT are reviewed before being listed, based on documented training or lineage, and years of practice. We show verified experience and specialization clearly on every profile rather than unverifiable star-only ratings."}
           </p>
         </section>
 
@@ -365,7 +510,7 @@ export default async function MethodologyPage() {
             {faqs.map((f) => (
               <div
                 key={f.q}
-                className="rounded-xl border border-black/[0.06] bg-white px-4 py-3"
+                className="rounded-xl border border-white/10 bg-surface px-4 py-3"
               >
                 <dt className="font-semibold text-ink">{f.q}</dt>
                 <dd className="mt-1.5 text-[14px]">{f.a}</dd>
@@ -374,7 +519,7 @@ export default async function MethodologyPage() {
           </dl>
         </section>
 
-        <p className="border-t border-black/5 pt-6 text-sm">
+        <p className="border-t border-white/10 pt-6 text-sm">
           <Link
             href="/kundli"
             className="font-semibold text-saffron-deep hover:underline"
@@ -382,6 +527,7 @@ export default async function MethodologyPage() {
             {hi ? "मुफ्त कुंडली →" : "Free kundli →"}
           </Link>
         </p>
+        </div>
       </article>
     </div>
   );

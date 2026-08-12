@@ -1,0 +1,67 @@
+{
+  "note": "Published / Drik-style panchang limbs for birth-instant checks. Sources cited per case. Names normalized to CosmicGPT English labels.",
+  "cases": [
+    {
+      "id": "delhi_1990_dawn",
+      "source": "drikpanchang_published",
+      "sourceDetail": "Hindu calendar New Delhi 15 May 1990 (goodtime.today / Drik-style): Tithi Panchami until ~11:39; Nakshatra Purva Ashadha until ~04:16 then Uttara Ashadha. Birth 06:30 → Panchami + Uttara Ashadha.",
+      "date": "1990-05-15",
+      "time": "06:30",
+      "place": "New Delhi",
+      "lat": 28.6139,
+      "lon": 77.209,
+      "timeZone": "Asia/Kolkata",
+      "expect": {
+        "weekday": "Tuesday",
+        "tithiName": "Panchami",
+        "nakshatra": "Uttara Ashadha",
+        "sunSign": "Taurus",
+        "moonSign": "Sagittarius"
+      }
+    },
+    {
+      "id": "approx_time_noon",
+      "source": "drikpanchang_published",
+      "sourceDetail": "Equinox-week Varanasi noon 21 Mar 1995 — sidereal Sun still Pisces (Lahiri); used for approximate-time + sign continuity.",
+      "date": "1995-03-21",
+      "time": "12:00",
+      "place": "Varanasi",
+      "lat": 25.3176,
+      "lon": 82.9739,
+      "timeZone": "Asia/Kolkata",
+      "expect": {
+        "sunSign": "Pisces",
+        "moonSign": "Scorpio"
+      }
+    },
+    {
+      "id": "sign_cusp_probe",
+      "source": "drikpanchang_published",
+      "sourceDetail": "20 Mar 2024 Delhi noon — tropical Aries ingress day; Lahiri sidereal Sun remains Pisces (boundary awareness).",
+      "date": "2024-03-20",
+      "time": "12:00",
+      "place": "Delhi",
+      "lat": 28.61,
+      "lon": 77.21,
+      "timeZone": "Asia/Kolkata",
+      "expect": {
+        "sunSign": "Pisces"
+      }
+    },
+    {
+      "id": "kolkata_1941_wartime",
+      "source": "drikpanchang_method",
+      "sourceDetail": "Historical wartime IST (+06:30) — panchang limbs must use IANA offset, not modern +05:30. Sign-level SE cross-check via swiss-ephemeris-goldens.",
+      "date": "1941-10-01",
+      "time": "12:00",
+      "place": "Kolkata",
+      "lat": 22.5726,
+      "lon": 88.3639,
+      "timeZone": "Asia/Kolkata",
+      "expect": {
+        "sunSign": "Virgo",
+        "moonSign": "Capricorn"
+      }
+    }
+  ]
+}

@@ -26,7 +26,7 @@ export function AstrologerCard({
   return (
     <article
       className={cn(
-        "group relative flex h-full flex-col rounded-2xl border border-[#e8ddd2] bg-white p-3.5 shadow-[0_10px_28px_-22px_rgba(42,33,24,0.45)] transition hover:-translate-y-0.5 hover:border-[#F06A00]/35 hover:shadow-[0_18px_36px_-22px_rgba(240,106,0,0.35)]",
+        "group relative flex h-full flex-col rounded-2xl border border-white/12 bg-surface p-3.5 shadow-[0_10px_28px_-22px_rgba(42,33,24,0.45)] transition hover:-translate-y-0.5 hover:border-[#F06A00]/35 hover:shadow-[0_18px_36px_-22px_rgba(240,106,0,0.35)]",
         compact && "p-3"
       )}
     >
@@ -43,7 +43,7 @@ export function AstrologerCard({
 
       <div className="flex items-start gap-3 pr-16">
         <div className="relative shrink-0">
-          <div className="relative h-14 w-14 overflow-hidden rounded-full ring-2 ring-[#fff1e6]">
+          <div className="relative h-14 w-14 overflow-hidden rounded-full ring-2 ring-white/20">
             <Image
               src={a.image}
               alt={a.name}
@@ -85,7 +85,7 @@ export function AstrologerCard({
         {skills.map((s) => (
           <span
             key={s}
-            className="rounded-full border border-[#e8ddd2] bg-[#faf7f4] px-2 py-0.5 text-[10px] font-semibold text-[#5c4a3a]"
+            className="rounded-full border border-white/12 bg-cosmic-navy px-2 py-0.5 text-[10px] font-semibold text-ink-muted"
           >
             {s}
           </span>
@@ -109,7 +109,7 @@ export function AstrologerCard({
             <span
               className={cn(
                 "text-[11px] font-bold",
-                a.online ? "text-[#16a34a]" : "text-[#9a8b7a]"
+                a.online ? "text-[#16a34a]" : "text-ink-muted"
               )}
             >
               {a.online
@@ -132,7 +132,7 @@ export function AstrologerCard({
           <span
             className={cn(
               "text-[11px] font-bold",
-              a.online ? "text-[#16a34a]" : "text-[#9a8b7a]"
+              a.online ? "text-[#16a34a]" : "text-ink-muted"
             )}
           >
             {a.online ? (hi ? "ऑनलाइन" : "Online") : hi ? "व्यस्त" : "Busy"}
@@ -140,7 +140,7 @@ export function AstrologerCard({
         </div>
       )}
 
-      <div className="mt-auto flex items-end justify-between gap-2 border-t border-[#f0e6dc] pt-3">
+      <div className="mt-auto flex items-end justify-between gap-2 border-t border-white/10 pt-3">
         <div>
           <p className="font-display text-lg font-bold tracking-tight text-ink">
             ₹{a.pricePerMin}

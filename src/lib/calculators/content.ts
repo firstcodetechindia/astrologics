@@ -31,8 +31,8 @@ function genericContent(
   return {
     h1: title,
     intro: {
-      en: `${topic.en} — get a clear Lahiri sidereal result in seconds on Astrologics. Then open your full janam kundali or ask AI Guru for chart-specific guidance in English or Hindi.`,
-      hi: `${topic.hi} — Astrologics पर लाहिरी निरयण परिणाम सेकंडों में। फिर पूर्ण जन्म कुंडली खोलें या एआई गुरु से चार्ट-विशिष्ट मार्गदर्शन लें।`,
+      en: `${topic.en} — get a clear Lahiri sidereal result in seconds on CosmicGPT. Then open your full janam kundali or ask AI Guru for chart-specific guidance in English or Hindi.`,
+      hi: `${topic.hi} — CosmicGPT पर लाहिरी निरयण परिणाम सेकंडों में। फिर पूर्ण जन्म कुंडली खोलें या एआई गुरु से चार्ट-विशिष्ट मार्गदर्शन लें।`,
     },
     promo: {
       text: {
@@ -59,8 +59,8 @@ function genericContent(
           hi: `ऑनलाइन ${topic.hi} कैलकुलेटर क्यों?`,
         },
         body: {
-          en: `People search ${topic.en} online for instant clarity before a consultation. Astrologics keeps tools free, bilingual (EN & HI), and linked to panchang, moon sign, gun milan, mangal dosha, sade sati and more.`,
-          hi: `लोग परामर्श से पहले तुरंत स्पष्टता हेतु ${topic.hi} खोजते हैं। Astrologics उपकरण मुफ़्त, द्विभाषी हैं और पंचांग, चंद्र राशि, गुण मिलान, मंगल दोष, साढ़े साती से जुड़े हैं।`,
+          en: `People search ${topic.en} online for instant clarity before a consultation. CosmicGPT keeps tools free, bilingual (EN & HI), and linked to panchang, moon sign, gun milan, mangal dosha, sade sati and more.`,
+          hi: `लोग परामर्श से पहले तुरंत स्पष्टता हेतु ${topic.hi} खोजते हैं। CosmicGPT उपकरण मुफ़्त, द्विभाषी हैं और पंचांग, चंद्र राशि, गुण मिलान, मंगल दोष, साढ़े साती से जुड़े हैं।`,
         },
       },
       {
@@ -92,8 +92,8 @@ function genericContent(
           hi: "क्या यह कैलकुलेटर मुफ्त है?",
         },
         a: {
-          en: `Yes. Astrologics ${topic.en} tools are free online. Optional personal readings are available via AI Guru chat or WhatsApp.`,
-          hi: `हाँ। Astrologics ${topic.hi} उपकरण ऑनलाइन मुफ़्त हैं। वैकल्पिक व्यक्तिगत पढ़ाई एआई गुरु चैट या व्हाट्सऐप पर उपलब्ध है।`,
+          en: `Yes. CosmicGPT ${topic.en} tools are free online. Optional personal readings are available via AI Guru chat or WhatsApp.`,
+          hi: `हाँ। CosmicGPT ${topic.hi} उपकरण ऑनलाइन मुफ़्त हैं। वैकल्पिक व्यक्तिगत पढ़ाई एआई गुरु चैट या व्हाट्सऐप पर उपलब्ध है।`,
         },
       },
       {
@@ -133,6 +133,90 @@ function genericContent(
 }
 
 export const CALC_CONTENT: Record<string, CalcPageContent> = {
+  "birth-time-rectification": {
+    h1: {
+      en: "Birth Time Rectification — Candidate Time from Life Events",
+      hi: "जन्म समय सुधार — जीवन घटनाओं से उम्मीदवार समय",
+    },
+    seoTitle: {
+      en: "Birth Time Rectification Calculator Free",
+      hi: "जन्म समय सुधार कैलकुलेटर मुफ्त",
+    },
+    seoDescription: {
+      en: "Estimate a candidate birth time from dated life events using Vimshottari dasha alignment. Heuristic aid — not certificate-grade proof.",
+      hi: "दिनांकित जीवन घटनाओं व विंशोत्तरी दशा संरेखण से उम्मीदवार जन्म समय। अनुमानित सहायता — प्रमाण-पत्र स्तर नहीं।",
+    },
+    intro: {
+      en: "Unsure of your exact birth time? CosmicGPT sweeps around your approximate time and scores how well Vimshottari dasha lords align with dated life events (career, marriage, childbirth, and more). Results show confidence and event-match ratio — never a fake “% true birth time.” Prefer hospital records when available.",
+      hi: "सटीक जन्म समय नहीं पता? CosmicGPT आपके अनुमानित समय के आसपास खोजता है और विंशोत्तरी दशा स्वामियों का दिनांकित घटनाओं से मेल अंकित करता है। विश्वसनीयता व घटना-मेल अनुपात — गढ़ा “सही जन्म समय %” नहीं। उपलब्ध हो तो अस्पताल अभिलेख प्राथमिक।",
+    },
+    promo: {
+      text: {
+        en: "Ready to generate a full chart with a confirmed time?",
+        hi: "पुष्टि समय से पूर्ण कुंडली बनानी है?",
+      },
+      cta: { en: "Open Free Kundli →", hi: "मुफ्त कुंडली खोलें →" },
+      href: "/kundli",
+    },
+    sections: [
+      {
+        title: { en: "How rectification works here", hi: "यहाँ सुधार कैसे काम करता है" },
+        body: {
+          en: "Enter approximate birth date, time and place, plus at least three dated events with domains. We sweep ±60 minutes (adjustable) in small steps, cast each candidate, and count how many events fall when maha/antar lords occupy or rule the domain’s houses. Best match, Lagna, confidence, and per-event basedOn citations are returned.",
+          hi: "अनुमानित जन्म तिथि-समय-स्थान और कम से कम तीन दिनांकित घटनाएँ भरें। हम ±60 मिनट (समायोज्य) छोटे चरणों में खोजते हैं; प्रत्येक उम्मीदवार पर दशा स्वामी घटना भावों से मेल खाते हैं या नहीं गिनते हैं। सर्वोत्तम समय, लग्न, विश्वसनीयता और प्रति-घटना basedOn मिलते हैं।",
+        },
+      },
+      {
+        title: { en: "What this is not", hi: "यह क्या नहीं है" },
+        body: {
+          en: "Not certificate-grade proof of birth time, not medical/legal/forensic timing, and not a silent overwrite of your kundli. If top candidates flip Lagna with near-equal scores, we show a caution. Always confirm before applying the suggested time to Free Kundli.",
+          hi: "जन्म समय का प्रमाण-पत्र नहीं, चिकित्सकीय/कानूनी/फोरेंसिक समय नहीं, और कुंडली का चुपचाप ओवरराइट नहीं। शीर्ष उम्मीदवारों की लग्न स्कोर-समान भिन्न हो तो सावधानी दिखती है। मुफ्त कुंडली पर लागू करने से पहले पुष्टि करें।",
+        },
+      },
+    ],
+    faqs: [
+      {
+        q: {
+          en: "How many events do I need?",
+          hi: "कितनी घटनाएँ चाहिए?",
+        },
+        a: {
+          en: "At least three dated events. Five or more can raise confidence when the match ratio is strong.",
+          hi: "कम से कम तीन दिनांकित घटनाएँ। पाँच या अधिक मजबूत मेल पर विश्वसनीयता बढ़ा सकते हैं।",
+        },
+      },
+      {
+        q: {
+          en: "Is the score my true birth-time probability?",
+          hi: "क्या स्कोर सही जन्म समय की संभावना है?",
+        },
+        a: {
+          en: "No. It is the share of your listed events that aligned under that candidate time — an event-match ratio, not “% true birth time.”",
+          hi: "नहीं। यह उस उम्मीदवार समय पर मेल खाने वाली घटनाओं का अनुपात है — “सही जन्म समय %” नहीं।",
+        },
+      },
+      {
+        q: {
+          en: "Should I trust this over a birth certificate?",
+          hi: "क्या जन्म प्रमाण पत्र से अधिक भरोसा करें?",
+        },
+        a: {
+          en: "No. Prefer hospital or official records whenever they exist. Use rectification only when time is missing or clearly approximate.",
+          hi: "नहीं। जहाँ उपलब्ध हों अस्पताल/आधिकारिक अभिलेख प्राथमिक। सुधार केवल जब समय गायब या स्पष्टतः अनुमानित हो।",
+        },
+      },
+    ],
+    references: [
+      {
+        en: "Methodology — birth-time rectification",
+        hi: "मेथडोलॉजी — जन्म समय सुधार",
+      },
+    ],
+    disclaimer: {
+      en: "Heuristic alignment aid only — not proof of birth time, and not medical, legal or forensic advice.",
+      hi: "केवल अनुमानित संरेखण — जन्म समय का प्रमाण नहीं; चिकित्सकीय, कानूनी या फोरेंसिक सलाह नहीं।",
+    },
+  },
   "love-calculator": {
     h1: {
       en: "Love Calculator — Compatibility by Name",
@@ -468,8 +552,8 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
       {
         title: { en: "What Lagna means", hi: "लग्न का अर्थ" },
         body: {
-          en: "Lagna (Ascendant) describes how you meet the world — vitality, body, first impressions and the lens for the rest of the chart. In Astrologics whole-sign charts, the Lagna sign becomes the entire first house; the next sign is the second house, and so on through twelve.",
-          hi: "लग्न बताता है आप संसार से कैसे मिलते हैं — जीवन शक्ति, शरीर, प्रथम प्रभाव और शेष कुंडली का दृष्टिकोण। Astrologics पूर्ण-राशि चार्ट में लग्न राशि पूरा प्रथम भाव बनती है।",
+          en: "Lagna (Ascendant) describes how you meet the world — vitality, body, first impressions and the lens for the rest of the chart. In CosmicGPT whole-sign charts, the Lagna sign becomes the entire first house; the next sign is the second house, and so on through twelve.",
+          hi: "लग्न बताता है आप संसार से कैसे मिलते हैं — जीवन शक्ति, शरीर, प्रथम प्रभाव और शेष कुंडली का दृष्टिकोण। CosmicGPT पूर्ण-राशि चार्ट में लग्न राशि पूरा प्रथम भाव बनती है।",
         },
       },
       {
@@ -588,8 +672,8 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
       {
         title: { en: "Cancellations and exceptions", hi: "निवारण और अपवाद" },
         body: {
-          en: "Texts list cancellations such as Mars in certain signs, mutual Manglik status, or strong benefic influences. A dosha flag is a traditional indicator for deeper chart study — not a fixed life verdict. Astrologics explains results without fear-based jargon; for marriage decisions, review full charts and speak with a qualified astrologer.",
-          hi: "शास्त्रों में कुछ राशियों में मंगल, पारस्परिक मंगलिक स्थिति या शुभ प्रभाव जैसे निवारण बताए गए हैं। दोष संकेत गहन अध्ययन का पारंपरिक संकेत है — निश्चित जीवन फैसला नहीं। Astrologics भयभीत भाषा के बिना समझाता है; विवाह निर्णय हेतु पूर्ण कुंडली और योग्य ज्योतिषी से बात करें।",
+          en: "Texts list cancellations such as Mars in certain signs, mutual Manglik status, or strong benefic influences. A dosha flag is a traditional indicator for deeper chart study — not a fixed life verdict. CosmicGPT explains results without fear-based jargon; for marriage decisions, review full charts and speak with a qualified astrologer.",
+          hi: "शास्त्रों में कुछ राशियों में मंगल, पारस्परिक मंगलिक स्थिति या शुभ प्रभाव जैसे निवारण बताए गए हैं। दोष संकेत गहन अध्ययन का पारंपरिक संकेत है — निश्चित जीवन फैसला नहीं। CosmicGPT भयभीत भाषा के बिना समझाता है; विवाह निर्णय हेतु पूर्ण कुंडली और योग्य ज्योतिषी से बात करें।",
         },
       },
       {
@@ -727,6 +811,122 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
     { en: "Ishta Devata Calculator", hi: "इष्ट देवता कैलकुलेटर" },
     { en: "Ishta Devata", hi: "इष्ट देवता" }
   ),
+  "prashna-kundli": {
+    h1: { en: "Prashna Kundli Calculator", hi: "प्रश्न कुंडली कैलकुलेटर" },
+    seoTitle: {
+      en: "Prashna Kundli Calculator — Free Horary Chart",
+      hi: "प्रश्न कुंडली कैलकुलेटर — मुफ्त होररी चार्ट",
+    },
+    seoDescription: {
+      en: "Cast a free Prashna (horary) chart for the moment you ask. Topic significators with lean/caution flags — Lahiri whole-sign, no %-odds.",
+      hi: "पूछने के क्षण की मुफ्त प्रश्न (होररी) कुंडली। विषय कारक भाव व झुकाव/सावधानी — लाहिरी पूर्ण-राशि, %-संभावना नहीं।",
+    },
+    intro: {
+      en: "Prashna Kundli is a Vedic horary chart cast for the exact time and place you ask a question. CosmicGPT maps your topic to classical houses, shows significator lords, and returns lean / caution / insufficient clarity — each with basedOn citations. It is not a yes/no percentage oracle and does not replace a birth kundli.",
+      hi: "प्रश्न कुंडली उस क्षण और स्थान की वैदिक होररी कुंडली है जब आप प्रश्न पूछते हैं। CosmicGPT विषय को शास्त्रीय भावों से जोड़ता है, कारक स्वामी दिखाता है, और झुकाव / सावधानी / अपर्याप्त स्पष्टता देता है — प्रत्येक basedOn सहित। यह हाँ/नहीं प्रतिशत ऑरेकल नहीं और जन्म कुंडली का विकल्प नहीं।",
+    },
+    promo: {
+      text: {
+        en: "Want birth-chart context with dasha timing?",
+        hi: "दशा समय सहित जन्म कुंडली संदर्भ चाहिए?",
+      },
+      cta: { en: "Open free kundli →", hi: "मुफ्त कुंडली खोलें →" },
+      href: "/kundli",
+    },
+    sections: [
+      {
+        title: { en: "What Prashna calculates", hi: "प्रश्न क्या गणना करता है" },
+        body: {
+          en: "We compute Lagna and planets at the asking instant (Lahiri sidereal, whole-sign houses), then attach your topic’s significator houses (e.g. marriage → 7th; money/job → 2, 10, 11). Lords in kendra/trikona without malefic contact lean supportive; dusthana, combustion, or malefic contact lean caution. Timing hints use Vimshottari from the Prashna Moon.",
+          hi: "हम पूछने के क्षण पर लग्न व ग्रह (लाहिरी सायन, पूर्ण-राशि भाव) गणना करते हैं, फिर विषय के कारक भाव जोड़ते हैं (जैसे विवाह → 7; धन/नौकरी → 2, 10, 11)। केन्द्र/त्रिकोण में पाप-मुक्त स्वामी सकारात्मक झुकाव; 6/8/12, अस्त या पाप युति सावधानी। समय संकेत प्रश्न चंद्र की विंशोत्तरी से।",
+        },
+      },
+      {
+        title: { en: "How to read the result", hi: "परिणाम कैसे पढ़ें" },
+        body: {
+          en: "Use lean / caution / insufficient as a moment-sky screen — not fate rewrite. For health or litigation topics, CosmicGPT explicitly refuses medical diagnosis and legal win/lose claims. Prefer full janam kundli + dasha for life decisions; see Methodology for engine defaults.",
+          hi: "झुकाव / सावधानी / अपर्याप्त को क्षण-आकाश स्क्रीन मानें — भाग्य पुनर्लेखन नहीं। स्वास्थ्य या मुकदमा विषयों पर चिकित्सकीय निदान व कानूनी जीत/हार स्पष्ट रूप से अस्वीकार। जीवन निर्णयों हेतु जन्म कुंडली + दशा प्राथमिक; इंजन डिफ़ॉल्ट हेतु मेथडोलॉजी देखें।",
+        },
+        steps: [
+          {
+            en: "Choose a topic tag (self/health, money/job, marriage, travel, etc.).",
+            hi: "विषय टैग चुनें (स्वयं/स्वास्थ्य, धन/नौकरी, विवाह, यात्रा आदि)।",
+          },
+          {
+            en: "Enter the date, time and place of asking (IANA timezone when place is selected).",
+            hi: "पूछने की तिथि, समय और स्थान भरें (स्थान चुनने पर IANA टाइमज़ोन)।",
+          },
+          {
+            en: "Read significators, lean basedOn, and the Prashna Moon dasha hint.",
+            hi: "कारक, झुकाव basedOn, और प्रश्न चंद्र दशा संकेत पढ़ें।",
+          },
+        ],
+      },
+      {
+        title: { en: "Prashna vs KP horary", hi: "प्रश्न बनाम केपी होररी" },
+        body: {
+          en: "This page is Parashari Prashna (question-time chart + house significators). KP horary (1–249 number) is a separate CosmicGPT tool under the KP category — do not mix the two judgment systems silently.",
+          hi: "यह पृष्ठ पारंपरिक प्रश्न (प्रश्न-काल कुंडली + भाव कारक) है। केपी होररी (1–249) अलग उपकरण है — दोनों निर्णयन प्रणालियाँ चुपचाप न मिलाएँ।",
+        },
+      },
+    ],
+    faqs: [
+      {
+        q: {
+          en: "Is Prashna the same as KP horary?",
+          hi: "क्या प्रश्न और केपी होररी एक हैं?",
+        },
+        a: {
+          en: "No. Prashna here is a Parashari question-time chart with house significators. KP horary uses the 1–249 number system separately.",
+          hi: "नहीं। यहाँ प्रश्न पारंपरिक प्रश्न-काल कुंडली है। केपी होररी 1–249 संख्या प्रणाली अलग है।",
+        },
+      },
+      {
+        q: {
+          en: "Does it give a yes/no percentage?",
+          hi: "क्या यह हाँ/नहीं प्रतिशत देता है?",
+        },
+        a: {
+          en: "No. CosmicGPT only shows lean, caution, or insufficient clarity — each with chart-based citations.",
+          hi: "नहीं। केवल झुकाव, सावधानी या अपर्याप्त स्पष्टता — प्रत्येक चार्ट आधारित citation के साथ।",
+        },
+      },
+      {
+        q: {
+          en: "Do I need my birth details for Prashna?",
+          hi: "प्रश्न हेतु जन्म विवरण ज़रूरी?",
+        },
+        a: {
+          en: "No for v1 math — only the asking time and place. Birth chart comparison is optional and not mixed into Prashna calculation.",
+          hi: "v1 गणित हेतु नहीं — केवल पूछने का समय और स्थान। जन्म कुंडली तुलना वैकल्पिक है और प्रश्न गणना में नहीं मिलती।",
+        },
+      },
+      {
+        q: {
+          en: "Where is the calculation methodology documented?",
+          hi: "गणना पद्धति कहाँ दर्ज है?",
+        },
+        a: {
+          en: "See CosmicGPT Methodology (Lahiri, whole-sign, IANA at instant) and the Prashna section describing topic→house maps and lean screens.",
+          hi: "CosmicGPT मेथडोलॉजी (लाहिरी, पूर्ण-राशि, क्षण पर IANA) और प्रश्न अनुभाग देखें — विषय→भाव मानचित्र व झुकाव स्क्रीन।",
+        },
+      },
+    ],
+    references: [
+      {
+        en: "Methodology — Prashna Kundli rules",
+        hi: "मेथडोलॉजी — प्रश्न कुंडली नियम",
+      },
+      {
+        en: "Related: KP Horary Number calculator",
+        hi: "संबंधित: केपी होररी संख्या कैलकुलेटर",
+      },
+    ],
+    disclaimer: {
+      en: "Prashna is guidance for this moment’s sky — not medical, legal or financial advice, and not a guarantee of outcomes.",
+      hi: "प्रश्न इस क्षण के आकाश हेतु मार्गदर्शन है — चिकित्सकीय, कानूनी या वित्तीय सलाह नहीं, और परिणाम की गारंटी नहीं।",
+    },
+  },
   "kp-horary": genericContent(
     { en: "KP Horary Number Calculator", hi: "केपी होररी संख्या" },
     { en: "KP horary number", hi: "केपी होररी संख्या" }
@@ -764,6 +964,112 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
     intro: {
       en: "In Vedic tradition, a child’s name is often chosen from the Moon sign (Rashi) and birth star (nakshatra). Enter the baby’s birth date, time and place — we find the Rashi first, then suggest auspicious starting letters. No name is required.",
       hi: "वैदिक परंपरा में बच्चे का नाम अक्सर चंद्र राशि और जन्म नक्षत्र से चुना जाता है। जन्म तिथि, समय और स्थान भरें — पहले राशि निकलती है, फिर शुभ आरंभ अक्षर। नाम भरने की ज़रूरत नहीं।",
+    },
+  },
+  "muhurta-electional": {
+    h1: { en: "Muhurta Finder", hi: "मुहूर्त खोज" },
+    seoTitle: {
+      en: "Muhurta Finder — Pass/Caution/Avoid Windows",
+      hi: "मुहूर्त खोज — पास/सावधानी/बचें खिड़कियाँ",
+    },
+    seoDescription: {
+      en: "Find auspicious Muhurta windows for travel, marriage talk, house entry or business — daytime Choghadiya + Panchang, no luck percentages.",
+      hi: "यात्रा, विवाह चर्चा, गृह प्रवेश या व्यवसाय हेतु मुहूर्त — दिन चौघड़िया + पंचांग, भाग्य प्रतिशत नहीं।",
+    },
+    intro: {
+      en: "Muhurta Finder scores daytime Choghadiya segments over up to 14 days as pass, caution, or avoid for your activity — using Rahu Kaal, Vishti karana, Rikta tithis, yoga and hora rules. CosmicGPT does not invent luck percentages; every window carries basedOn citations.",
+      hi: "मुहूर्त खोज 14 दिनों तक दिन चौघड़िया खंडों को आपकी गतिविधि हेतु पास, सावधानी या बचें में अंकित करता है — राहु काल, विष्टि करण, रिक्त तिथि, योग व होरा नियमों से। भाग्य प्रतिशत नहीं; प्रत्येक खिड़की basedOn सहित।",
+    },
+    promo: {
+      text: {
+        en: "Need single-day Choghadiya or Rahu Kaal only?",
+        hi: "केवल एक दिन की चौघड़िया या राहु काल?",
+      },
+      cta: { en: "Open Choghadiya →", hi: "चौघड़िया खोलें →" },
+      href: "/calculators/choghadiya",
+    },
+    sections: [
+      {
+        title: { en: "How windows are scored", hi: "खिड़कियाँ कैसे अंकित होती हैं" },
+        body: {
+          en: "Hard avoid: Rahu Kaal overlap or Vishti (Bhadra) karana. Soft caution: Rikta tithis, harsh yogas, Rog/Udveg/Kaal Choghadiya, malefic hora. Support: Amrit/Shubh/Labh, supportive yoga/nakshatra/hora for the activity. Aggregate: any hard → avoid; soft without support → caution; support ≥ soft → pass.",
+          hi: "कठोर बचें: राहु काल ओवरलैप या विष्टि करण। नरम सावधानी: रिक्त तिथि, कठोर योग, रोग/उद्वेग/काल, पाप होरा। सहायक: अमृत/शुभ/लाभ व गतिविधि-अनुकूल नक्षत्र/होरा। योग: कोई कठोर → बचें; बिना सहायक नरम → सावधानी; सहायक ≥ नरम → पास।",
+        },
+      },
+      {
+        title: { en: "Optional natal filter", hi: "वैकल्पिक जन्म फ़िल्टर" },
+        body: {
+          en: "Off by default. When enabled, windows where transit Moon sits in the 8th sign from your natal Moon are marked avoid and labeled natal filter — never applied silently.",
+          hi: "डिफ़ॉल्ट बंद। चालू होने पर गोचर चंद्र जन्म चंद्र से 8वीं राशि में हो तो बचें + जन्म फ़िल्टर लेबल — चुपचाप नहीं।",
+        },
+        steps: [
+          {
+            en: "Choose activity, city, and start/end dates (max 14 days).",
+            hi: "गतिविधि, शहर, आरंभ/अंत तिथि चुनें (अधिकतम 14 दिन)।",
+          },
+          {
+            en: "Optionally enable natal Moon 8th filter and pick natal Moon sign.",
+            hi: "वैकल्पिक जन्म चंद्र 8वाँ फ़िल्टर व राशि चुनें।",
+          },
+          {
+            en: "Read top pass windows and sample avoid reasons.",
+            hi: "शीर्ष पास खिड़कियाँ और बचें कारण पढ़ें।",
+          },
+        ],
+      },
+      {
+        title: { en: "Related day-part tools", hi: "संबंधित दिन-खंड उपकरण" },
+        body: {
+          en: "Single-day Choghadiya, Hora, Rahu Kaal and Gowri remain available separately. This page composes them into multi-day electional scoring. See Methodology for engine defaults.",
+          hi: "एक-दिन चौघड़िया, होरा, राहु काल और गौरी अलग उपलब्ध हैं। यह पृष्ठ उन्हें बहु-दिवसीय मुहूर्त स्कोर में जोड़ता है। इंजन डिफ़ॉल्ट हेतु मेथडोलॉजी देखें।",
+        },
+      },
+    ],
+    faqs: [
+      {
+        q: {
+          en: "Does Muhurta guarantee success?",
+          hi: "क्या मुहूर्त सफलता की गारंटी देता है?",
+        },
+        a: {
+          en: "No. It improves traditional timing odds. Outcomes still depend on effort, context and full chart factors.",
+          hi: "नहीं। यह पारंपरिक समय-संभावना सुधारता है। फल प्रयास, संदर्भ और पूर्ण कुंडली पर भी निर्भर।",
+        },
+      },
+      {
+        q: {
+          en: "Why no percentage score?",
+          hi: "प्रतिशत स्कोर क्यों नहीं?",
+        },
+        a: {
+          en: "CosmicGPT uses pass / caution / avoid with cited factors instead of invented luck percentages.",
+          hi: "CosmicGPT गढ़े भाग्य-% के बजाय basedOn कारकों सहित पास / सावधानी / बचें उपयोग करता है।",
+        },
+      },
+      {
+        q: {
+          en: "Is this for medical procedures?",
+          hi: "क्या यह चिकित्सा प्रक्रियाओं के लिए है?",
+        },
+        a: {
+          en: "No. CosmicGPT does not clear medical or surgical timing — consult qualified professionals.",
+          hi: "नहीं। CosmicGPT चिकित्सकीय/सर्जिकल समय स्वीकृत नहीं करता — योग्य पेशेवरों से परामर्श लें।",
+        },
+      },
+    ],
+    references: [
+      {
+        en: "Methodology — Muhurta electional rules",
+        hi: "मेथडोलॉजी — मुहूर्त नियम",
+      },
+      {
+        en: "Related: Choghadiya / Rahu Kaal / Hora",
+        hi: "संबंधित: चौघड़िया / राहु काल / होरा",
+      },
+    ],
+    disclaimer: {
+      en: "Traditional timing guidance only — not guaranteed outcomes, and not medical, legal or financial advice.",
+      hi: "केवल पारंपरिक समय मार्गदर्शन — गारंटी नहीं; चिकित्सकीय, कानूनी या वित्तीय सलाह नहीं।",
     },
   },
   "today-panchang": {

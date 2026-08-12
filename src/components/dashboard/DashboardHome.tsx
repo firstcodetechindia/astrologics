@@ -137,9 +137,9 @@ export function DashboardHome() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="group flex h-full flex-col rounded-2xl border border-saffron/12 bg-[#fffaf6] p-4 transition hover:-translate-y-0.5 hover:border-saffron/35 hover:bg-white hover:shadow-[0_14px_30px_-22px_rgba(240,106,0,0.55)]"
+                  className="group flex h-full flex-col rounded-2xl border border-saffron/12 bg-cosmic-navy p-4 transition hover:-translate-y-0.5 hover:border-saffron/35 hover:bg-surface hover:shadow-[0_14px_30px_-22px_rgba(240,106,0,0.55)]"
                 >
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white text-saffron-deep shadow-[inset_0_0_0_1px_rgba(240,106,0,0.12)] transition group-hover:bg-[#F06A00] group-hover:text-white">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-surface text-saffron-deep shadow-[inset_0_0_0_1px_rgba(240,106,0,0.12)] transition group-hover:bg-[#F06A00] group-hover:text-white">
                     <Icon className="h-5 w-5" strokeWidth={2} />
                   </span>
                   <p className="mt-3 text-sm font-semibold text-ink">

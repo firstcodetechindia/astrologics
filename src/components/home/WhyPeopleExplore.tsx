@@ -33,8 +33,8 @@ export function WhyPeopleExplore({ locale }: { locale: string }) {
         <Reveal>
           <h2 className="heading-1 font-display tracking-tight text-ink">
             {hi
-              ? "लोग Astrologics क्यों देखते हैं"
-              : "Why People Explore Astrologics"}
+              ? "लोग CosmicGPT क्यों देखते हैं"
+              : "Why People Explore CosmicGPT"}
           </h2>
           <p className="mt-2 max-w-2xl text-sm text-ink-muted sm:text-base">
             {hi
@@ -45,8 +45,8 @@ export function WhyPeopleExplore({ locale }: { locale: string }) {
         <div className="mt-8 grid gap-4 md:grid-cols-3">
           {BENEFITS.map((b, i) => (
             <Reveal key={b.title.en} delay={i * 0.05}>
-              <article className="h-full rounded-2xl border border-saffron/20 bg-gradient-to-b from-[#fff7f0] to-white p-5">
-                <h3 className="font-display text-lg font-semibold text-[#6B1C1C]">
+              <article className="h-full rounded-2xl border border-saffron/20 surface-wash p-5">
+                <h3 className="font-display text-lg font-semibold text-white">
                   {hi ? b.title.hi : b.title.en}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-ink-muted">

@@ -170,7 +170,7 @@ export default async function NumerologyPage() {
   );
 
   return (
-    <div className="bg-[#faf8f5]">
+    <div className="bg-cosmic-navy">
       <JsonLd
         data={breadcrumbJsonLd(locale, [
           { name: hi ? "होम" : "Home", path: "" },
@@ -202,12 +202,13 @@ export default async function NumerologyPage() {
         ]}
       />
 
-      <div className="container-page max-w-4xl space-y-12 py-10 sm:py-12">
+      <div className="container-page py-10 sm:py-12">
+        <div className="space-y-12">
         {/* AEO direct-answer */}
-        <p className="rounded-2xl border border-saffron/15 bg-white px-5 py-4 text-[15px] leading-relaxed text-ink">
+        <p className="rounded-2xl border border-saffron/15 bg-surface px-5 py-4 text-[15px] leading-relaxed text-ink">
           {hi ? (
             <>
-              Astrologics का मुफ़्त अंक ज्योतिष कैलकुलेटर वैदिक मूलांक/भाग्यांक,
+              CosmicGPT का मुफ़्त अंक ज्योतिष कैलकुलेटर वैदिक मूलांक/भाग्यांक,
               कैल्डियन व पाइथागोरस नाम अंक, और लो शू ग्रिड एक ही स्थान पर
               गणना करता है — प्रत्येक प्रणाली स्पष्ट रूप से लेबल होती है, मिलाई
               नहीं जाती। गणना तर्क{" "}
@@ -221,7 +222,7 @@ export default async function NumerologyPage() {
             </>
           ) : (
             <>
-              Astrologics’ free numerology calculator computes Vedic Mulank and
+              CosmicGPT’s free numerology calculator computes Vedic Mulank and
               Bhagyank, Chaldean and Pythagorean name numbers, and a Lo Shu Grid
               in one place — every system clearly labelled, never mixed. The
               maths follows labelled traditional formulas; see our{" "}
@@ -231,7 +232,7 @@ export default async function NumerologyPage() {
               >
                 Methodology
               </Link>{" "}
-              page for how Astrologics separates calculation from interpretation.
+              page for how CosmicGPT separates calculation from interpretation.
             </>
           )}
         </p>
@@ -244,14 +245,14 @@ export default async function NumerologyPage() {
           </h2>
           <p className="text-[15px] leading-relaxed text-ink-muted">
             {hi
-              ? "अधिकांश ऐप्स बिना बताए सारणियाँ मिला देते हैं। Astrologics गणना को सिस्टम के अनुसार अलग रखता है — ताकि आप जाँच सकें कि कौन-सा अंक किस पद्धति से आया।"
-              : "Most apps silently mix letter tables. Astrologics keeps calculation labelled by system — so you can verify which number came from which method."}
+              ? "अधिकांश ऐप्स बिना बताए सारणियाँ मिला देते हैं। CosmicGPT गणना को सिस्टम के अनुसार अलग रखता है — ताकि आप जाँच सकें कि कौन-सा अंक किस पद्धति से आया।"
+              : "Most apps silently mix letter tables. CosmicGPT keeps calculation labelled by system — so you can verify which number came from which method."}
           </p>
           <div className="grid gap-4 sm:grid-cols-2">
             {SYSTEMS.map((s) => (
               <article
                 key={s.title.en}
-                className="rounded-2xl border border-black/[0.06] bg-white p-4 sm:p-5"
+                className="rounded-2xl border border-white/10 bg-surface p-4 sm:p-5"
               >
                 <h3 className="font-semibold text-ink">
                   {hi ? s.title.hi : s.title.en}
@@ -275,9 +276,9 @@ export default async function NumerologyPage() {
               ? "प्रत्येक अंक का शासक ग्रह, स्वभाव, शुभ रंग/दिन और अनुकूल अंक — रिपोर्ट में दोबारा उपयोग होने वाला लुकअप।"
               : "Each number’s ruling planet, temperament, lucky colour/day and compatible numbers — a reusable lookup shared by the report."}
           </p>
-          <div className="overflow-x-auto rounded-2xl border border-black/[0.06] bg-white">
+          <div className="overflow-x-auto rounded-2xl border border-white/10 bg-surface">
             <table className="w-full min-w-[40rem] text-left text-[13px]">
-              <thead className="border-b border-black/5 bg-[#fff7f0] text-[11px] uppercase tracking-wider text-ink-muted">
+              <thead className="border-b border-white/10 bg-deep-indigo/80 text-[11px] uppercase tracking-wider text-ink-muted">
                 <tr>
                   <th className="px-3 py-3 font-bold">#</th>
                   <th className="px-3 py-3 font-bold">
@@ -293,7 +294,7 @@ export default async function NumerologyPage() {
               </thead>
               <tbody>
                 {profiles1to9.map((p) => (
-                  <tr key={p.number} className="border-b border-black/[0.04]">
+                  <tr key={p.number} className="border-b border-white/10">
                     <td className="px-3 py-3 font-display text-lg font-bold tabular-nums text-saffron-deep">
                       {p.number}
                     </td>
@@ -460,7 +461,7 @@ export default async function NumerologyPage() {
             {faqs.map((f) => (
               <div
                 key={f.q}
-                className="rounded-xl border border-black/[0.06] bg-white px-4 py-3"
+                className="rounded-xl border border-white/10 bg-surface px-4 py-3"
               >
                 <dt className="font-semibold text-ink">{f.q}</dt>
                 <dd className="mt-1.5 text-[14px] text-ink-muted">{f.a}</dd>
@@ -469,7 +470,7 @@ export default async function NumerologyPage() {
           </dl>
         </section>
 
-        <section className="rounded-2xl border border-saffron/20 bg-gradient-to-br from-[#fff7f0] to-white p-5 sm:p-6">
+        <section className="rounded-2xl border border-saffron/20 surface-wash p-5 sm:p-6">
           <h2 className="font-display text-xl font-bold text-ink">
             {hi ? "आगे क्या देखें" : "Explore next"}
           </h2>
@@ -521,6 +522,7 @@ export default async function NumerologyPage() {
             </li>
           </ul>
         </section>
+        </div>
       </div>
     </div>
   );

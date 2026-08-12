@@ -80,7 +80,7 @@ export function NorthIndianChart({
 
   return (
     <div
-      className={`rounded-2xl border border-gold/30 bg-white p-3 sm:p-4 ${className}`}
+      className={`rounded-2xl border border-gold/30 bg-surface p-3 sm:p-4 ${className}`}
     >
       <p className="text-center font-display text-sm font-semibold text-maroon sm:text-base">
         {title}

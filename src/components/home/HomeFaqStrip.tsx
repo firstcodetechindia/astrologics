@@ -90,7 +90,7 @@ export function HomeConsultBand({ locale }: { locale: string }) {
   const hi = locale === "hi";
   return (
     <section className="container-page pb-2 pt-2 sm:pb-3 sm:pt-3">
-      <div className="rounded-xl border border-saffron/25 bg-gradient-to-br from-[#fff3ea] via-white to-[#ffe8d4] px-4 py-4 sm:px-6 sm:py-4 shadow-sm">
+      <div className="rounded-xl border border-saffron/25 surface-wash px-4 py-4 sm:px-6 sm:py-4 shadow-sm">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-5">
           <div className="min-w-0 flex-1 text-left">
             <h2 className="font-display text-lg font-bold tracking-tight text-ink sm:text-xl">
@@ -119,7 +119,7 @@ export function HomeConsultBand({ locale }: { locale: string }) {
               )}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-xl border border-saffron/35 bg-white px-4 py-2 text-[13px] font-semibold text-saffron-deep hover:bg-sand/40"
+              className="inline-flex items-center justify-center rounded-xl border border-saffron/35 bg-surface px-4 py-2 text-[13px] font-semibold text-saffron-deep hover:bg-sand/40"
             >
               {hi ? "हमसे बात करें" : "Talk With Us"}
             </a>

@@ -1,51 +1,86 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, Children, isValidElement } from "react";
 import { useLocale } from "next-intl";
 import type { City } from "@/lib/astrology/cities";
 import { timeZoneForPlace } from "@/lib/astrology/timezone";
 import type { CalculatorMeta } from "@/lib/calculators/catalog";
 import { getFormConfig } from "@/lib/calculators/form-config";
 import { Button } from "@/components/ui/Button";
+import { FormField } from "@/components/ui/FormField";
 import { PlaceAutocomplete } from "@/components/ui/PlaceAutocomplete";
 import { LoShuResult } from "./LoShuResult";
 import { ExplainedResultView } from "./ExplainedResultView";
 import { explainCalculatorResult } from "@/lib/astrology/explain-result";
+import { PRASHNA_TOPICS, type PrashnaTopic } from "@/lib/astrology/prashna";
+import {
+  MUHURTA_ACTIVITIES,
+  type MuhurtaActivity,
+} from "@/lib/astrology/muhurta";
+import { SIGNS } from "@/lib/astrology/constants";
 
 function PlaceField({
   label,
   value,
   onChange,
   onCity,
+  required,
+  id,
 }: {
   label: string;
   value: string;
   onChange: (v: string) => void;
   onCity: (c: City | null) => void;
+  required?: boolean;
+  id?: string;
 }) {
   return (
     <PlaceAutocomplete
+      id={id}
       label={label}
       value={value}
       onChange={onChange}
       onCity={onCity}
       placeholder="Place of birth"
-      inputClassName="rounded-xl border border-black/10 bg-white px-3 py-2.5 text-[15px] outline-none focus:border-saffron focus:ring-2 focus:ring-saffron/20"
+      required={required}
+      inputClassName="rounded-xl border border-white/10 bg-surface px-3 py-2.5 text-[15px] outline-none focus:border-saffron focus:ring-2 focus:ring-saffron/20"
     />
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({
+  label,
+  required,
+  error,
+  shakeKey,
+  children,
+}: {
+  label: string;
+  required?: boolean;
+  error?: boolean | string;
+  shakeKey?: number;
+  children: React.ReactNode;
+}) {
+  let inferredRequired = required;
+  Children.forEach(children, (child) => {
+    if (isValidElement(child) && (child.props as { required?: boolean }).required) {
+      inferredRequired = true;
+    }
+  });
   return (
-    <div>
-      <label className="block text-sm font-medium text-ink mb-1.5">{label}</label>
+    <FormField
+      label={label}
+      required={inferredRequired}
+      error={error}
+      shakeKey={shakeKey}
+    >
       {children}
-    </div>
+    </FormField>
   );
 }
 
 const inputClass =
-  "w-full rounded-xl border border-black/10 bg-white px-3 py-2.5 text-[15px] outline-none focus:border-saffron focus:ring-2 focus:ring-saffron/20";
+  "w-full rounded-xl border border-white/10 bg-surface px-3 py-2.5 text-[15px] outline-none focus:border-saffron focus:ring-2 focus:ring-saffron/20";
 
 function bilingual(val: unknown, locale: string): string {
   if (val == null) return "";
@@ -95,7 +130,7 @@ function LoveResult({
         </p>
       </div>
 
-      <div className="rounded-2xl border border-black/8 bg-white p-4 sm:p-5 space-y-3">
+      <div className="rounded-2xl border border-white/10 bg-surface p-4 sm:p-5 space-y-3">
         <h4 className="font-display text-lg font-bold text-ink">
           {locale === "hi" ? "परिणाम कैसे समझें" : "How to understand this"}
         </h4>
@@ -161,7 +196,7 @@ function MatchResult({ data, locale, onReset }: { data: Record<string, unknown>;
             const p = person as Record<string, unknown>;
             const nak = p.nakshatra as Record<string, unknown> | undefined;
             return (
-              <div key={i} className="rounded-xl border border-black/8 p-3 bg-sand/20">
+              <div key={i} className="rounded-xl border border-white/10 p-3 bg-sand/20">
                 <p className="font-bold text-ink text-sm uppercase tracking-wide">
                   {String(p.name)}
                 </p>
@@ -183,7 +218,7 @@ function MatchResult({ data, locale, onReset }: { data: Record<string, unknown>;
         </p>
         <div className="grid gap-2 sm:grid-cols-2">
           {(data.scores as Record<string, unknown>[]).map((s, i) => (
-            <div key={i} className="rounded-xl border border-black/8 px-3 py-2.5 bg-white">
+            <div key={i} className="rounded-xl border border-white/10 px-3 py-2.5 bg-surface">
               <div className="flex justify-between text-sm font-medium">
                 <span>{bilingual(s.name, locale)}</span>
                 <span className="tabular-nums">
@@ -195,7 +230,7 @@ function MatchResult({ data, locale, onReset }: { data: Record<string, unknown>;
           ))}
         </div>
       </div>
-      <div className="rounded-xl bg-ink/[0.03] border border-black/5 px-4 py-3 text-xs text-ink-muted leading-relaxed">
+      <div className="rounded-xl bg-ink/[0.03] border border-white/10 px-4 py-3 text-xs text-ink-muted leading-relaxed">
         {locale === "hi"
           ? "विवाह निर्णय हेतु दशा, भाव और नवमांश सहित व्यक्तिगत परामर्श लें।"
           : "For marriage decisions, take a personal reading with dasha, houses and Navamsa."}
@@ -275,7 +310,7 @@ function ResultBlock({
           return (
             <div
               key={key}
-              className="flex justify-between gap-4 border-b border-black/5 pb-2"
+              className="flex justify-between gap-4 border-b border-white/10 pb-2"
             >
               <dt className="text-sm text-ink-muted">{label}</dt>
               <dd className="text-sm font-medium text-ink text-right">
@@ -297,7 +332,7 @@ function ResultBlock({
         return (
           <div
             key={key}
-            className="flex justify-between gap-4 border-b border-black/5 pb-2"
+            className="flex justify-between gap-4 border-b border-white/10 pb-2"
           >
             <dt className="text-sm text-ink-muted">{label}</dt>
             <dd className="text-sm font-medium text-ink text-right">{String(val)}</dd>
@@ -331,10 +366,16 @@ export function CalculatorClient({
   const [value, setValue] = useState("");
   const [year, setYear] = useState(String(new Date().getFullYear()));
   const [date2, setDate2] = useState("");
+  const [prashnaTopic, setPrashnaTopic] = useState<PrashnaTopic>("money_job");
+  const [muhurtaActivity, setMuhurtaActivity] =
+    useState<MuhurtaActivity>("general_shubh");
+  const [natalFilter, setNatalFilter] = useState(false);
+  const [natalMoonSign, setNatalMoonSign] = useState(0);
   const [boy, setBoy] = useState({ name: "", date: "", time: "12:00", place: "" });
   const [girl, setGirl] = useState({ name: "", date: "", time: "12:00", place: "" });
   const [boyCity, setBoyCity] = useState<City | null>(null);
   const [girlCity, setGirlCity] = useState<City | null>(null);
+  const [shakeKey, setShakeKey] = useState(0);
 
   const form = useMemo(() => getFormConfig(meta), [meta]);
   const pick = (t: { en: string; hi: string }) =>
@@ -344,7 +385,7 @@ export function CalculatorClient({
     () =>
       locale === "hi"
         ? {
-            name: form.nameRequired ? "नाम *" : "नाम (वैकल्पिक)",
+            name: form.nameRequired ? "नाम" : "नाम (वैकल्पिक)",
             date: pick(form.dateLabel),
             time: pick(form.timeLabel),
             place: pick(form.placeLabel),
@@ -361,14 +402,16 @@ export function CalculatorClient({
             date2:
               meta.slug === "love-compatibility-num"
                 ? "दूसरी जन्म तिथि"
-                : "दूसरी तिथि",
+                : meta.slug === "muhurta-electional"
+                  ? "अंतिम तिथि"
+                  : "दूसरी तिथि",
             error: "कुछ गड़बड़ हुई। फिर कोशिश करें।",
             yourName: "आपका नाम",
             theirName: "उनका नाम",
             hint: form.hint ? pick(form.hint) : "",
           }
         : {
-            name: form.nameRequired ? "Name *" : "Name (optional)",
+            name: form.nameRequired ? "Name" : "Name (optional)",
             date: pick(form.dateLabel),
             time: pick(form.timeLabel),
             place: pick(form.placeLabel),
@@ -386,7 +429,9 @@ export function CalculatorClient({
             date2:
               meta.slug === "love-compatibility-num"
                 ? "Second date of birth"
-                : "Second date",
+                : meta.slug === "muhurta-electional"
+                  ? "End date"
+                  : "Second date",
             error: "Something went wrong. Please try again.",
             yourName: "Your name",
             theirName: "Their name",
@@ -399,6 +444,12 @@ export function CalculatorClient({
   useEffect(() => {
     if (meta.input === "place-date" && !date) {
       setDate(new Date().toISOString().slice(0, 10));
+    }
+    if (meta.slug === "muhurta-electional" && !date2) {
+      const start = new Date().toISOString().slice(0, 10);
+      const end = new Date(Date.now() + 6 * 86400_000).toISOString().slice(0, 10);
+      setDate2(end);
+      if (!date) setDate(start);
     }
     if (meta.input === "place-date" && !place) {
       setPlace("New Delhi, India");
@@ -455,8 +506,14 @@ export function CalculatorClient({
           payload.lat = city.lat;
           payload.lon = city.lon;
           payload.timezoneOffsetMinutes = city.timezoneOffsetMinutes ?? 330;
+          payload.timeZone = timeZoneForPlace({
+            lat: city.lat,
+            lon: city.lon,
+            offsetMinutes: city.timezoneOffsetMinutes ?? 330,
+          });
         }
         if (meta.slug === "moon-phase" && date2) payload.date2 = date2;
+        if (meta.slug === "prashna-kundli") payload.topic = prashnaTopic;
         break;
       case "place-date":
         payload.date = date;
@@ -475,6 +532,12 @@ export function CalculatorClient({
           payload.lon = 77.209;
           payload.timezoneOffsetMinutes = 330;
           payload.timeZone = "Asia/Kolkata";
+        }
+        if (meta.slug === "muhurta-electional") {
+          payload.date2 = date2 || date;
+          payload.activity = muhurtaActivity;
+          payload.natalFilter = natalFilter;
+          if (natalFilter) payload.natalMoonSignIndex = natalMoonSign;
         }
         break;
       case "dual-birth":
@@ -546,8 +609,8 @@ export function CalculatorClient({
   }
 
   return (
-    <div className="rounded-2xl border border-black/8 bg-white shadow-sm overflow-hidden">
-      <div className="border-b border-black/5 bg-gradient-to-r from-[#fffaf6] to-[#fff3ea] px-5 py-4">
+    <div className="rounded-2xl border border-white/10 bg-surface shadow-sm overflow-hidden">
+      <div className="border-b border-white/10 surface-wash px-5 py-4">
         <h2 className="font-display text-xl font-bold text-ink flex items-center gap-2">
           <span>{meta.icon}</span>
           {toolTitle}
@@ -556,15 +619,43 @@ export function CalculatorClient({
 
       <div className="p-5 sm:p-6">
         {meta.input !== "none" && !result && (
-          <form onSubmit={onSubmit} className="space-y-4">
+          <form
+            onSubmit={onSubmit}
+            onInvalid={() => setShakeKey((k) => k + 1)}
+            className="space-y-4"
+          >
+            <div
+              key={shakeKey}
+              className={shakeKey > 0 ? "field-shake space-y-4" : "space-y-4"}
+            >
             {labels.hint ? (
-              <p className="rounded-xl bg-[#fff7f0] px-3 py-2.5 text-[13px] leading-relaxed text-ink-muted">
+              <p className="rounded-xl bg-deep-indigo/80 px-3 py-2.5 text-[13px] leading-relaxed text-ink-muted">
                 {labels.hint}
               </p>
             ) : null}
 
             {(meta.input === "birth" || meta.input === "birth-optional-time") && (
               <>
+                {meta.slug === "prashna-kundli" && (
+                  <Field
+                    label={locale === "hi" ? "प्रश्न विषय" : "Question topic"}
+                  >
+                    <select
+                      required
+                      className={inputClass}
+                      value={prashnaTopic}
+                      onChange={(e) =>
+                        setPrashnaTopic(e.target.value as PrashnaTopic)
+                      }
+                    >
+                      {PRASHNA_TOPICS.map((t) => (
+                        <option key={t.id} value={t.id}>
+                          {locale === "hi" ? t.label.hi : t.label.en}
+                        </option>
+                      ))}
+                    </select>
+                  </Field>
+                )}
                 {form.askName ? (
                   <Field label={labels.name}>
                     <input
@@ -589,7 +680,13 @@ export function CalculatorClient({
                     />
                   </Field>
                 </div>
-                <PlaceField label={labels.place} value={place} onChange={setPlace} onCity={setCity} />
+                <PlaceField
+                  label={labels.place}
+                  value={place}
+                  onChange={setPlace}
+                  onCity={setCity}
+                  required
+                />
                 {meta.slug === "moon-phase" && (
                   <Field label={labels.date2}>
                     <input type="date" className={inputClass} value={date2} onChange={(e) => setDate2(e.target.value)} />
@@ -600,21 +697,98 @@ export function CalculatorClient({
 
             {meta.input === "place-date" && (
               <>
-                <Field label={labels.date}>
-                  <input
-                    required
-                    type="date"
-                    className={inputClass}
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                  />
-                </Field>
+                {meta.slug === "muhurta-electional" && (
+                  <Field
+                    label={locale === "hi" ? "गतिविधि" : "Activity"}
+                  >
+                    <select
+                      required
+                      className={inputClass}
+                      value={muhurtaActivity}
+                      onChange={(e) =>
+                        setMuhurtaActivity(e.target.value as MuhurtaActivity)
+                      }
+                    >
+                      {MUHURTA_ACTIVITIES.map((a) => (
+                        <option key={a.id} value={a.id}>
+                          {locale === "hi" ? a.label.hi : a.label.en}
+                        </option>
+                      ))}
+                    </select>
+                  </Field>
+                )}
+                <div
+                  className={
+                    meta.slug === "muhurta-electional"
+                      ? "grid sm:grid-cols-2 gap-4"
+                      : undefined
+                  }
+                >
+                  <Field label={labels.date}>
+                    <input
+                      required
+                      type="date"
+                      className={inputClass}
+                      value={date}
+                      onChange={(e) => setDate(e.target.value)}
+                    />
+                  </Field>
+                  {meta.slug === "muhurta-electional" && (
+                    <Field label={labels.date2}>
+                      <input
+                        required
+                        type="date"
+                        className={inputClass}
+                        value={date2}
+                        onChange={(e) => setDate2(e.target.value)}
+                      />
+                    </Field>
+                  )}
+                </div>
                 <PlaceField
                   label={labels.place}
                   value={place}
                   onChange={setPlace}
                   onCity={setCity}
                 />
+                {meta.slug === "muhurta-electional" && (
+                  <div className="space-y-3 rounded-xl border border-white/10 p-3">
+                    <label className="flex items-start gap-2 text-sm text-ink">
+                      <input
+                        type="checkbox"
+                        className="mt-1"
+                        checked={natalFilter}
+                        onChange={(e) => setNatalFilter(e.target.checked)}
+                      />
+                      <span>
+                        {locale === "hi"
+                          ? "जन्म चंद्र से 8वें भाव गोचर फ़िल्टर (डिफ़ॉल्ट बंद)"
+                          : "Natal Moon 8th-house transit filter (off by default)"}
+                      </span>
+                    </label>
+                    {natalFilter && (
+                      <Field
+                        label={
+                          locale === "hi" ? "जन्म चंद्र राशि" : "Natal Moon sign"
+                        }
+                      >
+                        <select
+                          className={inputClass}
+                          value={natalMoonSign}
+                          onChange={(e) =>
+                            setNatalMoonSign(Number(e.target.value))
+                          }
+                        >
+                          {SIGNS.map((s, i) => (
+                            <option key={s.en} value={i}>
+                              {locale === "hi" ? s.hi : s.en}
+                            </option>
+                          ))}
+                        </select>
+                      </Field>
+                    )}
+                  </div>
+                )}
               </>
             )}
 
@@ -641,7 +815,7 @@ export function CalculatorClient({
                         <input type="time" className={inputClass} value={boy.time} onChange={(e) => setBoy({ ...boy, time: e.target.value })} />
                       </Field>
                     </div>
-                    <PlaceField label={labels.place} value={boy.place} onChange={(v) => setBoy({ ...boy, place: v })} onCity={setBoyCity} />
+                    <PlaceField id="boy-place" label={labels.place} value={boy.place} onChange={(v) => setBoy({ ...boy, place: v })} onCity={setBoyCity} />
                   </div>
                 </div>
                 <div>
@@ -665,7 +839,7 @@ export function CalculatorClient({
                         <input type="time" className={inputClass} value={girl.time} onChange={(e) => setGirl({ ...girl, time: e.target.value })} />
                       </Field>
                     </div>
-                    <PlaceField label={labels.place} value={girl.place} onChange={(v) => setGirl({ ...girl, place: v })} onCity={setGirlCity} />
+                    <PlaceField id="girl-place" label={labels.place} value={girl.place} onChange={(v) => setGirl({ ...girl, place: v })} onCity={setGirlCity} />
                   </div>
                 </div>
               </div>
@@ -747,7 +921,8 @@ export function CalculatorClient({
             <Button type="submit" disabled={loading} className="w-full">
               {loading ? labels.loading : labels.submit}
             </Button>
-            {error && <p className="text-sm text-red-700">{error}</p>}
+            {error && <p className="text-sm text-cosmic-pink">{error}</p>}
+            </div>
           </form>
         )}
 

@@ -168,7 +168,7 @@ export function PullToRefresh() {
 
       <div
         className={cn(
-          "relative flex flex-col items-center gap-3 rounded-2xl border border-saffron/25 bg-white/95 px-6 py-5 shadow-[0_16px_40px_-14px_rgba(240,106,0,0.45)] backdrop-blur-md transition-transform duration-150",
+          "relative flex flex-col items-center gap-3 rounded-2xl border border-saffron/25 bg-surface/95 px-6 py-5 shadow-[0_16px_40px_-14px_rgba(240,106,0,0.45)] backdrop-blur-md transition-transform duration-150",
           ready && "border-saffron/45"
         )}
         style={{

@@ -1,0 +1,20 @@
+# Keep CLI uploads under Vercel’s 100MB-per-file limit.
+# Runtime places search uses Neon Postgres (not these dumps).
+
+data/geonames/IN.txt
+data/geonames/india_places.json
+data/geonames/india_places.jsonl
+data/geonames/admin1CodesASCII.txt
+data/geonames/.bench-index
+data/geonames/prebuilt
+
+# Archived Fly sidecar (reference only)
+archive/fly-sidecar-unused/data
+archive/fly-sidecar-unused/node_modules
+
+.git
+.next
+node_modules
+coverage
+*.tmp
+.env*.local

@@ -1,6 +1,6 @@
-# Astrologics
+# CosmicGPT
 
-Bilingual (English / Hindi) Vedic astrology website at [astrologics.co](https://astrologics.co) — generate a full personalized kundli online, then convert to WhatsApp/call for detailed reading and guidance.
+Bilingual (English / Hindi) Vedic astrology website at [cosmicgpt.in](https://cosmicgpt.in) — generate a full personalized kundli online, then convert to WhatsApp/call for detailed reading and guidance.
 
 ## Stack
 
@@ -25,14 +25,16 @@ Open [http://localhost:3000](http://localhost:3000).
 
 Edit `.env.local`:
 
-- `NEXT_PUBLIC_BRAND_NAME` — brand (default: Astrologics)
+- `NEXT_PUBLIC_BRAND_NAME` — brand (default: CosmicGPT)
 - `NEXT_PUBLIC_WHATSAPP_NUMBER` — digits only, country code (e.g. `9198XXXXXXXX`)
 - `NEXT_PUBLIC_PHONE_NUMBER` — e.g. `+9198XXXXXXXX`
-- `NEXT_PUBLIC_SITE_URL` — production URL (`https://astrologics.co`)
-- `NEXT_PUBLIC_CONTACT_EMAIL` — e.g. `hello@astrologics.co`
+- `NEXT_PUBLIC_SITE_URL` — production URL (`https://cosmicgpt.in`)
+- `NEXT_PUBLIC_CONTACT_EMAIL` — e.g. `hello@cosmicgpt.in`
 
 ## Scripts
 
 - `npm run dev` — development
 - `npm run build` — production build
 - `npm start` — start production server
+- `npm run test:places` — **required before deploys** that touch places search / DB schema (delhi, bombay, firozbad against Neon). Also runs in CI (`.github/workflows/places-search.yml`) when `DATABASE_URL` is set as a repo secret.
+- `npm run db:migrate:places` / `npm run db:import:places` — schema + GeoNames reload (see `data/geonames/README.md`)

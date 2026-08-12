@@ -5,7 +5,6 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { PageHero } from "@/components/ui/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getPosts } from "@/lib/blog";
-import { siteConfig } from "@/lib/site-config";
 import {
   breadcrumbJsonLd,
   buildPageMetadata,
@@ -58,7 +57,7 @@ export default async function BlogPage({
   const hi = locale === "hi";
 
   return (
-    <div className="bg-[#faf8f5]">
+    <div className="bg-cosmic-navy">
       <JsonLd
         data={breadcrumbJsonLd(locale, [
           { name: hi ? "होम" : "Home", path: "" },

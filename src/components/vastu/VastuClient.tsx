@@ -40,10 +40,10 @@ function StatusBadge({
           : "Acceptable";
   const cls =
     status === "ideal"
-      ? "bg-emerald-50 text-emerald-800 border-emerald-200"
+      ? "bg-emerald-500/15 text-emerald-200 border-emerald-400/30"
       : status === "dosha"
-        ? "bg-rose-50 text-rose-800 border-rose-200"
-        : "bg-amber-50 text-amber-900 border-amber-200";
+        ? "bg-rose-500/15 text-rose-200 border-rose-400/30"
+        : "bg-amber-500/15 text-amber-100 border-amber-400/30";
   return (
     <span
       className={`inline-flex rounded-full border px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide ${cls}`}
@@ -67,7 +67,7 @@ function Results({
   const hi = locale === "hi";
   return (
     <div className="space-y-8">
-      <div className="rounded-2xl border border-saffron/25 bg-gradient-to-br from-[#fff7f0] via-white to-[#ffe8d4]/60 p-5 sm:p-7 shadow-[0_12px_40px_-24px_rgba(240,106,0,0.45)]">
+      <div className="rounded-2xl border border-saffron/25 surface-wash p-5 sm:p-7 shadow-[0_12px_40px_-24px_rgba(240,106,0,0.45)]">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-saffron-deep">
@@ -81,7 +81,7 @@ function Results({
               {t(locale, result.summary)}
             </p>
             {!result.northConfirmed && (
-              <p className="mt-2 text-[13px] font-medium text-amber-800">
+              <p className="mt-2 text-[13px] font-medium text-amber-200">
                 {hi
                   ? "नोट: सच्चा उत्तर दिशा की पुष्टि नहीं हुई — स्कोर आपके चुने दिशा टैग्स पर आधारित है।"
                   : "Note: True North was not confirmed — score uses the direction tags you selected."}
@@ -93,19 +93,19 @@ function Results({
           </Button>
         </div>
         <div className="mt-5 flex flex-wrap gap-2 text-center text-[12px]">
-          <span className="rounded-xl border border-emerald-100 bg-emerald-50/80 px-3.5 py-2.5">
-            <span className="font-bold text-emerald-700 tabular-nums">
+          <span className="rounded-xl border border-emerald-400/25 bg-emerald-500/15 px-3.5 py-2.5">
+            <span className="font-bold text-emerald-300 tabular-nums">
               {result.idealCount}
             </span>{" "}
             {hi ? "आदर्श" : "ideal"}
           </span>
-          <span className="rounded-xl border border-rose-100 bg-rose-50/80 px-3.5 py-2.5">
-            <span className="font-bold text-rose-700 tabular-nums">
+          <span className="rounded-xl border border-rose-400/25 bg-rose-500/15 px-3.5 py-2.5">
+            <span className="font-bold text-rose-300 tabular-nums">
               {result.doshaCount}
             </span>{" "}
             {hi ? "दोष" : "Dosha"}
           </span>
-          <span className="rounded-xl border border-black/5 bg-white/90 px-3.5 py-2.5">
+          <span className="rounded-xl border border-white/10 bg-surface/90 px-3.5 py-2.5">
             <span className="font-bold text-ink tabular-nums">
               {result.findings.length}
             </span>{" "}
@@ -115,7 +115,7 @@ function Results({
       </div>
 
       {astro && (
-        <section className="space-y-3 rounded-2xl border border-saffron/20 bg-white p-5 sm:p-6">
+        <section className="space-y-3 rounded-2xl border border-saffron/20 bg-surface p-5 sm:p-6">
           <h3 className="font-display text-xl font-bold text-ink">
             {hi ? "एस्ट्रो-वास्तु (कुंडली से)" : "Astro-Vastu (from your chart)"}
           </h3>
@@ -125,26 +125,26 @@ function Results({
               : `Lagna ${t(locale, astro.lagnaSign)} — element ${t(locale, astro.lagnaElement)}. Direction rules + personalised element cues.`}
           </p>
           <ul className="grid gap-3 sm:grid-cols-2 text-[14px]">
-            <li className="rounded-xl border border-black/[0.06] bg-[#faf8f5] px-3 py-3">
+            <li className="rounded-xl border border-white/10 bg-cosmic-navy px-3 py-3">
               <p className="text-[11px] font-bold uppercase tracking-wider text-ink-muted">
                 {hi ? "सोने की दिशा" : "Sleep facing"}
               </p>
               <p className="mt-1 text-ink-muted">{t(locale, astro.sleepHint)}</p>
             </li>
-            <li className="rounded-xl border border-black/[0.06] bg-[#faf8f5] px-3 py-3">
+            <li className="rounded-xl border border-white/10 bg-cosmic-navy px-3 py-3">
               <p className="text-[11px] font-bold uppercase tracking-wider text-ink-muted">
                 {hi ? "अध्ययन दिशा" : "Study facing"}
               </p>
               <p className="mt-1 text-ink-muted">{t(locale, astro.studyHint)}</p>
             </li>
-            <li className="rounded-xl border border-black/[0.06] bg-[#faf8f5] px-3 py-3 sm:col-span-2">
+            <li className="rounded-xl border border-white/10 bg-cosmic-navy px-3 py-3 sm:col-span-2">
               <p className="text-[11px] font-bold uppercase tracking-wider text-ink-muted">
                 {hi ? "क्षेत्र प्राथमिकता" : "Zone focus"}
               </p>
               <p className="mt-1 text-ink-muted">{t(locale, astro.zoneFocus)}</p>
             </li>
             {astro.currentDasha && (
-              <li className="rounded-xl border border-saffron/20 bg-[#fff7f0] px-3 py-3 sm:col-span-2">
+              <li className="rounded-xl border border-saffron/20 bg-deep-indigo/80 px-3 py-3 sm:col-span-2">
                 <p className="text-[11px] font-bold uppercase tracking-wider text-saffron-deep">
                   {hi ? "वर्तमान महादशा" : "Current Mahadasha"}:{" "}
                   {t(locale, astro.currentDasha.planet)}
@@ -171,7 +171,7 @@ function Results({
           {result.findings.map((f) => (
             <article
               key={`${f.room}-${f.direction}`}
-              className="rounded-2xl border border-black/[0.06] bg-white p-4 sm:p-5"
+              className="rounded-2xl border border-white/10 bg-surface p-4 sm:p-5"
             >
               <div className="flex flex-wrap items-center gap-2">
                 <h4 className="font-semibold text-ink">
@@ -188,7 +188,7 @@ function Results({
               <p className="mt-1 text-[13px] text-ink-muted/90">
                 {t(locale, f.note)}
               </p>
-              <div className="mt-3 rounded-xl border border-saffron/15 bg-[#fffaf6] px-3 py-3">
+              <div className="mt-3 rounded-xl border border-saffron/15 bg-cosmic-navy px-3 py-3">
                 <p className="text-[11px] font-bold uppercase tracking-wider text-saffron-deep">
                   {hi ? "उपाय" : "Remedy"}
                 </p>
@@ -287,10 +287,10 @@ export function VastuClient({ locale }: { locale: string }) {
     <div className="space-y-8">
       <form
         onSubmit={onSubmit}
-        className="overflow-hidden rounded-3xl border border-saffron/20 bg-white shadow-[0_16px_48px_-28px_rgba(42,33,24,0.35)]"
+        className="overflow-hidden rounded-3xl border border-saffron/20 bg-surface shadow-[0_16px_48px_-28px_rgba(42,33,24,0.35)]"
       >
         {/* Form header */}
-        <div className="border-b border-saffron/15 bg-gradient-to-br from-[#fff7f0] via-white to-[#ffe8d4]/40 px-5 py-5 sm:px-7 sm:py-6">
+        <div className="border-b border-saffron/15 surface-wash px-5 py-5 sm:px-7 sm:py-6">
           <div className="flex items-start gap-3">
             <span className="mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-saffron to-maroon text-white shadow-md shadow-saffron/30">
               <Compass className="h-5 w-5" strokeWidth={2.2} />
@@ -313,7 +313,7 @@ export function VastuClient({ locale }: { locale: string }) {
 
         <div className="space-y-6 px-5 py-5 sm:px-7 sm:py-6">
           {/* North confirm */}
-          <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-amber-200/90 bg-gradient-to-r from-amber-50 to-[#fff9f0] px-4 py-3.5 text-[13px] text-amber-950 transition hover:border-amber-300">
+          <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-amber-400/30 bg-amber-500/10 px-4 py-3.5 text-[13px] text-amber-100 transition hover:border-amber-300">
             <input
               type="checkbox"
               className="mt-1 h-4 w-4 accent-[#F06A00]"
@@ -324,7 +324,7 @@ export function VastuClient({ locale }: { locale: string }) {
               <span className="font-semibold">
                 {hi ? "सच्चा उत्तर दिशा पुष्टि" : "Confirm true North"}
               </span>
-              <span className="mt-0.5 block text-amber-900/80">
+              <span className="mt-0.5 block text-amber-100/80">
                 {hi
                   ? "कम्पास या मानचित्र से — फोटो से अनुमान नहीं।"
                   : "Use a compass or map — don’t guess from a floor-plan photo."}
@@ -338,7 +338,7 @@ export function VastuClient({ locale }: { locale: string }) {
               <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-ink-muted">
                 {hi ? "कक्ष व दिशा" : "Rooms & directions"}
               </p>
-              <span className="rounded-full bg-[#fff1e6] px-2.5 py-0.5 text-[11px] font-semibold text-saffron-deep">
+              <span className="rounded-full bg-cosmic-purple/15 px-2.5 py-0.5 text-[11px] font-semibold text-saffron-deep">
                 {rows.length} {hi ? "जोड़" : "added"}
               </span>
             </div>
@@ -346,9 +346,9 @@ export function VastuClient({ locale }: { locale: string }) {
             {rows.map((row, i) => (
               <div
                 key={`${row.room}-${i}`}
-                className="group relative grid gap-3 rounded-2xl border border-black/[0.07] bg-[#faf8f5] p-3.5 transition hover:border-saffron/30 hover:bg-[#fffaf6] sm:grid-cols-[auto_1fr_1fr_auto] sm:items-end sm:gap-3 sm:p-4"
+                className="group relative grid gap-3 rounded-2xl border border-white/10 bg-cosmic-navy p-3.5 transition hover:border-saffron/30 hover:bg-cosmic-navy sm:grid-cols-[auto_1fr_1fr_auto] sm:items-end sm:gap-3 sm:p-4"
               >
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-sm font-bold tabular-nums text-saffron-deep shadow-sm ring-1 ring-saffron/15 sm:mb-0.5">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-surface text-sm font-bold tabular-nums text-saffron-deep shadow-sm ring-1 ring-saffron/15 sm:mb-0.5">
                   {i + 1}
                 </div>
 
@@ -357,7 +357,7 @@ export function VastuClient({ locale }: { locale: string }) {
                     {hi ? "कक्ष" : "Room"}
                   </span>
                   <select
-                    className="field w-full !rounded-xl !bg-white"
+                    className="field w-full !rounded-xl !bg-surface"
                     value={row.room}
                     onChange={(e) =>
                       updateRow(i, { room: e.target.value as VastuRoom })
@@ -380,7 +380,7 @@ export function VastuClient({ locale }: { locale: string }) {
                     {hi ? "दिशा" : "Direction"}
                   </span>
                   <select
-                    className="field w-full !rounded-xl !bg-white"
+                    className="field w-full !rounded-xl !bg-surface"
                     value={row.direction}
                     onChange={(e) =>
                       updateRow(i, {
@@ -401,7 +401,7 @@ export function VastuClient({ locale }: { locale: string }) {
                   onClick={() => removeRow(i)}
                   disabled={rows.length <= 1}
                   aria-label={hi ? "हटाएँ" : "Remove"}
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-black/[0.08] bg-white text-ink-muted transition hover:border-rose-200 hover:bg-rose-50 hover:text-rose-700 disabled:opacity-40 sm:mb-0.5"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-surface text-ink-muted transition hover:border-rose-400/30 hover:bg-rose-500/15 hover:text-rose-300 disabled:opacity-40 sm:mb-0.5"
                 >
                   <Trash2 className="h-4 w-4" />
                 </button>
@@ -412,7 +412,7 @@ export function VastuClient({ locale }: { locale: string }) {
               type="button"
               onClick={addRow}
               disabled={rows.length >= PLACEMENT_RULES.length}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-saffron/35 bg-[#fffaf6] px-4 py-3 text-sm font-semibold text-saffron-deep transition hover:border-saffron/55 hover:bg-[#fff1e6] disabled:opacity-40"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-saffron/35 bg-cosmic-navy px-4 py-3 text-sm font-semibold text-saffron-deep transition hover:border-saffron/55 hover:bg-cosmic-purple/15 disabled:opacity-40"
             >
               <Plus className="h-4 w-4" />
               {hi ? "और कक्ष जोड़ें" : "Add another room"}
@@ -420,11 +420,11 @@ export function VastuClient({ locale }: { locale: string }) {
           </div>
 
           {/* Optional Astro-Vastu */}
-          <div className="rounded-2xl border border-black/[0.06] bg-[#faf8f5] overflow-hidden">
+          <div className="rounded-2xl border border-white/10 bg-cosmic-navy overflow-hidden">
             <button
               type="button"
               onClick={() => setShowAstro((v) => !v)}
-              className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left transition hover:bg-white/60"
+              className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left transition hover:bg-surface/60"
             >
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-saffron-deep">
@@ -441,7 +441,7 @@ export function VastuClient({ locale }: { locale: string }) {
               </span>
             </button>
             {showAstro && (
-              <div className="space-y-3 border-t border-black/[0.05] px-4 pb-4 pt-3">
+              <div className="space-y-3 border-t border-white/10 px-4 pb-4 pt-3">
                 <p className="text-[13px] text-ink-muted leading-relaxed">
                   {hi
                     ? "जन्म तिथि दें तो लग्न तत्व व वर्तमान महादशा से व्यक्तिगत दिशा सुझाव जुड़ेंगे।"
@@ -453,7 +453,7 @@ export function VastuClient({ locale }: { locale: string }) {
                       {hi ? "नाम" : "Name"}
                     </span>
                     <input
-                      className="field w-full !rounded-xl !bg-white"
+                      className="field w-full !rounded-xl !bg-surface"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder={hi ? "वैकल्पिक" : "Optional"}
@@ -465,7 +465,7 @@ export function VastuClient({ locale }: { locale: string }) {
                     </span>
                     <input
                       type="date"
-                      className="field w-full !rounded-xl !bg-white"
+                      className="field w-full !rounded-xl !bg-surface"
                       value={date}
                       onChange={(e) => setDate(e.target.value)}
                     />
@@ -476,7 +476,7 @@ export function VastuClient({ locale }: { locale: string }) {
                     </span>
                     <input
                       type="time"
-                      className="field w-full !rounded-xl !bg-white"
+                      className="field w-full !rounded-xl !bg-surface"
                       value={time}
                       onChange={(e) => setTime(e.target.value)}
                     />
@@ -487,14 +487,14 @@ export function VastuClient({ locale }: { locale: string }) {
           </div>
 
           {error && (
-            <p className="text-sm text-rose-700" role="alert">
+            <p className="text-sm text-rose-300" role="alert">
               {error}
             </p>
           )}
         </div>
 
         {/* Sticky-feel CTA bar */}
-        <div className="border-t border-black/[0.06] bg-[#faf8f6] px-5 py-4 sm:px-7">
+        <div className="border-t border-white/10 bg-surface-muted px-5 py-4 sm:px-7">
           <Button
             type="submit"
             className="w-full sm:w-auto sm:min-w-[14rem] !rounded-2xl !px-8 !py-3.5 text-[15px]"

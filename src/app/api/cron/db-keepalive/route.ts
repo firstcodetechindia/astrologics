@@ -7,8 +7,8 @@ export const maxDuration = 15;
 
 /**
  * Lightweight Neon wake ping — prevents Free-tier scale-to-zero during
- * scheduled keep-alive windows. Auth: Authorization Bearer CRON_SECRET
- * or ?secret= (for simple schedulers).
+ * scheduled keep-alive windows. Auth: Authorization Bearer CRON_SECRET only
+ * (query-string secrets are avoided — they leak via logs/referrers).
  *
  * CU budget note: always-on 0.25 CU ≈ 182 CU-h/mo > Free 100 CU-h.
  * Peak-hours schedule only (see .github/workflows/db-keepalive.yml).
@@ -17,9 +17,7 @@ function authorized(req: Request): boolean {
   const secret = process.env.CRON_SECRET;
   if (!secret) return false;
   const header = req.headers.get("authorization") || "";
-  if (header === `Bearer ${secret}`) return true;
-  const url = new URL(req.url);
-  return url.searchParams.get("secret") === secret;
+  return header === `Bearer ${secret}`;
 }
 
 async function ping() {

@@ -1,7 +1,5 @@
 import type { PlanetPosition } from "./types";
-import { SIGNS } from "./constants";
-import { lahiriAyanamsaFromDate, signIndexFromLongitude } from "./math";
-import { getSiderealPlanets } from "./planets";
+import { trackSadeSati } from "./sade-sati-tracker";
 
 export { mangalDosha } from "./doshas-mangal";
 export type { MangalCancellation } from "./doshas-mangal";
@@ -98,139 +96,41 @@ export function sadeSati(
   asOf = new Date(),
   opts?: { includeWindow?: boolean }
 ) {
-  const ayanamsa = lahiriAyanamsaFromDate(asOf);
-  const { planets } = getSiderealPlanets(asOf, ayanamsa);
-  const saturn = planets.find((p) => p.id === "saturn")!;
-  const satSign = signIndexFromLongitude(saturn.longitude);
-  const twelfth = (moonSignIndex + 11) % 12;
-  const first = moonSignIndex;
-  const second = (moonSignIndex + 1) % 12;
-
-  let phase: "none" | "rising" | "peak" | "setting" = "none";
-  if (satSign === twelfth) phase = "rising";
-  else if (satSign === first) phase = "peak";
-  else if (satSign === second) phase = "setting";
-
-  const labels = {
-    none: { en: "Not in Sade Sati now", hi: "अभी साढ़े साती नहीं" },
-    rising: {
-      en: "Rising phase (Saturn in 12th from Moon)",
-      hi: "आरंभ चरण (चंद्र से 12वें में शनि)",
-    },
-    peak: {
-      en: "Peak phase (Saturn on Moon sign)",
-      hi: "मध्य चरण (चंद्र राशि पर शनि)",
-    },
-    setting: {
-      en: "Setting phase (Saturn in 2nd from Moon)",
-      hi: "अंतिम चरण (चंद्र से 2रे में शनि)",
-    },
-  };
+  const t = trackSadeSati(moonSignIndex, asOf);
 
   const base = {
-    active: phase !== "none",
-    phase,
-    phaseLabel: labels[phase],
-    moonSign: { en: SIGNS[moonSignIndex].en, hi: SIGNS[moonSignIndex].hi },
-    saturnSign: { en: SIGNS[satSign].en, hi: SIGNS[satSign].hi },
-    asOf: asOf.toISOString(),
-    methodology: {
-      en: "Saturn sidereal sign vs natal Moon sign: 12th (rising), Moon sign (peak), 2nd (setting).",
-      hi: "शनि की सायन राशि बनाम जन्म चंद्र राशि: 12वाँ (आरंभ), चंद्र राशि (मध्य), 2रा (अंत)।",
+    active: t.active,
+    present: t.active,
+    phase: t.phaseKey,
+    phaseNum: t.phase,
+    phaseLabel: t.phaseLabel,
+    moonSign: {
+      en: t.natalMoonSign.en,
+      hi: t.natalMoonSign.hi,
     },
+    saturnSign: {
+      en: t.saturnSign.en,
+      hi: t.saturnSign.hi,
+    },
+    asOf: t.asOf,
+    methodology: t.methodology,
+    intensityHint: t.intensityHint,
+    basedOn: t.basedOn,
+    disclaimer: t.disclaimer,
+    fullCycle: t.fullCycle,
+    currentWindow: t.currentWindow,
+    dhaiyaEnabled: t.dhaiyaEnabled,
+    meaning: t.phaseLabel,
+    tracker: t,
   };
 
   if (!opts?.includeWindow) return base;
 
-  const window = estimateSadeSatiWindow(moonSignIndex, asOf);
   return {
     ...base,
-    startDate: window.startDate,
-    endDate: window.endDate,
-    currentPhaseStart: window.currentPhaseStart,
-    currentPhaseEnd: window.currentPhaseEnd,
+    startDate: t.fullCycle[0]?.start ?? null,
+    endDate: t.fullCycle[t.fullCycle.length - 1]?.end ?? null,
+    currentPhaseStart: t.currentWindow?.start ?? null,
+    currentPhaseEnd: t.currentWindow?.end ?? null,
   };
-}
-
-/**
- * Scan Saturn's sidereal sign monthly to estimate Sade Sati start/end.
- * Deterministic from ephemeris — not AI. Monthly resolution (~±1 month).
- */
-function estimateSadeSatiWindow(moonSignIndex: number, asOf: Date) {
-  const twelfth = (moonSignIndex + 11) % 12;
-  const first = moonSignIndex;
-  const second = (moonSignIndex + 1) % 12;
-  const inSade = (sign: number) =>
-    sign === twelfth || sign === first || sign === second;
-  const phaseOf = (sign: number) =>
-    sign === twelfth ? "rising" : sign === first ? "peak" : sign === second ? "setting" : "none";
-
-  const satSignAt = (d: Date) => {
-    const a = lahiriAyanamsaFromDate(d);
-    const { planets } = getSiderealPlanets(d, a);
-    return signIndexFromLongitude(
-      planets.find((p) => p.id === "saturn")!.longitude
-    );
-  };
-
-  // Scan ±12 years monthly
-  const startScan = new Date(asOf);
-  startScan.setUTCFullYear(startScan.getUTCFullYear() - 12);
-  const samples: { iso: string; sign: number; phase: string }[] = [];
-  const cursor = new Date(startScan);
-  for (let i = 0; i < 24 * 12; i++) {
-    const sign = satSignAt(cursor);
-    samples.push({
-      iso: cursor.toISOString().slice(0, 10),
-      sign,
-      phase: phaseOf(sign),
-    });
-    cursor.setUTCMonth(cursor.getUTCMonth() + 1);
-  }
-
-  const asOfIso = asOf.toISOString().slice(0, 10);
-  let startDate: string | null = null;
-  let endDate: string | null = null;
-  let currentPhaseStart: string | null = null;
-  let currentPhaseEnd: string | null = null;
-  const currentSign = satSignAt(asOf);
-  const currentPhase = phaseOf(currentSign);
-
-  // Find contiguous Sade Sati block containing asOf (if active)
-  for (let i = 0; i < samples.length; i++) {
-    if (!inSade(samples[i].sign)) continue;
-    let j = i;
-    while (j + 1 < samples.length && inSade(samples[j + 1].sign)) j++;
-    const blockStart = samples[i].iso;
-    const blockEnd = samples[j].iso;
-    if (asOfIso >= blockStart && asOfIso <= blockEnd) {
-      startDate = blockStart;
-      endDate = blockEnd;
-      break;
-    }
-    // upcoming block
-    if (!startDate && asOfIso < blockStart) {
-      startDate = blockStart;
-      endDate = blockEnd;
-      break;
-    }
-    i = j;
-  }
-
-  if (currentPhase !== "none") {
-    for (let i = 0; i < samples.length; i++) {
-      if (samples[i].phase !== currentPhase) continue;
-      let j = i;
-      while (j + 1 < samples.length && samples[j + 1].phase === currentPhase)
-        j++;
-      if (asOfIso >= samples[i].iso && asOfIso <= samples[j].iso) {
-        currentPhaseStart = samples[i].iso;
-        currentPhaseEnd = samples[j].iso;
-        break;
-      }
-      i = j;
-    }
-  }
-
-  return { startDate, endDate, currentPhaseStart, currentPhaseEnd };
 }

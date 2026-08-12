@@ -24,7 +24,7 @@ export type MangalCancellation = {
   hi: string;
 };
 
-export function mangalDosha(planets: PlanetPosition[], _lagnaSign: number) {
+export function mangalDosha(planets: PlanetPosition[], lagnaSign: number) {
   const mars = planets.find((p) => p.id === "mars");
   if (!mars) {
     return {
@@ -53,7 +53,7 @@ export function mangalDosha(planets: PlanetPosition[], _lagnaSign: number) {
   const venus = planets.find((p) => p.id === "venus");
   const rahu = planets.find((p) => p.id === "rahu");
 
-  const fromLagna = mars.house;
+  const fromLagna = houseFromSign(lagnaSign, mars.signIndex);
   const fromMoon = moon
     ? houseFromSign(moon.signIndex, mars.signIndex)
     : null;

@@ -23,6 +23,7 @@ import {
   charaKarakas,
   gemstoneForSign,
   ishtaDevata,
+  luckyGemstoneCalculatorReport,
   recommendGemstones,
   rudrakshaForSign,
 } from "./remedies";
@@ -30,6 +31,8 @@ import { kpHorary, kpRulingPlanetsNow, kpSubLord, moonPhase } from "./kp";
 import type { BirthInput } from "./types";
 import { SIGNS } from "./constants";
 import { dailyMuhuratFor } from "./muhurat-now";
+import { computePrashna } from "./prashna";
+import { computeMuhurtaElectional } from "./muhurta";
 
 export type CalcPayload = Record<string, unknown>;
 
@@ -50,6 +53,10 @@ function placeDateFrom(payload: CalcPayload) {
 }
 
 function birthFrom(payload: CalcPayload): BirthInput {
+  const timeZone =
+    typeof payload.timeZone === "string" && payload.timeZone
+      ? payload.timeZone
+      : undefined;
   return {
     name: String(payload.name || "Native"),
     gender: payload.gender as BirthInput["gender"],
@@ -59,6 +66,7 @@ function birthFrom(payload: CalcPayload): BirthInput {
     lat: Number(payload.lat ?? 28.6139),
     lon: Number(payload.lon ?? 77.209),
     timezoneOffsetMinutes: Number(payload.timezoneOffsetMinutes ?? 330),
+    ...(timeZone ? { timeZone } : {}),
   };
 }
 
@@ -205,6 +213,9 @@ export function runCalculator(slug: string, payload: CalcPayload) {
       return { atmakaraka: karakas[0], ...ishtaDevata(d9Sign) };
     }
 
+    case "prashna-kundli":
+      return computePrashna(birthFrom(payload), payload.topic);
+
     case "kp-horary":
       return kpHorary(Number(payload.number || 1));
 
@@ -235,10 +246,14 @@ export function runCalculator(slug: string, payload: CalcPayload) {
         | "marriage"
         | "health"
         | "wealth";
+      const lucky = luckyGemstoneCalculatorReport(k);
       return {
+        lucky,
         report: recommendGemstones(k, focus),
         byLagna: gemstoneForSign(k.lagna.signIndex),
         byMoon: gemstoneForSign(k.moonRashi.signIndex),
+        moonSign: k.moonRashi,
+        lagna: k.lagna,
       };
     }
 
@@ -342,6 +357,25 @@ export function runCalculator(slug: string, payload: CalcPayload) {
         horas: m.horas,
         rahuKaal: m.rahuKaal,
       };
+    }
+
+    case "muhurta-electional": {
+      const { lat, lon, tz, place } = placeDateFrom(payload);
+      return computeMuhurtaElectional({
+        startDate: String(payload.date || ""),
+        endDate: String(payload.date2 || payload.endDate || payload.date || ""),
+        place,
+        lat,
+        lon,
+        timeZone: tz,
+        timezoneOffsetMinutes: Number(payload.timezoneOffsetMinutes ?? 330),
+        activity: payload.activity,
+        natalFilter: Boolean(payload.natalFilter),
+        natalMoonSignIndex:
+          payload.natalMoonSignIndex != null
+            ? Number(payload.natalMoonSignIndex)
+            : null,
+      });
     }
 
     case "ayanamsa": {

@@ -91,7 +91,7 @@ export default async function LearnGuidePage({
       url: siteConfig.siteUrl,
       logo: {
         "@type": "ImageObject",
-        url: `${siteConfig.siteUrl}/astrologics-icon-512.png`,
+        url: `${siteConfig.siteUrl}/cosmicgpt-icon-512.png`,
       },
     },
     mainEntityOfPage: url,
@@ -106,7 +106,7 @@ export default async function LearnGuidePage({
 
   if (slug === "glossary") {
     return (
-      <div className="bg-[#faf8f5]">
+      <div className="bg-cosmic-navy">
         <JsonLd data={articleLd} />
         <JsonLd data={crumbs} />
         <PageHero
@@ -121,14 +121,14 @@ export default async function LearnGuidePage({
           actions={
             <Link
               href="/learn"
-              className="inline-flex items-center justify-center rounded-xl border border-saffron/30 bg-white/80 px-4 py-2.5 text-sm font-semibold text-saffron-deep hover:bg-[#fff1e6]"
+              className="inline-flex items-center justify-center rounded-xl border border-saffron/30 bg-surface/85 px-4 py-2.5 text-sm font-semibold text-saffron-deep hover:bg-cosmic-purple/15"
             >
               {hi ? "सभी गाइड" : "All guides"}
             </Link>
           }
         />
         <div className="container-page py-10 sm:py-12">
-          <div className="mb-8 max-w-3xl space-y-3 text-[15px] text-ink-muted">
+          <div className="mb-8 space-y-3 text-[15px] text-ink-muted">
             {guide.intro.map((p, i) => (
               <p key={i}>{pickLocale(locale, p)}</p>
             ))}
@@ -138,7 +138,7 @@ export default async function LearnGuidePage({
               <Link
                 key={item.slug}
                 href={`/learn/glossary/${item.slug}`}
-                className="rounded-2xl border border-black/[0.07] bg-white p-4 transition hover:border-saffron/35 hover:bg-[#fffaf6]"
+                className="rounded-2xl border border-white/10 bg-surface p-4 transition hover:border-saffron/35 hover:bg-cosmic-navy"
               >
                 <h2 className="font-display text-[15px] font-bold text-ink">
                   {pickLocale(locale, item.term)}

@@ -35,7 +35,7 @@ export function LegalPageShell({
   const hi = locale === "hi";
 
   return (
-    <div className="bg-[#faf8f5]">
+    <div className="bg-cosmic-navy">
       <JsonLd
         data={breadcrumbJsonLd(locale, [
           { name: hi ? "होम" : "Home", path: "" },
@@ -56,7 +56,7 @@ export function LegalPageShell({
       <div className="container-page py-10 sm:py-12 lg:py-14">
         <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
           <aside className="lg:sticky lg:top-24 lg:h-fit lg:w-64 lg:shrink-0">
-            <div className="rounded-2xl border border-saffron/15 bg-white/70 p-5 shadow-[0_12px_32px_-24px_rgba(42,33,24,0.35)] backdrop-blur-sm">
+            <div className="rounded-2xl border border-saffron/15 bg-surface/75 p-5 shadow-[0_12px_32px_-24px_rgba(42,33,24,0.35)] backdrop-blur-sm">
               <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-saffron-deep">
                 {hi ? "इस पृष्ठ पर" : "On this page"}
               </p>
@@ -93,12 +93,12 @@ export function LegalPageShell({
           </aside>
 
           <article className="min-w-0 flex-1">
-            <div className="rounded-2xl border border-saffron/15 bg-white/80 px-5 py-7 shadow-[0_16px_40px_-28px_rgba(42,33,24,0.4)] backdrop-blur-sm sm:px-8 sm:py-9">
+            <div className="rounded-2xl border border-saffron/15 bg-surface/85 px-5 py-7 shadow-[0_16px_40px_-28px_rgba(42,33,24,0.4)] backdrop-blur-sm sm:px-8 sm:py-9">
               <div className="legal-prose space-y-8 text-[15px] leading-relaxed text-ink-muted [&_h2]:scroll-mt-28 [&_h2]:font-display [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-ink [&_h3]:mt-5 [&_h3]:font-display [&_h3]:text-base [&_h3]:font-semibold [&_h3]:text-ink [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5 [&_ol]:mt-3 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-5 [&_strong]:font-semibold [&_strong]:text-ink [&_a]:font-semibold [&_a]:text-saffron-deep [&_a]:underline">
                 {children}
               </div>
 
-              <div className="mt-10 rounded-xl border border-saffron/20 bg-[#fff8f1] px-4 py-4 sm:px-5">
+              <div className="mt-10 rounded-xl border border-saffron/20 bg-cosmic-navy px-4 py-4 sm:px-5">
                 <p className="text-sm font-semibold text-ink">
                   {hi ? "सहायता चाहिए?" : "Need help?"}
                 </p>

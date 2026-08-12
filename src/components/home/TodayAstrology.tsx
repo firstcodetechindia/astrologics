@@ -111,10 +111,10 @@ export function TodayAstrology({
   ] as const;
 
   return (
-    <section className="bg-[#faf7f4]/80 py-8 sm:py-10">
+    <section className="bg-cosmic-navy/80 py-8 sm:py-10">
       <div className="container-page">
         <Reveal>
-          <div className="overflow-hidden rounded-2xl border border-saffron/20 bg-white shadow-sm">
+          <div className="overflow-hidden rounded-2xl border border-saffron/20 bg-surface shadow-sm">
             <HomeSplitGrid
               imageSide="right"
               image={
@@ -148,7 +148,7 @@ export function TodayAstrology({
                         <p className="text-[13px] font-semibold text-ink">
                           {hi ? "आज का पंचांग" : "Today’s Panchang"}
                         </p>
-                        <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-600/25 bg-emerald-50 px-2 py-0.5 text-[10px] font-bold tabular-nums text-emerald-800">
+                        <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-600/25 bg-emerald-500/15 px-2 py-0.5 text-[10px] font-bold tabular-nums text-emerald-200">
                           <span className="relative flex h-1.5 w-1.5">
                             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
                             <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-600" />
@@ -181,7 +181,7 @@ export function TodayAstrology({
                       <Link
                         key={chip.label}
                         href={chip.href}
-                        className="group rounded-xl border border-saffron/15 bg-[#faf7f4] px-2.5 py-2.5 transition hover:-translate-y-0.5 hover:border-saffron/40 hover:bg-[#fff1e6] hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-saffron-deep/35"
+                        className="group rounded-xl border border-saffron/15 bg-cosmic-navy px-2.5 py-2.5 transition hover:-translate-y-0.5 hover:border-saffron/40 hover:bg-cosmic-purple/15 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-saffron-deep/35"
                       >
                         <p className="text-[10px] font-semibold uppercase tracking-wide text-ink-muted group-hover:text-saffron-deep">
                           {chip.label}
@@ -201,7 +201,7 @@ export function TodayAstrology({
                     ))}
                   </div>
 
-                  <div className="mt-5 border-t border-black/[0.05] pt-4">
+                  <div className="mt-5 border-t border-white/10 pt-4">
                     <div className="flex flex-wrap items-end justify-between gap-2">
                       <div>
                         <h3 className="text-sm font-semibold text-ink">
@@ -231,13 +231,13 @@ export function TodayAstrology({
                             aria-label={
                               hi ? `${label} राशिफल` : `${label} horoscope`
                             }
-                            className="group flex flex-col items-center gap-1 rounded-xl border border-saffron/20 bg-white px-1.5 py-2.5 text-center shadow-sm transition hover:-translate-y-0.5 hover:border-saffron-deep/45 hover:bg-[#fff1e6] hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-saffron-deep/40"
+                            className="group flex flex-col items-center gap-1 rounded-xl border border-saffron/20 bg-surface px-1.5 py-2.5 text-center shadow-sm transition hover:-translate-y-0.5 hover:border-saffron-deep/45 hover:bg-cosmic-purple/15 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-saffron-deep/40"
                           >
-                            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#fff1e6] ring-1 ring-saffron/20 transition group-hover:bg-saffron-deep/10">
+                            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-cosmic-purple/15 ring-1 ring-saffron/20 transition group-hover:bg-saffron-deep/10">
                               <ZodiacIcon
                                 slug={slug}
                                 className="h-5 w-5"
-                                colorClassName="bg-[#c45a12]"
+                                colorClassName="bg-cosmic-gold"
                               />
                             </span>
                             <span className="text-[10px] font-semibold leading-tight text-ink group-hover:text-saffron-deep sm:text-[11px]">

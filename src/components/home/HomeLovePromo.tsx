@@ -43,7 +43,7 @@ export function HomeLovePromo({ locale }: { locale: string }) {
 
   return (
     <section className="container-page py-14 sm:py-20">
-      <div className="rounded-[2rem] border border-black/[0.08] bg-gradient-to-br from-white via-[#fffaf6] to-[#ffe8d4]/60 overflow-hidden shadow-sm">
+      <div className="rounded-[2rem] border border-white/10 surface-wash overflow-hidden shadow-sm">
         <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-8 lg:gap-0">
           <div className="p-6 sm:p-10 lg:p-12">
             <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-saffron-deep">
@@ -80,7 +80,7 @@ export function HomeLovePromo({ locale }: { locale: string }) {
             </p>
           </div>
 
-          <div className="bg-white/70 border-t lg:border-t-0 lg:border-l border-black/[0.06] p-6 sm:p-10 lg:p-12 space-y-6">
+          <div className="bg-surface/75 border-t lg:border-t-0 lg:border-l border-white/10 p-6 sm:p-10 lg:p-12 space-y-6">
             {steps.map((s) => (
               <div key={s.n} className="flex gap-4">
                 <span className="font-numeric text-2xl font-bold text-saffron/50 tabular-nums shrink-0 w-10">

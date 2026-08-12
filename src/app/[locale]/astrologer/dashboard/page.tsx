@@ -14,8 +14,8 @@ export async function generateMetadata(): Promise<Metadata> {
       ? `ज्योतिषी डैशबोर्ड | ${siteConfig.brandName}`
       : `Astrologer Dashboard | ${siteConfig.brandName}`,
     description: hi
-      ? "आपका Astrologics पार्टनर डैशबोर्ड।"
-      : "Your Astrologics partner dashboard.",
+      ? "आपका CosmicGPT पार्टनर डैशबोर्ड।"
+      : "Your CosmicGPT partner dashboard.",
     noIndex: true,
   });
 }

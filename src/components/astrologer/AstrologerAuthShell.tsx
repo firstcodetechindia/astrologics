@@ -5,7 +5,6 @@ import { useLocale } from "next-intl";
 import { Check, Sparkles, Users, Wallet, Globe2, Shield } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { CosmicGPTWordmark } from "@/components/brand/CosmicGPTWordmark";
-import { siteConfig } from "@/lib/site-config";
 
 const REASONS = [
   {

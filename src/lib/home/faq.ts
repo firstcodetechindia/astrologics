@@ -17,8 +17,8 @@ export const HOME_FAQ: HomeFaqItem[] = [
   },
   {
     q: {
-      en: "Which astrology systems does Astrologics cover?",
-      hi: "Astrologics किन ज्योतिष प्रणालियों को कवर करता है?",
+      en: "Which astrology systems does CosmicGPT cover?",
+      hi: "CosmicGPT किन ज्योतिष प्रणालियों को कवर करता है?",
     },
     a: {
       en: "Multiple traditions: free Janam Kundli (Lahiri sidereal), Western learning guides, KP calculators, numerology tools, daily horoscope and Panchang. Each area is labelled so you know which system you are using.",
@@ -31,8 +31,8 @@ export const HOME_FAQ: HomeFaqItem[] = [
       hi: "जन्म कुंडली की गणना कैसे होती है?",
     },
     a: {
-      en: "Astrologics converts your birth date, time and place into planetary longitudes using sidereal methods (Lahiri/Chitrapaksha ayanamsa), then places them in whole-sign houses with Nakshatras, dashas and related charts.",
-      hi: "Astrologics आपकी जन्म तिथि, समय और स्थान से निरयण पद्धति (लाहिरी/चित्रापक्ष अयनांश) से ग्रहीय देशांतर निकालता है, फिर उन्हें पूर्ण-राशि भावों, नक्षत्रों, दशा और संबंधित वर्ग चार्ट में रखता है।",
+      en: "CosmicGPT converts your birth date, time and place into planetary longitudes using sidereal methods (Lahiri/Chitrapaksha ayanamsa), then places them in whole-sign houses with Nakshatras, dashas and related charts.",
+      hi: "CosmicGPT आपकी जन्म तिथि, समय और स्थान से निरयण पद्धति (लाहिरी/चित्रापक्ष अयनांश) से ग्रहीय देशांतर निकालता है, फिर उन्हें पूर्ण-राशि भावों, नक्षत्रों, दशा और संबंधित वर्ग चार्ट में रखता है।",
     },
   },
   {
@@ -111,8 +111,8 @@ export const HOME_FAQ: HomeFaqItem[] = [
       hi: "यहाँ केपी ज्योतिष क्या है?",
     },
     a: {
-      en: "KP tools include horary number, sub-lord and ruling-planet helpers, plus a KP learning guide — a separate toolkit from the main Janam Kundli report.",
-      hi: "केपी उपकरणों में प्रश्न संख्या, उपस्वामी और शासक-ग्रह सहायक हैं, साथ में केपी गाइड — यह मुख्य जन्म कुंडली रिपोर्ट से अलग टूलकिट है।",
+      en: "KP tools include horary number, sub-lord and ruling-planet helpers, plus a KP learning guide — separate from Parashari Prashna Kundli and from the main Janam Kundli report.",
+      hi: "केपी उपकरणों में होररी संख्या, उपस्वामी और शासक-ग्रह सहायक हैं, साथ में केपी गाइड — पारंपरिक प्रश्न कुंडली और मुख्य जन्म कुंडली रिपोर्ट से अलग।",
     },
   },
   {
@@ -127,8 +127,8 @@ export const HOME_FAQ: HomeFaqItem[] = [
   },
   {
     q: {
-      en: "Is Astrologics Kundli free?",
-      hi: "क्या Astrologics कुंडली मुफ्त है?",
+      en: "Is CosmicGPT Kundli free?",
+      hi: "क्या CosmicGPT कुंडली मुफ्त है?",
     },
     a: {
       en: "Yes. You can generate a free Janam Kundli and use free calculators. Optional human consultation is available separately if you want personal guidance.",
@@ -171,8 +171,8 @@ export const HOME_FAQ: HomeFaqItem[] = [
       hi: "यदि सटीक जन्म समय न पता हो तो?",
     },
     a: {
-      en: "You can still explore Moon sign, Nakshatra, numerology and some transit themes. House-based readings (Lagna, houses, many yogas) become less reliable with approximate birth time.",
-      hi: "आप फिर भी चंद्र राशि, नक्षत्र, अंक ज्योतिष और कुछ गोचर विषय देख सकते हैं। भाव-आधारित पठन (लग्न, भाव, कई योग) अनुमानित समय पर कम विश्वसनीय होते हैं।",
+      en: "You can still explore Moon sign, Nakshatra, numerology and some transit themes. House-based readings (Lagna, houses, many yogas) become less reliable with approximate birth time. CosmicGPT also offers a birth-time rectification helper (event-based heuristic) — confirm any suggested time before generating a full kundli.",
+      hi: "आप फिर भी चंद्र राशि, नक्षत्र, अंक ज्योतिष और कुछ गोचर विषय देख सकते हैं। भाव-आधारित पठन (लग्न, भाव, कई योग) अनुमानित समय पर कम विश्वसनीय होते हैं। CosmicGPT जन्म समय सुधार सहायक भी देता है (घटना-आधारित अनुमान) — पूर्ण कुंडली से पहले सुझाए समय की पुष्टि करें।",
     },
   },
 ];

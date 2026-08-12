@@ -6,6 +6,7 @@ import type { CalcPageContent } from "@/lib/calculators/content";
 import { CalculatorClient } from "./CalculatorClient";
 import { CalculatorSeo, PromoBanner } from "./CalculatorSeo";
 import { ChoghadiyaBoard } from "./ChoghadiyaBoard";
+import { RectifyClient } from "./RectifyClient";
 import { RelatedSidebar } from "./RelatedSidebar";
 import { PageHero } from "@/components/ui/PageHero";
 import { TodayPanchangView } from "@/components/panchang/TodayPanchangView";
@@ -24,6 +25,7 @@ export function CalculatorPageView({
   const isChoghadiya = meta.slug === "choghadiya";
   const isTodayPanchang =
     meta.slug === "today-panchang" || meta.slug === "daily-panchang";
+  const isRectify = meta.slug === "birth-time-rectification";
   const toolTitle =
     meta.slug === "love-calculator"
       ? hi
@@ -38,7 +40,7 @@ export function CalculatorPageView({
           : meta.title.en;
 
   return (
-    <div className="min-h-screen bg-[#faf8f5]">
+    <div className="min-h-screen bg-cosmic-navy">
       <PageHero
         eyebrow={hi ? "कैलकुलेटर" : "Calculator"}
         title={h1}
@@ -52,7 +54,7 @@ export function CalculatorPageView({
       <div className="container-page py-6 sm:py-8">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-10">
           <div className="min-w-0 space-y-6">
-            {content.promo && !isChoghadiya && !isTodayPanchang ? (
+            {content.promo && !isChoghadiya && !isTodayPanchang && !isRectify ? (
               <PromoBanner
                 text={content.promo.text}
                 cta={content.promo.cta}
@@ -64,6 +66,8 @@ export function CalculatorPageView({
               <TodayPanchangView />
             ) : isChoghadiya ? (
               <ChoghadiyaBoard />
+            ) : isRectify ? (
+              <RectifyClient />
             ) : (
               <CalculatorClient meta={meta} toolTitle={toolTitle} />
             )}

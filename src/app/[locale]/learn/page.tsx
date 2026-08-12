@@ -5,7 +5,6 @@ import { PageHero } from "@/components/ui/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { LEARN_HUB_SECTIONS } from "@/lib/learn/catalog";
 import { pickLocale } from "@/lib/learn/types";
-import { siteConfig } from "@/lib/site-config";
 import {
   breadcrumbJsonLd,
   buildPageMetadata,
@@ -48,7 +47,7 @@ export default async function LearnHubPage() {
   const hi = locale === "hi";
 
   return (
-    <div className="bg-[#faf8f5]">
+    <div className="bg-cosmic-navy">
       <JsonLd
         data={breadcrumbJsonLd(locale, [
           { name: hi ? "होम" : "Home", path: "" },
@@ -60,8 +59,8 @@ export default async function LearnHubPage() {
         title={hi ? "ज्योतिष सीखें — परंपराओं के पार गाइड" : "Learn Astrology — Guides Across Traditions"}
         description={
           hi
-            ? "Astrologics पर राशियाँ, ग्रह, भाव, केपी, पश्चिमी आस्पेक्ट और व्यावहारिक विषय — एक जगह, सरल भाषा में।"
-            : "On Astrologics: signs, planets, houses, KP, Western aspects, and practical topics — one place, plain language."
+            ? "CosmicGPT पर राशियाँ, ग्रह, भाव, केपी, पश्चिमी आस्पेक्ट और व्यावहारिक विषय — एक जगह, सरल भाषा में।"
+            : "On CosmicGPT: signs, planets, houses, KP, Western aspects, and practical topics — one place, plain language."
         }
         crumbs={[
           { label: hi ? "होम" : "Home", href: "/" },
@@ -77,7 +76,7 @@ export default async function LearnHubPage() {
             </Link>
             <Link
               href="/learn/glossary"
-              className="inline-flex items-center justify-center rounded-xl border border-saffron/30 bg-white/80 px-4 py-2.5 text-sm font-semibold text-saffron-deep hover:bg-[#fff1e6]"
+              className="inline-flex items-center justify-center rounded-xl border border-saffron/30 bg-surface/85 px-4 py-2.5 text-sm font-semibold text-saffron-deep hover:bg-cosmic-purple/15"
             >
               {hi ? "शब्दावली" : "Glossary"}
             </Link>
@@ -103,10 +102,10 @@ export default async function LearnHubPage() {
                 <Link
                   key={guide.slug}
                   href={`/learn/${guide.slug}`}
-                  className="group rounded-2xl border border-black/[0.07] bg-white p-4 shadow-[0_8px_24px_-18px_rgba(42,33,24,0.35)] transition hover:border-saffron/30 hover:shadow-md"
+                  className="group rounded-2xl border border-white/10 bg-surface p-4 shadow-[0_8px_24px_-18px_rgba(42,33,24,0.35)] transition hover:border-saffron/30 hover:shadow-md"
                 >
                   <div className="flex items-start gap-3">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#f7f4f0] text-lg transition group-hover:bg-[#fff1e6]">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-deep-indigo/70 text-lg transition group-hover:bg-cosmic-purple/15">
                       {guide.icon}
                     </span>
                     <span className="min-w-0">
@@ -124,7 +123,7 @@ export default async function LearnHubPage() {
           </section>
         ))}
 
-        <div className="rounded-2xl border border-saffron/20 bg-gradient-to-br from-[#fff7f0] to-[#ffe8d4] p-6 sm:flex sm:items-center sm:justify-between sm:gap-6">
+        <div className="rounded-2xl border border-saffron/20 surface-wash p-6 sm:flex sm:items-center sm:justify-between sm:gap-6">
           <div>
             <p className="font-display text-lg font-bold text-ink">
               {hi ? "सीखते हुए अभ्यास करें" : "Practice while you learn"}
@@ -144,7 +143,7 @@ export default async function LearnHubPage() {
             </Link>
             <Link
               href="/blog"
-              className="rounded-xl border border-saffron/30 bg-white/80 px-4 py-2 text-sm font-semibold text-saffron-deep"
+              className="rounded-xl border border-saffron/30 bg-surface/85 px-4 py-2 text-sm font-semibold text-saffron-deep"
             >
               {hi ? "ब्लॉग" : "Blog"}
             </Link>

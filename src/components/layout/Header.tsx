@@ -16,7 +16,7 @@ import {
 import { Link, usePathname } from "@/i18n/navigation";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { UserAccountMenu } from "./UserAccountMenu";
-import { siteConfig, whatsappLink } from "@/lib/site-config";
+import { whatsappLink } from "@/lib/site-config";
 import { CosmicGPTWordmark } from "@/components/brand/CosmicGPTWordmark";
 import {
   FEATURES_MENU,
@@ -143,12 +143,22 @@ function MegaGridPanel({
 
 function navItemClass(active: boolean, open?: boolean) {
   return cn(
-    "relative inline-flex items-center gap-1 rounded-full px-4 py-1.5 font-ui text-[13px] font-semibold transition-all",
+    // One active signal only: gradient pill (no underline)
+    "relative inline-flex items-center gap-1.5 rounded-full px-4 py-2 font-ui text-[13px] font-semibold",
     active || open
-      ? "bg-[linear-gradient(90deg,#6C3CFF,#FF8A3D)] text-white shadow-[0_6px_18px_-8px_rgba(108,60,255,0.65)]"
-      : "text-ink-muted hover:bg-white/[0.06] hover:text-white"
+      ? "bg-[linear-gradient(90deg,#6C3CFF,#FF8A3D)] text-white shadow-[0_8px_22px_-8px_rgba(108,60,255,0.75)]"
+      : "text-white/75 hover:bg-white/[0.08] hover:text-white"
   );
 }
+
+/** Quiet header controls — same size; Ask AI stays the only loud CTA */
+const headerQuietBtn =
+  "inline-flex h-9 items-center gap-1.5 rounded-lg border border-white/20 bg-transparent px-3 font-ui text-[12.5px] font-medium text-white/85 hover:border-white/35 hover:bg-white/[0.06] hover:text-white";
+const headerQuietIcon =
+  "inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/20 bg-transparent text-white/85 hover:border-white/35 hover:bg-white/[0.06] hover:text-white";
+const headerAskAi =
+  "inline-flex h-9 items-center gap-1.5 rounded-lg bg-[linear-gradient(90deg,#6C3CFF,#FF8A3D)] px-3.5 font-ui text-[12.5px] font-semibold text-white shadow-[0_6px_18px_-8px_rgba(108,60,255,0.55)] hover:brightness-110";
+
 
 export function Header() {
   const t = useTranslations("nav");
@@ -157,8 +167,10 @@ export function Header() {
   const pathname = usePathname();
   const hi = locale === "hi";
   const [menu, setMenu] = useState<MenuKey>(null);
+  const headerRef = useRef<HTMLElement>(null);
   const navRef = useRef<HTMLElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const scrolledRef = useRef(false);
 
   const calcColumns = calculatorsMegaColumns();
   const featuresStacks = asStacks(FEATURES_MENU);
@@ -215,6 +227,36 @@ export function Header() {
     setMenu(null);
   }, [pathname]);
 
+  // Sticky menu bar — flips as soon as the user starts scrolling the page
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+
+    const sync = () => {
+      // Flip as soon as the page moves
+      const on = window.scrollY > 1;
+      if (on === scrolledRef.current) return;
+      scrolledRef.current = on;
+      el.dataset.scrolled = on ? "true" : "false";
+    };
+
+    let raf = 0;
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        sync();
+      });
+    };
+
+    sync();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
   type SoftMenuItem = {
     key: Exclude<MenuKey, "calculators" | null>;
     label: string;
@@ -236,14 +278,14 @@ export function Header() {
           <Link
             href="/features"
             onClick={() => setMenu(null)}
-            className="font-semibold text-saffron-deep hover:underline"
+            className="font-semibold text-cosmic-gold hover:underline"
           >
-            {hi ? "सभी विशेषताएँ →" : "Explore all features →"}
+            {hi ? "सभी विशेषताएँ देखें →" : "View all features →"}
           </Link>
           <Link
             href="/pricing"
             onClick={() => setMenu(null)}
-            className="text-ink-muted hover:text-saffron-deep"
+            className="text-ink-muted hover:text-white"
           >
             {t("pricing")}
           </Link>
@@ -259,16 +301,16 @@ export function Header() {
       footer: (
         <>
           <Link
-            href="/calculators"
+            href="/kundli"
             onClick={() => setMenu(null)}
-            className="font-semibold text-saffron-deep hover:underline"
+            className="font-semibold text-cosmic-gold hover:underline"
           >
-            {hi ? "सभी उपकरण →" : "View all tools →"}
+            {hi ? "सभी उपकरण देखें →" : "View all tools →"}
           </Link>
           <Link
             href="/chat"
             onClick={() => setMenu(null)}
-            className="text-ink-muted hover:text-saffron-deep"
+            className="text-ink-muted hover:text-white"
           >
             {hi ? "एआई चैट" : "AI Chat"}
           </Link>
@@ -288,21 +330,21 @@ export function Header() {
         <Link
           href="/learn"
           onClick={() => setMenu(null)}
-          className="font-semibold text-saffron-deep hover:underline"
+          className="font-semibold text-cosmic-gold hover:underline"
         >
-          {hi ? "सभी ज्योतिष गाइड →" : "All astrology guides →"}
+          {hi ? "सभी गाइड देखें →" : "View all guides →"}
         </Link>
         <Link
           href="/blog"
           onClick={() => setMenu(null)}
-          className="text-ink-muted hover:text-saffron-deep"
+          className="text-ink-muted hover:text-white"
         >
           {hi ? "ब्लॉग" : "Blog"}
         </Link>
         <Link
           href="/learn/glossary"
           onClick={() => setMenu(null)}
-          className="text-ink-muted hover:text-saffron-deep"
+          className="text-ink-muted hover:text-white"
         >
           {hi ? "शब्दावली" : "Glossary"}
         </Link>
@@ -311,12 +353,20 @@ export function Header() {
   };
 
   const activeSoft = [...softMenus, learnMenu].find((m) => m.key === menu);
-  const LearnIcon = learnMenu.icon;
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/[0.07] bg-[#0B0F1F]/92 shadow-[0_8px_32px_-16px_rgba(0,0,0,0.55)] backdrop-blur-xl">
-      {/* Top brand bar */}
-      <div className="container-page flex items-center justify-between gap-2 py-2.5 sm:gap-3 sm:py-3">
+    <header
+      ref={headerRef}
+      data-scrolled="false"
+      aria-label={hi ? "साइट मेनू" : "Site menu"}
+      className={cn(
+        // Soft strip at top of page; solid familiar bar when scrolled (no fade delay)
+        "site-header fixed inset-x-0 top-0 z-50 border-b border-white/12 bg-[#0B0F1F]/55",
+        "data-[scrolled=true]:border-white/16 data-[scrolled=true]:bg-[#0B0F1F] data-[scrolled=true]:shadow-[0_8px_24px_-14px_rgba(0,0,0,0.55)]"
+      )}
+    >
+      {/* Brand + actions — logo/tagline always stay */}
+      <div className="container-page flex h-14 items-center justify-between gap-3 lg:h-[3.75rem]">
         <nav className="sr-only" aria-label={hi ? "मुख्य लिंक" : "Primary links"}>
           <ul>
             <li>
@@ -359,36 +409,39 @@ export function Header() {
         </nav>
         <Link
           href="/"
-          className="group flex min-w-0 flex-1 items-center gap-2 sm:max-w-none sm:flex-none sm:gap-2.5"
+          className="group flex min-w-0 flex-1 items-center gap-2 sm:max-w-none sm:flex-none"
         >
           <CosmicGPTWordmark
             size="sm"
             showTagline
-            width={168}
-            className="transition duration-300 group-hover:brightness-110"
+            width={160}
+            className="group-hover:brightness-110"
           />
         </Link>
 
-        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
-          <LocaleSwitcher />
-          <UserAccountMenu />
+        <div className="flex shrink-0 items-center gap-2">
+          <LocaleSwitcher className={headerQuietIcon} />
+          <UserAccountMenu
+            quietClassName={headerQuietBtn}
+            quietIconClassName={headerQuietIcon}
+          />
           <a
             href={whatsappLink()}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={tc("talkNow")}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-cosmic-purple/40 p-2 font-ui text-xs font-semibold text-white transition hover:bg-cosmic-purple/15 sm:px-3 sm:py-2"
+            className={headerQuietBtn}
           >
-            <MessageCircle className="h-4 w-4 shrink-0" />
+            <MessageCircle className="h-3.5 w-3.5 shrink-0 opacity-90" />
             <span className="hidden sm:inline">{tc("talkNow")}</span>
           </a>
           <Link
             href="/chat"
             aria-label={hi ? "एआई से बात करें" : "Talk to AI"}
             title={hi ? "एआई से बात करें" : "Talk to AI"}
-            className="btn-grad inline-flex items-center gap-1 px-2 py-2 font-ui text-xs font-semibold text-white sm:gap-1.5 sm:px-3"
+            className={headerAskAi}
           >
-            <Sparkles className="h-4 w-4 shrink-0" strokeWidth={2.1} />
+            <Sparkles className="h-3.5 w-3.5 shrink-0" strokeWidth={2.1} />
             <span className="md:hidden">{hi ? "एआई" : "AI"}</span>
             <span className="hidden md:inline">
               {hi ? "एआई से पूछें" : "Ask AI"}
@@ -397,14 +450,14 @@ export function Header() {
         </div>
       </div>
 
-      {/* Secondary menu bar */}
-      <div className="hidden border-t border-white/[0.06] bg-[#12172E]/85 lg:block">
+      {/* Page menu — compact row with related icons */}
+      <div className="hidden border-t border-white/10 lg:block">
         <nav
           ref={navRef}
-          className="container-page relative flex flex-wrap items-center justify-center gap-2.5 py-2.5 sm:gap-3"
+          className="container-page relative flex h-12 items-center justify-center gap-3 sm:gap-5"
           onMouseEnter={clearCloseTimer}
           onMouseLeave={scheduleClose}
-          aria-label={hi ? "मुख्य मेनू" : "Main menu"}
+          aria-label={hi ? "पेज मेनू" : "Page menu"}
         >
           <Link
             href="/"
@@ -412,7 +465,7 @@ export function Header() {
             onMouseEnter={() => openMenu(null)}
             aria-current={sectionActive.home ? "page" : undefined}
           >
-            <Home className="h-3.5 w-3.5 shrink-0" strokeWidth={2.15} />
+            <Home className="h-3.5 w-3.5 shrink-0" strokeWidth={2.1} />
             {t("home")}
           </Link>
 
@@ -430,13 +483,12 @@ export function Header() {
                   setMenu((m) => (m === item.key ? null : item.key))
                 }
               >
-                <Icon className="h-3.5 w-3.5 shrink-0" strokeWidth={2.15} />
+                <Icon className="h-3.5 w-3.5 shrink-0" strokeWidth={2.1} />
                 {item.label}
                 <ChevronDown
                   className={cn(
-                    "h-3.5 w-3.5 transition",
-                    menu === item.key && "rotate-180",
-                    !(item.active || menu === item.key) && "opacity-70"
+                    "h-3 w-3 opacity-55",
+                    menu === item.key && "rotate-180 opacity-100"
                   )}
                 />
               </button>
@@ -456,14 +508,12 @@ export function Header() {
               setMenu((m) => (m === "calculators" ? null : "calculators"))
             }
           >
-            <Calculator className="h-3.5 w-3.5 shrink-0" strokeWidth={2.15} />
+            <Calculator className="h-3.5 w-3.5 shrink-0" strokeWidth={2.1} />
             {t("calculators")}
             <ChevronDown
               className={cn(
-                "h-3.5 w-3.5 transition",
-                menu === "calculators" && "rotate-180",
-                !(sectionActive.calculators || menu === "calculators") &&
-                  "opacity-70"
+                "h-3 w-3 opacity-55",
+                menu === "calculators" && "rotate-180 opacity-100"
               )}
             />
           </button>
@@ -476,13 +526,12 @@ export function Header() {
             onMouseEnter={() => openMenu("learn")}
             onClick={() => setMenu((m) => (m === "learn" ? null : "learn"))}
           >
-            <LearnIcon className="h-3.5 w-3.5 shrink-0" strokeWidth={2.15} />
+            <BookOpen className="h-3.5 w-3.5 shrink-0" strokeWidth={2.1} />
             {learnMenu.label}
             <ChevronDown
               className={cn(
-                "h-3.5 w-3.5 transition",
-                menu === "learn" && "rotate-180",
-                !(learnMenu.active || menu === "learn") && "opacity-70"
+                "h-3 w-3 opacity-55",
+                menu === "learn" && "rotate-180 opacity-100"
               )}
             />
           </button>
@@ -493,7 +542,7 @@ export function Header() {
             onMouseEnter={() => openMenu(null)}
             aria-current={sectionActive.pricing ? "page" : undefined}
           >
-            <IndianRupee className="h-3.5 w-3.5 shrink-0" strokeWidth={2.15} />
+            <IndianRupee className="h-3.5 w-3.5 shrink-0" strokeWidth={2.1} />
             {t("pricing")}
           </Link>
 
@@ -518,21 +567,21 @@ export function Header() {
                   <Link
                     href="/calculators"
                     onClick={() => setMenu(null)}
-                    className="font-semibold text-saffron-deep hover:underline"
+                    className="font-semibold text-cosmic-gold hover:underline"
                   >
                     {hi ? "सभी कैलकुलेटर देखें →" : "View all calculators →"}
                   </Link>
                   <Link
                     href="/kundli"
                     onClick={() => setMenu(null)}
-                    className="text-ink-muted hover:text-saffron-deep"
+                    className="text-ink-muted hover:text-white"
                   >
                     {hi ? "पूर्ण कुंडली" : "Full kundli"}
                   </Link>
                   <Link
                     href="/chat"
                     onClick={() => setMenu(null)}
-                    className="text-ink-muted hover:text-saffron-deep"
+                    className="text-ink-muted hover:text-white"
                   >
                     {hi ? "एआई चैट" : "AI Chat"}
                   </Link>

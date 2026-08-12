@@ -82,7 +82,7 @@ export function LearnAstrologyStrip({ locale }: { locale: string }) {
             <Link
               key={item.href + item.title.en}
               href={item.href}
-              className="rounded-xl border border-black/[0.07] bg-white px-4 py-3.5 transition hover:border-saffron/30"
+              className="rounded-xl border border-white/10 bg-surface px-4 py-3.5 transition hover:border-saffron/30"
             >
               <h3 className="text-[14px] font-semibold text-ink">
                 {hi ? item.title.hi : item.title.en}

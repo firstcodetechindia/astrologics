@@ -18,7 +18,7 @@ export function QuickTools({ locale }: { locale: string }) {
   );
 
   return (
-    <section className="border-y border-black/[0.04] bg-[#faf7f4] py-8 sm:py-10">
+    <section className="border-y border-white/10 bg-cosmic-navy py-8 sm:py-10">
       <div className="container-page">
         <Reveal>
           <div className="flex flex-wrap items-center justify-between gap-2">
@@ -40,7 +40,7 @@ export function QuickTools({ locale }: { locale: string }) {
               <Link
                 key={c.slug}
                 href={`/calculators/${c.slug}`}
-                className="flex min-w-[42%] snap-start flex-col items-center rounded-xl border border-black/[0.06] bg-white px-3 py-3 text-center shadow-sm transition hover:border-saffron/35 sm:min-w-0"
+                className="flex min-w-[42%] snap-start flex-col items-center rounded-xl border border-white/10 bg-surface px-3 py-3 text-center shadow-sm transition hover:border-saffron/35 sm:min-w-0"
               >
                 <span className="text-xl" aria-hidden>
                   {c.icon}

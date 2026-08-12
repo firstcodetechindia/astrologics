@@ -105,7 +105,7 @@ export default async function CalculatorsPage() {
       ];
 
   return (
-    <div className="bg-[#faf8f5] min-h-screen">
+    <div className="bg-cosmic-navy min-h-screen">
       <JsonLd
         data={breadcrumbJsonLd(locale, [
           { name: hi ? "होम" : "Home", path: "" },
@@ -128,7 +128,7 @@ export default async function CalculatorsPage() {
         actions={
           <Link
             href="/learn"
-            className="inline-flex items-center justify-center rounded-xl border border-saffron/30 bg-white/80 px-4 py-2.5 text-sm font-semibold text-saffron-deep hover:bg-[#fff1e6]"
+            className="inline-flex items-center justify-center rounded-xl border border-saffron/30 bg-surface/85 px-4 py-2.5 text-sm font-semibold text-saffron-deep hover:bg-cosmic-purple/15"
           >
             {hi ? "ज्योतिष सीखें" : "Learn astrology"}
           </Link>
@@ -151,7 +151,7 @@ export default async function CalculatorsPage() {
                         <Link
                           key={c.slug}
                           href={`/calculators/${c.slug}`}
-                          className="flex gap-3 rounded-2xl border border-black/8 bg-white p-4 shadow-sm hover:border-saffron/30 hover:shadow-md transition"
+                          className="flex gap-3 rounded-2xl border border-white/10 bg-surface p-4 shadow-sm hover:border-saffron/30 hover:shadow-md transition"
                         >
                           <span className="text-2xl shrink-0">{c.icon}</span>
                           <span className="min-w-0">
@@ -170,7 +170,7 @@ export default async function CalculatorsPage() {
               })}
             </div>
 
-            <section className="mt-10 rounded-2xl border border-saffron/20 bg-gradient-to-br from-[#fff7f0] to-white p-5">
+            <section className="mt-10 rounded-2xl border border-saffron/20 surface-wash p-5">
               <h2 className="font-display text-lg font-bold text-ink">
                 {hi ? "पूर्ण हब पेज" : "Full hub pages"}
               </h2>

@@ -5,6 +5,8 @@ import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { KundliResult } from "@/lib/astrology/types";
 import type { DivisionalChart } from "@/lib/astrology/vargas";
+import type { LalKitabChart } from "@/lib/astrology/lalkitab";
+import type { VarshphalResult } from "@/lib/astrology/varshphal";
 import { toDMS } from "@/lib/astrology/math-core";
 import { recommendGemstones, rudrakshaForSign } from "@/lib/astrology/remedies";
 import { getHoroscopeSeo } from "@/lib/horoscope/seo-content";
@@ -28,7 +30,9 @@ type ReportSub =
   | "ascendant"
   | "planetary"
   | "vimshottari"
-  | "yoga";
+  | "yoga"
+  | "lalkitab"
+  | "varshphal";
 
 type DoshaSub = "manglik" | "kalsarpa" | "sadesati";
 type RemedySub = "rudraksha" | "gemstone";
@@ -52,8 +56,8 @@ function TabBtn({
       onClick={onClick}
       className={`shrink-0 rounded-full px-3.5 py-2 text-sm font-semibold transition ${
         active
-          ? "bg-[#f5e6c8] text-maroon ring-1 ring-[#e0c98a]"
-          : "bg-white/70 text-ink-muted hover:bg-white hover:text-ink"
+          ? "bg-cosmic-gold/20 text-maroon ring-1 ring-cosmic-gold/35"
+          : "bg-surface/75 text-ink-muted hover:bg-surface hover:text-ink"
       }`}
     >
       {children}
@@ -70,7 +74,7 @@ function Card({
 }) {
   return (
     <div
-      className={`rounded-2xl border border-black/[0.06] bg-white p-4 shadow-sm sm:p-5 ${className}`}
+      className={`rounded-2xl border border-white/10 bg-surface p-4 shadow-sm sm:p-5 ${className}`}
     >
       {children}
     </div>
@@ -91,7 +95,7 @@ function StatusBadge({
       className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide ${
         present
           ? "bg-red-50 text-red-700"
-          : "bg-emerald-50 text-emerald-700"
+          : "bg-emerald-500/15 text-emerald-300"
       }`}
     >
       <span
@@ -101,6 +105,359 @@ function StatusBadge({
       />
       {present ? presentLabel : absentLabel}
     </span>
+  );
+}
+
+function SadeSatiTrackerPanel({
+  sade,
+  locale,
+}: {
+  sade: Record<string, unknown>;
+  locale: "en" | "hi";
+}) {
+  const hi = locale === "hi";
+  const moon = sade.moonSign as { en: string; hi: string } | undefined;
+  const saturn = sade.saturnSign as { en: string; hi: string } | undefined;
+  const intensity = sade.intensityHint as { en: string; hi: string } | undefined;
+  const basedOn = sade.basedOn as { en: string; hi: string } | undefined;
+  const disclaimer = sade.disclaimer as { en: string; hi: string } | undefined;
+  const window = sade.currentWindow as { start: string; end: string } | null | undefined;
+  const cycle = (sade.fullCycle as
+    | { phase: number; label: { en: string; hi: string }; start: string; end: string }[]
+    | undefined) || [];
+
+  return (
+    <div className="mt-4 space-y-3">
+      <div className="grid gap-2 sm:grid-cols-2 text-sm">
+        <p className="text-ink-muted">
+          <span className="font-medium text-ink">
+            {hi ? "चंद्र राशि: " : "Moon sign: "}
+          </span>
+          {moon ? L(locale, moon) : "—"}
+        </p>
+        <p className="text-ink-muted">
+          <span className="font-medium text-ink">
+            {hi ? "शनि अभी: " : "Saturn now: "}
+          </span>
+          {saturn ? L(locale, saturn) : "—"}
+        </p>
+      </div>
+      {window && (
+        <p className="text-sm text-ink-muted">
+          <span className="font-medium text-ink">
+            {hi ? "वर्तमान चरण: " : "Current phase window: "}
+          </span>
+          {window.start} → {window.end}
+        </p>
+      )}
+      {intensity && (
+        <p className="text-sm text-ink-muted">{L(locale, intensity)}</p>
+      )}
+      {cycle.length > 0 && (
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wide text-ink">
+            {hi ? "चक्र समयरेखा" : "Cycle timeline"}
+          </p>
+          <ul className="mt-2 space-y-2">
+            {cycle.map((c) => (
+              <li
+                key={`${c.phase}-${c.start}`}
+                className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm"
+              >
+                <span className="font-medium text-maroon">
+                  {hi ? `चरण ${c.phase}` : `Phase ${c.phase}`}
+                </span>
+                <span className="mx-2 text-ink-muted">·</span>
+                <span className="text-ink-muted">
+                  {c.start} → {c.end}
+                </span>
+                <p className="mt-1 text-xs text-ink-muted">{L(locale, c.label)}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {basedOn && (
+        <p className="text-xs text-saffron-deep">
+          {hi ? "आधार: " : "Based on: "}
+          {L(locale, basedOn)}
+        </p>
+      )}
+      {disclaimer && (
+        <p className="text-xs text-ink-muted">{L(locale, disclaimer)}</p>
+      )}
+    </div>
+  );
+}
+
+function VarshphalReportPanel({
+  kundli,
+  locale,
+}: {
+  kundli: KundliResult;
+  locale: "en" | "hi";
+}) {
+  const hi = locale === "hi";
+  const vp = kundli.varshphal as VarshphalResult | undefined;
+  if (!vp?.varshaLagna) {
+    return (
+      <Card>
+        <p className="text-sm text-ink-muted">
+          {hi
+            ? "वर्षफल उपलब्ध नहीं — कुंडली फिर बनाएँ।"
+            : "Varshphal unavailable — regenerate kundli."}
+        </p>
+      </Card>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      <Card>
+        <h3 className="font-display text-lg font-bold text-maroon">
+          {hi
+            ? `वर्षफल ${vp.targetYear}`
+            : `Varshphal ${vp.targetYear}`}
+        </h3>
+        <p className="mt-2 text-sm text-ink-muted">
+          {L(locale, vp.methodology)}
+        </p>
+        <p className="mt-2 text-xs text-saffron-deep">
+          {hi ? "सूर्य वापसी: " : "Solar return: "}
+          {new Date(vp.solarReturnAt).toISOString().replace(".000Z", "Z")}
+          {typeof vp.solarReturnResidualDeg === "number"
+            ? ` · Δ ${vp.solarReturnResidualDeg.toFixed(4)}°`
+            : ""}
+        </p>
+      </Card>
+
+      <div className="grid gap-3 sm:grid-cols-2">
+        <Card>
+          <h4 className="font-semibold text-ink">
+            {hi ? "वर्ष लग्न" : "Varsha Lagna"}
+          </h4>
+          <p className="mt-2 text-sm text-maroon font-medium">
+            {L(locale, vp.varshaLagna.sign)}{" "}
+            {toDMS(vp.varshaLagna.degree)}
+          </p>
+          <p className="mt-2 text-xs text-saffron-deep">
+            {hi ? "आधार: " : "Based on: "}
+            {L(locale, vp.varshaLagna.basedOn)}
+          </p>
+        </Card>
+        <Card>
+          <h4 className="font-semibold text-ink">{hi ? "मुंथा" : "Muntha"}</h4>
+          <p className="mt-2 text-sm text-maroon font-medium">
+            {L(locale, vp.muntha.sign)} ·{" "}
+            {hi ? `भाव ${vp.muntha.houseFromVarshaLagna}` : `H${vp.muntha.houseFromVarshaLagna}`}
+          </p>
+          <p className="mt-1 text-xs text-ink-muted">
+            {hi
+              ? `आयु वर्ष पूर्ण: ${vp.completedYearsOfAge}`
+              : `Completed years: ${vp.completedYearsOfAge}`}
+          </p>
+          <p className="mt-2 text-xs text-saffron-deep">
+            {hi ? "आधार: " : "Based on: "}
+            {vp.muntha.basedOn
+              ? L(locale, vp.muntha.basedOn)
+              : "—"}
+          </p>
+        </Card>
+      </div>
+
+      <Card>
+        <h4 className="font-semibold text-ink">
+          {hi ? "वर्षेश्वर (सरलीकृत)" : "Varsheshwara (simplified)"}
+        </h4>
+        <p className="mt-2 text-sm font-medium text-maroon">
+          {L(locale, vp.varsheshwara.name)}
+        </p>
+        <p className="mt-2 text-xs text-saffron-deep">
+          {hi ? "आधार: " : "Based on: "}
+          {L(locale, vp.varsheshwara.basedOn)}
+        </p>
+      </Card>
+
+      <Card>
+        <h4 className="font-semibold text-ink">{hi ? "सहाम" : "Sahams"}</h4>
+        <ul className="mt-3 space-y-3 text-sm">
+          {vp.sahams.map((s) => (
+            <li key={s.id} className="border-b border-white/5 pb-2">
+              <span className="font-medium text-ink">{L(locale, s.name)}</span>
+              <span className="text-ink-muted">
+                {" "}
+                · {L(locale, s.sign)}
+              </span>
+              <p className="mt-1 text-xs text-ink-muted">
+                {hi ? "सूत्र: " : "Formula: "}
+                {L(locale, s.formula)}
+              </p>
+              <p className="mt-1 text-xs text-saffron-deep">
+                {hi ? "आधार: " : "Based on: "}
+                {L(locale, s.basedOn)}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </Card>
+
+      <Card>
+        <h4 className="font-semibold text-ink">
+          {hi ? "वर्ष ग्रह (स्नैपशॉट)" : "Annual planets (snapshot)"}
+        </h4>
+        <ul className="mt-2 grid gap-1 sm:grid-cols-2 text-sm text-ink-muted">
+          {vp.planets.slice(0, 9).map((p) => (
+            <li key={p.id}>
+              {L(locale, p.name)} · {L(locale, p.sign)} · H{p.house}
+              {p.isRetrograde ? " ®" : ""}
+            </li>
+          ))}
+        </ul>
+      </Card>
+
+      <p className="text-xs text-ink-muted">{L(locale, vp.disclaimer)}</p>
+    </div>
+  );
+}
+
+function LalKitabReportPanel({
+  kundli,
+  locale,
+}: {
+  kundli: KundliResult;
+  locale: "en" | "hi";
+}) {
+  const hi = locale === "hi";
+  const lk = kundli.lalkitab as LalKitabChart | undefined;
+  if (!lk?.planets?.length) {
+    return (
+      <Card>
+        <p className="text-sm text-ink-muted">
+          {hi
+            ? "लाल किताब तथ्य उपलब्ध नहीं — कुंडली फिर बनाएँ।"
+            : "Lal Kitab facts unavailable — regenerate kundli."}
+        </p>
+      </Card>
+    );
+  }
+
+  const rin = lk.rin ?? lk.debts ?? [];
+  const andha = lk.andha ?? [];
+
+  return (
+    <div className="space-y-4">
+      <Card>
+        <h3 className="font-display text-lg font-bold text-maroon">
+          {hi ? "लाल किताब रिपोर्ट" : "Lal Kitab report"}
+        </h3>
+        <p className="mt-2 text-sm text-ink-muted">
+          {L(locale, lk.methodology)}
+        </p>
+      </Card>
+
+      <Card>
+        <h4 className="font-semibold text-ink">
+          {hi ? "पक्का घर" : "Pakka Ghar"}
+        </h4>
+        <ul className="mt-3 space-y-2 text-sm">
+          {lk.planets.map((p) => (
+            <li
+              key={p.id}
+              className="flex flex-wrap items-baseline justify-between gap-2 border-b border-white/5 pb-2"
+            >
+              <span className="font-medium text-ink">
+                {L(locale, p.name)} · H{p.house}
+                <span className="ml-2 text-xs text-ink-muted">
+                  {hi ? `पक्का ${p.pakkaGhar}` : `Pakka ${p.pakkaGhar}`}
+                </span>
+              </span>
+              <StatusBadge
+                present={!p.inPakkaGhar}
+                presentLabel={hi ? "बाहर" : "Away"}
+                absentLabel={hi ? "में" : "In Pakka"}
+              />
+            </li>
+          ))}
+        </ul>
+      </Card>
+
+      <Card>
+        <h4 className="font-semibold text-ink">
+          {hi ? "अंध ग्रह (v1)" : "Andha Graha (v1)"}
+        </h4>
+        {andha.length === 0 ? (
+          <p className="mt-2 text-sm text-ink-muted">
+            {hi ? "कोई Andha ध्वज नहीं।" : "No Andha flags."}
+          </p>
+        ) : (
+          <ul className="mt-2 space-y-2 text-sm text-ink-muted">
+            {andha.map((a) => (
+              <li key={a.id}>
+                {L(locale, a.reason)}
+                <span className="mt-1 block text-xs text-saffron-deep">
+                  {hi ? "आधार: " : "Based on: "}
+                  {L(locale, a.basedOn)}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </Card>
+
+      <Card>
+        <h4 className="font-semibold text-ink">{hi ? "ऋण स्क्रीन" : "Rin screens"}</h4>
+        <ul className="mt-3 space-y-3">
+          {rin.map((d) => (
+            <li key={d.id}>
+              <div className="flex items-center justify-between gap-2">
+                <span className="font-medium text-ink">{L(locale, d.name)}</span>
+                <StatusBadge
+                  present={d.present}
+                  presentLabel={hi ? "सक्रिय" : "Present"}
+                  absentLabel={hi ? "नहीं" : "Clear"}
+                />
+              </div>
+              <p className="mt-1 text-sm text-ink-muted">{L(locale, d.note)}</p>
+              <p className="mt-1 text-xs text-saffron-deep">
+                {hi ? "आधार: " : "Based on: "}
+                {L(locale, d.basedOn)}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </Card>
+
+      <Card>
+        <h4 className="font-semibold text-ink">
+          {hi ? "Tier-1 उपाय" : "Tier-1 remedies"}
+        </h4>
+        <p className="mt-1 text-xs text-ink-muted">
+          {hi
+            ? "सांस्कृतिक/व्यवहार उपाय — चिकित्सा दावा नहीं। रत्न केवल Ratna मॉड्यूल से।"
+            : "Cultural/behavioral only — not medical. Gems only via Ratna module."}
+        </p>
+        {(lk.remedies?.length || 0) === 0 ? (
+          <p className="mt-2 text-sm text-ink-muted">
+            {hi ? "कोई Tier-1 उपाय ट्रिगर नहीं।" : "No Tier-1 remedies triggered."}
+          </p>
+        ) : (
+          <ul className="mt-3 space-y-3 text-sm text-ink-muted">
+            {lk.remedies.map((r) => (
+              <li key={r.id}>
+                <span className="font-medium text-ink">
+                  {r.forPlanet} · {r.trigger}
+                </span>
+                <p className="mt-1">{L(locale, r.text)}</p>
+                <p className="mt-1 text-xs text-saffron-deep">
+                  {hi ? "आधार: " : "Based on: "}
+                  {L(locale, r.basedOn)}
+                </p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </Card>
+    </div>
   );
 }
 
@@ -251,6 +608,8 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
     { id: "planetary", en: "Planetary", hi: "ग्रह" },
     { id: "vimshottari", en: "Vimshottari", hi: "विंशोत्तरी" },
     { id: "yoga", en: "Yoga", hi: "योग" },
+    { id: "lalkitab", en: "Lal Kitab", hi: "लाल किताब" },
+    { id: "varshphal", en: "Varshphal", hi: "वर्षफल" },
   ];
 
   return (
@@ -287,12 +646,12 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
               <h2 className="font-display text-lg font-bold text-maroon">
                 {hi ? "जन्म विवरण" : "Birth details"}
               </h2>
-              <div className="flex shrink-0 rounded-full border border-black/10 bg-[#faf8f5] p-0.5 text-xs font-semibold">
+              <div className="flex shrink-0 rounded-full border border-white/10 bg-cosmic-navy p-0.5 text-xs font-semibold">
                 <button
                   type="button"
                   onClick={() => setChartStyle("north")}
                   className={`rounded-full px-2.5 py-1 ${
-                    chartStyle === "north" ? "bg-[#f5e6c8] text-maroon" : "text-ink-muted"
+                    chartStyle === "north" ? "bg-cosmic-gold/20 text-maroon" : "text-ink-muted"
                   }`}
                 >
                   {hi ? "उत्तर" : "North"}
@@ -301,7 +660,7 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
                   type="button"
                   onClick={() => setChartStyle("south")}
                   className={`rounded-full px-2.5 py-1 ${
-                    chartStyle === "south" ? "bg-[#f5e6c8] text-maroon" : "text-ink-muted"
+                    chartStyle === "south" ? "bg-cosmic-gold/20 text-maroon" : "text-ink-muted"
                   }`}
                 >
                   {hi ? "दक्षिण" : "South"}
@@ -435,7 +794,7 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
             </h2>
             <div className="mt-3 overflow-x-auto">
               <table className="w-full min-w-[36rem] text-left text-sm">
-                <thead className="border-b border-black/5 text-xs uppercase text-ink-muted">
+                <thead className="border-b border-white/10 text-xs uppercase text-ink-muted">
                   <tr>
                     <th className="py-2 pr-3">{hi ? "ग्रह" : "Planet"}</th>
                     <th className="py-2 pr-3">{hi ? "राशि" : "Sign"}</th>
@@ -446,7 +805,7 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
                 </thead>
                 <tbody>
                   {kundli.planets.map((p) => (
-                    <tr key={p.id} className="border-b border-black/[0.04]">
+                    <tr key={p.id} className="border-b border-white/10">
                       <td className="py-2.5 pr-3 font-medium text-ink">
                         {L(locale, p.name)}
                         {p.isRetrograde ? " ®" : ""}
@@ -473,7 +832,7 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
               {kundli.houses.map((h) => (
                 <div
                   key={h.number}
-                  className="rounded-xl border border-black/[0.05] bg-[#faf8f5] p-3"
+                  className="rounded-xl border border-white/10 bg-cosmic-navy p-3"
                 >
                   <p className="text-xs font-semibold text-maroon">
                     {hi ? `भाव ${h.number}` : `House ${h.number}`} ·{" "}
@@ -498,7 +857,7 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
                 {(kundli.yogas || []).map((y) => (
                   <li
                     key={y.id}
-                    className="rounded-xl border border-black/[0.05] px-3 py-2.5"
+                    className="rounded-xl border border-white/10 px-3 py-2.5"
                   >
                     <p className="font-semibold text-ink">{L(locale, y.name)}</p>
                     <p className="mt-1 text-sm text-ink-muted">
@@ -523,7 +882,7 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
             </p>
             <div className="mt-4 overflow-x-auto">
               <table className="w-full min-w-[40rem] text-left text-sm">
-                <thead className="border-b border-black/5 text-xs uppercase text-ink-muted">
+                <thead className="border-b border-white/10 text-xs uppercase text-ink-muted">
                   <tr>
                     <th className="py-2 pr-2">{hi ? "ग्रह" : "Planet"}</th>
                     <th className="py-2 pr-2">{hi ? "भाव" : "House"}</th>
@@ -536,7 +895,7 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
                 </thead>
                 <tbody>
                   {(kp?.points || []).map((row) => (
-                    <tr key={row.id} className="border-b border-black/[0.04]">
+                    <tr key={row.id} className="border-b border-white/10">
                       <td className="py-2.5 pr-2 font-medium text-ink">
                         {L(locale, row.name)}
                       </td>
@@ -593,7 +952,7 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
               {(ashtak?.houses || []).map((h) => (
                 <div
                   key={h.number}
-                  className="rounded-xl border border-black/10 bg-[#faf8f5] px-3 py-3 text-center"
+                  className="rounded-xl border border-white/10 bg-cosmic-navy px-3 py-3 text-center"
                 >
                   <p className="text-xs text-ink-muted">
                     {hi ? `भाव ${h.number}` : `House ${h.number}`} ·{" "}
@@ -616,7 +975,7 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
               </h3>
               <div className="mt-3 overflow-x-auto">
                 <table className="w-full min-w-[36rem] text-left text-xs sm:text-sm">
-                  <thead className="border-b border-black/5 text-ink-muted">
+                  <thead className="border-b border-white/10 text-ink-muted">
                     <tr>
                       <th className="py-2 pr-2">{hi ? "ग्रह" : "Planet"}</th>
                       {Array.from({ length: 12 }, (_, i) => (
@@ -628,7 +987,7 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
                   </thead>
                   <tbody>
                     {Object.entries(ashtak.bhinna).map(([id, row]) => (
-                      <tr key={id} className="border-b border-black/[0.04]">
+                      <tr key={id} className="border-b border-white/10">
                         <td className="py-2 pr-2 font-medium capitalize text-ink">
                           {id}
                         </td>
@@ -655,13 +1014,13 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
                 ? "D1 राशि + भाव चलित + वर्ग चार्ट (BPHS)। उत्तर/दक्षिण केवल चित्रण है — गणना एक ही।"
                 : "D1 Rashi + Bhav Chalit + Vargas (BPHS). North/South is drawing only — same calculation."}
             </p>
-            <div className="flex rounded-full border border-black/10 bg-white p-0.5 text-sm font-semibold">
+            <div className="flex rounded-full border border-white/10 bg-surface p-0.5 text-sm font-semibold">
               <button
                 type="button"
                 onClick={() => setChartStyle("north")}
                 className={`rounded-full px-3 py-1.5 transition ${
                   chartStyle === "north"
-                    ? "bg-[#f5e6c8] text-maroon"
+                    ? "bg-cosmic-gold/20 text-maroon"
                     : "text-ink-muted hover:text-ink"
                 }`}
               >
@@ -672,7 +1031,7 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
                 onClick={() => setChartStyle("south")}
                 className={`rounded-full px-3 py-1.5 transition ${
                   chartStyle === "south"
-                    ? "bg-[#f5e6c8] text-maroon"
+                    ? "bg-cosmic-gold/20 text-maroon"
                     : "text-ink-muted hover:text-ink"
                 }`}
               >
@@ -692,7 +1051,7 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
               </p>
               <div className="mt-3 overflow-x-auto">
                 <table className="w-full min-w-[28rem] text-left text-sm">
-                  <thead className="border-b border-black/5 text-xs text-ink-muted">
+                  <thead className="border-b border-white/10 text-xs text-ink-muted">
                     <tr>
                       <th className="py-2 pr-2">{hi ? "ग्रह" : "Planet"}</th>
                       <th className="py-2 pr-2">{hi ? "राशि भाव" : "Rashi house"}</th>
@@ -701,7 +1060,7 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
                   </thead>
                   <tbody>
                     {bhavChalit.planets.map((p) => (
-                      <tr key={p.id} className="border-b border-black/[0.04]">
+                      <tr key={p.id} className="border-b border-white/10">
                         <td className="py-2 pr-2 font-medium">
                           {L(locale, p.name)}
                           {p.isRetrograde ? " ®" : ""}
@@ -1029,8 +1388,8 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
                         <span
                           className={`rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase ${
                             rec.status === "caution"
-                              ? "border-amber-200 bg-amber-50 text-amber-900"
-                              : "border-emerald-200 bg-emerald-50 text-emerald-800"
+                              ? "border-amber-400/30 bg-amber-500/15 text-amber-100"
+                              : "border-emerald-400/30 bg-emerald-500/15 text-emerald-200"
                           }`}
                         >
                           {rec.status === "caution"
@@ -1042,7 +1401,7 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
                               : "Suggested"}
                         </span>
                         {rec.highRisk && (
-                          <span className="rounded-full border border-rose-200 bg-rose-50 px-2 py-0.5 text-[10px] font-bold uppercase text-rose-800">
+                          <span className="rounded-full border border-rose-400/30 bg-rose-500/15 px-2 py-0.5 text-[10px] font-bold uppercase text-rose-200">
                             {hi ? "उच्च जोखिम" : "High risk"}
                           </span>
                         )}
@@ -1103,7 +1462,7 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
                         </div>
                       </dl>
                       {rec.contraindications.length > 0 && (
-                        <ul className="mt-3 space-y-1.5 rounded-xl border border-amber-200/80 bg-amber-50/70 px-3 py-2.5 text-[13px] text-amber-950">
+                        <ul className="mt-3 space-y-1.5 rounded-xl border border-amber-400/30 bg-amber-500/15 px-3 py-2.5 text-[13px] text-amber-100">
                           {rec.contraindications.map((c, i) => (
                             <li key={i}>⚠ {L(locale, c)}</li>
                           ))}
@@ -1114,7 +1473,7 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
 
                   {gemReport.conflicts.length > 0 && (
                     <Card>
-                      <h4 className="font-semibold text-rose-800">
+                      <h4 className="font-semibold text-rose-200">
                         {hi
                           ? "रत्न संघर्ष — एक साथ न पहनें"
                           : "Gem conflicts — do not wear together"}
@@ -1194,7 +1553,7 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
                     manglikExtra.cancellations.length > 0 && (
                       <ul className="mt-3 space-y-1.5 text-sm text-ink-muted">
                         {manglikExtra.cancellations.map((c) => (
-                          <li key={c.id} className="rounded-lg bg-[#faf8f5] px-3 py-2">
+                          <li key={c.id} className="rounded-lg bg-cosmic-navy px-3 py-2">
                             {locale === "hi" ? c.hi : c.en}
                           </li>
                         ))}
@@ -1239,6 +1598,10 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
                   <p className="mt-3 text-sm leading-relaxed text-ink-muted">
                     {L(locale, kundli.doshas.sadeSati.meaning)}
                   </p>
+                  <SadeSatiTrackerPanel
+                    sade={kundli.doshas.sadeSati as Record<string, unknown>}
+                    locale={locale}
+                  />
                 </Card>
               )}
             </div>
@@ -1395,6 +1758,14 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
               )}
             </div>
           )}
+
+          {reportSub === "lalkitab" && (
+            <LalKitabReportPanel kundli={kundli} locale={locale} />
+          )}
+
+          {reportSub === "varshphal" && (
+            <VarshphalReportPanel kundli={kundli} locale={locale} />
+          )}
         </div>
       )}
 
@@ -1439,7 +1810,7 @@ function Item({ label, value }: { label: string; value: string }) {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-gold/25 bg-[#faf8f5] p-3">
+    <div className="rounded-xl border border-gold/25 bg-cosmic-navy p-3">
       <p className="text-xs text-ink-muted">{label}</p>
       <p className="mt-1 text-sm font-semibold leading-snug text-maroon font-numeric">
         {value}

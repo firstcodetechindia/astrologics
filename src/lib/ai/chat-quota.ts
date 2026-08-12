@@ -9,7 +9,7 @@ function secret() {
     process.env.CHAT_QUOTA_SECRET ||
     process.env.OPENAI_API_KEY ||
     process.env.GEMINI_API_KEY ||
-    "astrologics-dev-chat-quota"
+    "cosmicgpt-dev-chat-quota"
   );
 }
 

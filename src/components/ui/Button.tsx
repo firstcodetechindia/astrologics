@@ -7,7 +7,7 @@ const variants: Record<Variant, string> = {
   secondary:
     "bg-gradient-to-r from-gold to-saffron text-ivory hover:brightness-105 shadow-md shadow-saffron/25",
   ghost:
-    "bg-white/50 text-saffron-deep border border-saffron/35 hover:bg-sand/60",
+    "bg-white/10 text-white border border-cosmic-purple/40 hover:bg-cosmic-purple/20",
   whatsapp: "bg-[#128C7E] text-white hover:bg-[#0e7a6e] shadow-md",
 };
 

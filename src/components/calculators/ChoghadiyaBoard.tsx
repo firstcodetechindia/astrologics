@@ -27,15 +27,15 @@ function tx(locale: string, v: { en: string; hi: string }) {
 function toneClass(tone: "good" | "neutral" | "caution", active?: boolean) {
   if (tone === "good")
     return active
-      ? "border-emerald-500/40 bg-emerald-50 text-emerald-900"
-      : "border-emerald-500/20 bg-emerald-50/70 text-emerald-800";
+      ? "border-emerald-500/40 bg-emerald-500/15 text-emerald-200"
+      : "border-emerald-500/20 bg-emerald-500/15 text-emerald-200";
   if (tone === "caution")
     return active
-      ? "border-rose-500/40 bg-rose-50 text-rose-900"
-      : "border-rose-500/20 bg-rose-50/70 text-rose-800";
+      ? "border-rose-500/40 bg-rose-500/15 text-rose-200"
+      : "border-rose-500/20 bg-rose-500/15 text-rose-200";
   return active
-    ? "border-amber-500/40 bg-amber-50 text-amber-950"
-    : "border-amber-500/20 bg-amber-50/60 text-amber-900";
+    ? "border-amber-500/40 bg-amber-500/15 text-amber-100"
+    : "border-amber-500/20 bg-amber-500/15 text-amber-100";
 }
 
 function toneDot(tone: "good" | "neutral" | "caution") {
@@ -202,11 +202,11 @@ export function ChoghadiyaBoard() {
     <div className="space-y-6">
       {/* Controls: date nav + city — no birth form */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="inline-flex items-center gap-1 rounded-2xl border border-black/[0.08] bg-white p-1 shadow-sm">
+        <div className="inline-flex items-center gap-1 rounded-2xl border border-white/10 bg-surface p-1 shadow-sm">
           <button
             type="button"
             aria-label={hi ? "पिछला दिन" : "Previous day"}
-            className="rounded-xl p-2.5 text-ink-muted transition hover:bg-[#fff1e6] hover:text-saffron-deep"
+            className="rounded-xl p-2.5 text-ink-muted transition hover:bg-cosmic-purple/15 hover:text-saffron-deep"
             onClick={() => setYmd((d) => shiftYmd(d, -1))}
           >
             <ChevronLeft className="h-4 w-4" />
@@ -222,7 +222,7 @@ export function ChoghadiyaBoard() {
           <button
             type="button"
             aria-label={hi ? "अगला दिन" : "Next day"}
-            className="rounded-xl p-2.5 text-ink-muted transition hover:bg-[#fff1e6] hover:text-saffron-deep"
+            className="rounded-xl p-2.5 text-ink-muted transition hover:bg-cosmic-purple/15 hover:text-saffron-deep"
             onClick={() => setYmd((d) => shiftYmd(d, 1))}
           >
             <ChevronRight className="h-4 w-4" />
@@ -233,7 +233,7 @@ export function ChoghadiyaBoard() {
           <button
             type="button"
             onClick={() => setCityOpen((v) => !v)}
-            className="inline-flex w-full items-center gap-2 rounded-2xl border border-black/[0.08] bg-white px-4 py-2.5 text-left shadow-sm sm:w-auto"
+            className="inline-flex w-full items-center gap-2 rounded-2xl border border-white/10 bg-surface px-4 py-2.5 text-left shadow-sm sm:w-auto"
           >
             <MapPin className="h-4 w-4 text-saffron-deep" />
             <span className="text-[14px] font-semibold text-ink">
@@ -243,9 +243,9 @@ export function ChoghadiyaBoard() {
             </span>
           </button>
           {cityOpen ? (
-            <div className="absolute right-0 z-30 mt-2 w-[min(100vw-2rem,20rem)] rounded-2xl border border-black/10 bg-white p-3 shadow-xl">
+            <div className="absolute right-0 z-30 mt-2 w-[min(100vw-2rem,20rem)] rounded-2xl border border-white/10 bg-surface p-3 shadow-xl">
               <input
-                className="w-full rounded-xl border border-black/10 px-3 py-2 text-sm outline-none focus:border-saffron focus:ring-2 focus:ring-saffron/20"
+                className="w-full rounded-xl border border-white/10 px-3 py-2 text-sm outline-none focus:border-saffron focus:ring-2 focus:ring-saffron/20"
                 value={placeQuery}
                 onChange={(e) => setPlaceQuery(e.target.value)}
                 placeholder={hi ? "जन्म स्थान" : "Place of birth"}
@@ -256,7 +256,7 @@ export function ChoghadiyaBoard() {
                   <li key={`${c.name}-${c.state}-${c.country}-${c.lat}`}>
                     <button
                       type="button"
-                      className="w-full rounded-lg px-2 py-2 text-left text-sm hover:bg-[#fff1e6]"
+                      className="w-full rounded-lg px-2 py-2 text-left text-sm hover:bg-cosmic-purple/15"
                       onClick={() => {
                         setCity(c);
                         setPlaceQuery(
@@ -302,11 +302,11 @@ export function ChoghadiyaBoard() {
           <div
             key={slot.key}
             className={cn(
-              "rounded-2xl border bg-white p-4 shadow-sm",
+              "rounded-2xl border bg-surface p-4 shadow-sm",
               slot.key === "now" && "border-saffron/35 ring-1 ring-saffron/20"
             )}
           >
-            <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#8a7a6a]">
+            <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-ink-muted">
               {slot.label}
             </p>
             {slot.w ? (
@@ -320,9 +320,9 @@ export function ChoghadiyaBoard() {
                 <span
                   className={cn(
                     "mt-2 inline-flex rounded-md px-2 py-0.5 text-[11px] font-semibold",
-                    slot.w.tone === "good" && "bg-emerald-100 text-emerald-800",
-                    slot.w.tone === "caution" && "bg-rose-100 text-rose-800",
-                    slot.w.tone === "neutral" && "bg-amber-100 text-amber-900"
+                    slot.w.tone === "good" && "bg-emerald-100 text-emerald-200",
+                    slot.w.tone === "caution" && "bg-rose-100 text-rose-200",
+                    slot.w.tone === "neutral" && "bg-amber-100 text-amber-100"
                   )}
                 >
                   {slot.w.tone === "good"
@@ -347,8 +347,8 @@ export function ChoghadiyaBoard() {
 
       {/* Sun + important times */}
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-2xl border border-black/[0.07] bg-white p-4">
-          <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-[#8a7a6a]">
+        <div className="rounded-2xl border border-white/10 bg-surface p-4">
+          <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-ink-muted">
             <Sunrise className="h-3.5 w-3.5 text-saffron-deep" />
             {hi ? "सूर्योदय" : "Sunrise"}
           </p>
@@ -356,8 +356,8 @@ export function ChoghadiyaBoard() {
             {data.meta.sunrise}
           </p>
         </div>
-        <div className="rounded-2xl border border-black/[0.07] bg-white p-4">
-          <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-[#8a7a6a]">
+        <div className="rounded-2xl border border-white/10 bg-surface p-4">
+          <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-ink-muted">
             <Sunset className="h-3.5 w-3.5 text-saffron-deep" />
             {hi ? "सूर्यास्त" : "Sunset"}
           </p>
@@ -365,19 +365,19 @@ export function ChoghadiyaBoard() {
             {data.meta.sunset}
           </p>
         </div>
-        <div className="rounded-2xl border border-black/[0.07] bg-white p-4">
-          <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#8a7a6a]">
+        <div className="rounded-2xl border border-white/10 bg-surface p-4">
+          <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-ink-muted">
             {hi ? "अभिजित मुहूर्त" : "Abhijit Muhurta"}
           </p>
           <p className="mt-1 font-numeric text-[15px] font-bold text-ink">
             {data.abhijit.start} → {data.abhijit.end}
           </p>
         </div>
-        <div className="rounded-2xl border border-rose-200/80 bg-rose-50/50 p-4">
-          <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-rose-700">
+        <div className="rounded-2xl border border-rose-400/30 bg-rose-500/10 p-4">
+          <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-rose-300">
             {hi ? "राहु काल" : "Rahu Kaal"}
           </p>
-          <p className="mt-1 font-numeric text-[15px] font-bold text-rose-900">
+          <p className="mt-1 font-numeric text-[15px] font-bold text-rose-200">
             {data.rahuKaal.start} → {data.rahuKaal.end}
           </p>
         </div>
@@ -385,7 +385,7 @@ export function ChoghadiyaBoard() {
 
       {/* Day / Night lists */}
       <div className="grid gap-5 lg:grid-cols-2">
-        <section className="rounded-2xl border border-black/[0.07] bg-white p-4 sm:p-5 shadow-sm">
+        <section className="rounded-2xl border border-white/10 bg-surface p-4 sm:p-5 shadow-sm">
           <div className="mb-3 flex items-end justify-between gap-2">
             <div>
               <h2 className="font-display text-lg font-bold text-ink">
@@ -403,7 +403,7 @@ export function ChoghadiyaBoard() {
           </div>
         </section>
 
-        <section className="rounded-2xl border border-black/[0.07] bg-white p-4 sm:p-5 shadow-sm">
+        <section className="rounded-2xl border border-white/10 bg-surface p-4 sm:p-5 shadow-sm">
           <div className="mb-3 flex items-end justify-between gap-2">
             <div>
               <h2 className="font-display text-lg font-bold text-ink">
@@ -445,8 +445,8 @@ export function ChoghadiyaBoard() {
       </div>
 
       {/* 7-day table */}
-      <section className="overflow-hidden rounded-2xl border border-black/[0.07] bg-white shadow-sm">
-        <div className="border-b border-black/[0.06] px-4 py-4 sm:px-5">
+      <section className="overflow-hidden rounded-2xl border border-white/10 bg-surface shadow-sm">
+        <div className="border-b border-white/10 px-4 py-4 sm:px-5">
           <h2 className="font-display text-lg font-bold text-ink">
             {hi ? "अगले 7 दिनों की चौघड़िया" : "Choghadiya for the next 7 days"}
           </h2>
@@ -463,12 +463,12 @@ export function ChoghadiyaBoard() {
             { title: hi ? "रात" : "Night Choghadiya", key: "night" as const },
           ].map((block) => (
             <div key={block.key} className="overflow-x-auto">
-              <p className="mb-2 text-[12px] font-bold uppercase tracking-[0.12em] text-[#8a7a6a]">
+              <p className="mb-2 text-[12px] font-bold uppercase tracking-[0.12em] text-ink-muted">
                 {block.title}
               </p>
               <table className="w-full min-w-[640px] border-collapse text-left text-[12px]">
                 <thead>
-                  <tr className="border-b border-black/10 text-[#8a7a6a]">
+                  <tr className="border-b border-white/10 text-ink-muted">
                     <th className="py-2 pr-2 font-semibold">{hi ? "तिथि" : "Date"}</th>
                     {Array.from({ length: 8 }, (_, i) => (
                       <th key={i} className="px-1 py-2 font-semibold">
@@ -479,7 +479,7 @@ export function ChoghadiyaBoard() {
                 </thead>
                 <tbody>
                   {week.map((row) => (
-                    <tr key={`${block.key}-${row.dateKey}`} className="border-b border-black/[0.05]">
+                    <tr key={`${block.key}-${row.dateKey}`} className="border-b border-white/10">
                       <td className="py-2 pr-2 font-semibold text-ink whitespace-nowrap">
                         {tx(locale, row.label)}
                       </td>
@@ -523,7 +523,7 @@ export function ChoghadiyaBoard() {
           <Link
             key={l.href}
             href={l.href}
-            className="rounded-xl border border-saffron/25 bg-[#fff7f0] px-3 py-1.5 text-[13px] font-semibold text-saffron-deep hover:bg-[#fff1e6]"
+            className="rounded-xl border border-saffron/25 bg-deep-indigo/80 px-3 py-1.5 text-[13px] font-semibold text-saffron-deep hover:bg-cosmic-purple/15"
           >
             {l.label}
           </Link>

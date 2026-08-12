@@ -33,8 +33,8 @@ export const CHAT_ASTROLOGER_FAQ: ChatFaqItem[] = [
   },
   {
     q: {
-      en: "Are the astrologers on Astrologics verified?",
-      hi: "क्या Astrologics के ज्योतिषी सत्यापित हैं?",
+      en: "Are the astrologers on CosmicGPT verified?",
+      hi: "क्या CosmicGPT के ज्योतिषी सत्यापित हैं?",
     },
     a: {
       en: "Profiles show experience years, ratings, languages and a verified badge where applicable. We highlight specialists in Vedic chart reading, KP, numerology and related areas so you can match expertise to your question.",

@@ -287,12 +287,28 @@ function isStrongPlacement(p: PlanetPosition | undefined): boolean {
   );
 }
 
-function isWeakPlacement(p: PlanetPosition | undefined): boolean {
-  if (!p) return true;
+/** True weakness for gem support — not mere "enemy sign" (too common / noisy). */
+function isTrulyWeak(p: PlanetPosition | undefined): boolean {
+  if (!p) return false;
   if (p.isCombust) return true;
   if (p.dignity?.debilitated || p.dignity?.kind === "debilitated") return true;
-  if (p.dignity?.kind === "enemy") return true;
   return false;
+}
+
+/** Natural benefics only — never auto-gem Mars/Saturn/Sun/nodes from "weak" alone. */
+const WEAK_BENEFIC_CANDIDATES: PlanetId[] = [
+  "jupiter",
+  "venus",
+  "mercury",
+  "moon",
+];
+
+function gemsConflict(a: PlanetId, b: PlanetId): boolean {
+  if (a === b) return false;
+  if (relation(a, b) === "enemy") return true;
+  return CONFLICTING_GEM_PAIRS.some(
+    ([x, y]) => (x === a && y === b) || (x === b && y === a)
+  );
 }
 
 function relation(
@@ -395,6 +411,14 @@ function enToPlanetId(en: string): PlanetId | null {
 
 /**
  * Full chart-aware gemstone recommendation (never Moon-sign-only).
+ *
+ * Priority order (skill):
+ * 1) Lagna lord (overall primary)
+ * 2) Focus-house lord when user asked career/marriage/health/wealth
+ * 3) Current Mahadasha lord (timing) — not stacked with enemies of #1
+ * 4) Truly weak natural benefic (debilitated/combust only) — never Mars/Saturn/nodes from this path
+ *
+ * Conflicting gems: keep higher priority; drop the lower one from wear-list (still noted in conflicts).
  */
 export function recommendGemstones(
   kundli: KundliResult,
@@ -410,12 +434,6 @@ export function recommendGemstones(
 
   const lagnaLord = SIGN_LORD_ID[lagnaSign];
   cands.push({ planetId: lagnaLord, trigger: "lagna_lord", priority: 100 });
-
-  const mahaId = enToPlanetId(kundli.dasha?.currentMaha?.planet?.en || "");
-  if (mahaId) cands.push({ planetId: mahaId, trigger: "dasha_lord", priority: 90 });
-
-  const antarId = enToPlanetId(kundli.dasha?.currentAntar?.planet?.en || "");
-  if (antarId) cands.push({ planetId: antarId, trigger: "antar_lord", priority: 80 });
 
   if (focus !== "overall") {
     const h = FOCUS_HOUSE[focus];
@@ -436,28 +454,35 @@ export function recommendGemstones(
     });
   }
 
-  for (const id of [
-    "jupiter",
-    "venus",
-    "mercury",
-    "moon",
-    "sun",
-    "mars",
-  ] as PlanetId[]) {
+  const mahaId = enToPlanetId(kundli.dasha?.currentMaha?.planet?.en || "");
+  // Timing gem: never auto-wear Neelam / Gomed / Cat's Eye from dasha alone
+  const highRiskAuto: PlanetId[] = ["saturn", "rahu", "ketu"];
+  if (
+    mahaId &&
+    mahaId !== lagnaLord &&
+    !highRiskAuto.includes(mahaId) &&
+    !gemsConflict(mahaId, lagnaLord)
+  ) {
+    cands.push({ planetId: mahaId, trigger: "dasha_lord", priority: 90 });
+  }
+
+  for (const id of WEAK_BENEFIC_CANDIDATES) {
+    if (id === lagnaLord) continue;
+    if (mahaId && id === mahaId) continue;
     const p = byId[id];
-    if (isWeakPlacement(p)) {
-      const bits: string[] = [];
-      if (p?.isCombust) bits.push("combust");
-      if (p?.dignity?.debilitated || p?.dignity?.kind === "debilitated")
-        bits.push("debilitated");
-      if (p?.dignity?.kind === "enemy") bits.push("enemy sign");
-      cands.push({
-        planetId: id,
-        trigger: "weak_benefic",
-        priority: 70,
-        extra: bits.join(", ") || "weak",
-      });
-    }
+    if (!isTrulyWeak(p)) continue;
+    // Never suggest a gem that fights the lagna lord
+    if (gemsConflict(id, lagnaLord)) continue;
+    const bits: string[] = [];
+    if (p?.isCombust) bits.push("combust");
+    if (p?.dignity?.debilitated || p?.dignity?.kind === "debilitated")
+      bits.push("debilitated");
+    cands.push({
+      planetId: id,
+      trigger: "weak_benefic",
+      priority: 60,
+      extra: bits.join(", ") || "weak",
+    });
   }
 
   // Dedupe keeping highest priority trigger
@@ -520,6 +545,15 @@ export function recommendGemstones(
       status = "blocked";
     }
 
+    // Block gems that fight the lagna lord (except the lagna lord itself)
+    if (c.planetId !== lagnaLord && gemsConflict(c.planetId, lagnaLord)) {
+      contraindications.push({
+        en: `Blocked: ${cat.primary.en} conflicts with Lagna-lord gem (${GEM_CATALOG[lagnaLord].primary.en}).`,
+        hi: `अवरुद्ध: ${cat.primary.hi} लग्न-स्वामी रत्न (${GEM_CATALOG[lagnaLord].primary.hi}) से टकराता है।`,
+      });
+      status = "blocked";
+    }
+
     recommendations.push({
       planetId: c.planetId,
       planet: planetName(c.planetId),
@@ -537,30 +571,49 @@ export function recommendGemstones(
     });
   }
 
-  // Keep top actionable set (not a laundry list)
-  const filtered = recommendations
-    .filter((r) => r.status !== "blocked")
-    .slice(0, 4);
-
+  // Resolve remaining conflicts: keep higher priority, drop lower from wear list
   const conflicts: GemConflict[] = [];
-  for (let i = 0; i < filtered.length; i++) {
-    for (let j = i + 1; j < filtered.length; j++) {
-      const a = filtered[i].planetId;
-      const b = filtered[j].planetId;
-      const pair = CONFLICTING_GEM_PAIRS.find(
-        ([x, y]) => (x === a && y === b) || (x === b && y === a)
-      );
-      if (pair || relation(a, b) === "enemy") {
-        conflicts.push({
-          a,
-          b,
-          note: {
-            en: `Do not wear ${filtered[i].primary.en} and ${filtered[j].primary.en} together without explicit caveat — ${planetName(a).en} and ${planetName(b).en} are classically inimical.`,
-            hi: `${filtered[i].primary.hi} और ${filtered[j].primary.hi} एक साथ बिना स्पष्ट चेतावनी न पहनें — ${planetName(a).hi} व ${planetName(b).hi} शास्त्र में शत्रु हैं।`,
-          },
-        });
-      }
+  const kept: GemRecommendation[] = [];
+  for (const r of recommendations
+    .filter((x) => x.status !== "blocked")
+    .sort((a, b) => b.priority - a.priority)) {
+    const clash = kept.find((k) => gemsConflict(k.planetId, r.planetId));
+    if (clash) {
+      conflicts.push({
+        a: clash.planetId,
+        b: r.planetId,
+        note: {
+          en: `Skipped ${r.primary.en} — conflicts with higher-priority ${clash.primary.en} (${planetName(clash.planetId).en} vs ${planetName(r.planetId).en}). Do not wear both.`,
+          hi: `${r.primary.hi} छोड़ दिया — उच्च प्राथमिकता ${clash.primary.hi} से टकराव (${planetName(clash.planetId).hi} बनाम ${planetName(r.planetId).hi})। दोनों न पहनें।`,
+        },
+      });
+      continue;
     }
+    kept.push(r);
+  }
+
+  // Prefer a short actionable set: primary + at most one compatible timing/support stone
+  const filtered = kept.slice(0, focus === "overall" ? 2 : 3);
+
+  // Note dasha lords we intentionally skipped due to lagna conflict or high-risk auto-block
+  if (mahaId && mahaId !== lagnaLord && gemsConflict(mahaId, lagnaLord)) {
+    conflicts.push({
+      a: lagnaLord,
+      b: mahaId,
+      note: {
+        en: `Current Mahadasha lord ${planetName(mahaId).en} (${GEM_CATALOG[mahaId].primary.en}) conflicts with Lagna-lord ${planetName(lagnaLord).en} (${GEM_CATALOG[lagnaLord].primary.en}) — not recommended together; confirm which to prioritise with an astrologer.`,
+        hi: `वर्तमान महादशा स्वामी ${planetName(mahaId).hi} (${GEM_CATALOG[mahaId].primary.hi}) लग्न-स्वामी ${planetName(lagnaLord).hi} (${GEM_CATALOG[lagnaLord].primary.hi}) से टकराता है — एक साथ नहीं; ज्योतिषी से प्राथमिकता पूछें।`,
+      },
+    });
+  } else if (mahaId && highRiskAuto.includes(mahaId) && mahaId !== lagnaLord) {
+    conflicts.push({
+      a: lagnaLord,
+      b: mahaId,
+      note: {
+        en: `Current Mahadasha is ${planetName(mahaId).en} — ${GEM_CATALOG[mahaId].primary.en} is high-impact and is NOT auto-recommended to wear. Confirm with an astrologer before considering it.`,
+        hi: `वर्तमान महादशा ${planetName(mahaId).hi} की है — ${GEM_CATALOG[mahaId].primary.hi} उच्च प्रभाव वाला है और स्वतः पहनने हेतु सुझाया नहीं गया। विचार से पहले ज्योतिषी से पुष्टि करें।`,
+      },
+    });
   }
 
   return {
@@ -586,7 +639,7 @@ export function recommendGemstones(
   };
 }
 
-/** Backward-compatible lagna-lord gem lookup used by older callers. */
+/** Backward-compatible sign-lord gem lookup (Moon or Lagna sign). */
 export function gemstoneForSign(signIndex: number) {
   const planet = SIGN_LORD_ID[signIndex];
   const cat = GEM_CATALOG[planet];
@@ -594,6 +647,7 @@ export function gemstoneForSign(signIndex: number) {
     sign: { en: SIGNS[signIndex].en, hi: SIGNS[signIndex].hi },
     lord: SIGN_LORDS[signIndex],
     planet: PLANET_META[planet],
+    planetId: planet,
     gem: {
       en: cat.primary.en,
       hi: cat.primary.hi,
@@ -606,12 +660,74 @@ export function gemstoneForSign(signIndex: number) {
     benefits: cat.benefits,
     wearing: cat.wearing,
     reason: {
-      en: `Mapped to Lagna lord ${PLANET_META[planet].en} only — prefer full chart recommendGemstones() for friendship checks.`,
-      hi: `केवल लग्न स्वामी ${PLANET_META[planet].hi} से मैप — मित्रता जाँच हेतु पूर्ण recommendGemstones() बेहतर।`,
+      en: `Sign lord is ${PLANET_META[planet].en} → ${cat.primary.en}.`,
+      hi: `राशि स्वामी ${PLANET_META[planet].hi} → ${cat.primary.hi}।`,
     },
     disclaimer: {
       en: "Gemstones can strengthen or disturb — confirm with a full chart reading. Natural untreated stones preferred.",
       hi: "रत्न लाभ या हानि दोनों कर सकते हैं — पूर्ण कुंडली से पुष्टि करें। प्राकृतिक अनुपचारित रत्न बेहतर।",
     },
+  };
+}
+
+/**
+ * Calculator-facing lucky-gem report.
+ * Primary = Moon-sign lord (standard Indian “lucky gemstone” method).
+ * Secondary = Lagna-lord when birth time supports a reliable ascendant.
+ */
+export function luckyGemstoneCalculatorReport(kundli: KundliResult) {
+  const byMoon = gemstoneForSign(kundli.moonRashi.signIndex);
+  const byLagna = gemstoneForSign(kundli.lagna.signIndex);
+  const chart = recommendGemstones(kundli, "overall");
+  const timeReliable = kundli.reliability?.level !== "limited";
+  const lagnaHighRisk = ["saturn", "rahu", "ketu"].includes(byLagna.planetId);
+
+  return {
+    method: {
+      en: `Based on your Moon sign (${byMoon.sign.en}), ruled by ${byMoon.planet.en} — the standard lucky-gemstone method (works from birth date; ascendant needs exact birth time).`,
+      hi: `आपकी चंद्र राशि (${byMoon.sign.hi}) पर आधारित, स्वामी ${byMoon.planet.hi} — मानक शुभ-रत्न विधि (जन्म तिथि से; लग्न हेतु सही जन्म समय)।`,
+    },
+    primary: {
+      role: "moon" as const,
+      label: {
+        en: "Your stone (Moon-sign lord)",
+        hi: "आपका रत्न (चंद्र राशि स्वामी)",
+      },
+      ...byMoon,
+    },
+    ascendant:
+      timeReliable &&
+      byLagna.planetId !== byMoon.planetId &&
+      !lagnaHighRisk
+        ? {
+            role: "lagna" as const,
+            label: {
+              en: "Ascendant stone (Lagna lord)",
+              hi: "लग्न रत्न (लग्न स्वामी)",
+            },
+            ...byLagna,
+          }
+        : null,
+    chartNotes: [
+      ...chart.conflicts,
+      ...(timeReliable &&
+      byLagna.planetId !== byMoon.planetId &&
+      lagnaHighRisk
+        ? [
+            {
+              a: byMoon.planetId,
+              b: byLagna.planetId,
+              note: {
+                en: `Lagna lord is ${byLagna.planet.en} → ${byLagna.gem.en} is high-impact and not auto-listed as a wear stone. Confirm with an astrologer before considering it.`,
+                hi: `लग्न स्वामी ${byLagna.planet.hi} → ${byLagna.gem.hi} उच्च प्रभाव वाला है और स्वतः पहनने योग्य सूची में नहीं। विचार से पहले ज्योतिषी से पूछें।`,
+              },
+            },
+          ]
+        : []),
+    ],
+    purityNote: chart.purityNote,
+    consultNote: chart.consultNote,
+    mantraFirst: chart.mantraFirst,
+    tierNote: chart.tierNote,
   };
 }

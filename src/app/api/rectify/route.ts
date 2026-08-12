@@ -3,6 +3,7 @@ import { z } from "zod";
 import { kundliRequestSchema } from "@/lib/astrology/schema";
 import { resolvePlace } from "@/lib/astrology/geocode";
 import {
+  isLifeEventDomain,
   rectifyBirthTime,
   type LifeEventDomain,
 } from "@/lib/astrology/rectification";
@@ -71,18 +72,17 @@ export async function POST(req: NextRequest) {
       houseSystem: birth.houseSystem,
       nodeMode: birth.nodeMode,
     };
-    const result = rectifyBirthTime(
-      input,
-      events.map((e) => ({
-        date: e.date,
-        domain: e.domain as LifeEventDomain,
-      })),
-      {
-        windowMinutes,
-        stepMinutes,
-        ayanamsa: birth.ayanamsa ?? "lahiri",
+    const mapped = events.map((e) => {
+      if (!isLifeEventDomain(e.domain)) {
+        throw new Error(`Unknown event domain: ${e.domain}`);
       }
-    );
+      return { date: e.date, domain: e.domain as LifeEventDomain };
+    });
+    const result = rectifyBirthTime(input, mapped, {
+      windowMinutes,
+      stepMinutes,
+      ayanamsa: birth.ayanamsa ?? "lahiri",
+    });
     return NextResponse.json({ ok: true, ...result });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Rectification failed";

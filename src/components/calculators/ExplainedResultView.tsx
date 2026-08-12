@@ -9,8 +9,8 @@ function tx(locale: string, v: Loc | string) {
 }
 
 const toneClass: Record<string, string> = {
-  good: "bg-emerald-50 text-emerald-800 border-emerald-200",
-  warn: "bg-amber-50 text-amber-900 border-amber-200",
+  good: "bg-emerald-500/15 text-emerald-200 border-emerald-400/30",
+  warn: "bg-amber-500/15 text-amber-100 border-amber-400/30",
   alert: "bg-red-50 text-red-800 border-red-200",
   neutral: "bg-saffron/10 text-saffron-deep border-saffron/25",
 };
@@ -28,7 +28,7 @@ export function ExplainedResultView({
 
   return (
     <div className="space-y-6">
-      <div className="rounded-2xl border border-saffron/20 bg-gradient-to-br from-[#fff7f0] via-white to-[#ffe8d4]/40 p-5 sm:p-6">
+      <div className="rounded-2xl border border-saffron/20 surface-wash p-5 sm:p-6">
         {data.hero.icon && (
           <span className="text-3xl" aria-hidden>
             {data.hero.icon}
@@ -54,7 +54,7 @@ export function ExplainedResultView({
           {data.highlights.map((h, i) => (
             <div
               key={i}
-              className="rounded-2xl border border-black/8 bg-white p-4 shadow-sm"
+              className="rounded-2xl border border-white/10 bg-surface p-4 shadow-sm"
             >
               <p className="text-[11px] font-bold uppercase tracking-wider text-ink-muted">
                 {tx(locale, h.label)}
@@ -71,7 +71,7 @@ export function ExplainedResultView({
       )}
 
       {data.sections.map((s, i) => (
-        <section key={i} className="rounded-2xl border border-black/8 bg-white p-4 sm:p-5">
+        <section key={i} className="rounded-2xl border border-white/10 bg-surface p-4 sm:p-5">
           <h4 className="font-display text-lg font-bold text-ink">
             {tx(locale, s.title)}
           </h4>

@@ -466,12 +466,12 @@ export function PageHero({
   return (
     <section
       className={cn(
-        "relative overflow-hidden border-b border-white/[0.08]",
+        "relative -mt-[var(--site-header-h)] overflow-hidden border-b border-white/[0.08]",
         compact
-          ? "py-7 sm:py-8"
+          ? "pb-7 pt-[calc(var(--site-header-h)+1.5rem)] sm:pb-8 sm:pt-[calc(var(--site-header-h)+1.75rem)]"
           : useGalaxy
-            ? "py-16 sm:py-20 lg:py-24"
-            : "py-7 sm:py-9 lg:py-10",
+            ? "pb-16 pt-[calc(var(--site-header-h)+2.75rem)] sm:pb-20 sm:pt-[calc(var(--site-header-h)+3.5rem)] lg:pb-24 lg:pt-[calc(var(--site-header-h)+4.25rem)]"
+            : "pb-7 pt-[calc(var(--site-header-h)+1.5rem)] sm:pb-9 sm:pt-[calc(var(--site-header-h)+2rem)] lg:pb-10 lg:pt-[calc(var(--site-header-h)+2.25rem)]",
         className
       )}
     >

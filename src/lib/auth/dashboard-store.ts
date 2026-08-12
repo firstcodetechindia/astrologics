@@ -49,7 +49,7 @@ type Vault = {
   kundliChecks: KundliCheckEntry[];
 };
 
-const VAULT_KEY = "astrologics_dashboard_vault_v1";
+const VAULT_KEY = "cosmicgpt_dashboard_vault_v1";
 
 function emptyProfile(): DashboardProfile {
   return {
@@ -117,7 +117,7 @@ function readAll(): Record<string, Vault> {
 function writeAll(all: Record<string, Vault>) {
   if (!canUseStorage()) return;
   localStorage.setItem(VAULT_KEY, JSON.stringify(all));
-  window.dispatchEvent(new Event("astrologics-dashboard-changed"));
+  window.dispatchEvent(new Event("cosmicgpt-dashboard-changed"));
 }
 
 export function getVault(phone: string): Vault {
