@@ -37,7 +37,19 @@ yarn-error.log*
 # vercel
 .vercel
 
+# GeoNames raw / uncompressed dumps (gzipped source + prebuilt index are tracked/built)
+/data/geonames/IN.txt
+/data/geonames/india_places.json
+/data/geonames/india_places.jsonl
+/data/geonames/.bench-index/
+/data/geonames/admin1CodesASCII.txt
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
 *.tmp
+
+# local galaxy preview artifacts (not for production)
+/public/tmp-galaxy-preview/
+/public/tmp-home-galaxy/
+/public/tmp-galaxy-motion-preview.html

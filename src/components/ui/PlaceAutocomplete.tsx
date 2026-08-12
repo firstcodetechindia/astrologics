@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useState } from "react";
+import { useEffect, useState } from "react";
 import { searchCities, type City, formatPlaceLabel } from "@/lib/astrology/cities";
 import { cn } from "@/lib/utils";
 
@@ -25,7 +25,10 @@ type PlaceAutocompleteProps = {
   placeholder?: string;
   className?: string;
   inputClassName?: string;
-  error?: boolean;
+  /** Truthy or message string for validation error + shake. */
+  error?: boolean | string;
+  required?: boolean;
+  shakeKey?: number;
   id?: string;
 };
 
@@ -39,13 +42,23 @@ export function PlaceAutocomplete({
   className,
   inputClassName,
   error,
-  id: idProp,
+  required,
+  shakeKey = 0,
+  id: idProp = "place-autocomplete",
 }: PlaceAutocompleteProps) {
-  const autoId = useId();
-  const id = idProp || autoId;
+  // Stable string id (not useId) — avoids SSR/client hydration mismatches when
+  // the surrounding tree's useId slots differ (e.g. framer-motion, HMR).
+  const id = idProp;
   const [suggestions, setSuggestions] = useState<City[]>([]);
   const [selected, setSelected] = useState<City | null>(null);
   const [open, setOpen] = useState(false);
+  const hasError = Boolean(error);
+  const message =
+    typeof error === "string" && error.trim()
+      ? error
+      : hasError
+        ? "Required"
+        : null;
 
   useEffect(() => {
     if (selected) {
@@ -58,14 +71,41 @@ export function PlaceAutocomplete({
       return;
     }
 
-    setSuggestions(
-      dedupeClient(
-        searchCities(q, 5).map((c) => ({ ...c, country: c.country || "India" }))
-      )
-    );
+    setSuggestions([]);
 
     let cancelled = false;
     const timer = setTimeout(async () => {
+      try {
+        const res = await fetch(
+          `/api/places/search?q=${encodeURIComponent(q)}&limit=10`
+        );
+        const data = await res.json();
+        if (cancelled) return;
+        if (Array.isArray(data.places) && data.places.length) {
+          const mapped = data.places.map(
+            (p: {
+              name: string;
+              state?: string;
+              country?: string;
+              lat: number;
+              lng: number;
+              timezoneOffsetMinutes?: number;
+            }) => ({
+              name: p.name,
+              state: p.state,
+              country: p.country || "India",
+              lat: p.lat,
+              lon: p.lng,
+              timezoneOffsetMinutes: p.timezoneOffsetMinutes ?? 330,
+            })
+          );
+          setSuggestions(dedupeClient(mapped));
+          setOpen(true);
+          return;
+        }
+      } catch {
+        /* fall through to legacy */
+      }
       try {
         const res = await fetch(`/api/places?q=${encodeURIComponent(q)}`);
         const data = await res.json();
@@ -79,6 +119,13 @@ export function PlaceAutocomplete({
       }
     }, 280);
 
+    // Instant local major-city hints while network search runs
+    setSuggestions(
+      dedupeClient(
+        searchCities(q, 5).map((c) => ({ ...c, country: c.country || "India" }))
+      )
+    );
+
     return () => {
       cancelled = true;
       clearTimeout(timer);
@@ -86,40 +133,66 @@ export function PlaceAutocomplete({
   }, [value, selected]);
 
   return (
-    <div className={cn("relative", className)}>
+    <div className={cn("relative min-w-0", className)}>
       {label ? (
-        <label htmlFor={id} className="mb-1.5 block text-sm font-medium text-ink">
-          {label}
+        <label
+          htmlFor={id}
+          className="mb-1.5 flex items-center gap-1 text-sm font-medium text-ink"
+        >
+          <span>{label}</span>
+          {required ? (
+            <>
+              <span className="text-cosmic-pink" aria-hidden="true">
+                *
+              </span>
+              <span className="sr-only">(required)</span>
+            </>
+          ) : null}
         </label>
       ) : null}
-      <input
-        id={id}
-        className={cn(
-          "field w-full",
-          error && "border-maroon-soft",
-          inputClassName
-        )}
-        value={value}
-        placeholder={placeholder}
-        autoComplete="off"
-        spellCheck={false}
-        onChange={(e) => {
-          setSelected(null);
-          onCity(null);
-          onChange(e.target.value);
-          setOpen(true);
-        }}
-        onFocus={() => {
-          if (suggestions.length > 0 && !selected) setOpen(true);
-        }}
-        onBlur={() => {
-          // allow click on option
-          setTimeout(() => setOpen(false), 150);
-        }}
-      />
+      <div
+        key={hasError ? `shake-${shakeKey}` : "ok"}
+        className={cn(hasError && "field-shake")}
+      >
+        <input
+          id={id}
+          className={cn(
+            "field w-full",
+            hasError && "border-cosmic-pink/70 ring-2 ring-cosmic-pink/25",
+            inputClassName
+          )}
+          value={value}
+          placeholder={placeholder}
+          autoComplete="off"
+          spellCheck={false}
+          required={required}
+          aria-invalid={hasError || undefined}
+          onChange={(e) => {
+            setSelected(null);
+            onCity(null);
+            onChange(e.target.value);
+            setOpen(true);
+          }}
+          onFocus={() => {
+            if (suggestions.length > 0 && !selected) setOpen(true);
+          }}
+          onBlur={() => {
+            // allow click on option
+            setTimeout(() => setOpen(false), 150);
+          }}
+        />
+      </div>
+      {message ? (
+        <span
+          className="mt-1.5 block text-xs font-medium text-cosmic-pink"
+          role="alert"
+        >
+          {message}
+        </span>
+      ) : null}
       {open && !selected && suggestions.length > 0 ? (
         <ul
-          className="absolute z-30 mt-1 max-h-56 w-full overflow-y-auto rounded-xl border border-saffron/25 bg-white shadow-lg"
+          className="absolute z-30 mt-1 max-h-56 w-full overflow-y-auto rounded-xl border border-saffron/25 bg-surface shadow-lg"
           role="listbox"
         >
           {suggestions.map((c) => {

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { ChatAstrologersClient } from "@/components/talk/ChatAstrologersClient";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
+import { PageHero } from "@/components/ui/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   breadcrumbJsonLd,
@@ -67,19 +68,30 @@ export default async function ChatWithAstrologerPage({
           },
         ])}
       />
-      <main className="relative min-h-[70vh] overflow-hidden bg-[linear-gradient(180deg,#fff8f1_0%,#ffffff_40%,#fff3ea_100%)]">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-50"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 8% 0%, rgba(240,106,0,0.10), transparent 38%), radial-gradient(circle at 92% 12%, rgba(240,106,0,0.07), transparent 32%)",
-          }}
+      <div className="bg-cosmic-navy">
+        <PageHero
+          eyebrow={hi ? "लाइव नाउ" : "Live now"}
+          title={
+            hi
+              ? "भारत के टॉप रेटेड ज्योतिषियों से बात करें"
+              : "Talk to India’s Top Rated Astrologers"
+          }
+          description={
+            hi
+              ? "ऑनलाइन सर्वश्रेष्ठ ज्योतिषी से बात करें और अपने संबंधों, करियर, वित्त तथा जीवन के अन्य महत्वपूर्ण निर्णयों पर स्पष्ट मार्गदर्शन पाएँ। भरोसेमंद अंतर्दृष्टि, सटीक भविष्यवाणियाँ और पूर्ण गोपनीयता के साथ आप आत्मविश्वास से अगला कदम बढ़ाएँ।"
+              : "Talk to the best astrologer online and get clear guidance on relationships, career, finances, and other important life choices — with trusted insights, accurate predictions, and complete privacy."
+          }
+          crumbs={[
+            { label: hi ? "होम" : "Home", href: "/" },
+            {
+              label: hi ? "ज्योतिषी से चैट" : "Chat with astrologer",
+            },
+          ]}
         />
         <div className="container-page relative py-8 sm:py-10">
           <ChatAstrologersClient locale={locale} />
 
-          <section className="mt-14 max-w-3xl space-y-8 text-[15px] leading-relaxed text-ink-muted">
+          <section className="mt-14 space-y-8 text-[15px] leading-relaxed text-ink-muted">
             <div className="space-y-3">
               <h2 className="font-display text-2xl font-bold text-ink">
                 {hi
@@ -88,8 +100,8 @@ export default async function ChatWithAstrologerPage({
               </h2>
               <p>
                 {hi
-                  ? "Astrologics पर आप मुफ्त जन्म कुंडली बना सकते हैं और एआई गुरु से अपनी गणना की गई कुंडली पर त्वरित प्रश्न पूछ सकते हैं। यह स्व-अध्ययन और स्पष्टीकरण के लिए उपयुक्त है — ग्रह स्थिति पहले इंजन से निकलती है, एआई उन परिणामों की भाषा में व्याख्या करता है।"
-                  : "On Astrologics you can generate a free birth chart and ask AI Guru quick follow-up questions on your calculated results. That suits self-study and clarification — planetary positions come from the calculation engine first; AI interprets those results in plain language."}
+                  ? "CosmicGPT पर आप मुफ्त जन्म कुंडली बना सकते हैं और एआई गुरु से अपनी गणना की गई कुंडली पर त्वरित प्रश्न पूछ सकते हैं। यह स्व-अध्ययन और स्पष्टीकरण के लिए उपयुक्त है — ग्रह स्थिति पहले इंजन से निकलती है, एआई उन परिणामों की भाषा में व्याख्या करता है।"
+                  : "On CosmicGPT you can generate a free birth chart and ask AI Guru quick follow-up questions on your calculated results. That suits self-study and clarification — planetary positions come from the calculation engine first; AI interprets those results in plain language."}
               </p>
               <p>
                 {hi
@@ -161,7 +173,7 @@ export default async function ChatWithAstrologerPage({
             </div>
           </section>
         </div>
-      </main>
+      </div>
     </>
   );
 }

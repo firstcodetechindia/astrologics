@@ -208,6 +208,7 @@ export function BirthForm() {
         </label>
 
         <PlaceAutocomplete
+          id="birth-place"
           label={t("place")}
           required
           value={placeValue || ""}
