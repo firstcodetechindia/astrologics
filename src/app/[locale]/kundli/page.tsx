@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { BirthForm } from "@/components/kundli/BirthForm";
 import { PageHero } from "@/components/ui/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -65,7 +66,7 @@ export default async function KundliPage({
   }));
 
   return (
-    <div className="bg-[#faf8f5]">
+    <div className="bg-cosmic-navy">
       <JsonLd
         data={breadcrumbJsonLd(locale, [
           { name: hi ? "होम" : "Home", path: "" },
@@ -85,28 +86,36 @@ export default async function KundliPage({
           { label: tc("kundli") },
         ]}
       />
-      <div className="container-page py-6 sm:py-8">
-        <div className="mx-auto mb-6 max-w-3xl rounded-2xl border border-saffron/20 bg-white/90 px-5 py-4 text-[14px] leading-relaxed text-ink">
-          {hi ? (
-            <p>
-              <strong>सीधे उत्तर:</strong> जन्म तिथि, समय और स्थान भरकर लाहिरी
-              निरयण जन्म कुंडली सेकंडों में बनाएँ — लग्न, ग्रह, भाव, नक्षत्र,
-              योग और विंशोत्तरी दशा एक रिपोर्ट में।
-            </p>
-          ) : (
-            <p>
-              <strong>Direct answer:</strong> Enter birth date, time and place
-              to generate a Lahiri sidereal janam kundali in seconds — Lagna,
-              planets, houses, Nakshatras, yogas and Vimshottari dasha in one
-              report.
-            </p>
-          )}
-        </div>
-        <BirthForm />
+      <div className="container-page space-y-6 py-6 sm:py-8">
+          <div className="rounded-2xl border border-saffron/20 bg-surface/90 px-4 py-4 text-[14px] leading-relaxed text-ink sm:px-5 sm:text-[15px]">
+            {hi ? (
+              <p>
+                <strong>सीधे उत्तर:</strong> जन्म तिथि, समय और स्थान भरकर लाहिरी
+                निरयण जन्म कुंडली सेकंडों में बनाएँ — लग्न, ग्रह, भाव, नक्षत्र,
+                योग और विंशोत्तरी दशा एक रिपोर्ट में।
+              </p>
+            ) : (
+              <p>
+                <strong>Direct answer:</strong> Enter birth date, time and place
+                to generate a Lahiri sidereal janam kundali in seconds — Lagna,
+                planets, houses, Nakshatras, yogas and Vimshottari dasha in one
+                report.
+              </p>
+            )}
+          </div>
 
-        <article className="mx-auto mt-10 max-w-3xl space-y-8 text-[15px] leading-relaxed text-ink-muted">
+          <Suspense
+            fallback={
+              <div className="rounded-2xl border border-white/10 bg-surface p-6 text-sm text-ink-muted">
+                {hi ? "फ़ॉर्म लोड हो रहा है…" : "Loading form…"}
+              </div>
+            }
+          >
+            <BirthForm />
+          </Suspense>
+          <article className="space-y-8 pt-2 text-[15px] leading-relaxed text-ink-muted sm:pt-4">
           <section className="space-y-3">
-            <h2 className="font-display text-xl font-bold text-ink">
+            <h2 className="font-display text-xl font-bold text-ink sm:text-2xl">
               {hi
                 ? "आपकी मुफ्त कुंडली में क्या मिलेगा"
                 : "What You'll Get in Your Free Kundli"}
@@ -119,18 +128,27 @@ export default async function KundliPage({
           </section>
 
           <section className="space-y-3">
-            <h2 className="font-display text-xl font-bold text-ink">
+            <h2 className="font-display text-xl font-bold text-ink sm:text-2xl">
               {hi ? "जन्म समय क्यों मायने रखता है" : "Why Birth Time Matters"}
             </h2>
             <p>
               {hi
-                ? "लग्न लगभग हर दो घंटे बदलता है — इसलिए सही भावों के लिए सटीक जन्म समय ज़रूरी है। यदि समय अनिश्चित हो तो जन्म प्रमाणपत्र या अस्पताल रिकॉर्ड जाँचें; 15 मिनट का अंतर भी भाव सीमा बदल सकता है।"
-                : "The Lagna changes roughly every two hours, which is why an accurate birth time is essential for correct house placements. If you’re unsure of your exact time, check your birth certificate or hospital record before generating your chart — even a 15-minute difference can shift house cusps."}
+                ? "लग्न लगभग हर दो घंटे बदलता है — इसलिए सही भावों के लिए सटीक जन्म समय ज़रूरी है। यदि समय अनिश्चित हो तो जन्म प्रमाणपत्र या अस्पताल रिकॉर्ड जाँचें; 15 मिनट का अंतर भी भाव सीमा बदल सकता है। अभिलेख न हों तो "
+                : "The Lagna changes roughly every two hours, which is why an accurate birth time is essential for correct house placements. If you’re unsure of your exact time, check your birth certificate or hospital record before generating your chart — even a 15-minute difference can shift house cusps. If records are missing, try "}
+              <Link
+                href="/calculators/birth-time-rectification"
+                className="font-semibold text-saffron-deep hover:underline"
+              >
+                {hi ? "जन्म समय सुधार" : "birth-time rectification"}
+              </Link>
+              {hi
+                ? " (अनुमानित संरेखण — प्रमाण नहीं)।"
+                : " (heuristic alignment — not proof)."}
             </p>
           </section>
 
           <section className="space-y-3">
-            <h2 className="font-display text-xl font-bold text-ink">
+            <h2 className="font-display text-xl font-bold text-ink sm:text-2xl">
               {hi ? "अपनी कुंडली कैसे पढ़ें" : "How to Read Your Kundli"}
             </h2>
             <p>
@@ -170,14 +188,14 @@ export default async function KundliPage({
           </section>
 
           <section className="space-y-4">
-            <h2 className="font-display text-xl font-bold text-ink">
+            <h2 className="font-display text-xl font-bold text-ink sm:text-2xl">
               {hi ? "अक्सर पूछे जाने वाले प्रश्न" : "Frequently asked questions"}
             </h2>
-            <dl className="space-y-4">
+            <dl className="grid gap-4 sm:grid-cols-2">
               {faqs.map((f) => (
                 <div
                   key={f.q}
-                  className="rounded-xl border border-black/[0.06] bg-white px-4 py-3"
+                  className="rounded-xl border border-white/10 bg-surface px-4 py-3"
                 >
                   <dt className="font-semibold text-ink">{f.q}</dt>
                   <dd className="mt-1.5 text-[14px]">{f.a}</dd>
@@ -195,7 +213,7 @@ export default async function KundliPage({
               </Link>
             </p>
           </section>
-        </article>
+          </article>
       </div>
     </div>
   );
