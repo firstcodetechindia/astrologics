@@ -18,6 +18,12 @@ import { LocaleSwitcher } from "./LocaleSwitcher";
 import { UserAccountMenu } from "./UserAccountMenu";
 import { whatsappLink } from "@/lib/site-config";
 import { CosmicGPTWordmark } from "@/components/brand/CosmicGPTWordmark";
+import { cn } from "@/lib/utils";
+import {
+  HEADER_ASK_AI,
+  HEADER_QUIET_BTN,
+  HEADER_QUIET_ICON,
+} from "./header-controls";
 import {
   FEATURES_MENU,
   FREE_TOOLS_MENU,
@@ -26,7 +32,6 @@ import {
   type MegaColumn,
   type MegaColumnStack,
 } from "@/lib/navigation/menus";
-import { cn } from "@/lib/utils";
 
 type MenuKey = "features" | "tools" | "calculators" | "learn" | null;
 
@@ -150,15 +155,6 @@ function navItemClass(active: boolean, open?: boolean) {
       : "text-white/75 hover:bg-white/[0.08] hover:text-white"
   );
 }
-
-/** Quiet header controls — same size; Ask AI stays the only loud CTA */
-const headerQuietBtn =
-  "inline-flex h-9 items-center gap-1.5 rounded-lg border border-white/20 bg-transparent px-3 font-ui text-[12.5px] font-medium text-white/85 hover:border-white/35 hover:bg-white/[0.06] hover:text-white";
-const headerQuietIcon =
-  "inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/20 bg-transparent text-white/85 hover:border-white/35 hover:bg-white/[0.06] hover:text-white";
-const headerAskAi =
-  "inline-flex h-9 items-center gap-1.5 rounded-lg bg-[linear-gradient(90deg,#6C3CFF,#FF8A3D)] px-3.5 font-ui text-[12.5px] font-semibold text-white shadow-[0_6px_18px_-8px_rgba(108,60,255,0.55)] hover:brightness-110";
-
 
 export function Header() {
   const t = useTranslations("nav");
@@ -420,17 +416,17 @@ export function Header() {
         </Link>
 
         <div className="flex shrink-0 items-center gap-2">
-          <LocaleSwitcher className={headerQuietIcon} />
+          <LocaleSwitcher />
           <UserAccountMenu
-            quietClassName={headerQuietBtn}
-            quietIconClassName={headerQuietIcon}
+            quietClassName={HEADER_QUIET_BTN}
+            quietIconClassName={HEADER_QUIET_ICON}
           />
           <a
             href={whatsappLink()}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={tc("talkNow")}
-            className={headerQuietBtn}
+            className={HEADER_QUIET_BTN}
           >
             <MessageCircle className="h-3.5 w-3.5 shrink-0 opacity-90" />
             <span className="hidden sm:inline">{tc("talkNow")}</span>
@@ -439,7 +435,7 @@ export function Header() {
             href="/chat"
             aria-label={hi ? "एआई से बात करें" : "Talk to AI"}
             title={hi ? "एआई से बात करें" : "Talk to AI"}
-            className={headerAskAi}
+            className={HEADER_ASK_AI}
           >
             <Sparkles className="h-3.5 w-3.5 shrink-0" strokeWidth={2.1} />
             <span className="md:hidden">{hi ? "एआई" : "AI"}</span>

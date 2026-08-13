@@ -1,11 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useLocale } from "next-intl";
 import { ArrowRight, Mic, Send, Sparkles } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { HomeGalaxyBackground } from "./HomeGalaxyBackground";
+import { useHydratedReducedMotion } from "@/hooks/useHydratedReducedMotion";
 
 const SUGGESTED = [
   { en: "Will I get married soon?", hi: "क्या मेरी शादी जल्द होगी?" },
@@ -17,7 +18,7 @@ const SUGGESTED = [
 export function Hero() {
   const locale = useLocale();
   const hi = locale === "hi";
-  const reduce = useReducedMotion();
+  const reduce = useHydratedReducedMotion();
 
   return (
     <section className="relative -mt-[var(--site-header-h)] overflow-hidden border-b border-white/[0.06] pt-[var(--site-header-h)]">

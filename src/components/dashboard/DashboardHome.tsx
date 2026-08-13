@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useLocale } from "next-intl";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   CalendarDays,
   MessageCircle,
@@ -19,6 +19,7 @@ import {
   type AuthUser,
 } from "@/lib/auth/client-auth";
 import { siteConfig } from "@/lib/site-config";
+import { useHydratedReducedMotion } from "@/hooks/useHydratedReducedMotion";
 
 const QUICK = [
   {
@@ -59,7 +60,7 @@ export function DashboardHome() {
   const locale = useLocale();
   const hi = locale === "hi";
   const router = useRouter();
-  const reduce = useReducedMotion();
+  const reduce = useHydratedReducedMotion();
   const [user, setUser] = useState<AuthUser | null>(null);
 
   useEffect(() => {

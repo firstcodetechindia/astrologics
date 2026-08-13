@@ -4,21 +4,16 @@
  * Flagship home-hero galaxy.
  * Reuses shared GalaxyHeroBackground (stars / comets / Saptarishi / parallax)
  * and adds home-only atmosphere: nebula drift, Milky Way band, edge planet.
- * PageHero / CosmicBackground elsewhere stay untouched.
+ * Reduced-motion is CSS (`prefers-reduced-motion`) — never a JS className branch.
  */
-import { useReducedMotion } from "framer-motion";
 import { GalaxyHeroBackground } from "@/components/ui/GalaxyHeroBackground";
-import { cn } from "@/lib/utils";
 
 export function HomeGalaxyBackground() {
-  const reduce = useReducedMotion();
-
   return (
     <div
       aria-hidden
       className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
     >
-      {/* Deep base — nebula layers sit above this */}
       <div
         className="absolute inset-0"
         style={{
@@ -27,36 +22,12 @@ export function HomeGalaxyBackground() {
         }}
       />
 
-      {/* Layer 2 — nebula drift (brand purple / magenta / teal) */}
-      <div
-        className={cn(
-          "home-nebula home-nebula-a",
-          reduce && "home-galaxy-static"
-        )}
-      />
-      <div
-        className={cn(
-          "home-nebula home-nebula-b",
-          reduce && "home-galaxy-static"
-        )}
-      />
-      <div
-        className={cn(
-          "home-nebula home-nebula-c",
-          reduce && "home-galaxy-static"
-        )}
-      />
+      <div className="home-nebula home-nebula-a" />
+      <div className="home-nebula home-nebula-b" />
+      <div className="home-nebula home-nebula-c" />
 
-      {/* Layer 3 — distant Milky Way band (clear of left copy / CTAs) */}
-      <div
-        className={cn(
-          "home-milky-way",
-          !reduce && "home-milky-way-drift",
-          reduce && "home-galaxy-static"
-        )}
-      />
+      <div className="home-milky-way home-milky-way-drift" />
 
-      {/* Layer 1 engine — sharp stars + Saptarishi + slow puchhal + parallax */}
       <GalaxyHeroBackground
         variant="home"
         parallax
@@ -68,14 +39,7 @@ export function HomeGalaxyBackground() {
         className="z-[2]"
       />
 
-      {/* Layer 4 — subtle edge planet (partially cropped, no labels) */}
-      <div
-        className={cn(
-          "home-planet",
-          !reduce && "home-planet-spin",
-          reduce && "home-galaxy-static"
-        )}
-      >
+      <div className="home-planet home-planet-spin">
         <div className="home-planet-core" />
         <div className="home-planet-ring" />
         <div className="home-planet-rim" />

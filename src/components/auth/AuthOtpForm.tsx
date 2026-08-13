@@ -1,16 +1,8 @@
 "use client";
 
-import {
-  useEffect,
-  useRef,
-  useState,
-  type ClipboardEvent,
-  type FormEvent,
-  type KeyboardEvent,
-} from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { useLocale } from "next-intl";
 import { useSearchParams } from "next/navigation";
-import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Link, useRouter } from "@/i18n/navigation";
 import { siteConfig } from "@/lib/site-config";
@@ -21,11 +13,10 @@ import {
   normalizePhone,
   verifyDevOtp,
 } from "@/lib/auth/client-auth";
-import { cn } from "@/lib/utils";
+import { OtpBoxes, OTP_LENGTH } from "@/components/auth/OtpBoxes";
+import { PhoneNationalField } from "@/components/auth/PhoneNationalField";
 
 type Step = "phone" | "otp";
-
-const OTP_LENGTH = 6;
 
 export function AuthOtpForm() {
   const locale = useLocale();
@@ -46,7 +37,6 @@ export function AuthOtpForm() {
   const [whatsappUpdates, setWhatsappUpdates] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
 
   const otp = digits.join("");
 
@@ -56,95 +46,8 @@ export function AuthOtpForm() {
     }
   }, [router, next]);
 
-  useEffect(() => {
-    if (step === "otp") {
-      inputRefs.current[0]?.focus();
-    }
-  }, [step]);
-
   function resetOtp() {
     setDigits(Array.from({ length: OTP_LENGTH }, () => ""));
-  }
-
-  function focusIndex(index: number) {
-    const el = inputRefs.current[Math.max(0, Math.min(OTP_LENGTH - 1, index))];
-    el?.focus();
-    el?.select();
-  }
-
-  function applyOtpValue(value: string, startIndex = 0) {
-    const cleaned = value.replace(/\D/g, "").slice(0, OTP_LENGTH - startIndex);
-    if (!cleaned) return;
-
-    setDigits((prev) => {
-      const nextDigits = [...prev];
-      for (let i = 0; i < cleaned.length; i += 1) {
-        nextDigits[startIndex + i] = cleaned[i]!;
-      }
-      return nextDigits;
-    });
-
-    const nextFocus = Math.min(startIndex + cleaned.length, OTP_LENGTH - 1);
-    requestAnimationFrame(() => focusIndex(nextFocus));
-  }
-
-  function onDigitChange(index: number, raw: string) {
-    setError(null);
-    const cleaned = raw.replace(/\D/g, "");
-
-    if (cleaned.length > 1) {
-      applyOtpValue(cleaned, index);
-      return;
-    }
-
-    const digit = cleaned.slice(-1);
-    setDigits((prev) => {
-      const nextDigits = [...prev];
-      nextDigits[index] = digit;
-      return nextDigits;
-    });
-
-    if (digit && index < OTP_LENGTH - 1) {
-      requestAnimationFrame(() => focusIndex(index + 1));
-    }
-  }
-
-  function onDigitKeyDown(index: number, e: KeyboardEvent<HTMLInputElement>) {
-    if (e.key === "Backspace") {
-      if (digits[index]) {
-        setDigits((prev) => {
-          const nextDigits = [...prev];
-          nextDigits[index] = "";
-          return nextDigits;
-        });
-        return;
-      }
-      if (index > 0) {
-        e.preventDefault();
-        setDigits((prev) => {
-          const nextDigits = [...prev];
-          nextDigits[index - 1] = "";
-          return nextDigits;
-        });
-        focusIndex(index - 1);
-      }
-      return;
-    }
-
-    if (e.key === "ArrowLeft" && index > 0) {
-      e.preventDefault();
-      focusIndex(index - 1);
-    }
-    if (e.key === "ArrowRight" && index < OTP_LENGTH - 1) {
-      e.preventDefault();
-      focusIndex(index + 1);
-    }
-  }
-
-  function onDigitPaste(index: number, e: ClipboardEvent<HTMLInputElement>) {
-    e.preventDefault();
-    setError(null);
-    applyOtpValue(e.clipboardData.getData("text"), index);
   }
 
   function onSendOtp(e: FormEvent) {
@@ -183,7 +86,6 @@ export function AuthOtpForm() {
       setBusy(false);
       setError(hi ? "गलत OTP। पुनः प्रयास करें।" : "Invalid OTP. Please try again.");
       resetOtp();
-      requestAnimationFrame(() => focusIndex(0));
       return;
     }
 
@@ -218,30 +120,14 @@ export function AuthOtpForm() {
 
       {step === "phone" ? (
         <form className="space-y-4" onSubmit={onSendOtp}>
-          <label className="block">
-            <span className="mb-1.5 block text-[12px] font-semibold text-ink-muted">
-              {hi ? "मोबाइल नंबर*" : "Mobile number*"}
-            </span>
-            <div className="flex overflow-hidden rounded-xl border border-saffron/25 bg-surface focus-within:border-saffron/55 focus-within:ring-[3px] focus-within:ring-saffron/15">
-              <div className="flex shrink-0 items-center gap-1 border-r border-saffron/15 bg-cosmic-navy px-3 text-[13px] font-semibold text-ink">
-                +91 (IN)
-                <ChevronDown className="h-3.5 w-3.5 text-ink-muted" />
-              </div>
-              <input
-                type="tel"
-                inputMode="numeric"
-                autoComplete="tel-national"
-                maxLength={10}
-                required
-                value={phone}
-                onChange={(e) =>
-                  setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))
-                }
-                placeholder={hi ? "मोबाइल नंबर" : "Mobile number"}
-                className="min-w-0 flex-1 bg-transparent px-3 py-3 text-sm text-ink outline-none placeholder:text-ink-muted"
-              />
-            </div>
-          </label>
+          <PhoneNationalField
+            id="auth-phone"
+            label={hi ? "मोबाइल नंबर*" : "Mobile number*"}
+            value={phone}
+            onChange={setPhone}
+            placeholder={hi ? "मोबाइल नंबर" : "Mobile number"}
+            required
+          />
 
           {error ? (
             <p className="rounded-xl border border-saffron/20 bg-cosmic-purple/15 px-3 py-2.5 text-[13px] text-saffron-deep">
@@ -262,34 +148,17 @@ export function AuthOtpForm() {
             <legend className="mb-2.5 block text-[12px] font-semibold text-ink-muted">
               {hi ? "OTP*" : "OTP*"}
             </legend>
-            <div className="flex w-full min-w-0 gap-1.5 sm:gap-2">
-              {digits.map((digit, index) => (
-                <input
-                  key={index}
-                  ref={(el) => {
-                    inputRefs.current[index] = el;
-                  }}
-                  type="text"
-                  inputMode="numeric"
-                  autoComplete={index === 0 ? "one-time-code" : "off"}
-                  pattern="[0-9]*"
-                  maxLength={index === 0 ? OTP_LENGTH : 1}
-                  aria-label={
-                    hi ? `OTP अंक ${index + 1}` : `OTP digit ${index + 1}`
-                  }
-                  value={digit}
-                  onChange={(e) => onDigitChange(index, e.target.value)}
-                  onKeyDown={(e) => onDigitKeyDown(index, e)}
-                  onPaste={(e) => onDigitPaste(index, e)}
-                  onFocus={(e) => e.target.select()}
-                  className={cn(
-                    "h-12 min-w-0 flex-1 rounded-xl border border-saffron/25 bg-surface text-center text-base font-semibold text-ink outline-none transition sm:h-13 sm:text-lg",
-                    "focus:border-saffron/55 focus:ring-[3px] focus:ring-saffron/15",
-                    digit && "border-saffron/40"
-                  )}
-                />
-              ))}
-            </div>
+            <OtpBoxes
+              digits={digits}
+              setDigits={(next) => {
+                setError(null);
+                setDigits(next);
+              }}
+              disabled={busy}
+              ariaLabel={(i) =>
+                hi ? `OTP अंक ${i + 1}` : `OTP digit ${i + 1}`
+              }
+            />
           </fieldset>
 
           {error ? (

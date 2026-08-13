@@ -50,7 +50,7 @@ export function FormField({
   });
 
   return (
-    <label className={cn("block min-w-0", className)}>
+    <div className={cn("block min-w-0", className)}>
       <span className="mb-1.5 flex items-center gap-1 text-sm font-medium text-ink">
         <span>{label}</span>
         {required ? (
@@ -78,6 +78,6 @@ export function FormField({
       ) : hint ? (
         <span className="mt-1.5 block text-xs text-ink-muted">{hint}</span>
       ) : null}
-    </label>
+    </div>
   );
 }

@@ -141,6 +141,7 @@ html.locale-en .hero-title {
 html.locale-hi body {
   font-family: var(--font-hindi), var(--font-roboto), system-ui, sans-serif;
   line-height: 1.7;
+  overflow-wrap: anywhere;
 }
 
 html.locale-hi .font-display,
@@ -161,6 +162,15 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
   font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* iOS zooms focused fields under 16px and pans the page — that clipped auth cards. */
+@media (max-width: 768px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
 }
 
 p {
@@ -230,6 +240,15 @@ html.locale-hi input[type="date"],
 html.locale-hi input[type="time"],
 html.locale-hi input[type="number"] {
   font-family: var(--font-roboto), var(--font-hindi), system-ui, sans-serif;
+}
+
+/* iOS zooms any focused control under 16px — that pans/clips the page */
+@media (max-width: 768px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="hidden"]),
+  select,
+  textarea {
+    font-size: 16px;
+  }
 }
 
 .heading-hero {
@@ -505,7 +524,7 @@ select {
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(26, 31, 59, 0.85);
   padding: 0.7rem 0.9rem;
-  font-size: 0.9375rem;
+  font-size: 1rem;
   color: #ffffff;
   outline: none;
   transition:
@@ -748,6 +767,7 @@ h3.leading-tight {
 }
 
 .page-hero-milky-way {
+  transform: rotate(-28deg);
   animation: milky-way-drift 22s ease-in-out infinite;
   will-change: transform, opacity;
 }

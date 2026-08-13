@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocale } from "next-intl";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import { CosmicGPTWordmark } from "@/components/brand/CosmicGPTWordmark";
 import { AuthOtpForm } from "@/components/auth/AuthOtpForm";
@@ -9,6 +9,7 @@ import { ZodiacIcon } from "@/components/ui/ZodiacIcon";
 import { Link } from "@/i18n/navigation";
 import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
+import { useHydratedReducedMotion } from "@/hooks/useHydratedReducedMotion";
 
 /** Animated CosmicGPT lockup for the auth brand panel. */
 function AuthBrandOrbit() {
@@ -24,7 +25,7 @@ function AuthBrandOrbit() {
 }
 
 function BrandPanelMotion() {
-  const reduce = useReducedMotion();
+  const reduce = useHydratedReducedMotion();
 
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -115,7 +116,7 @@ export function AuthClient() {
   const hi = locale === "hi";
 
   return (
-    <div className="relative flex h-full min-h-0 w-full max-w-[100vw] flex-col overflow-x-hidden overflow-y-hidden bg-cosmic-navy lg:flex-row">
+    <div className="relative flex h-full min-h-0 w-full max-w-[100vw] flex-col overflow-x-hidden overflow-y-auto bg-cosmic-navy lg:flex-row">
       {/* Desktop brand column only — never on mobile */}
       <aside className="relative hidden h-full w-[46%] shrink-0 overflow-hidden bg-[#F06A00] text-white lg:flex xl:w-[48%]">
         <BrandPanelMotion />
@@ -148,7 +149,7 @@ export function AuthClient() {
       </aside>
 
       {/* Login form — full width on mobile, right column on desktop */}
-      <section className="relative flex min-h-0 w-full min-w-0 max-w-[100vw] flex-1 flex-col overflow-x-hidden overflow-y-hidden bg-cosmic-navy">
+      <section className="relative flex min-h-0 w-full min-w-0 max-w-[100vw] flex-1 flex-col overflow-x-hidden overflow-y-auto bg-cosmic-navy">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-cosmic-navy"

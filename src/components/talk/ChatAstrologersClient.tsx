@@ -30,11 +30,11 @@ export function ChatAstrologersClient({ locale }: { locale: string }) {
           placeholder={
             hi ? "नाम, कौशल या भाषा खोजें" : "Search name, skill or language"
           }
-          className="w-full rounded-xl border border-white/12 bg-surface py-2.5 pl-9 pr-3 text-sm outline-none transition focus:border-[#F06A00]/50 focus:ring-[3px] focus:ring-[#F06A00]/12"
+          className="w-full rounded-xl border border-white/12 bg-surface py-2.5 pl-9 pr-3 text-base outline-none transition focus:border-[#F06A00]/50 focus:ring-[3px] focus:ring-[#F06A00]/12"
         />
       </div>
 
-      <div className="mt-4 -mx-1 flex gap-2 overflow-x-auto px-1 pb-1 scrollbar-none">
+      <div className="mt-4 flex max-w-full flex-wrap gap-2">
         {CONSULT_CATEGORIES.map((c) => {
           const active = category === c.id;
           return (
@@ -43,7 +43,7 @@ export function ChatAstrologersClient({ locale }: { locale: string }) {
               type="button"
               onClick={() => setCategory(c.id)}
               className={cn(
-                "shrink-0 rounded-full px-3.5 py-1.5 text-[12px] font-semibold transition",
+                "min-h-11 shrink-0 rounded-full px-3.5 py-2 text-[12px] font-semibold transition",
                 active
                   ? "bg-[#F06A00] text-white shadow-[0_8px_18px_-10px_rgba(240,106,0,0.9)]"
                   : "border border-white/12 bg-surface text-ink hover:border-[#F06A00]/35"
@@ -77,7 +77,7 @@ export function ChatAstrologersClient({ locale }: { locale: string }) {
           </button>
         </div>
       ) : (
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+        <div className="mt-6 grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
           {list.map((a) => (
             <AstrologerCard key={a.id} astrologer={a} locale={locale} />
           ))}

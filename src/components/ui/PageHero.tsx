@@ -1,7 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useHydratedReducedMotion } from "@/hooks/useHydratedReducedMotion";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import {
@@ -87,13 +88,7 @@ function PageHeroCosmos({ reduce }: { reduce: boolean | null }) {
 
       {/* Milky Way band — diagonal luminous dust lane */}
       <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-        <div
-          className={cn(
-            "relative h-[170%] w-[min(42%,28rem)] shrink-0",
-            !reduce && "page-hero-milky-way"
-          )}
-          style={reduce ? { transform: "rotate(-28deg)" } : undefined}
-        >
+        <div className="relative h-[170%] w-[min(42%,28rem)] shrink-0 page-hero-milky-way">
           <div
             className="absolute inset-0"
             style={{
@@ -166,8 +161,7 @@ function PageHeroCosmos({ reduce }: { reduce: boolean | null }) {
       {/* Multi-layer star dust */}
       <div
         className={cn(
-          "absolute inset-0 opacity-[0.45]",
-          !reduce && "page-hero-star-dust"
+          "absolute inset-0 opacity-[0.45] page-hero-star-dust"
         )}
         style={{
           backgroundImage:
@@ -187,16 +181,15 @@ function PageHeroCosmos({ reduce }: { reduce: boolean | null }) {
           className={cn(
             "absolute rounded-full bg-white",
             s >= 1.5
-              ? "shadow-[0_0_10px_rgba(255,255,255,0.75),0_0_18px_rgba(180,190,255,0.35)]"
-              : "shadow-[0_0_6px_rgba(255,255,255,0.55)]",
-            !reduce && "cosmic-twinkle"
+              ? "shadow-[0_0_10px_rgba(255,255,255,0.75),0_0_18px_rgba(180,190,255,0.35)] cosmic-twinkle"
+              : "shadow-[0_0_6px_rgba(255,255,255,0.55)] cosmic-twinkle"
           )}
           style={{
             left: `${x}%`,
             top: `${y}%`,
             width: `${s}px`,
             height: `${s}px`,
-            animationDelay: reduce ? undefined : `${(i % 9) * 0.35}s`,
+            animationDelay: `${(i % 9) * 0.35}s`,
           }}
         />
       ))}
@@ -204,8 +197,7 @@ function PageHeroCosmos({ reduce }: { reduce: boolean | null }) {
       {/* Spiral galaxy disc (far right) */}
       <div
         className={cn(
-          "absolute -right-16 top-[42%] h-[20rem] w-[20rem] -translate-y-1/2 opacity-[0.55] sm:-right-10 sm:h-[24rem] sm:w-[24rem]",
-          !reduce && "page-hero-galaxy-spin"
+          "absolute -right-16 top-[42%] h-[20rem] w-[20rem] -translate-y-1/2 opacity-[0.55] page-hero-galaxy-spin sm:-right-10 sm:h-[24rem] sm:w-[24rem]"
         )}
       >
         <svg viewBox="0 0 320 320" fill="none" className="h-full w-full">
@@ -450,7 +442,7 @@ export function PageHero({
   compact,
   galaxyBackground,
 }: PageHeroProps) {
-  const reduce = useReducedMotion();
+  const reduce = useHydratedReducedMotion();
   // Default ON for every PageHero (home uses separate <Hero />, never PageHero).
   const useGalaxy = galaxyBackground !== false;
   const galaxyDefaults: GalaxyHeroBackgroundProps = {

@@ -1,17 +1,11 @@
 "use client";
 
-import {
-  useEffect,
-  useRef,
-  useState,
-  type ClipboardEvent,
-  type FormEvent,
-  type KeyboardEvent,
-} from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { useLocale } from "next-intl";
-import { ChevronDown, Mail, ShieldCheck } from "lucide-react";
+import { Mail, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Link, useRouter } from "@/i18n/navigation";
+import { PhoneNationalField } from "@/components/auth/PhoneNationalField";
 import {
   ASTROLOGER_CATEGORY_SECTIONS,
   ASTROLOGER_LANGUAGE_SECTIONS,
@@ -24,12 +18,12 @@ import {
 } from "@/lib/auth/astrologer-auth";
 import { cn } from "@/lib/utils";
 import { MultiSectionSelect } from "./MultiSectionSelect";
+import { OtpBoxes, OTP_LENGTH } from "@/components/auth/OtpBoxes";
 
 type Step = "details" | "otp";
-const OTP_LENGTH = 6;
 
 const fieldClass =
-  "mt-1 w-full rounded-xl border border-white/12 bg-surface px-3 py-2.5 text-sm text-ink outline-none transition placeholder:text-ink-muted focus:border-[#F06A00]/50 focus:ring-[3px] focus:ring-[#F06A00]/12";
+  "mt-1 w-full rounded-xl border border-white/12 bg-surface px-3 py-2.5 text-base text-ink outline-none transition placeholder:text-ink-muted focus:border-[#F06A00]/50 focus:ring-[3px] focus:ring-[#F06A00]/12";
 
 const labelClass =
   "text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-muted";
@@ -55,7 +49,6 @@ export function AstrologerSignupForm() {
   );
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
   const otp = digits.join("");
 
   useEffect(() => {
@@ -64,31 +57,8 @@ export function AstrologerSignupForm() {
     }
   }, [router]);
 
-  useEffect(() => {
-    if (step === "otp") inputRefs.current[0]?.focus();
-  }, [step]);
-
   function resetOtp() {
     setDigits(Array.from({ length: OTP_LENGTH }, () => ""));
-  }
-
-  function focusIndex(index: number) {
-    const el = inputRefs.current[Math.max(0, Math.min(OTP_LENGTH - 1, index))];
-    el?.focus();
-    el?.select();
-  }
-
-  function applyOtpValue(value: string, startIndex = 0) {
-    const cleaned = value.replace(/\D/g, "").slice(0, OTP_LENGTH - startIndex);
-    if (!cleaned) return;
-    setDigits((prev) => {
-      const next = [...prev];
-      for (let i = 0; i < cleaned.length; i += 1) next[startIndex + i] = cleaned[i]!;
-      return next;
-    });
-    requestAnimationFrame(() =>
-      focusIndex(Math.min(startIndex + cleaned.length, OTP_LENGTH - 1))
-    );
   }
 
   function onSendOtp(e: FormEvent) {
@@ -154,7 +124,6 @@ export function AstrologerSignupForm() {
       setBusy(false);
       setError(hi ? "गलत OTP। पुनः प्रयास करें।" : "Invalid OTP. Please try again.");
       resetOtp();
-      requestAnimationFrame(() => focusIndex(0));
       return;
     }
     const result = registerAstrologer({
@@ -300,50 +269,39 @@ export function AstrologerSignupForm() {
             </div>
 
             <div className="grid gap-3 sm:grid-cols-2">
-              <label className="block">
-                <span className={labelClass}>
-                  {hi ? "मोबाइल" : "Mobile"}
-                  <span className="text-[#F06A00]"> *</span>
-                </span>
-                <div className="mt-1 flex overflow-hidden rounded-xl border border-white/12 focus-within:border-[#F06A00]/50 focus-within:ring-[3px] focus-within:ring-[#F06A00]/12">
-                  <div className="flex shrink-0 items-center gap-1 border-r border-[#efe4d8] bg-cosmic-navy px-2.5 text-[12px] font-semibold text-ink">
-                    +91
-                    <ChevronDown className="h-3 w-3 text-ink-muted" />
-                  </div>
-                  <input
-                    type="tel"
-                    inputMode="numeric"
-                    maxLength={10}
-                    required
-                    value={phone}
-                    onChange={(e) =>
-                      setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))
-                    }
-                    placeholder="98765 43210"
-                    className="min-w-0 flex-1 bg-transparent px-2.5 py-2.5 text-sm outline-none"
-                  />
-                </div>
-              </label>
+              <PhoneNationalField
+                id="astrologer-signup-phone"
+                label={`${hi ? "मोबाइल" : "Mobile"}*`}
+                value={phone}
+                onChange={setPhone}
+                placeholder="98765 43210"
+                required
+                prefix="+91"
+                rowClassName="mt-1 border-white/12 focus-within:border-[#F06A00]/50 focus-within:ring-[#F06A00]/12"
+                inputClassName="px-2.5 py-2.5"
+              />
 
-              <label className="block">
-                <span className={labelClass}>
+              <div>
+                <label htmlFor="astrologer-signup-email" className={labelClass}>
                   {hi ? "ईमेल" : "Email"}{" "}
                   <span className="normal-case tracking-normal text-ink-muted">
                     ({hi ? "वैकल्पिक" : "optional"})
                   </span>
-                </span>
+                </label>
                 <div className="relative mt-1">
                   <Mail className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-ink-muted" />
                   <input
+                    id="astrologer-signup-email"
                     type="email"
                     autoComplete="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder={hi ? "name@email.com" : "name@email.com"}
                     className={cn(fieldClass, "mt-0 pl-9")}
+                    suppressHydrationWarning
                   />
                 </div>
-              </label>
+              </div>
             </div>
 
             <div className="grid grid-cols-3 gap-2">
@@ -468,56 +426,18 @@ export function AstrologerSignupForm() {
                 {hi ? "OTP" : "OTP"}
                 <span className="text-[#F06A00]"> *</span>
               </legend>
-              <div className="flex w-full min-w-0 gap-1.5 sm:gap-2">
-                {digits.map((digit, index) => (
-                  <input
-                    key={index}
-                    ref={(el) => {
-                      inputRefs.current[index] = el;
-                    }}
-                    type="text"
-                    inputMode="numeric"
-                    autoComplete={index === 0 ? "one-time-code" : "off"}
-                    maxLength={index === 0 ? OTP_LENGTH : 1}
-                    aria-label={hi ? `OTP अंक ${index + 1}` : `OTP digit ${index + 1}`}
-                    value={digit}
-                    onChange={(e) => {
-                      const cleaned = e.target.value.replace(/\D/g, "");
-                      setError(null);
-                      if (cleaned.length > 1) {
-                        applyOtpValue(cleaned, index);
-                        return;
-                      }
-                      const d = cleaned.slice(-1);
-                      setDigits((prev) => {
-                        const next = [...prev];
-                        next[index] = d;
-                        return next;
-                      });
-                      if (d && index < OTP_LENGTH - 1) {
-                        requestAnimationFrame(() => focusIndex(index + 1));
-                      }
-                    }}
-                    onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
-                      if (e.key === "Backspace" && !digits[index] && index > 0) {
-                        e.preventDefault();
-                        setDigits((prev) => {
-                          const next = [...prev];
-                          next[index - 1] = "";
-                          return next;
-                        });
-                        focusIndex(index - 1);
-                      }
-                    }}
-                    onPaste={(e: ClipboardEvent<HTMLInputElement>) => {
-                      e.preventDefault();
-                      applyOtpValue(e.clipboardData.getData("text"), index);
-                    }}
-                    onFocus={(e) => e.target.select()}
-                    className="h-12 min-w-0 flex-1 rounded-xl border border-white/12 text-center text-base font-semibold text-ink outline-none focus:border-[#F06A00]/55 focus:ring-[3px] focus:ring-[#F06A00]/12 sm:h-13 sm:text-lg"
-                  />
-                ))}
-              </div>
+              <OtpBoxes
+                digits={digits}
+                setDigits={(next) => {
+                  setError(null);
+                  setDigits(next);
+                }}
+                disabled={busy}
+                boxClassName="border-white/12 focus:border-[#F06A00]/55 focus:ring-[#F06A00]/12"
+                ariaLabel={(i) =>
+                  hi ? `OTP अंक ${i + 1}` : `OTP digit ${i + 1}`
+                }
+              />
             </fieldset>
 
             {error ? (

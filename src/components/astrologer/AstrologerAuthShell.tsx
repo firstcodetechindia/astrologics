@@ -48,7 +48,7 @@ export function AstrologerAuthShell({
   const hi = locale === "hi";
 
   return (
-    <div className="relative flex h-full min-h-0 w-full max-w-[100vw] flex-col overflow-x-hidden overflow-y-hidden bg-cosmic-navy lg:flex-row">
+    <div className="relative flex h-full min-h-0 w-full max-w-[100vw] flex-col overflow-x-hidden overflow-y-auto bg-cosmic-navy lg:flex-row">
       <aside className="relative hidden h-full w-[46%] shrink-0 overflow-hidden bg-[#F06A00] text-white lg:flex xl:w-[48%]">
         <div
           aria-hidden
@@ -134,7 +134,7 @@ export function AstrologerAuthShell({
         </div>
       </aside>
 
-      <section className="relative flex min-h-0 w-full min-w-0 max-w-[100vw] flex-1 flex-col overflow-x-hidden overflow-y-hidden bg-cosmic-navy">
+      <section className="relative flex min-h-0 w-full min-w-0 max-w-[100vw] flex-1 flex-col overflow-x-hidden overflow-y-auto bg-cosmic-navy">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-cosmic-navy"

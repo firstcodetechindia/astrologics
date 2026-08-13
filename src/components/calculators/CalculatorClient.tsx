@@ -43,7 +43,7 @@ function PlaceField({
       onCity={onCity}
       placeholder="Place of birth"
       required={required}
-      inputClassName="rounded-xl border border-white/10 bg-surface px-3 py-2.5 text-[15px] outline-none focus:border-saffron focus:ring-2 focus:ring-saffron/20"
+      inputClassName="rounded-xl border border-white/10 bg-surface px-3 py-2.5 text-base outline-none focus:border-saffron focus:ring-2 focus:ring-saffron/20"
     />
   );
 }
@@ -80,7 +80,7 @@ function Field({
 }
 
 const inputClass =
-  "w-full rounded-xl border border-white/10 bg-surface px-3 py-2.5 text-[15px] outline-none focus:border-saffron focus:ring-2 focus:ring-saffron/20";
+  "w-full min-w-0 rounded-xl border border-white/10 bg-surface px-3 py-2.5 text-base outline-none focus:border-saffron focus:ring-2 focus:ring-saffron/20";
 
 function bilingual(val: unknown, locale: string): string {
   if (val == null) return "";
@@ -874,7 +874,7 @@ export function CalculatorClient({
 
             {meta.input === "number" && (
               <Field label={labels.number}>
-                <input required type="number" min={1} max={249} className={inputClass} value={number} onChange={(e) => setNumber(e.target.value)} />
+                <input required type="number" inputMode="numeric" min={1} max={249} className={inputClass} value={number} onChange={(e) => setNumber(e.target.value)} />
               </Field>
             )}
             {meta.input === "value" && (
@@ -893,7 +893,7 @@ export function CalculatorClient({
                   <input required type="date" className={inputClass} value={date} onChange={(e) => setDate(e.target.value)} />
                 </Field>
                 <Field label={labels.year}>
-                  <input required type="number" className={inputClass} value={year} onChange={(e) => setYear(e.target.value)} />
+                  <input required type="number" inputMode="numeric" className={inputClass} value={year} onChange={(e) => setYear(e.target.value)} />
                 </Field>
               </>
             )}

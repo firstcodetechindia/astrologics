@@ -6,13 +6,14 @@ import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
+import { HEADER_QUIET_ICON } from "./header-controls";
 
 const OPTIONS = [
   { locale: "en" as const, label: "English", native: "English" },
   { locale: "hi" as const, label: "Hindi", native: "हिंदी" },
 ];
 
-export function LocaleSwitcher({ className }: { className?: string }) {
+export function LocaleSwitcher() {
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
@@ -58,8 +59,7 @@ export function LocaleSwitcher({ className }: { className?: string }) {
         aria-haspopup="listbox"
         aria-label={locale === "hi" ? "भाषा चुनें" : "Choose language"}
         className={cn(
-          "inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/20 text-white/85 hover:border-white/35 hover:bg-white/[0.06] hover:text-white",
-          className,
+          HEADER_QUIET_ICON,
           open && "border-white/40 bg-white/[0.08] text-white"
         )}
       >

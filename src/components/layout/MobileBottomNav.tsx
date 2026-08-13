@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   BookOpen,
   Calculator,
@@ -18,6 +18,7 @@ import {
 import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { useHydratedReducedMotion } from "@/hooks/useHydratedReducedMotion";
 
 function pathMatches(pathname: string, prefixes: string[]) {
   return prefixes.some(
@@ -44,7 +45,7 @@ export function MobileBottomNav() {
   const locale = useLocale();
   const pathname = usePathname();
   const hi = locale === "hi";
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useHydratedReducedMotion();
   const [moreOpen, setMoreOpen] = useState(false);
 
   const kundliActive = pathMatches(pathname, ["/kundli"]);

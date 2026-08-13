@@ -1,15 +1,13 @@
 "use client";
 
-import { useReducedMotion } from "framer-motion";
-
 const STARS = [
   [8, 12], [18, 28], [26, 8], [34, 42], [44, 18], [52, 55], [62, 14],
   [71, 38], [78, 22], [86, 48], [12, 62], [22, 78], [38, 70], [58, 82],
   [68, 66], [82, 74], [92, 32], [48, 32], [15, 45], [75, 10],
 ] as const;
 
+/** Twinkle is always in className; `@media (prefers-reduced-motion)` stops it. */
 export function CosmicBackground() {
-  const reduce = useReducedMotion();
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_55%_at_15%_-10%,rgba(108,60,255,0.32),transparent_55%),radial-gradient(ellipse_60%_45%_at_90%_0%,rgba(255,92,168,0.18),transparent_50%),radial-gradient(ellipse_50%_40%_at_60%_100%,rgba(255,138,61,0.12),transparent_55%)]" />
@@ -17,11 +15,11 @@ export function CosmicBackground() {
       {STARS.map(([x, y], i) => (
         <span
           key={`${x}-${y}`}
-          className={`absolute h-0.5 w-0.5 rounded-full bg-surface/85 ${reduce ? "" : "cosmic-twinkle"}`}
+          className="cosmic-twinkle absolute h-0.5 w-0.5 rounded-full bg-surface/85"
           style={{
             left: `${x}%`,
             top: `${y}%`,
-            animationDelay: reduce ? undefined : `${(i % 7) * 0.35}s`,
+            animationDelay: `${(i % 7) * 0.35}s`,
           }}
         />
       ))}

@@ -22,7 +22,8 @@
     "test:prashna": "npx tsx scripts/prashna-validate.ts",
     "test:muhurta": "npx tsx scripts/muhurta-validate.ts",
     "test:rectify": "npx tsx scripts/rectify-validate.ts",
-    "test:places": "npx tsx scripts/places-db-validate.ts"
+    "test:places": "npx tsx scripts/places-db-validate.ts",
+    "test:mobile-overflow": "node scripts/mobile-overflow-check.mjs"
   },
   "dependencies": {
     "@fontsource/fraunces": "^5.3.0",
@@ -55,6 +56,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.5.23",
+    "puppeteer-core": "^25.6.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

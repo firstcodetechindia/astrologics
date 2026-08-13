@@ -17,7 +17,7 @@ import { PlaceAutocomplete } from "@/components/ui/PlaceAutocomplete";
 type EventRow = { id: string; date: string; domain: LifeEventDomain };
 
 const inputClass =
-  "w-full rounded-xl border border-white/10 bg-surface px-3 py-2.5 text-[15px] outline-none focus:border-saffron focus:ring-2 focus:ring-saffron/20";
+  "w-full min-w-0 rounded-xl border border-white/10 bg-surface px-3 py-2.5 text-base outline-none focus:border-saffron focus:ring-2 focus:ring-saffron/20";
 
 function tx(locale: string, v: { en: string; hi: string } | string) {
   if (typeof v === "string") return v;
@@ -408,6 +408,7 @@ export function RectifyClient() {
             <FormField label={hi ? "विंडो (± मिनट)" : "Window (± minutes)"}>
               <input
                 type="number"
+                inputMode="numeric"
                 min={10}
                 max={180}
                 className={inputClass}
@@ -418,6 +419,7 @@ export function RectifyClient() {
             <FormField label={hi ? "चरण (मिनट)" : "Step (minutes)"}>
               <input
                 type="number"
+                inputMode="numeric"
                 min={1}
                 max={15}
                 className={inputClass}

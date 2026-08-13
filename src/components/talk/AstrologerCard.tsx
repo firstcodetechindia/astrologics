@@ -26,7 +26,7 @@ export function AstrologerCard({
   return (
     <article
       className={cn(
-        "group relative flex h-full flex-col rounded-2xl border border-white/12 bg-surface p-3.5 shadow-[0_10px_28px_-22px_rgba(42,33,24,0.45)] transition hover:-translate-y-0.5 hover:border-[#F06A00]/35 hover:shadow-[0_18px_36px_-22px_rgba(240,106,0,0.35)]",
+        "group relative flex h-full min-w-0 max-w-full flex-col overflow-hidden rounded-2xl border border-white/12 bg-surface p-3.5 shadow-[0_10px_28px_-22px_rgba(42,33,24,0.45)] transition hover:-translate-y-0.5 hover:border-[#F06A00]/35 hover:shadow-[0_18px_36px_-22px_rgba(240,106,0,0.35)]",
         compact && "p-3"
       )}
     >
@@ -61,8 +61,8 @@ export function AstrologerCard({
           />
         </div>
 
-        <div className="min-w-0">
-          <div className="flex items-center gap-1">
+        <div className="min-w-0 flex-1">
+          <div className="flex min-w-0 items-center gap-1">
             <h3 className="truncate font-display text-[15px] font-semibold tracking-tight text-ink">
               {a.name}
             </h3>
@@ -85,7 +85,7 @@ export function AstrologerCard({
         {skills.map((s) => (
           <span
             key={s}
-            className="rounded-full border border-white/12 bg-cosmic-navy px-2 py-0.5 text-[10px] font-semibold text-ink-muted"
+            className="max-w-full rounded-full border border-white/12 bg-cosmic-navy px-2 py-0.5 text-[10px] font-semibold text-ink-muted break-words"
           >
             {s}
           </span>
@@ -98,8 +98,8 @@ export function AstrologerCard({
           <p>
             {a.experienceYears} {hi ? "वर्ष अनुभव" : "yrs exp"}
           </p>
-          <div className="flex items-center justify-between gap-2 pt-0.5">
-            <p className="inline-flex items-center gap-1 font-semibold text-ink">
+          <div className="flex min-w-0 flex-wrap items-center justify-between gap-2 pt-0.5">
+            <p className="inline-flex min-w-0 max-w-full flex-wrap items-center gap-1 font-semibold text-ink">
               <Star className="h-3.5 w-3.5 fill-[#f5b301] text-[#f5b301]" />
               {a.rating.toFixed(1)}
               <span className="font-medium text-ink-muted">
@@ -140,8 +140,8 @@ export function AstrologerCard({
         </div>
       )}
 
-      <div className="mt-auto flex items-end justify-between gap-2 border-t border-white/10 pt-3">
-        <div>
+      <div className="mt-auto flex min-w-0 items-end justify-between gap-2 border-t border-white/10 pt-3">
+        <div className="min-w-0">
           <p className="font-display text-lg font-bold tracking-tight text-ink">
             ₹{a.pricePerMin}
             <span className="text-[12px] font-semibold text-ink-muted">
@@ -166,7 +166,7 @@ export function AstrologerCard({
         </div>
         <Link
           href="/login"
-          className="rounded-xl bg-[#F06A00] px-3.5 py-2 text-[12px] font-semibold text-white shadow-[0_10px_20px_-12px_rgba(240,106,0,0.9)] transition hover:bg-[#e85d04]"
+          className="inline-flex min-h-11 shrink-0 items-center rounded-xl bg-[#F06A00] px-3.5 py-2 text-[12px] font-semibold text-white shadow-[0_10px_20px_-12px_rgba(240,106,0,0.9)] transition hover:bg-[#e85d04]"
         >
           {hi ? "चैट" : "Chat"}
         </Link>

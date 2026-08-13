@@ -241,7 +241,7 @@ export function DashboardSavedPanel() {
                     removeSavedKundli(phone, item.id);
                     refresh(phone);
                   }}
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-ink-muted hover:bg-surface hover:text-saffron-deep"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-ink-muted hover:bg-surface hover:text-saffron-deep"
                   aria-label={hi ? "हटाएँ" : "Remove"}
                 >
                   <Trash2 className="h-4 w-4" />

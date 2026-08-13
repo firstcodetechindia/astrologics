@@ -12,6 +12,7 @@ import {
   type AuthUser,
 } from "@/lib/auth/client-auth";
 import { cn } from "@/lib/utils";
+import { HEADER_QUIET_BTN, HEADER_QUIET_ICON } from "./header-controls";
 
 export function UserAccountMenu({
   quietClassName,
@@ -80,10 +81,7 @@ export function UserAccountMenu({
       <Link
         href="/login"
         aria-label={hi ? "लॉगिन" : "Login"}
-        className={
-          quietClassName ??
-          "inline-flex h-9 items-center gap-1.5 rounded-lg border border-white/20 px-3 text-[12.5px] font-medium text-white/85 hover:border-white/35 hover:bg-white/[0.06] hover:text-white"
-        }
+        className={quietClassName ?? HEADER_QUIET_BTN}
       >
         <User className="h-3.5 w-3.5 shrink-0" strokeWidth={2.1} />
         <span className="hidden sm:inline">{hi ? "लॉगिन" : "Login"}</span>
@@ -108,9 +106,7 @@ export function UserAccountMenu({
         aria-label={hi ? "अकाउंट मेनू" : "Account menu"}
         onFocus={openMenu}
         className={cn(
-          quietIconClassName ??
-            quietClassName ??
-            "inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/20 text-white/85 hover:border-white/35 hover:bg-white/[0.06]",
+          quietIconClassName ?? quietClassName ?? HEADER_QUIET_ICON,
           open && "border-white/40 bg-white/[0.08] text-white"
         )}
       >

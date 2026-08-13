@@ -61,7 +61,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
         <AstrologyPageLoader />
         <PullToRefresh />
         <main
-          className={`fixed inset-0 z-[40] max-h-dvh w-full max-w-[100vw] overflow-x-hidden overflow-y-hidden bg-cosmic-navy ${MOBILE_NAV_PAD}`}
+          className={`fixed inset-0 z-[40] max-h-dvh w-full max-w-[100vw] overflow-x-hidden overflow-y-auto bg-cosmic-navy ${MOBILE_NAV_PAD}`}
         >
           {children}
         </main>

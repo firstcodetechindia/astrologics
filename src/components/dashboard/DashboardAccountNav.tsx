@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { useLocale } from "next-intl";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Bookmark,
   ClipboardCheck,
@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { useHydratedReducedMotion } from "@/hooks/useHydratedReducedMotion";
 
 const TABS: {
   href: "/dashboard" | "/dashboard/profile" | "/dashboard/results" | "/dashboard/kundli-check" | "/dashboard/saved";
@@ -57,7 +58,7 @@ export function DashboardAccountNav() {
   const locale = useLocale();
   const hi = locale === "hi";
   const pathname = usePathname();
-  const reduce = useReducedMotion();
+  const reduce = useHydratedReducedMotion();
   const activeRef = useRef<HTMLAnchorElement | null>(null);
 
   useEffect(() => {

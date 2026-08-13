@@ -203,7 +203,7 @@ export function PlaceAutocomplete({
                   type="button"
                   role="option"
                   aria-selected={false}
-                  className="w-full border-b border-saffron/10 px-3.5 py-2.5 text-left text-[0.95rem] text-ink transition last:border-0 hover:bg-sand/70"
+                  className="w-full min-w-0 border-b border-saffron/10 px-3.5 py-2.5 text-left text-[0.95rem] text-ink transition last:border-0 hover:bg-sand/70"
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => {
                     setSelected(c);
@@ -213,10 +213,10 @@ export function PlaceAutocomplete({
                     setOpen(false);
                   }}
                 >
-                  <span className="font-medium">{c.name}</span>
+                  <span className="block min-w-0 break-words font-medium">{c.name}</span>
                   {(c.state || c.country) && (
-                    <span className="text-ink-muted">
-                      {`, ${[c.state, c.country].filter(Boolean).join(", ")}`}
+                    <span className="mt-0.5 block min-w-0 truncate text-ink-muted">
+                      {`, ${[c.state, c.country].filter(Boolean).join(", ")}`.replace(/^, /, "")}
                     </span>
                   )}
                 </button>
