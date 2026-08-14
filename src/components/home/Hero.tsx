@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useLocale } from "next-intl";
 import { ArrowRight, Mic, Send, Sparkles } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import { siteConfig } from "@/lib/site-config";
 import { HomeGalaxyBackground } from "./HomeGalaxyBackground";
 import { useHydratedReducedMotion } from "@/hooks/useHydratedReducedMotion";
 
@@ -41,37 +42,40 @@ export function Hero() {
       <div className="container-page relative z-10 pb-10 pt-6 sm:pb-14 sm:pt-8 lg:pb-16 lg:pt-10">
         <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-12">
           <motion.div
-            initial={reduce ? false : { opacity: 0, y: 16 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, ease: "easeOut" }}
-            className="flex flex-col items-start text-left"
+            className="flex flex-col items-center text-center lg:items-start lg:text-left"
           >
             <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 font-ui text-[10px] font-semibold uppercase leading-normal tracking-[0.18em] text-cosmic-gold sm:text-[11px]">
               <Sparkles className="h-3.5 w-3.5 text-cosmic-purple" />
               {hi ? "एआई-संचालित वैदिक ज्योतिष" : "AI-Powered Vedic Astrology"}
             </p>
 
-            <h1 className="hero-title max-w-xl overflow-visible">
+            <h1 className="hero-title min-w-0 w-full max-w-2xl overflow-visible">
               {hi ? (
                 <>
-                  <span className="hero-title-line1">आइए अपने सितारों को</span>
-                  <span className="hero-title-line2">समझें</span>
+                  <span className="hero-title-line1">आपके बारे में सब कुछ,</span>
+                  <span className="hero-title-line2">सितारों में लिखा है।</span>
                 </>
               ) : (
                 <>
-                  <span className="hero-title-line1">Let&apos;s Decode</span>
-                  <span className="hero-title-line2">Your Stars</span>
+                  <span className="hero-title-line1">Everything About You,</span>
+                  <span className="hero-title-line2">Written in the Stars.</span>
                 </>
               )}
             </h1>
+            <p className="hero-tagline">
+              {hi ? "आइए अपने सितारों को समझें" : "Let's Decode Your Stars"}
+            </p>
 
-            <p className="mt-5 max-w-lg font-ui text-[15px] leading-[1.7] text-ink-muted sm:text-base">
+            <p className="mt-5 max-w-lg font-ui text-[15px] leading-[1.7] text-ink-muted sm:text-base lg:mx-0">
               {hi
                 ? "प्रेम, करियर, संबंध, भविष्य और अधिक के बारे में पूछें — और अपनी जन्म कुंडली पर आधारित व्यक्तिगत मार्गदर्शन पाएँ।"
                 : "Ask questions about your love, career, relationships, future and more — and get personalized guidance based on your birth chart."}
             </p>
 
-            <div className="mt-7 flex flex-wrap items-center gap-3">
+            <div className="mt-7 flex w-full max-w-lg flex-wrap items-center justify-center gap-3 lg:justify-start">
               <Link
                 href="/chat"
                 className="btn-grad inline-flex items-center justify-center gap-2 px-5 py-3.5 font-ui text-sm font-semibold leading-normal text-white"
@@ -90,10 +94,10 @@ export function Hero() {
 
           {/* Premium AI chat preview */}
           <motion.div
-            initial={reduce ? false : { opacity: 0, y: 20 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.08, ease: "easeOut" }}
-            className={`relative ${reduce ? "" : "cosmic-float"}`}
+            className="relative cosmic-float"
           >
             <div className="absolute -inset-3 rounded-[1.75rem] bg-[radial-gradient(circle_at_30%_20%,rgba(108,60,255,0.35),transparent_55%),radial-gradient(circle_at_80%_80%,rgba(255,138,61,0.2),transparent_50%)] blur-2xl" />
             <div className="relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-[rgba(26,31,59,0.78)] shadow-[0_24px_64px_-24px_rgba(0,0,0,0.65)] backdrop-blur-xl">
@@ -103,7 +107,9 @@ export function Hero() {
                     <Sparkles className="h-4 w-4 text-white" />
                   </span>
                   <div>
-                    <p className="font-ui text-sm font-semibold text-white">CosmicGPT</p>
+                    <p className="font-ui text-sm font-semibold text-white">
+                      {siteConfig.brandName}
+                    </p>
                     <p className="font-ui text-[11px] text-ink-muted">
                       {hi ? "जन्म कुंडली संदर्भ सक्रिय" : "Birth-chart context on"}
                     </p>

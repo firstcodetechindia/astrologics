@@ -1,3 +1,4 @@
+import { siteConfig } from "@/lib/site-config";
 import { findCity, searchCities, type City } from "./cities";
 
 export { formatPlaceLabel } from "./cities";
@@ -143,7 +144,7 @@ async function nominatimSearch(
 
   const res = await fetch(url.toString(), {
     headers: {
-      "User-Agent": "CosmicGPTKundli/1.0 (https://cosmicgpt.in; place search)",
+      "User-Agent": `${siteConfig.brandName.replace(/\s+/g, "")}Kundli/1.0 (${siteConfig.siteUrl}; place search)`,
       Accept: "application/json",
     },
     next: { revalidate: 86400 },

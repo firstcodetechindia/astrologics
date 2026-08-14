@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useLocale } from "next-intl";
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
@@ -11,7 +12,7 @@ import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 import { useHydratedReducedMotion } from "@/hooks/useHydratedReducedMotion";
 
-/** Animated CosmicGPT lockup for the auth brand panel. */
+/** Animated CosmicGyan lockup for the auth brand panel. */
 function AuthBrandOrbit() {
   return (
     <div className="relative flex items-center justify-center px-2">
@@ -114,6 +115,35 @@ function WhySignUpCard({ hi }: { hi: boolean }) {
 export function AuthClient() {
   const locale = useLocale();
   const hi = locale === "hi";
+  const [authMode, setAuthMode] = useState<"otp" | "auth0">("otp");
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/auth/mode", { cache: "no-store" });
+        const data = (await res.json()) as { mode?: "otp" | "auth0" };
+        if (cancelled) return;
+        if (data.mode === "auth0") {
+          setAuthMode("auth0");
+          window.location.assign("/api/auth/login");
+        }
+      } catch {
+        /* keep dummy OTP */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  if (authMode === "auth0") {
+    return (
+      <div className="flex h-full items-center justify-center text-sm text-ink-muted">
+        Redirecting to Auth0…
+      </div>
+    );
+  }
 
   return (
     <div className="relative flex h-full min-h-0 w-full max-w-[100vw] flex-col overflow-x-hidden overflow-y-auto bg-cosmic-navy lg:flex-row">

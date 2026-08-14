@@ -93,10 +93,10 @@ export default async function HomePage({
               "@id": `${siteConfig.siteUrl}/#organization`,
               name: siteConfig.brandName,
               alternateName: [
-                "CosmicGPT",
+                "CosmicGyan",
                 "Let's Decode Your Stars",
                 "आइए अपने सितारों को समझें",
-                "CosmicGPT AI Astrology",
+                "CosmicGyan AI Astrology",
               ],
               description:
                 locale === "hi"

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "CosmicGPT — Let's Decode Your Stars | Free Kundli & Calculators",
+    "title": "CosmicGyan — Let's Decode Your Stars | Free Kundli & Calculators",
     "description": "Let's Decode Your Stars — generate free Janam Kundli, explore Western & KP astrology, numerology and Panchang, and get AI answers about your chart — in English & Hindi."
   },
   "nav": {
@@ -21,7 +21,7 @@
     "panchang": "Panchang"
   },
   "common": {
-    "brand": "CosmicGPT",
+    "brand": "CosmicGyan",
     "whatsapp": "Talk With Us",
     "talkNow": "Talk now",
     "talkWithUs": "Talk With Us",
@@ -116,9 +116,9 @@
     "newKundli": "Generate another kundli"
   },
   "about": {
-    "title": "About CosmicGPT",
+    "title": "About CosmicGyan",
     "subtitle": "Astrology across traditions — presented with modern clarity.",
-    "p1": "CosmicGPT is an astrology platform for modern seekers. Explore free Janam Kundli (Lahiri sidereal chart engine), Western learning guides, KP tools, numerology calculators, daily horoscope, Panchang and AI chart chat — in English and Hindi.",
+    "p1": "CosmicGyan is an astrology platform for modern seekers. Explore free Janam Kundli (Lahiri sidereal chart engine), Western learning guides, KP tools, numerology calculators, daily horoscope, Panchang and AI chart chat — in English and Hindi.",
     "p2": "Your birth chart uses India’s widely used Lahiri method with whole-sign houses and Vimshottari dasha. Other sections cover different systems for different questions — we keep methods clear so you know what you are reading.",
     "p3": "Deeper consultation covers timing, compatibility, remedies and life decisions with a human guide. The experience stays calm, bright and trustworthy while you explore."
   },
@@ -141,7 +141,7 @@
     "q1": "Is birth time necessary?",
     "a1": "Yes for accurate Lagna and house placements. If time is unknown, Moon-based themes can still be discussed in consultation.",
     "q2": "Which astrology systems do you cover?",
-    "a2": "CosmicGPT covers multiple traditions. Free Janam Kundli uses Lahiri sidereal methods. You can also explore Western guides, KP calculators, numerology tools, horoscope and Panchang — each labelled by system so you know what you are using.",
+    "a2": "CosmicGyan covers multiple traditions. Free Janam Kundli uses Lahiri sidereal methods. You can also explore Western guides, KP calculators, numerology tools, horoscope and Panchang — each labelled by system so you know what you are using.",
     "q3": "Are remedies shown fully online?",
     "a3": "We share high-level indications on the site. Personalized remedies are shared after a private consultation with us.",
     "q4": "Is my data stored?",
@@ -168,6 +168,8 @@
     "tagline": "Kundli, Western, KP, numerology & AI — talk with us for deeper guidance.",
     "rights": "All rights reserved.",
     "disclaimer": "Astrology is for guidance and reflection. Important life decisions remain yours.",
+    "terms": "Terms of Use",
+    "privacy": "Privacy Policy",
     "colExplore": "Explore",
     "colTools": "Popular tools",
     "colLearn": "Learn",

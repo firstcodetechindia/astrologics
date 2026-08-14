@@ -14,8 +14,8 @@ export async function generateMetadata(): Promise<Metadata> {
       ? `डैशबोर्ड | ${siteConfig.brandName}`
       : `Dashboard | ${siteConfig.brandName}`,
     description: hi
-      ? "आपका CosmicGPT डैशबोर्ड।"
-      : "Your CosmicGPT dashboard.",
+      ? "आपका CosmicGyan डैशबोर्ड।"
+      : "Your CosmicGyan dashboard.",
     noIndex: true,
   });
 }

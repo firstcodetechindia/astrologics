@@ -3,11 +3,12 @@
 import Image from "next/image";
 import { BadgeCheck, Star } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
 import {
   BADGE_LABEL,
   type DirectoryAstrologer,
 } from "@/lib/astrologers/directory";
-import { cn } from "@/lib/utils";
+import { AstrologerKindLabel } from "@/components/talk/AiAstrologerLabel";
 
 export function AstrologerCard({
   astrologer: a,
@@ -72,6 +73,9 @@ export function AstrologerCard({
                 aria-label={hi ? "सत्यापित" : "Verified"}
               />
             ) : null}
+          </div>
+          <div className="mt-1">
+            <AstrologerKindLabel kind={a.kind} locale={locale} size="sm" />
           </div>
           <p className="mt-0.5 truncate text-[11px] text-ink-muted">
             {a.experienceYears} {hi ? "वर्ष अनुभव" : "yrs exp"} ·{" "}
@@ -150,14 +154,14 @@ export function AstrologerCard({
           </p>
           {a.firstChatFree ? (
             <Link
-              href="/login"
+              href={`/chat-with-astrologer/${a.id}`}
               className="mt-0.5 inline-flex text-[12px] font-semibold text-[#F06A00] hover:underline"
             >
               {hi ? "पहली चैट मुफ़्त ›" : "First Chat Free ›"}
             </Link>
           ) : (
             <Link
-              href="/login"
+              href={`/chat-with-astrologer/${a.id}`}
               className="mt-0.5 inline-flex text-[12px] font-semibold text-[#F06A00] hover:underline"
             >
               {hi ? "अभी चैट करें ›" : "Chat now ›"}
@@ -165,7 +169,7 @@ export function AstrologerCard({
           )}
         </div>
         <Link
-          href="/login"
+          href={`/chat-with-astrologer/${a.id}`}
           className="inline-flex min-h-11 shrink-0 items-center rounded-xl bg-[#F06A00] px-3.5 py-2 text-[12px] font-semibold text-white shadow-[0_10px_20px_-12px_rgba(240,106,0,0.9)] transition hover:bg-[#e85d04]"
         >
           {hi ? "चैट" : "Chat"}

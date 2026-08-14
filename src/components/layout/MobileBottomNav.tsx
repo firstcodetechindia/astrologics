@@ -39,7 +39,7 @@ type MoreLink = {
   icon: LucideIcon;
 };
 
-/** Mobile: Kundli · Horoscope · Chat · Calculators · More */
+/** Mobile: Kundli · Horoscope · Home · Calcs · More */
 export function MobileBottomNav() {
   const t = useTranslations("nav");
   const locale = useLocale();
@@ -48,11 +48,12 @@ export function MobileBottomNav() {
   const reduceMotion = useHydratedReducedMotion();
   const [moreOpen, setMoreOpen] = useState(false);
 
+  const homeActive = pathname === "/" || pathname === "";
   const kundliActive = pathMatches(pathname, ["/kundli"]);
   const horoscopeActive = pathMatches(pathname, ["/horoscope"]);
-  const chatActive = pathMatches(pathname, ["/chat"]);
   const calcActive = pathMatches(pathname, ["/calculators"]);
   const moreActive = pathMatches(pathname, [
+    "/chat",
     "/features",
     "/services",
     "/panchang",
@@ -91,7 +92,7 @@ export function MobileBottomNav() {
   ];
 
   const moreLinks: MoreLink[] = [
-    { href: "/", label: t("home"), icon: Home },
+    { href: "/chat", label: hi ? "एआई चैट" : "AI Chat", icon: MessageCircle },
     { href: "/features", label: t("features"), icon: Sparkles },
     { href: "/panchang", label: hi ? "पंचांग" : "Panchang", icon: Sun },
     {
@@ -226,14 +227,14 @@ export function MobileBottomNav() {
           ))}
 
           <Link
-            href="/chat"
+            href="/"
             onClick={() => setMoreOpen(false)}
             className="relative flex h-full min-w-0 flex-col items-center justify-center gap-0.5 px-0.5 pb-1.5 pt-1"
-            aria-current={chatActive ? "page" : undefined}
-            aria-label={hi ? "एआई चैट" : "AI Chat"}
+            aria-current={homeActive ? "page" : undefined}
+            aria-label={t("home")}
           >
             <span className="absolute left-1/2 top-0 z-20 flex size-[3.05rem] -translate-x-1/2 -translate-y-[54%] items-center justify-center rounded-full bg-[linear-gradient(135deg,#6C3CFF,#FF8A3D)] shadow-[0_8px_20px_-6px_rgba(108,60,255,0.75)] ring-[5px] ring-[#0B0F1F]">
-              <MessageCircle
+              <Home
                 className="relative h-[1.25rem] w-[1.25rem] text-white"
                 strokeWidth={2.25}
               />
@@ -242,10 +243,10 @@ export function MobileBottomNav() {
             <span
               className={cn(
                 "max-w-full truncate text-[10px] font-semibold leading-none",
-                chatActive ? "text-cosmic-gold" : "text-ink-muted"
+                homeActive ? "text-cosmic-gold" : "text-ink-muted"
               )}
             >
-              {hi ? "चैट" : "Chat"}
+              {t("home")}
             </span>
           </Link>
 

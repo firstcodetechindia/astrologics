@@ -9,7 +9,7 @@ import { computeKundli } from "./compute";
 import { degreeInSign, signIndexFromLongitude } from "./math";
 import { dailyMuhuratFor } from "./muhurat-now";
 import { nakshatraFromLongitude } from "./nakshatra";
-import { computePanchang } from "./panchang";
+import { computePanchang, lunarMasaAt } from "./panchang";
 import { calculateLagna, getSiderealPlanets } from "./planets";
 import { lahiriAyanamsaFromDate } from "./math";
 import type { KundliResult } from "./types";
@@ -416,6 +416,7 @@ export function computeTodayPanchang(opts: {
 
   const moment = sunrise ?? noon;
   const panchang = computePanchang(moment, { timezoneOffsetMinutes: tzOff });
+  const masa = lunarMasaAt(moment, { timezoneOffsetMinutes: tzOff });
   const localParts = partsInTz(sunrise ?? noon, timeZone);
   const weekdayNames: Loc[] = [
     { en: "Sunday", hi: "रविवार" },
@@ -600,7 +601,15 @@ export function computeTodayPanchang(opts: {
       paksha: {
         en: panchang.paksha.id === "Shukla" ? "Shukla" : "Krishna",
         hi: panchang.paksha.id === "Shukla" ? "शुक्ल" : "कृष्ण",
+        id: panchang.paksha.id as "Shukla" | "Krishna",
       },
+      masa: {
+        id: masa.id,
+        name: masa.name,
+        purnimaNakshatra: masa.purnimaNakshatra,
+        method: masa.method,
+      },
+      tithiInPaksha: masa.tithiInPaksha,
       weekday,
     },
     samvat,

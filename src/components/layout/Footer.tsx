@@ -127,7 +127,7 @@ export function Footer() {
         <div className="border-b border-white/[0.08] pb-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="min-w-0">
-              <CosmicGPTWordmark showTagline width={200} />
+              <CosmicGPTWordmark showTagline width={220} />
             </div>
             <div className="flex shrink-0 flex-wrap gap-2">
               <a
@@ -248,11 +248,33 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-4 flex flex-col gap-1 border-t border-white/[0.08] pt-4 text-[11px] text-ink-muted sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:text-[12px]">
-          <p className="leading-snug">{t("disclaimer")}</p>
-          <p className="shrink-0 font-medium text-white/70">
-            © {year} {siteConfig.brandName}
-          </p>
+        <div className="mt-4 flex flex-col items-center gap-3 border-t border-white/[0.08] pt-4 text-center text-[11px] text-ink-muted sm:flex-row sm:items-start sm:justify-between sm:gap-6 sm:text-left sm:text-[12px]">
+          <div className="min-w-0 max-w-xl">
+            <p
+              className="font-medium leading-relaxed text-white/80"
+              suppressHydrationWarning
+            >
+              © {year} {siteConfig.brandName}. {t("rights")}
+            </p>
+            <p className="mt-1 leading-relaxed">{t("disclaimer")}</p>
+          </div>
+          <nav
+            aria-label={hi ? "कानूनी" : "Legal"}
+            className="flex shrink-0 flex-wrap items-center justify-center gap-x-4 gap-y-1 sm:justify-start"
+          >
+            <Link
+              href="/terms"
+              className="inline-flex min-h-11 items-center py-1 font-medium text-white/75 transition hover:text-cosmic-gold"
+            >
+              {t("terms")}
+            </Link>
+            <Link
+              href="/privacy"
+              className="inline-flex min-h-11 items-center py-1 font-medium text-white/75 transition hover:text-cosmic-gold"
+            >
+              {t("privacy")}
+            </Link>
+          </nav>
         </div>
       </div>
     </footer>

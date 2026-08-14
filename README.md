@@ -1,4 +1,4 @@
-# CosmicGPT
+# CosmicGyan
 
 Bilingual (English / Hindi) Vedic astrology website at [cosmicgpt.in](https://cosmicgpt.in) — generate a full personalized kundli online, then convert to WhatsApp/call for detailed reading and guidance.
 
@@ -25,7 +25,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 Edit `.env.local`:
 
-- `NEXT_PUBLIC_BRAND_NAME` — brand (default: CosmicGPT)
+- `NEXT_PUBLIC_BRAND_NAME` — brand (default: CosmicGyan)
 - `NEXT_PUBLIC_WHATSAPP_NUMBER` — digits only, country code (e.g. `9198XXXXXXXX`)
 - `NEXT_PUBLIC_PHONE_NUMBER` — e.g. `+9198XXXXXXXX`
 - `NEXT_PUBLIC_SITE_URL` — production URL (`https://cosmicgpt.in`)

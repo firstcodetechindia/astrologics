@@ -170,7 +170,7 @@ export default async function VastuPage() {
         <p className="rounded-2xl border border-saffron/15 bg-surface px-5 py-4 text-[15px] leading-relaxed text-ink">
           {hi ? (
             <>
-              CosmicGPT का मुफ़्त वास्तु शास्त्र चेकर घर के कक्षों को दिशाओं से
+              CosmicGyan का मुफ़्त वास्तु शास्त्र चेकर घर के कक्षों को दिशाओं से
               मिलाकर क्षेत्र-वार दोष चिह्नित करता है और डिफ़ॉल्ट रूप से
               गैर-संरचनात्मक उपाय सुझाता है — दीवार तोड़ना अंतिम विकल्प। वैकल्पिक
               एस्ट्रो-वास्तु{" "}
@@ -191,7 +191,7 @@ export default async function VastuPage() {
             </>
           ) : (
             <>
-              CosmicGPT’s free Vastu Shastra checker matches your home’s rooms
+              CosmicGyan’s free Vastu Shastra checker matches your home’s rooms
               to classical directions, flags zone-by-zone Doshas, and defaults to
               non-structural remedies — rebuilding walls is a last resort.
               Optional Astro-Vastu personalises priorities using your{" "}
@@ -209,7 +209,7 @@ export default async function VastuPage() {
               >
                 Methodology
               </Link>{" "}
-              for how CosmicGPT separates calculation from interpretation.
+              for how CosmicGyan separates calculation from interpretation.
             </>
           )}
         </p>

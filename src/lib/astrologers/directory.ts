@@ -37,6 +37,10 @@ export type DirectoryAstrologer = {
   firstChatFree: boolean;
   categories: ConsultCategory[];
   featured?: boolean;
+  kind?: "REAL_HUMAN" | "AI_PERSONA";
+  bio?: string;
+  billingId?: string;
+  personaId?: string | null;
 };
 
 export const CONSULT_CATEGORIES: {
@@ -235,6 +239,7 @@ export const DIRECTORY_ASTROLOGERS: DirectoryAstrologer[] = PEOPLE.map(
       firstChatFree: index % 5 !== 4,
       categories: cats,
       featured: featured || index % 9 === 0,
+      kind: "REAL_HUMAN" as const,
     };
   }
 );
@@ -245,10 +250,11 @@ export function getFeaturedAstrologers(limit = 8) {
 
 export function filterAstrologers(
   category: "all" | ConsultCategory,
-  query = ""
+  query = "",
+  source: DirectoryAstrologer[] = DIRECTORY_ASTROLOGERS
 ) {
   const q = query.trim().toLowerCase();
-  return DIRECTORY_ASTROLOGERS.filter((a) => {
+  return source.filter((a) => {
     const catOk = category === "all" || a.categories.includes(category);
     if (!catOk) return false;
     if (!q) return true;

@@ -39,8 +39,8 @@ export function TrustSection({ locale }: { locale: string }) {
                 <div className="flex h-full flex-col justify-center p-5 sm:p-6 lg:p-8">
                   <p className="font-ui text-[15px] leading-relaxed text-ink-muted sm:text-base">
                     {hi
-                      ? "CosmicGPT पारंपरिक ज्योतिष अवधारणाओं को आधुनिक एआई से जोड़ता है — ताकि ज्योतिषीय अंतर्दृष्टि समझना आसान हो। गणना आपकी जन्म कुंडली से शुरू होती है; एआई केवल उन परिणामों को सरल भाषा में समझाता है।"
-                      : "CosmicGPT combines traditional astrology concepts with modern AI to make astrological insights easier to understand. Calculation starts from your birth chart; AI only explains those results in plain language."}
+                      ? "CosmicGyan पारंपरिक ज्योतिष अवधारणाओं को आधुनिक एआई से जोड़ता है — ताकि ज्योतिषीय अंतर्दृष्टि समझना आसान हो। गणना आपकी जन्म कुंडली से शुरू होती है; एआई केवल उन परिणामों को सरल भाषा में समझाता है।"
+                      : "CosmicGyan combines traditional astrology concepts with modern AI to make astrological insights easier to understand. Calculation starts from your birth chart; AI only explains those results in plain language."}
                   </p>
                 </div>
               }

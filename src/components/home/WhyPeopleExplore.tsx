@@ -33,8 +33,8 @@ export function WhyPeopleExplore({ locale }: { locale: string }) {
         <Reveal>
           <h2 className="heading-1 font-display tracking-tight text-ink">
             {hi
-              ? "लोग CosmicGPT क्यों देखते हैं"
-              : "Why People Explore CosmicGPT"}
+              ? "लोग CosmicGyan क्यों देखते हैं"
+              : "Why People Explore CosmicGyan"}
           </h2>
           <p className="mt-2 max-w-2xl text-sm text-ink-muted sm:text-base">
             {hi

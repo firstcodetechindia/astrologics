@@ -25,20 +25,20 @@ export async function generateMetadata({
       ? `संपर्क — कुंडली परामर्श व एआई ज्योतिष सहायता | ${siteConfig.brandName}`
       : `Contact — Kundli Consultation & AI Astrology Help | ${siteConfig.brandName}`,
     description: hi
-      ? "CosmicGPT से संपर्क करें — जन्म कुंडली परामर्श, गुण मिलान, राशिफल व एआई गुरु सहायता हेतु व्हाट्सऐप, कॉल या ईमेल।"
-      : "Contact CosmicGPT — WhatsApp, call or email for kundli consultation, gun milan, rashifal and AI Guru support.",
+      ? "CosmicGyan से संपर्क करें — जन्म कुंडली परामर्श, गुण मिलान, राशिफल व एआई गुरु सहायता हेतु व्हाट्सऐप, कॉल या ईमेल।"
+      : "Contact CosmicGyan — WhatsApp, call or email for kundli consultation, gun milan, rashifal and AI Guru support.",
     keywords: hi
       ? [
           "कुंडली परामर्श संपर्क",
           "ज्योतिष सलाह",
-          "CosmicGPT संपर्क",
+          "CosmicGyan संपर्क",
           "gun milan consultation",
         ]
       : [
           "kundli consultation contact",
           "astrology advice",
           "astrology WhatsApp",
-          "CosmicGPT contact",
+          "CosmicGyan contact",
           "gun milan help",
         ],
   });

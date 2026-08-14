@@ -24,8 +24,8 @@ export async function generateMetadata({
       ? `कुंडली व ज्योतिष FAQ | ${siteConfig.brandName}`
       : `Kundli & Astrology FAQ | ${siteConfig.brandName}`,
     description: hi
-      ? "कुंडली, लग्न, नक्षत्र, दशा, एआई गुरु और ज्योतिष गणना पर 17+ स्पष्ट उत्तर — CosmicGPT FAQ पेज पर।"
-      : "Clear answers on kundli, Lagna, Nakshatra, dasha, AI Guru and how charts are calculated — 17+ questions on CosmicGPT FAQ.",
+      ? "कुंडली, लग्न, नक्षत्र, दशा, एआई गुरु और ज्योतिष गणना पर 17+ स्पष्ट उत्तर — CosmicGyan FAQ पेज पर।"
+      : "Clear answers on kundli, Lagna, Nakshatra, dasha, AI Guru and how charts are calculated — 17+ questions on CosmicGyan FAQ.",
     keywords: hi
       ? [
           "कुंडली FAQ",

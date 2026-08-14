@@ -20,8 +20,8 @@ export async function generateMetadata(): Promise<Metadata> {
       ? `प्लेटफ़ॉर्म विशेषताएँ — कुंडली, एआई गुरु | ${siteConfig.brandName}`
       : `Platform Features — Kundli, AI Guru & 30+ Tools | ${siteConfig.brandName}`,
     description: hi
-      ? "CosmicGPT पर मुफ्त जन्म कुंडली, एआई गुरु चैट, गुण मिलान, राशिफल, पंचांग, केपी, अंक ज्योतिष और 30+ कैलकुलेटर — सब एक जगह।"
-      : "Explore CosmicGPT platform features: free janam kundali, AI Guru chat, gun milan, horoscope, panchang, KP, numerology and 30+ calculators in one place.",
+      ? "CosmicGyan पर मुफ्त जन्म कुंडली, एआई गुरु चैट, गुण मिलान, राशिफल, पंचांग, केपी, अंक ज्योतिष और 30+ कैलकुलेटर — सब एक जगह।"
+      : "Explore CosmicGyan platform features: free janam kundali, AI Guru chat, gun milan, horoscope, panchang, KP, numerology and 30+ calculators in one place.",
     keywords: hi
       ? [
           "कुंडली विशेषताएँ",
@@ -134,8 +134,8 @@ export default async function FeaturesPage() {
         title={hi ? "प्लेटफ़ॉर्म विशेषताएँ" : "Platform features"}
         description={
           hi
-            ? "CosmicGPT पर मुफ्त कुंडली से लेकर एआई चैट और दर्जनों कैलकुलेटर तक — एक जगह।"
-            : "On CosmicGPT: free kundli, AI chat, and dozens of calculators — in one place."
+            ? "CosmicGyan पर मुफ्त कुंडली से लेकर एआई चैट और दर्जनों कैलकुलेटर तक — एक जगह।"
+            : "On CosmicGyan: free kundli, AI chat, and dozens of calculators — in one place."
         }
         crumbs={[
           { label: hi ? "होम" : "Home", href: "/" },
@@ -184,8 +184,8 @@ export default async function FeaturesPage() {
           </h2>
           <p>
             {hi
-              ? "CosmicGPT मुफ्त जन्म कुंडली, दैनिक राशिफल, गुण मिलान, पश्चिमी/केपी/अंक ज्योतिष उपकरण और एआई गुरु चैट को एक जगह लाता है — सरल भाषा में।"
-              : "CosmicGPT brings free janam kundali, daily horoscope, gun milan, Western/KP/numerology tools and AI Guru chat together — in plain English or Hindi."}
+              ? "CosmicGyan मुफ्त जन्म कुंडली, दैनिक राशिफल, गुण मिलान, पश्चिमी/केपी/अंक ज्योतिष उपकरण और एआई गुरु चैट को एक जगह लाता है — सरल भाषा में।"
+              : "CosmicGyan brings free janam kundali, daily horoscope, gun milan, Western/KP/numerology tools and AI Guru chat together — in plain English or Hindi."}
           </p>
           <p>
             {hi

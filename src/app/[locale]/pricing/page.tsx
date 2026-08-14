@@ -22,8 +22,8 @@ export async function generateMetadata(): Promise<Metadata> {
       ? `मूल्य — मुफ्त उपकरण व परामर्श | ${siteConfig.brandName}`
       : `Pricing — Free Tools & Paid Consultation | ${siteConfig.brandName}`,
     description: hi
-      ? "CosmicGPT मूल्य: कुंडली, कैलकुलेटर और एआई चैट मुफ्त। विस्तृत परामर्श व मिलान पैकेज व्यक्तिगत सत्र में — सरल व पारदर्शी।"
-      : "CosmicGPT pricing: kundli, calculators and AI chat stay free. Detailed consultation and matching packages in personal sessions — simple and transparent.",
+      ? "CosmicGyan मूल्य: कुंडली, कैलकुलेटर और एआई चैट मुफ्त। विस्तृत परामर्श व मिलान पैकेज व्यक्तिगत सत्र में — सरल व पारदर्शी।"
+      : "CosmicGyan pricing: kundli, calculators and AI chat stay free. Detailed consultation and matching packages in personal sessions — simple and transparent.",
     keywords: hi
       ? [
           "कुंडली परामर्श मूल्य",

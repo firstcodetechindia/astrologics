@@ -19,9 +19,6 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import "@fontsource/fraunces/500.css";
-import "@fontsource/fraunces/600.css";
-import "@fontsource/fraunces/700.css";
 import "@fontsource/noto-sans-devanagari/400.css";
 import "@fontsource/noto-sans-devanagari/500.css";
 import "@fontsource/noto-sans-devanagari/600.css";
@@ -51,8 +48,15 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={locale === "hi" ? "locale-hi" : "locale-en"}>
-      <body className={cn("antialiased vedic-bg vedic-pattern")}>
+    <html
+      lang={locale}
+      className={locale === "hi" ? "locale-hi" : "locale-en"}
+      suppressHydrationWarning
+    >
+      <body
+        className={cn("antialiased vedic-bg vedic-pattern")}
+        suppressHydrationWarning
+      >
         <JsonLd data={organizationJsonLd()} />
         <JsonLd data={websiteJsonLd()} />
         <NextIntlClientProvider messages={messages}>

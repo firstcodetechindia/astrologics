@@ -57,6 +57,9 @@ export function AstrologyPageLoader() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
+  // Admin control plane has its own shell — skip the public splash overlay.
+  if (pathname.startsWith("/admin")) return null;
+
   if (!visible) return null;
 
   return (

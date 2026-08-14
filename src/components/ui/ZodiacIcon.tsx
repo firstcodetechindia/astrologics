@@ -5,7 +5,7 @@ import {
   type ZodiacSlug,
 } from "@/lib/zodiac-icons";
 
-/** CosmicGPT masked line-art zodiac icon (color via background). */
+/** CosmicGyan masked line-art zodiac icon (color via background). */
 export function ZodiacIcon({
   slug,
   index,

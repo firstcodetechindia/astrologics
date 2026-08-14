@@ -10,10 +10,10 @@ type Props = {
   animated?: boolean;
 };
 
-const WIDTH = { sm: 152, md: 228, lg: 304 } as const;
+const WIDTH = { sm: 172, md: 252, lg: 336 } as const;
 const FONT = { sm: 28, md: 40, lg: 52 } as const;
 
-/** CosmicGPT mark + English tagline — CSS text (smooth), star locked to the “i”. */
+/** CosmicGyan mark + English tagline — CSS text (smooth), star locked to the “i”. */
 export function CosmicGPTWordmark({
   className,
   showTagline,
@@ -28,10 +28,10 @@ export function CosmicGPTWordmark({
   const label = `${siteConfig.brandName} — ${siteConfig.tagline.en}`;
   const tagClass =
     size === "lg"
-      ? "mt-1 text-[12px] tracking-[0.14em] sm:text-[13px]"
+      ? "mt-1.5 text-[12px] tracking-[0.14em] sm:text-[13px]"
       : size === "md"
-        ? "mt-1 text-[11px] tracking-[0.12em]"
-        : "mt-0.5 text-[9px] tracking-[0.11em]";
+        ? "mt-1.5 text-[11px] tracking-[0.12em]"
+        : "mt-1 text-[9px] tracking-[0.11em]";
 
   return (
     <span
@@ -41,7 +41,7 @@ export function CosmicGPTWordmark({
       style={{ width: w }}
     >
       <span
-        className="relative inline-flex items-baseline font-ui font-bold tracking-[-0.03em] text-white"
+        className="relative inline-flex items-baseline pt-[0.28em] font-ui font-bold tracking-[-0.03em] text-white"
         style={{ fontSize: fontPx, lineHeight: 1.05 }}
       >
         <span>Cosm</span>
@@ -59,7 +59,7 @@ export function CosmicGPTWordmark({
         </span>
         <span>c</span>
         <span className="bg-[linear-gradient(90deg,#6C3CFF_0%,#FF5CA8_38%,#FF8A3D_72%,#FFC857_100%)] bg-clip-text pb-[0.08em] text-transparent">
-          GPT
+          Gyan
         </span>
       </span>
 

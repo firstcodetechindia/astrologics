@@ -11,6 +11,7 @@ import {
 } from "@/lib/seo/page-meta";
 import { chatFaqForLocale } from "@/lib/talk/chat-seo";
 import { siteConfig } from "@/lib/site-config";
+import { listLiveDirectory } from "@/lib/astrologers/consult-engine";
 
 export async function generateMetadata({
   params,
@@ -26,8 +27,8 @@ export async function generateMetadata({
       ? `ज्योतिषी से ऑनलाइन चैट — लाइव परामर्श | ${siteConfig.brandName}`
       : `Chat with Astrologer Online — Live Consultation | ${siteConfig.brandName}`,
     description: hi
-      ? "सत्यापित भारतीय ज्योतिषियों से ऑनलाइन चैट — प्रेम, विवाह, करियर और जीवन समय पर मार्गदर्शन। कुछ विशेषज्ञों पर पहली चैट मुफ्त।"
-      : "Chat online with verified Indian astrologers for love, marriage, career and life timing. Select experts offer a first chat free — browse profiles and start when ready.",
+      ? "सत्यापित भारतीय ज्योतिषियों से ऑनलाइन चैट — मानव या स्पष्ट एआई लेबल वाली प्रोफ़ाइल। प्रेम, विवाह, करियर पर मार्गदर्शन।"
+      : "Chat online with verified Indian astrologers — human listings or clearly labeled AI profiles. Guidance on love, marriage and career.",
     keywords: hi
       ? [
           "ज्योतिषी से चैट",
@@ -40,6 +41,7 @@ export async function generateMetadata({
           "chat with astrologer",
           "talk to astrologer online",
           "live astrology consultation",
+          "AI astrologer",
           "verified astrologers",
           "online astrology chat India",
         ],
@@ -55,6 +57,12 @@ export default async function ChatWithAstrologerPage({
   setRequestLocale(locale);
   const hi = locale === "hi";
   const faqs = chatFaqForLocale(locale);
+  let initialLive: Awaited<ReturnType<typeof listLiveDirectory>> = [];
+  try {
+    initialLive = await listLiveDirectory();
+  } catch {
+    initialLive = [];
+  }
 
   return (
     <>
@@ -78,8 +86,8 @@ export default async function ChatWithAstrologerPage({
           }
           description={
             hi
-              ? "ऑनलाइन सर्वश्रेष्ठ ज्योतिषी से बात करें और अपने संबंधों, करियर, वित्त तथा जीवन के अन्य महत्वपूर्ण निर्णयों पर स्पष्ट मार्गदर्शन पाएँ। भरोसेमंद अंतर्दृष्टि, सटीक भविष्यवाणियाँ और पूर्ण गोपनीयता के साथ आप आत्मविश्वास से अगला कदम बढ़ाएँ।"
-              : "Talk to the best astrologer online and get clear guidance on relationships, career, finances, and other important life choices — with trusted insights, accurate predictions, and complete privacy."
+              ? "ऑनलाइन सर्वश्रेष्ठ ज्योतिषी से बात करें और अपने संबंधों, करियर, वित्त तथा जीवन के अन्य महत्वपूर्ण निर्णयों पर स्पष्ट मार्गदर्शन पाएँ। मानव और एआई प्रोफ़ाइल एक ही सूची में हैं — एआई हर कार्ड पर “एआई ज्योतिषी — मानव नहीं” लेबल से दिखता है।"
+              : "Talk to the best astrologer online and get clear guidance on relationships, career, finances, and other important life choices. Human and AI profiles share this directory — every AI listing is labeled “AI astrologer — not a human.”"
           }
           crumbs={[
             { label: hi ? "होम" : "Home", href: "/" },
@@ -89,7 +97,7 @@ export default async function ChatWithAstrologerPage({
           ]}
         />
         <div className="container-page relative py-8 sm:py-10">
-          <ChatAstrologersClient locale={locale} />
+          <ChatAstrologersClient locale={locale} initialLive={initialLive} />
 
           <section className="mt-14 space-y-8 text-[15px] leading-relaxed text-ink-muted">
             <div className="space-y-3">
@@ -100,8 +108,8 @@ export default async function ChatWithAstrologerPage({
               </h2>
               <p>
                 {hi
-                  ? "CosmicGPT पर आप मुफ्त जन्म कुंडली बना सकते हैं और एआई गुरु से अपनी गणना की गई कुंडली पर त्वरित प्रश्न पूछ सकते हैं। यह स्व-अध्ययन और स्पष्टीकरण के लिए उपयुक्त है — ग्रह स्थिति पहले इंजन से निकलती है, एआई उन परिणामों की भाषा में व्याख्या करता है।"
-                  : "On CosmicGPT you can generate a free birth chart and ask AI Guru quick follow-up questions on your calculated results. That suits self-study and clarification — planetary positions come from the calculation engine first; AI interprets those results in plain language."}
+                  ? "CosmicGyan पर आप मुफ्त जन्म कुंडली बना सकते हैं और एआई गुरु से अपनी गणना की गई कुंडली पर त्वरित प्रश्न पूछ सकते हैं। यह स्व-अध्ययन और स्पष्टीकरण के लिए उपयुक्त है — ग्रह स्थिति पहले इंजन से निकलती है, एआई उन परिणामों की भाषा में व्याख्या करता है।"
+                  : "On CosmicGyan you can generate a free birth chart and ask AI Guru quick follow-up questions on your calculated results. That suits self-study and clarification — planetary positions come from the calculation engine first; AI interprets those results in plain language."}
               </p>
               <p>
                 {hi

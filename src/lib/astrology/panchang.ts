@@ -142,6 +142,97 @@ export function computePanchang(
   };
 }
 
+const LUNAR_MASA: { id: string; en: string; hi: string }[] = [
+  { id: "Chaitra", en: "Chaitra", hi: "चैत्र" },
+  { id: "Vaishakha", en: "Vaishakha", hi: "वैशाख" },
+  { id: "Jyeshtha", en: "Jyeshtha", hi: "ज्येष्ठ" },
+  { id: "Ashadha", en: "Ashadha", hi: "आषाढ़" },
+  { id: "Shravana", en: "Shravana", hi: "श्रावण" },
+  { id: "Bhadrapada", en: "Bhadrapada", hi: "भाद्रपद" },
+  { id: "Ashwina", en: "Ashwina", hi: "आश्विन" },
+  { id: "Kartika", en: "Kartika", hi: "कार्तिक" },
+  { id: "Margashirsha", en: "Margashirsha", hi: "मार्गशीर्ष" },
+  { id: "Pausha", en: "Pausha", hi: "पौष" },
+  { id: "Magha", en: "Magha", hi: "माघ" },
+  { id: "Phalguna", en: "Phalguna", hi: "फाल्गुन" },
+];
+
+/** Purnima Moon nakshatra → Amanta lunar month (named after that Purnima). */
+const MASA_BY_PURNIMA_NAK = [
+  "Ashwina",
+  "Ashwina",
+  "Kartika",
+  "Kartika",
+  "Margashirsha",
+  "Margashirsha",
+  "Pausha",
+  "Pausha",
+  "Pausha",
+  "Magha",
+  "Phalguna",
+  "Phalguna",
+  "Phalguna",
+  "Chaitra",
+  "Chaitra",
+  "Vaishakha",
+  "Vaishakha",
+  "Jyeshtha",
+  "Jyeshtha",
+  "Ashadha",
+  "Ashadha",
+  "Shravana",
+  "Shravana",
+  "Bhadrapada",
+  "Bhadrapada",
+  "Bhadrapada",
+  "Ashwina",
+] as const;
+
+function masaRow(id: string) {
+  return LUNAR_MASA.find((m) => m.id === id) || LUNAR_MASA[0]!;
+}
+
+/**
+ * Amanta lunar month named by the Purnima Moon nakshatra of this lunar month.
+ * Shukla paksha → upcoming Purnima; Krishna paksha → Purnima just passed.
+ * Same astronomy-engine + Lahiri stack as computePanchang — not a civil MM-DD table.
+ */
+export function lunarMasaAt(date: Date, opts?: { timezoneOffsetMinutes?: number }) {
+  const tz = opts?.timezoneOffsetMinutes ?? 330;
+  const here = computePanchang(date, { timezoneOffsetMinutes: tz });
+  const tithiIndex = here.tithi.index - 1;
+  const dir: 1 | -1 = tithiIndex <= 14 ? 1 : -1;
+  let purnima = date;
+  if (here.tithi.index !== 15) {
+    let t = date.getTime();
+    let found = false;
+    for (let step = 0; step < 18 * 24; step += 1) {
+      t += dir * 60 * 60 * 1000;
+      const q = computePanchang(new Date(t), { timezoneOffsetMinutes: tz });
+      if (q.tithi.index === 15) {
+        purnima = new Date(t);
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      throw new Error("Could not locate Purnima for lunar masa (search window 18d).");
+    }
+  }
+  const atPurnima = computePanchang(purnima, { timezoneOffsetMinutes: tz });
+  const masaId = MASA_BY_PURNIMA_NAK[atPurnima.nakshatra.index] || "Chaitra";
+  const row = masaRow(masaId);
+  return {
+    id: row.id,
+    name: { en: row.en, hi: row.hi },
+    pakshaId: here.paksha.id as "Shukla" | "Krishna",
+    tithiInPaksha: tithiIndex % 15,
+    tithiIndex: here.tithi.index,
+    purnimaNakshatra: atPurnima.nakshatra.name.en,
+    method: "purnima-nakshatra" as const,
+  };
+}
+
 export function computeBirthPanchang(isoDate: string, time = "12:00", tz = 330) {
   const [y, m, d] = isoDate.split("-").map(Number);
   const [hh, mm] = time.split(":").map(Number);

@@ -1,24 +1,45 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import {
   CONSULT_CATEGORIES,
+  DIRECTORY_ASTROLOGERS,
   filterAstrologers,
   type ConsultCategory,
+  type DirectoryAstrologer,
 } from "@/lib/astrologers/directory";
 import { cn } from "@/lib/utils";
 import { AstrologerCard } from "./AstrologerCard";
 
-export function ChatAstrologersClient({ locale }: { locale: string }) {
+export function ChatAstrologersClient({
+  locale,
+  initialLive = [],
+}: {
+  locale: string;
+  initialLive?: DirectoryAstrologer[];
+}) {
   const hi = locale === "hi";
   const [category, setCategory] = useState<"all" | ConsultCategory>("all");
   const [query, setQuery] = useState("");
+  const [live, setLive] = useState<DirectoryAstrologer[]>(initialLive);
 
-  const list = useMemo(
-    () => filterAstrologers(category, query),
-    [category, query]
-  );
+  useEffect(() => {
+    void fetch("/api/astrologers/directory", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((j) => {
+        if (j.ok) setLive(j.astrologers || []);
+      })
+      .catch(() => undefined);
+  }, []);
+
+  const list = useMemo(() => {
+    const merged = [
+      ...live,
+      ...DIRECTORY_ASTROLOGERS.filter((d) => !live.some((l) => l.id === d.id)),
+    ];
+    return filterAstrologers(category, query, merged);
+  }, [category, query, live]);
 
   return (
     <div>

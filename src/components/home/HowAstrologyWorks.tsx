@@ -23,8 +23,8 @@ const STEPS = [
     n: "03",
     title: { en: "Get Personalized Guidance", hi: "व्यक्तिगत मार्गदर्शन पाएँ" },
     text: {
-      en: "CosmicGPT analyzes your astrological information and explains the insights in simple language.",
-      hi: "CosmicGPT आपकी ज्योतिष जानकारी का विश्लेषण कर सरल भाषा में समझाता है।",
+      en: "CosmicGyan analyzes your astrological information and explains the insights in simple language.",
+      hi: "CosmicGyan आपकी ज्योतिष जानकारी का विश्लेषण कर सरल भाषा में समझाता है।",
     },
   },
 ] as const;

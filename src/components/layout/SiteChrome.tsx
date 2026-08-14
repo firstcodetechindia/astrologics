@@ -26,6 +26,10 @@ function isDashboardPath(pathname: string) {
   return pathname === "/dashboard" || pathname.startsWith("/dashboard/");
 }
 
+function isAdminPath(pathname: string) {
+  return pathname === "/admin" || pathname.startsWith("/admin/");
+}
+
 const MOBILE_NAV_PAD =
   "pb-[calc(5.25rem+env(safe-area-inset-bottom))] lg:pb-0";
 
@@ -33,6 +37,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const auth = isAuthPath(pathname);
   const dashboard = isDashboardPath(pathname);
+  const admin = isAdminPath(pathname);
 
   useEffect(() => {
     if (!auth) return;
@@ -66,6 +71,17 @@ export function SiteChrome({ children }: { children: ReactNode }) {
           {children}
         </main>
         <MobileBottomNav />
+      </>
+    );
+  }
+
+  if (admin) {
+    return (
+      <>
+        <AstrologyPageLoader />
+        <main className="min-h-dvh w-full max-w-[100vw] overflow-x-hidden bg-cosmic-navy">
+          {children}
+        </main>
       </>
     );
   }

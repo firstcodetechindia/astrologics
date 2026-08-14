@@ -25,7 +25,7 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-/** Accurate CosmicGPT defaults — not shown in the form UI. */
+/** Accurate CosmicGyan defaults — not shown in the form UI. */
 const KUNDLI_DEFAULTS = {
   ayanamsa: "lahiri" as const,
   houseSystem: "whole_sign" as const,

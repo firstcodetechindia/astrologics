@@ -13,6 +13,7 @@ import {
 } from "@/lib/ai/providers";
 import { getOrComputeChart } from "@/lib/ai/chart-fact-cache";
 import { filterAiAgainstFactSheet } from "@/lib/ai/ai-post-filter";
+import { hasDatabaseUrl } from "@/lib/db";
 import { assertChatQuota, consumeChatQuota } from "@/lib/ai/chat-quota";
 import { FREE_CHAT_LIMIT } from "@/lib/ai/chat-limits";
 import {
@@ -164,6 +165,19 @@ export async function POST(req: Request) {
       );
     }
 
+    let personaBlock = "";
+    try {
+      if (hasDatabaseUrl()) {
+        const { getPersona } = await import("@/lib/ai/chat-agent-store");
+        const persona = await getPersona(String(body.personaSlug || "ai_guru"));
+        if (persona?.enabled && persona.systemPrompt) {
+          personaBlock = `\n\nAdmin-configured persona (${persona.slug}, tone ${persona.tone}):\n${persona.systemPrompt}`;
+        }
+      }
+    } catch {
+      /* Phase 4 tables may not exist yet */
+    }
+
     const consumed = consumeChatQuota(req.headers.get("cookie"));
 
     if (!provider) {
@@ -206,7 +220,7 @@ export async function POST(req: Request) {
       { role: "system", content: systemPrompt(locale) },
       {
         role: "system",
-        content: `Birth chart context for this user (cached fact-sheet key ${cached.key} — do not recalculate):\n${cached.summary}`,
+        content: `Birth chart context for this user (cached fact-sheet key ${cached.key} — do not recalculate):\n${cached.summary}${personaBlock}`,
       },
       ...history.map((h: { role?: string; content?: string }) => ({
         role: (h.role === "assistant" ? "assistant" : "user") as

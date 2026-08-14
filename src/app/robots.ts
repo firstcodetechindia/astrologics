@@ -11,6 +11,8 @@ export default function robots(): MetadataRoute.Robots {
         "/*/login",
         "/*/signup",
         "/*/dashboard",
+        "/*/admin",
+        "/*/admin/*",
         "/*/astrologer/dashboard",
         "/*/astrologer/signin",
         "/*/astrologer/signup",

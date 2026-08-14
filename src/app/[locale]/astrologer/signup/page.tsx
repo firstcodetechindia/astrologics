@@ -16,8 +16,8 @@ export async function generateMetadata(): Promise<Metadata> {
       ? `ज्योतिषी साइन अप | ${siteConfig.brandName}`
       : `Astrologer Sign Up | ${siteConfig.brandName}`,
     description: hi
-      ? "CosmicGPT के साथ सत्यापित ज्योतिषी के रूप में जुड़ें।"
-      : "Join CosmicGPT as a verified astrologer partner.",
+      ? "CosmicGyan के साथ सत्यापित ज्योतिषी के रूप में जुड़ें।"
+      : "Join CosmicGyan as a verified astrologer partner.",
     noIndex: true,
   });
 }

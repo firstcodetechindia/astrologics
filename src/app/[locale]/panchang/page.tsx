@@ -115,8 +115,8 @@ export default async function PanchangPage() {
             </h2>
             <p>
               {hi
-                ? "पंचांग का शाब्दिक अर्थ पाँच अंग है — तिथि, वार, नक्षत्र, योग और करण। ये पाँच तत्व पारंपरिक रूप से दैनिक शुभ-अशुभ समय और धार्मिक/सामाजिक कार्यों के चयन में सहायक माने जाते हैं। CosmicGPT आपके शहर के लिए सूर्योदय-अस्त के साथ इन अंगों की गणना लाहिरी पद्धति से करता है।"
-                : "Panchang literally means five limbs — Tithi, Vara (weekday), Nakshatra, Yoga and Karana. Together they form the traditional daily calendar used for muhurat, festivals and everyday timing decisions. CosmicGPT calculates these limbs for your city with sunrise/sunset using the Lahiri standard."}
+                ? "पंचांग का शाब्दिक अर्थ पाँच अंग है — तिथि, वार, नक्षत्र, योग और करण। ये पाँच तत्व पारंपरिक रूप से दैनिक शुभ-अशुभ समय और धार्मिक/सामाजिक कार्यों के चयन में सहायक माने जाते हैं। CosmicGyan आपके शहर के लिए सूर्योदय-अस्त के साथ इन अंगों की गणना लाहिरी पद्धति से करता है।"
+                : "Panchang literally means five limbs — Tithi, Vara (weekday), Nakshatra, Yoga and Karana. Together they form the traditional daily calendar used for muhurat, festivals and everyday timing decisions. CosmicGyan calculates these limbs for your city with sunrise/sunset using the Lahiri standard."}
             </p>
             <h2 className="font-display text-xl font-bold text-ink">
               {hi ? "चौघड़िया और राहु काल कैसे उपयोग करें" : "Using Choghadiya and Rahu Kaal"}

@@ -14,8 +14,8 @@ export async function generateMetadata(): Promise<Metadata> {
       ? `प्रोफ़ाइल | ${siteConfig.brandName}`
       : `Profile | ${siteConfig.brandName}`,
     description: hi
-      ? "अपनी CosmicGPT प्रोफ़ाइल अपडेट करें।"
-      : "Update your CosmicGPT profile.",
+      ? "अपनी CosmicGyan प्रोफ़ाइल अपडेट करें।"
+      : "Update your CosmicGyan profile.",
     noIndex: true,
   });
 }

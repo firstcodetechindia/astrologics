@@ -133,8 +133,8 @@ export function howToKundliJsonLd(locale: string) {
     "@context": "https://schema.org",
     "@type": "HowTo",
     name: hi
-      ? "CosmicGPT पर मुफ्त कुंडली कैसे बनाएँ"
-      : "How to generate a free kundli on CosmicGPT",
+      ? "CosmicGyan पर मुफ्त कुंडली कैसे बनाएँ"
+      : "How to generate a free kundli on CosmicGyan",
     description: hi
       ? "जन्म तिथि, समय और स्थान से लाहिरी निरयण जन्म कुंडली बनाएँ।"
       : "Create a Lahiri sidereal janam kundali from birth date, time and place.",

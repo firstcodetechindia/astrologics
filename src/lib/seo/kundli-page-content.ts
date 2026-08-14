@@ -13,8 +13,8 @@ export const KUNDLI_PAGE_FAQS: { q: LocaleText; a: LocaleText }[] = [
   },
   {
     q: {
-      en: "Which calculation method does CosmicGPT use?",
-      hi: "CosmicGPT कौन-सी गणना पद्धति उपयोग करता है?",
+      en: "Which calculation method does CosmicGyan use?",
+      hi: "CosmicGyan कौन-सी गणना पद्धति उपयोग करता है?",
     },
     a: {
       en: "India’s standard Lahiri (sidereal) ayanamsa with whole-sign houses.",
@@ -37,8 +37,8 @@ export const KUNDLI_PAGE_FAQS: { q: LocaleText; a: LocaleText }[] = [
       hi: "क्या यह कुंडली मुफ्त है?",
     },
     a: {
-      en: "Yes. Chart generation on CosmicGPT is completely free.",
-      hi: "हाँ। CosmicGPT पर कुंडली बनाना पूरी तरह मुफ्त है।",
+      en: "Yes. Chart generation on CosmicGyan is completely free.",
+      hi: "हाँ। CosmicGyan पर कुंडली बनाना पूरी तरह मुफ्त है।",
     },
   },
 ];

@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "https://www.cosmicgpt.in"
-  ),
+  metadataBase: new URL(siteConfig.siteUrl),
   title: {
     default: `${siteConfig.brandName} — ${siteConfig.tagline.en}`,
     template: `%s | ${siteConfig.brandName}`,

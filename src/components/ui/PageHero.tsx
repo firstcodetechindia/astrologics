@@ -502,10 +502,10 @@ export function PageHero({
               )}
             />
 
-            <div className="relative">
+            <div className="relative flex flex-col items-center gap-3.5 sm:gap-4 lg:items-start">
               {crumbs && crumbs.length > 0 ? (
-                <nav aria-label="Breadcrumb" className="mb-2">
-                  <ol className="flex flex-wrap items-center justify-center gap-1.5 text-[11px] text-ink-muted lg:justify-start">
+                <nav aria-label="Breadcrumb">
+                  <ol className="flex flex-wrap items-center justify-center gap-1.5 text-[11px] leading-normal text-ink-muted lg:justify-start">
                     {crumbs.map((c, i) => (
                       <li
                         key={`${c.label}-${i}`}
@@ -534,7 +534,7 @@ export function PageHero({
 
               {eyebrow ? (
                 <motion.p
-                  className="mb-1.5 inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-cosmic-gold"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[10px] font-bold uppercase leading-normal tracking-[0.16em] text-cosmic-gold"
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.08, duration: 0.3 }}
@@ -548,7 +548,7 @@ export function PageHero({
               ) : null}
 
               <motion.h1
-                className="heading-1 mx-auto max-w-2xl font-display tracking-tight text-white drop-shadow-[0_2px_18px_rgba(108,60,255,0.25)] lg:mx-0"
+                className="page-hero-title mx-auto w-full max-w-2xl text-center font-display tracking-tight text-white drop-shadow-[0_2px_18px_rgba(108,60,255,0.25)] lg:mx-0 lg:text-left"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1, duration: 0.35 }}
@@ -558,7 +558,7 @@ export function PageHero({
 
               {description ? (
                 <motion.p
-                  className="mx-auto mt-2 max-w-xl text-[14px] leading-relaxed text-ink-muted sm:text-[15px] lg:mx-0"
+                  className="mx-auto max-w-xl text-center text-[15px] leading-[1.75] text-ink-muted sm:text-base lg:mx-0 lg:text-left"
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.15, duration: 0.35 }}
@@ -569,7 +569,7 @@ export function PageHero({
 
               {actions ? (
                 <motion.div
-                  className="mt-4 flex flex-wrap items-center justify-center gap-2 lg:justify-start"
+                  className="mt-1 flex flex-wrap items-center justify-center gap-2 lg:justify-start"
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2, duration: 0.35 }}

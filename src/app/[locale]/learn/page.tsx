@@ -59,8 +59,8 @@ export default async function LearnHubPage() {
         title={hi ? "ज्योतिष सीखें — परंपराओं के पार गाइड" : "Learn Astrology — Guides Across Traditions"}
         description={
           hi
-            ? "CosmicGPT पर राशियाँ, ग्रह, भाव, केपी, पश्चिमी आस्पेक्ट और व्यावहारिक विषय — एक जगह, सरल भाषा में।"
-            : "On CosmicGPT: signs, planets, houses, KP, Western aspects, and practical topics — one place, plain language."
+            ? "CosmicGyan पर राशियाँ, ग्रह, भाव, केपी, पश्चिमी आस्पेक्ट और व्यावहारिक विषय — एक जगह, सरल भाषा में।"
+            : "On CosmicGyan: signs, planets, houses, KP, Western aspects, and practical topics — one place, plain language."
         }
         crumbs={[
           { label: hi ? "होम" : "Home", href: "/" },

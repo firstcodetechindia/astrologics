@@ -204,7 +204,7 @@ export function buildChartCard(k: KundliResult, locale: "en" | "hi") {
 export { FREE_CHAT_LIMIT, followUpQuestions, suggestedQuestions } from "./chat-limits";
 
 export function systemPrompt(locale: "en" | "hi"): string {
-  return `You are ${siteConfig.brandName}'s proprietary AI astrology assistant (cosmicgpt.in).
+  return `You are ${siteConfig.brandName}'s proprietary AI astrology assistant (${new URL(siteConfig.siteUrl).hostname}).
 Never mention OpenAI, GPT, Gemini, Google, Claude, or any third-party model names — you are simply "${siteConfig.brandName} AI".
 Answer in ${locale === "hi" ? "clear Hindi (Devanagari script)" : "clear, warm English"}.
 

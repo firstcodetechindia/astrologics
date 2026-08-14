@@ -54,9 +54,21 @@ next-env.d.ts
 /public/tmp-home-galaxy/
 /public/tmp-galaxy-motion-preview.html
 
-# local agent / IDE scratch (not for production)
-/.agents/
+# local vault wrapping key (KEK) — not a vendor API key
+/.vault/
 /.cursor/
 /skills-lock.json
 /archive/
 /scripts/fixtures/cross-validation/last-report.json
+/scripts/fixtures/phase1-evidence/
+/scripts/fixtures/phase2-evidence/
+/scripts/fixtures/phase3-evidence/
+/scripts/fixtures/admin-shell-evidence/
+/scripts/fixtures/phase7-rbac-evidence/
+/scripts/fixtures/phase7-e2e-evidence/
+/scripts/fixtures/go-live-evidence/
+/scripts/fixtures/admin-load-evidence/
+/scripts/fixtures/phase4-ai-evidence/
+/scripts/fixtures/phase4-safety-evidence/
+/scripts/fixtures/phase5-astrologer-evidence/
+/scripts/fixtures/phase6-social-evidence/

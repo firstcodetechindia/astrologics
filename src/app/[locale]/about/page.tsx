@@ -22,14 +22,14 @@ export async function generateMetadata({
     locale,
     path: "/about",
     title: hi
-      ? "CosmicGPT परिचय — बहु-परंपरा एआई ज्योतिष"
-      : "About CosmicGPT — Multi-Tradition AI Astrology",
+      ? "CosmicGyan परिचय — बहु-परंपरा एआई ज्योतिष"
+      : "About CosmicGyan — Multi-Tradition AI Astrology",
     description: hi
-      ? "CosmicGPT वैदिक, पश्चिमी, केपी ज्योतिष और अंक ज्योतिष को एआई चार्ट व्याख्या से जोड़ता है — अनुमान नहीं, गणना; हिंदी व अंग्रेज़ी में।"
-      : "CosmicGPT combines Vedic, Western, KP astrology and numerology with AI-powered chart explanations — calculated, not guessed, in EN & HI.",
+      ? "CosmicGyan वैदिक, पश्चिमी, केपी ज्योतिष और अंक ज्योतिष को एआई चार्ट व्याख्या से जोड़ता है — अनुमान नहीं, गणना; हिंदी व अंग्रेज़ी में।"
+      : "CosmicGyan combines Vedic, Western, KP astrology and numerology with AI-powered chart explanations — calculated, not guessed, in EN & HI.",
     keywords: hi
       ? [
-          "CosmicGPT परिचय",
+          "CosmicGyan परिचय",
           "ज्योतिष प्लेटफ़ॉर्म",
           "जन्म कुंडली",
           "एआई ज्योतिष",
@@ -37,7 +37,7 @@ export async function generateMetadata({
           "अंक ज्योतिष",
         ]
       : [
-          "about CosmicGPT",
+          "about CosmicGyan",
           "astrology platform",
           "AI astrology",
           "janam kundali online",
@@ -87,13 +87,13 @@ export default async function AboutPage({
           </h2>
           <p>
             {hi
-              ? "ज्योतिष पद्धति: लाहिरी (चित्रापक्ष) अयनांश, पूर्ण-राशि भाव, और विंशोत्तरी दशा समय-रेखा। ग्रह देशांतर गणना इंजन से निकलते हैं; एआई गुरु केवल उन परिणामों की व्याख्या करता है। सामग्री CosmicGPT Editorial द्वारा समीक्षित है — गणना पारदर्शिता और भय-मुक्त भाषा पर जोर।"
-              : "Astrology method: Lahiri (Chitrapaksha) ayanamsa, whole-sign houses, and Vimshottari dasha timing. Planetary longitudes come from the calculation engine; AI Guru only interprets those results. Content is reviewed by CosmicGPT Editorial with emphasis on calculation transparency and non-fear-based language."}
+              ? "ज्योतिष पद्धति: लाहिरी (चित्रापक्ष) अयनांश, पूर्ण-राशि भाव, और विंशोत्तरी दशा समय-रेखा। ग्रह देशांतर गणना इंजन से निकलते हैं; एआई गुरु केवल उन परिणामों की व्याख्या करता है। सामग्री CosmicGyan Editorial द्वारा समीक्षित है — गणना पारदर्शिता और भय-मुक्त भाषा पर जोर।"
+              : "Astrology method: Lahiri (Chitrapaksha) ayanamsa, whole-sign houses, and Vimshottari dasha timing. Planetary longitudes come from the calculation engine; AI Guru only interprets those results. Content is reviewed by CosmicGyan Editorial with emphasis on calculation transparency and non-fear-based language."}
           </p>
           <p>
             {hi
-              ? "CosmicGPT पर ग्रह स्थिति, भाव, नक्षत्र और विंशोत्तरी दशा पहले ज्योतिष गणना इंजन से निकलती हैं। एआई गुरु इन गणना परिणामों की व्याख्या सरल हिंदी या अंग्रेज़ी में करता है; यह ग्रहों की स्थिति गढ़ता नहीं है।"
-              : "On CosmicGPT, planetary positions, houses, Nakshatras and Vimshottari dasha are calculated first by the astrology engine. AI Guru interprets those calculated results in plain Hindi or English; it does not invent planetary positions."}
+              ? "CosmicGyan पर ग्रह स्थिति, भाव, नक्षत्र और विंशोत्तरी दशा पहले ज्योतिष गणना इंजन से निकलती हैं। एआई गुरु इन गणना परिणामों की व्याख्या सरल हिंदी या अंग्रेज़ी में करता है; यह ग्रहों की स्थिति गढ़ता नहीं है।"
+              : "On CosmicGyan, planetary positions, houses, Nakshatras and Vimshottari dasha are calculated first by the astrology engine. AI Guru interprets those calculated results in plain Hindi or English; it does not invent planetary positions."}
           </p>
           <p>
             {hi
@@ -124,8 +124,8 @@ export default async function AboutPage({
           </p>
           <p>
             {hi
-              ? "गुण मिलान, मंगल दोष जाँच, पंचांग और एआई गुरु चैट से लेकर व्यक्तिगत परामर्श तक — CosmicGPT आधुनिक जीवन के लिए ज्योतिष को सुलभ बनाता है।"
-              : "From gun milan, Mangal dosha checks and panchang to AI Guru chat and personal consultation — CosmicGPT makes astrology practical for modern life."}
+              ? "गुण मिलान, मंगल दोष जाँच, पंचांग और एआई गुरु चैट से लेकर व्यक्तिगत परामर्श तक — CosmicGyan आधुनिक जीवन के लिए ज्योतिष को सुलभ बनाता है।"
+              : "From gun milan, Mangal dosha checks and panchang to AI Guru chat and personal consultation — CosmicGyan makes astrology practical for modern life."}
           </p>
         </section>
         <ContactCTA title={home("ctaBandTitle")} text={home("ctaBandText")} />
