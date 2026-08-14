@@ -1,8 +1,20 @@
-import { randomBytes, scrypt, timingSafeEqual, createHash } from "node:crypto";
+import {
+  randomBytes,
+  scrypt,
+  timingSafeEqual,
+  createHash,
+  type BinaryLike,
+  type ScryptOptions,
+} from "node:crypto";
 import { promisify } from "node:util";
 import { getSql } from "@/lib/db";
 
-const scryptAsync = promisify(scrypt);
+const scryptAsync = promisify(scrypt) as (
+  password: BinaryLike,
+  salt: BinaryLike,
+  keylen: number,
+  options?: ScryptOptions
+) => Promise<Buffer>;
 
 export const ADMIN_COOKIE = "cg_admin_session";
 const SESSION_DAYS = 7;

@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { isAuth0Enabled, getAuth0Client } from "@/lib/auth/auth0";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   if (!(await isAuth0Enabled())) {
     return NextResponse.json(
       {
@@ -18,6 +18,6 @@ export async function GET(req: NextRequest) {
   return auth0.startInteractiveLogin();
 }
 
-export async function POST(req: NextRequest) {
-  return GET(req);
+export async function POST() {
+  return GET();
 }

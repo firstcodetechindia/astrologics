@@ -42,7 +42,7 @@ export async function POST(req: Request) {
       if (!result.ok) {
         return NextResponse.json(result, { status: "status" in result ? Number(result.status) || 400 : 400 });
       }
-      return NextResponse.json({ ok: true, ...result, transport: gw.transport, gateway: gw.slotKey });
+      return NextResponse.json({ ...result, transport: gw.transport, gateway: gw.slotKey });
     }
     const result = await createCheckout({
       purpose: body.purpose || "consultation",

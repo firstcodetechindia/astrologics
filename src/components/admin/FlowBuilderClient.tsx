@@ -40,7 +40,7 @@ export function FlowBuilderClient() {
   const [flow, setFlow] = useState<Flow | null>(null);
   const [selectedKey, setSelectedKey] = useState("");
   const [linkFrom, setLinkFrom] = useState("");
-  const [busy, setBusy] = useState("");
+  const [, setBusy] = useState("");
   const [convId, setConvId] = useState("");
   const [log, setLog] = useState<PlayMsg[]>([]);
   const [awaiting, setAwaiting] = useState<"input" | "choice" | "ai" | "none">("none");

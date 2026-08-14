@@ -6,12 +6,12 @@ import type {
 } from "../types";
 import { resolveTransport } from "../transport";
 
-function ping(
+async function ping(
   slotKey: string,
   ctx: AdapterContext,
   secret: string,
   extra?: Record<string, unknown>
-): TestCallResult {
+): Promise<TestCallResult> {
   const transport = resolveTransport(ctx, secret);
   return {
     ok: true,

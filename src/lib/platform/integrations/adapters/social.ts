@@ -1,12 +1,12 @@
 import type { AdapterContext, ProviderAdapter, SocialPublisher, TestCallResult } from "../types";
 import { isMockCredential, resolveTransport } from "../transport";
 
-function ping(
+async function ping(
   slotKey: string,
   ctx: AdapterContext,
   secret: string,
   extra?: Record<string, unknown>
-): TestCallResult {
+): Promise<TestCallResult> {
   const transport = resolveTransport(ctx, secret);
   return {
     ok: true,
