@@ -1,18 +1,9 @@
 import { NextResponse } from "next/server";
 import { resolvePlace } from "@/lib/astrology/geocode";
 import type { BirthInput } from "@/lib/astrology/types";
-import {
-  buildChartCard,
-  fallbackProvider,
-  resolveProvider,
-  streamAi,
-  suggestedQuestions,
-  systemPrompt,
-  type AiProvider,
-  type ChatMessage,
-} from "@/lib/ai/providers";
+import { buildChartCard, resolveProvider, suggestedQuestions } from "@/lib/ai/providers";
 import { getOrComputeChart } from "@/lib/ai/chart-fact-cache";
-import { filterAiAgainstFactSheet } from "@/lib/ai/ai-post-filter";
+import { runGuruTurn } from "@/lib/ai/run-guru-turn";
 import { hasDatabaseUrl } from "@/lib/db";
 import { assertChatQuota, consumeChatQuota } from "@/lib/ai/chat-quota";
 import { FREE_CHAT_LIMIT } from "@/lib/ai/chat-limits";
@@ -127,7 +118,6 @@ export async function POST(req: Request) {
     const history = Array.isArray(body.history) ? body.history.slice(-10) : [];
     const locale = body.locale === "hi" ? "hi" : "en";
     const chartKey = body.chartKey ? String(body.chartKey) : null;
-    const provider = resolveProvider();
 
     if (!message || message.length > 2000) {
       return NextResponse.json({ error: "Invalid message" }, { status: 400 });
@@ -165,13 +155,17 @@ export async function POST(req: Request) {
       );
     }
 
-    let personaBlock = "";
+    let personaSlug = String(body.personaSlug || "ai_guru");
+    let personaPrompt: string | null = null;
+    let personaTone: string | undefined;
     try {
       if (hasDatabaseUrl()) {
         const { getPersona } = await import("@/lib/ai/chat-agent-store");
-        const persona = await getPersona(String(body.personaSlug || "ai_guru"));
+        const persona = await getPersona(personaSlug);
         if (persona?.enabled && persona.systemPrompt) {
-          personaBlock = `\n\nAdmin-configured persona (${persona.slug}, tone ${persona.tone}):\n${persona.systemPrompt}`;
+          personaSlug = persona.slug;
+          personaPrompt = persona.systemPrompt;
+          personaTone = persona.tone;
         }
       }
     } catch {
@@ -179,57 +173,6 @@ export async function POST(req: Request) {
     }
 
     const consumed = consumeChatQuota(req.headers.get("cookie"));
-
-    if (!provider) {
-      const fallback =
-        locale === "hi"
-          ? `आपकी कुंडली तैयार है, पर अभी एआई सेवा उपलब्ध नहीं है। नीचे सारांश है — बाद में फिर कोशिश करें।\n\n${cached.summary}`
-          : `Your kundli is ready, but our AI is temporarily unavailable. Here is your chart summary — please try again later.\n\n${cached.summary}`;
-
-      const encoder = new TextEncoder();
-      const stream = new ReadableStream({
-        start(controller) {
-          controller.enqueue(
-            encoder.encode(`data: ${JSON.stringify({ delta: fallback })}\n\n`)
-          );
-          controller.enqueue(
-            encoder.encode(
-              `data: ${JSON.stringify({
-                done: true,
-                mode: "fallback",
-                chartKey: cached.key,
-                freeUsed: consumed.used,
-                freeLimit: FREE_CHAT_LIMIT,
-              })}\n\n`
-            )
-          );
-          controller.close();
-        },
-      });
-      return new Response(stream, {
-        headers: {
-          "Content-Type": "text/event-stream; charset=utf-8",
-          "Cache-Control": "no-cache, no-transform",
-          Connection: "keep-alive",
-          "Set-Cookie": consumed.setCookie,
-        },
-      });
-    }
-
-    const messages: ChatMessage[] = [
-      { role: "system", content: systemPrompt(locale) },
-      {
-        role: "system",
-        content: `Birth chart context for this user (cached fact-sheet key ${cached.key} — do not recalculate):\n${cached.summary}${personaBlock}`,
-      },
-      ...history.map((h: { role?: string; content?: string }) => ({
-        role: (h.role === "assistant" ? "assistant" : "user") as
-          | "assistant"
-          | "user",
-        content: String(h.content || "").slice(0, 2500),
-      })),
-      { role: "user", content: message },
-    ];
 
     const encoder = new TextEncoder();
     const stream = new ReadableStream({
@@ -240,44 +183,35 @@ export async function POST(req: Request) {
           );
         };
 
-        const collectFrom = async (p: AiProvider) => {
-          let full = "";
-          await streamAi(p, messages, (delta) => {
-            full += delta;
-          });
-          return full;
-        };
-
         try {
-          let raw = "";
-          try {
-            raw = await collectFrom(provider);
-          } catch (primaryErr) {
-            console.error(primaryErr);
-            const alt = fallbackProvider(provider);
-            if (!alt) throw primaryErr;
-            raw = await collectFrom(alt);
-          }
-
-          const filtered = filterAiAgainstFactSheet(
-            raw,
-            cached.factSheet,
-            locale
-          );
-          // Emit filtered text in chunks for SSE clients
+          const turn = await runGuruTurn({
+            locale,
+            userMessage: message,
+            chartKey: cached.key,
+            birth: input,
+            history: history.map((h: { role?: string; content?: string }) => ({
+              role: h.role === "assistant" ? "assistant" : "user",
+              content: String(h.content || ""),
+            })),
+            personaSlug,
+            personaPrompt,
+            personaTone,
+          });
           const chunkSize = 48;
-          for (let i = 0; i < filtered.text.length; i += chunkSize) {
-            send({ delta: filtered.text.slice(i, i + chunkSize) });
+          for (let i = 0; i < turn.text.length; i += chunkSize) {
+            send({ delta: turn.text.slice(i, i + chunkSize) });
           }
           send({
             done: true,
             mode: "ok",
-            chartKey: cached.key,
-            cacheHits: cached.hits,
+            chartKey: turn.chartKey,
+            cacheHits: turn.hits,
             filter: {
-              flagged: filtered.flagged,
-              violationCount: filtered.violations.length,
-              violations: filtered.violations.slice(0, 8),
+              flagged: turn.flagged,
+              violationCount: turn.violations.length,
+              violations: turn.violations.slice(0, 8),
+              factFilterRan: true,
+              scopeFlagged: turn.scopeFlagged,
             },
             freeUsed: consumed.used,
             freeLimit: FREE_CHAT_LIMIT,

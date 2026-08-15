@@ -4,13 +4,15 @@
  */
 import { getSql, hasDatabaseUrl } from "@/lib/db";
 import { getOrComputeChart } from "@/lib/ai/chart-fact-cache";
-import { filterAiAgainstFactSheet } from "@/lib/ai/ai-post-filter";
 import {
   resolveProvider,
   streamAi,
-  systemPrompt,
   type ChatMessage,
 } from "@/lib/ai/providers";
+import {
+  applyGuruSafetyFilters,
+  buildGuruMessages,
+} from "@/lib/ai/run-guru-turn";
 import { getProviderBySlot } from "@/lib/platform/integrations/store";
 import { decryptProviderSecrets } from "@/lib/platform/secrets/vault";
 import { resolveTransport } from "@/lib/platform/integrations/transport";
@@ -22,11 +24,7 @@ import {
   type FlowNode,
 } from "@/lib/ai/chat-flow-types";
 import { BROKEN_FLOW_FALLBACK, validateFlowGraph } from "@/lib/ai/flow-validate";
-import {
-  filterAiScope,
-  IMMUTABLE_PERSONA_GUARD,
-  sanitizePersonaPrompt,
-} from "@/lib/ai/persona-guard";
+import { sanitizePersonaPrompt } from "@/lib/ai/persona-guard";
 import { redactSupportText, redactVars } from "@/lib/ai/support-redact";
 
 export type { FlowGraph, FlowNode };
@@ -557,82 +555,81 @@ export async function completePersonaTurn(opts: {
 
   let raw = "";
   let transport: "mock" | "live" | "env" = "mock";
+  const groundingMessages = () =>
+    buildGuruMessages({
+      locale,
+      chartKey: cached.key,
+      summary: cached.summary,
+      userMessage: opts.userMessage,
+      personaSlug: opts.persona.slug,
+      personaTone: opts.persona.tone,
+      personaPrompt: opts.persona.systemPrompt,
+      extraSystem: contextBlock || undefined,
+    });
+
   if (opts.rawOverride) {
     raw = opts.rawOverride;
   } else if (process.env.PHASE4_FORCE_MOCK_LLM === "1") {
-    const greet = collected.name ? `Hello ${collected.name}, I still have your onboarding details. ` : "";
+    const greet = collected.name
+      ? `Hello ${collected.name}, I still have your onboarding details. `
+      : "";
     raw = `${greet}${inventingSandboxReply({ mars, lagna })}`;
   } else {
-  try {
-    const slot = await getProviderBySlot("llm", opts.persona.llmSlot as "openai");
-    const secrets = slot ? await decryptProviderSecrets(String(slot.id)) : {};
-    const apiKey = secrets.api_key || "";
-    const cfg = parseJson<Record<string, unknown>>(slot?.config_json, {});
-    const mode = resolveTransport(
-      { secrets, config: cfg, sandbox: Boolean(slot?.sandbox_mode) },
-      apiKey
-    );
-    if (mode === "live" && apiKey) {
-      transport = "live";
-      const model = opts.persona.llmModel || String(cfg.model || "gpt-4o-mini");
-      const messages: ChatMessage[] = [
-        { role: "system", content: systemPrompt(locale) },
-        {
-          role: "system",
-          content: `${IMMUTABLE_PERSONA_GUARD}\nPersona (${opts.persona.slug}, tone ${opts.persona.tone}):\n${opts.persona.systemPrompt}${contextBlock}\nFACT FILTER IS MANDATORY. Chart:\n${cached.summary}`,
-        },
-        { role: "user", content: opts.userMessage },
-      ];
-      if (opts.persona.llmSlot === "openai") {
-        process.env.OPENAI_API_KEY = process.env.OPENAI_API_KEY || apiKey;
-        process.env.OPENAI_MODEL = model;
-        await streamAi("openai", messages, (d) => {
-          raw += d;
-        });
+    try {
+      const slot = await getProviderBySlot(
+        "llm",
+        opts.persona.llmSlot as "openai"
+      );
+      const secrets = slot ? await decryptProviderSecrets(String(slot.id)) : {};
+      const apiKey = secrets.api_key || "";
+      const cfg = parseJson<Record<string, unknown>>(slot?.config_json, {});
+      const mode = resolveTransport(
+        { secrets, config: cfg, sandbox: Boolean(slot?.sandbox_mode) },
+        apiKey
+      );
+      if (mode === "live" && apiKey) {
+        transport = "live";
+        const model = opts.persona.llmModel || String(cfg.model || "gpt-4o-mini");
+        const messages: ChatMessage[] = groundingMessages();
+        if (opts.persona.llmSlot === "openai") {
+          process.env.OPENAI_API_KEY = process.env.OPENAI_API_KEY || apiKey;
+          process.env.OPENAI_MODEL = model;
+          await streamAi("openai", messages, (d) => {
+            raw += d;
+          });
+        } else {
+          raw = inventingSandboxReply({ mars, lagna });
+        }
       } else {
-        raw = inventingSandboxReply({ mars, lagna });
+        const envProvider = resolveProvider();
+        if (envProvider) {
+          transport = "env";
+          const messages: ChatMessage[] = groundingMessages();
+          await streamAi(envProvider, messages, (d) => {
+            raw += d;
+          });
+        } else {
+          raw = inventingSandboxReply({ mars, lagna });
+        }
       }
-    } else {
-      const envProvider = resolveProvider();
-      if (envProvider) {
-        transport = "env";
-        const messages: ChatMessage[] = [
-          { role: "system", content: systemPrompt(locale) },
-          {
-            role: "system",
-            content: `${IMMUTABLE_PERSONA_GUARD}\nPersona (${opts.persona.slug}):\n${opts.persona.systemPrompt}${contextBlock}\nChart:\n${cached.summary}`,
-          },
-          { role: "user", content: opts.userMessage },
-        ];
-        await streamAi(envProvider, messages, (d) => {
-          raw += d;
-        });
-      } else {
-        raw = inventingSandboxReply({ mars, lagna });
-      }
+    } catch {
+      raw = inventingSandboxReply({ mars, lagna });
+      transport = "mock";
     }
-  } catch {
-    raw = inventingSandboxReply({ mars, lagna });
-    transport = "mock";
-  }
   }
 
   if (opts.rawOverride) raw = opts.rawOverride;
   if (!raw.trim()) raw = inventingSandboxReply({ mars, lagna });
 
-  const filtered = filterAiAgainstFactSheet(raw, cached.factSheet, locale);
-  const scoped = filterAiScope(filtered.text, locale);
+  const safety = applyGuruSafetyFilters(raw, cached.factSheet, locale);
   return {
-    text: scoped.text,
-    flagged: filtered.flagged || scoped.flagged,
-    violations: [
-      ...filtered.violations,
-      ...scoped.reasons.map((claim) => ({ kind: "scope" as const, claim, detail: "medical/legal scope" })),
-    ],
+    text: safety.text,
+    flagged: safety.flagged,
+    violations: safety.violations,
     transport,
     chartKey: cached.key,
     factFilterRan: true,
-    scopeFlagged: scoped.flagged,
+    scopeFlagged: safety.scopeFlagged,
     usedCollectedVars,
   };
 }

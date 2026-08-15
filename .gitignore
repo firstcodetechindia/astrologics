@@ -71,6 +71,7 @@ next-env.d.ts
 /scripts/fixtures/admin-load-evidence/
 /scripts/fixtures/phase4-ai-evidence/
 /scripts/fixtures/phase4-safety-evidence/
+/scripts/fixtures/public-chat-safety-evidence/
 /scripts/fixtures/phase5-astrologer-evidence/
 /scripts/fixtures/observatory-phase1-evidence/
 /scripts/fixtures/observatory-phase2-evidence/
