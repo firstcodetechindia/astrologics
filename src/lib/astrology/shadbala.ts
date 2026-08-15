@@ -230,12 +230,12 @@ export function moonPakshaBala(date: Date): number {
   return angleDistance(moon, sun) / 3;
 }
 
+type OuterPlanet = "mars" | "jupiter" | "saturn";
+
 const INNER: Record<string, Astronomy.Body> = {
   mercury: Astronomy.Body.Mercury,
   venus: Astronomy.Body.Venus,
 };
-
-const OUTER = ["mars", "jupiter", "saturn"] as const;
 
 export function cheshtaKendra(id: Pid, date: Date): number | null {
   if (id === "sun" || id === "moon") return null;
@@ -257,7 +257,7 @@ export function cheshtaKendra(id: Pid, date: Date): number | null {
     madhya = meanSun;
   } else {
     seeghra = meanSun;
-    madhya = meanPlanetLongitude(id as (typeof OUTER)[number], date);
+    madhya = meanPlanetLongitude(id as OuterPlanet, date);
   }
   const mid = circularMid(madhya, trueLon);
   return fold180(seeghra - mid);
@@ -956,7 +956,7 @@ export const SHADBALA_METHODS: Record<
   BalaMethod
 > = {
   naisargika: "bphs",
-  dik: "bphs",
+  dig: "bphs",
   cheshta: "bphs",
   drik: "bphs",
   kala: "bphs",
