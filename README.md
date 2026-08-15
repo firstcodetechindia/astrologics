@@ -37,4 +37,5 @@ Edit `.env.local`:
 - `npm run build` — production build
 - `npm start` — start production server
 - `npm run test:places` — **required before deploys** that touch places search / DB schema (delhi, bombay, firozbad against Neon). Also runs in CI (`.github/workflows/places-search.yml`) when `DATABASE_URL` is set as a repo secret.
+- `npm run test:cross-validate` — Swiss Ephemeris, Jagannatha Hora, DrikPanchang, and **cached** NASA JPL Horizons vs the live `astronomy-engine` chart path. CI sets `HORIZONS_OFFLINE=1` and never calls Horizons. Refresh cadence (do **not** hit the live API on every run) is documented in `scripts/fixtures/cross-validation/README.md`.
 - `npm run db:migrate:places` / `npm run db:import:places` — schema + GeoNames reload (see `data/geonames/README.md`)

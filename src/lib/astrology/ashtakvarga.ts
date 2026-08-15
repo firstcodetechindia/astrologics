@@ -179,3 +179,32 @@ export function computeAshtakvarga(opts: {
 export function ashtakPlanetLabel(id: string, locale: "en" | "hi") {
   return PLANET_META[id]?.[locale] ?? id;
 }
+
+/** 8 kakshas of 3°45′ within each rasi (BPHS transit-timing subdivision). */
+export const KAKSHA_SPAN_DEG = 3.75;
+export const KAKSHA_LORDS = [
+  "saturn",
+  "jupiter",
+  "mars",
+  "sun",
+  "venus",
+  "mercury",
+  "moon",
+  "lagna",
+] as const;
+
+export function kakshaFromDegreeInSign(degreeInSign: number) {
+  const d = ((degreeInSign % 30) + 30) % 30;
+  const index = Math.min(7, Math.floor(d / KAKSHA_SPAN_DEG + 1e-12));
+  return {
+    number: index + 1,
+    lord: KAKSHA_LORDS[index],
+    startDeg: index * KAKSHA_SPAN_DEG,
+    endDeg: (index + 1) * KAKSHA_SPAN_DEG,
+  };
+}
+
+/** Classical SAV transit threshold: 25+ bindus considered supportive. */
+export function savTransitSupport(bindus: number) {
+  return bindus >= 25;
+}

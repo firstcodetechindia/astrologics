@@ -945,8 +945,8 @@ export function KundliReport({ kundli }: { kundli: KundliResult }) {
             </h2>
             <p className="mt-2 text-sm text-ink-muted">
               {hi
-                ? `कुल बिंदु: ${ashtak?.total ?? "—"} · 28+ मजबूत, 25–27 औसत, ≤24 कमजोर`
-                : `Total bindus: ${ashtak?.total ?? "—"} · 28+ strong, 25–27 average, ≤24 weak`}
+                ? `कुल बिंदु: ${ashtak?.total ?? "—"} · 30+ मजबूत, 25–29 औसत, ≤24 कमजोर`
+                : `Total bindus: ${ashtak?.total ?? "—"} · 30+ strong, 25–29 average, ≤24 weak`}
             </p>
             <div className="mt-4 grid gap-2 sm:grid-cols-3 lg:grid-cols-4">
               {(ashtak?.houses || []).map((h) => (

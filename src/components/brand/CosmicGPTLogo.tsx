@@ -1,4 +1,4 @@
-/** CosmicTalks brand mark — zodiac wheel, sun, crescent, orbits. */
+/** CosmicTalks brand mark — interlocking star (transparent PNG). */
 import Image from "next/image";
 import { siteConfig } from "@/lib/site-config";
 

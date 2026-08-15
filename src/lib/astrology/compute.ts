@@ -168,7 +168,9 @@ export function computeKundli(input: BirthInput): KundliResult {
     const nak = nakshatraFromLongitude(p.longitude);
     const signIndex = signIndexFromLongitude(p.longitude);
     const dignity = planetDignity(p.id, signIndex);
-    const combust = combustionInfo(p.id, p.longitude, sunLon);
+    const combust = combustionInfo(p.id, p.longitude, sunLon, {
+      retrograde: p.isRetrograde,
+    });
     const house = houseOfPlanet(p.longitude, lagnaLon);
     return {
       id: p.id,
@@ -186,6 +188,7 @@ export function computeKundli(input: BirthInput): KundliResult {
       speed: Number(p.speed.toFixed(4)),
       isCombust: combust.isCombust,
       combustionDistance: Number(combust.combustionDistance.toFixed(4)),
+      combustionSeverity: combust.severity,
       dignity,
     };
   });
@@ -238,11 +241,17 @@ export function computeKundli(input: BirthInput): KundliResult {
     planetSigns,
   });
 
-  const shadbala = computeShadbala(planets, date);
+  const sripati = computeSripatiCusps(date, input.lat, input.lon, ayanamsa);
+  const shadbala = computeShadbala(planets, date, {
+    lagnaLon,
+    mcLon: sripati.mc,
+    lat: input.lat,
+    lon: input.lon,
+    timeZone: tzMeta.timeZone,
+  });
   const charaDasha = computeCharaDasha(lagnaSign, planets, date);
   const jaimini = computeJaiminiPoints(lagnaSign, planets, lagnaLon);
 
-  const sripati = computeSripatiCusps(date, input.lat, input.lon, ayanamsa);
   const bhavChalit = {
     system: "sripati" as const,
     cusps: sripati.cusps.map((c, i) => ({

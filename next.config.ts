@@ -8,6 +8,16 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/:locale(en|hi)/:dup(en|hi)",
+        destination: "/:locale",
+        permanent: false,
+      },
+      {
+        source: "/:locale(en|hi)/:dup(en|hi)/:path*",
+        destination: "/:locale/:path*",
+        permanent: false,
+      },
+      {
         source: "/:locale(en|hi)/calculators/today-panchang",
         destination: "/:locale/panchang",
         permanent: true,

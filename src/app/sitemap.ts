@@ -17,6 +17,7 @@ const staticPaths = [
   "/horoscope",
   "/numerology",
   "/vastu",
+  "/observatory",
   "/panchang",
   "/features",
   "/pricing",
@@ -38,7 +39,7 @@ function changeFrequencyFor(path: string): MetadataRoute.Sitemap[number]["change
 function priorityFor(path: string): number {
   if (path === "") return 1;
   if (path === "/kundli" || path === "/calculators" || path === "/horoscope") return 0.95;
-  if (path === "/panchang") return 0.9;
+  if (path === "/panchang" || path === "/observatory") return 0.9;
   if (path === "/chat" || path === "/chat-with-astrologer") return 0.9;
   return 0.75;
 }

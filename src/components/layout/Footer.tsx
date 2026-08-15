@@ -78,6 +78,7 @@ export function Footer() {
 
   const tools = [
     { href: "/calculators", label: hi ? "सभी कैलकुलेटर" : "All Calculators" },
+    { href: "/observatory", label: hi ? "ऑब्ज़र्वेटरी" : "Observatory" },
     { href: "/panchang", label: hi ? "पंचांग" : "Panchang" },
     { href: "/horoscope", label: hi ? "राशिफल" : "Horoscope" },
     { href: "/numerology", label: hi ? "अंक ज्योतिष" : "Numerology" },

@@ -88,6 +88,15 @@ export const FEATURES_MENU: MegaColumn[] = [
           hi: "मूलांक, भाग्यांक, नाम अंक व लो शू।",
         },
       },
+      {
+        href: "/observatory",
+        icon: "🔭",
+        title: { en: "Cosmic Observatory", hi: "कॉस्मिक ऑब्ज़र्वेटरी" },
+        description: {
+          en: "Live 3D solar system from the engine.",
+          hi: "इंजन से लाइव 3D सौर मंडल।",
+        },
+      },
     ],
   },
   {
@@ -128,6 +137,15 @@ export const FREE_TOOLS_MENU: MegaColumn[] = [
   {
     heading: { en: "Daily & timing", hi: "दैनिक व समय" },
     links: [
+      {
+        href: "/observatory",
+        icon: "🔭",
+        title: { en: "Observatory", hi: "ऑब्ज़र्वेटरी" },
+        description: {
+          en: "Live 3D planet positions.",
+          hi: "लाइव 3D ग्रह स्थिति।",
+        },
+      },
       {
         href: "/panchang",
         icon: "📅",

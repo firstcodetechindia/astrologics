@@ -29,9 +29,13 @@ export const siteConfig = {
   brandName: process.env.NEXT_PUBLIC_BRAND_NAME || "CosmicTalks",
   /** Always a public production URL — never localhost (for legal, SEO, share links). */
   siteUrl: resolveSiteUrl(process.env.NEXT_PUBLIC_SITE_URL),
-  /** Public OG / JSON-LD / loader mark. Legacy /cosmicgpt-* copies stay so cached crawler URLs do not 404. */
-  brandLogo: "/cosmictalks-logo.png",
-  brandIcon: "/cosmictalks-icon-512.png",
+  /** Transparent mark for loaders / on-navy UI. */
+  brandLogo: "/icons/cosmictalks-mark.png",
+  /**
+   * Square site icon: mark + CosmicTalks + tagline (navy plate).
+   * Used for Open Graph, Twitter, and JSON-LD.
+   */
+  brandIcon: "/icons/cosmictalks-lockup-square.png",
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919876543210",
   phone: process.env.NEXT_PUBLIC_PHONE_NUMBER || "+919876543210",
   email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || `hello@${publicHostname()}`,

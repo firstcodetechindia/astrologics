@@ -5,6 +5,7 @@
  */
 
 import { angleDistance } from "./math";
+import { nakshatraFromLongitude } from "./nakshatra";
 
 export type DignityKind =
   | "exalted"
@@ -24,8 +25,8 @@ export type Dignity = {
   moolatrikona: boolean;
 };
 
-/** Exaltation sign index (0=Aries … 11=Pisces). */
-const EXALT: Record<string, { sign: number; degree: number }> = {
+/** Exaltation sign index (0=Aries … 11=Pisces) and deep-exaltation degree. Validated vs JHora. */
+export const EXALTATION_POINT: Record<string, { sign: number; degree: number }> = {
   sun: { sign: 0, degree: 10 },
   moon: { sign: 1, degree: 3 },
   mars: { sign: 9, degree: 28 },
@@ -34,6 +35,8 @@ const EXALT: Record<string, { sign: number; degree: number }> = {
   venus: { sign: 11, degree: 27 },
   saturn: { sign: 6, degree: 20 },
 };
+
+const EXALT = EXALTATION_POINT;
 
 const DEBIL: Record<string, number> = {
   sun: 6,
@@ -150,42 +153,85 @@ export function planetDignity(
 
 /**
  * Classical combustion orbs (degrees of elongation from Sun).
- * Same sign alone is NOT enough.
+ * Same sign alone is NOT enough. Mercury uses 12° retrograde / 14° direct.
+ * Moon 12° is kept as Parashari asta (some modern notes omit Moon).
  */
 export const COMBUST_ORB: Record<string, number> = {
   moon: 12,
   mars: 17,
   mercury: 14,
   jupiter: 11,
-  venus: 10,
+  venus: 8,
   saturn: 15,
 };
+
+export type CombustionSeverity = "none" | "within_orb" | "same_pada";
+
+export function combustOrb(planetId: string, retrograde = false): number | null {
+  const id = planetId.toLowerCase();
+  if (id === "sun" || id === "rahu" || id === "ketu") return null;
+  if (id === "mercury") return retrograde ? 12 : 14;
+  return COMBUST_ORB[id] ?? null;
+}
 
 export function combustionInfo(
   planetId: string,
   planetLon: number,
-  sunLon: number
-): { isCombust: boolean; combustionDistance: number; orb: number | null } {
+  sunLon: number,
+  opts?: { retrograde?: boolean }
+): {
+  isCombust: boolean;
+  combustionDistance: number;
+  orb: number | null;
+  severity: CombustionSeverity;
+  sameNakshatraPada: boolean;
+} {
   const id = planetId.toLowerCase();
   const distance = angleDistance(planetLon, sunLon);
+  const planetNak = nakshatraFromLongitude(planetLon);
+  const sunNak = nakshatraFromLongitude(sunLon);
+  const sameNakshatraPada =
+    planetNak.index === sunNak.index && planetNak.pada === sunNak.pada;
+
   if (id === "sun" || id === "rahu" || id === "ketu") {
-    return { isCombust: false, combustionDistance: distance, orb: null };
+    return {
+      isCombust: false,
+      combustionDistance: distance,
+      orb: null,
+      severity: "none",
+      sameNakshatraPada,
+    };
   }
-  const orb = COMBUST_ORB[id] ?? null;
+  const orb = combustOrb(id, opts?.retrograde === true);
   if (orb == null) {
-    return { isCombust: false, combustionDistance: distance, orb: null };
+    return {
+      isCombust: false,
+      combustionDistance: distance,
+      orb: null,
+      severity: "none",
+      sameNakshatraPada,
+    };
   }
+  const isCombust = distance <= orb;
+  const severity: CombustionSeverity = !isCombust
+    ? "none"
+    : sameNakshatraPada
+      ? "same_pada"
+      : "within_orb";
   return {
-    isCombust: distance <= orb,
+    isCombust,
     combustionDistance: distance,
     orb,
+    severity,
+    sameNakshatraPada,
   };
 }
 
 export function isCombust(
   planetId: string,
   planetLon: number,
-  sunLon: number
+  sunLon: number,
+  opts?: { retrograde?: boolean }
 ): boolean {
-  return combustionInfo(planetId, planetLon, sunLon).isCombust;
+  return combustionInfo(planetId, planetLon, sunLon, opts).isCombust;
 }

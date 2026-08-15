@@ -62,6 +62,15 @@ const FEATURES = [
     },
   },
   {
+    href: "/observatory",
+    icon: "🔭",
+    title: { en: "Cosmic Observatory", hi: "कॉस्मिक ऑब्ज़र्वेटरी" },
+    text: {
+      en: "Live 3D solar system from the same engine as Kundli — any date, Sun- or Earth-centered.",
+      hi: "कुंडली वाले इंजन से लाइव 3D सौर मंडल — कोई भी तिथि, सूर्य या पृथ्वी केंद्र।",
+    },
+  },
+  {
     href: "/panchang",
     icon: "📅",
     title: { en: "Today Panchang", hi: "आज का पंचांग" },

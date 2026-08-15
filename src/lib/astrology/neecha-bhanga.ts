@@ -51,7 +51,7 @@ export type NeechaBhangaResult = {
  * Supported cancellation rules (explicit):
  * 1. Lord of debilitation sign in kendra from Lagna
  * 2. Lord of debilitation sign in kendra from Moon
- * 3. Planet that is exalted in the debilitation sign occupies a kendra from Lagna
+ * 3. Planet that is exalted in the debilitation sign occupies a kendra from Lagna or Moon
  * 4. Debilitated planet conjunct its dispositor
  * 5. Debilitated planet itself in kendra from Lagna
  */
@@ -92,9 +92,18 @@ export function neechaBhangaForPlanet(
     const ex = byId[exaltedId];
     if (ex && isKendraHouse(ex.house)) {
       rulesMatched.push(
-        `${ex.name.en} (exalted in this debilitation sign) occupies kendra H${ex.house}`
+        `${ex.name.en} (exalted in this debilitation sign) occupies kendra from Lagna (H${ex.house})`
       );
       participating.push(ex.id);
+    }
+    if (ex && moon) {
+      const hFromMoon = houseFromSign(moon.signIndex, ex.signIndex);
+      if (isKendraHouse(hFromMoon)) {
+        rulesMatched.push(
+          `${ex.name.en} (exalted in this debilitation sign) occupies kendra from Moon (count ${hFromMoon})`
+        );
+        participating.push(ex.id);
+      }
     }
   }
 

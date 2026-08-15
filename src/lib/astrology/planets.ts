@@ -18,7 +18,7 @@ const BODY_MAP: Record<string, Astronomy.Body> = {
   saturn: Astronomy.Body.Saturn,
 };
 
-function tropicalLongitude(body: Astronomy.Body, date: Date): number {
+export function tropicalLongitude(body: Astronomy.Body, date: Date): number {
   const time = Astronomy.MakeTime(date);
   if (body === Astronomy.Body.Moon) {
     const moon = Astronomy.EclipticGeoMoon(time);

@@ -139,7 +139,8 @@ function toneFor(name: string): "good" | "neutral" | "caution" {
  * Find sunrise/sunset bracketing `date` for the observer.
  * Day = last sunrise → next sunset (or last sunset if after sunset, night continues).
  */
-function sunWindow(date: Date, lat: number, lon: number) {
+/** Sunrise → sunset → next sunrise bracketing `date`. Used by muhurat and Kala Bala. */
+export function sunRiseSetWindow(date: Date, lat: number, lon: number) {
   const observer = new Astronomy.Observer(lat, lon, 0);
   // Search back ~1.2 days for previous sunrise, forward for sunset / next sunrise
   const rise =
@@ -216,7 +217,7 @@ export function liveMuhuratNow(
   lon = DEFAULT_LON
 ) {
   const p = partsInTz(date, timeZone);
-  const { sunrise, sunset, nextSunrise } = sunWindow(date, lat, lon);
+  const { sunrise, sunset, nextSunrise } = sunRiseSetWindow(date, lat, lon);
   const dayLord = DAY_LORD[weekdayAt(sunrise, timeZone)];
 
   const isDay = date >= sunrise && date < sunset;
@@ -417,7 +418,7 @@ export function dailyMuhuratFor(
   lat = DEFAULT_LAT,
   lon = DEFAULT_LON
 ) {
-  const { sunrise, sunset, nextSunrise } = sunWindow(date, lat, lon);
+  const { sunrise, sunset, nextSunrise } = sunRiseSetWindow(date, lat, lon);
   const weekday = weekdayAt(sunrise, timeZone);
   const dayLord = DAY_LORD[weekday];
   const dayStart = DAY_START_INDEX[weekday];

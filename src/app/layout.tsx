@@ -40,9 +40,9 @@ export const metadata: Metadata = {
     images: [
       {
         url: siteConfig.brandIcon,
-        width: 512,
-        height: 512,
-        alt: siteConfig.brandName,
+        width: 1080,
+        height: 1080,
+        alt: `${siteConfig.brandName} — ${siteConfig.tagline.en}`,
       },
     ],
   },
@@ -65,6 +65,14 @@ export const metadata: Metadata = {
     },
   },
   category: "Astrology",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "48x48" },
+      { url: "/icons/cosmictalks-mark-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icons/cosmictalks-mark-16.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: [{ url: "/icons/cosmictalks-mark-180-navy.png", sizes: "180x180" }],
+  },
 };
 
 export default function RootLayout({

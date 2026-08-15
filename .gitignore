@@ -72,4 +72,7 @@ next-env.d.ts
 /scripts/fixtures/phase4-ai-evidence/
 /scripts/fixtures/phase4-safety-evidence/
 /scripts/fixtures/phase5-astrologer-evidence/
-/scripts/fixtures/phase6-social-evidence/
+/scripts/fixtures/observatory-phase1-evidence/
+/scripts/fixtures/observatory-phase2-evidence/
+/scripts/fixtures/observatory-time-evidence/
+/scripts/fixtures/observatory-ambient-evidence/

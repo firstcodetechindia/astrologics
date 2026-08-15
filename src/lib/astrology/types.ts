@@ -39,6 +39,8 @@ export interface PlanetPosition {
   speed?: number;
   isCombust?: boolean;
   combustionDistance?: number;
+  /** none | within_orb | same_pada (strongest when Sun shares nakshatra pada). */
+  combustionSeverity?: "none" | "within_orb" | "same_pada";
   dignity?: {
     kind: string;
     label: { en: string; hi: string };

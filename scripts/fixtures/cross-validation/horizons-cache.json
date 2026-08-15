@@ -1,0 +1,106 @@
+{
+  "source": "NASA JPL Horizons API",
+  "endpoint": "https://ssd.jpl.nasa.gov/api/horizons.api",
+  "ephemeris": "DE441",
+  "frame": "geocentric apparent ecliptic of date (QUANTITIES=31 ObsEcLon), tropical",
+  "apiKeyRequired": false,
+  "fetchedAt": "2026-08-15T07:28:59.211Z",
+  "cases": {
+    "delhi_1990_dawn": {
+      "jd_ut": 2448026.5416666665,
+      "tropical": {
+        "sun": 53.9541255,
+        "moon": 291.5228032,
+        "mercury": 38.0754579,
+        "venus": 12.2956788,
+        "mars": 347.9933865,
+        "jupiter": 99.4551484,
+        "saturn": 295.2569827
+      }
+    },
+    "mumbai_1985_night": {
+      "jd_ut": 2446401.2604166665,
+      "tropical": {
+        "sun": 249.503294,
+        "moon": 116.4949829,
+        "mercury": 242.8920235,
+        "venus": 237.7612822,
+        "mars": 201.9294659,
+        "jupiter": 312.458261,
+        "saturn": 241.7440693
+      }
+    },
+    "sydney_1988": {
+      "jd_ut": 2447346.46875,
+      "tropical": {
+        "sun": 102.2078585,
+        "moon": 338.8972776,
+        "mercury": 81.4020444,
+        "venus": 73.9331757,
+        "mars": 355.1601676,
+        "jupiter": 56.648536,
+        "saturn": 268.2673485
+      }
+    },
+    "kolkata_1941_wartime": {
+      "jd_ut": 2430268.7291666665,
+      "tropical": {
+        "sun": 187.6453501,
+        "moon": 319.8985643,
+        "mercury": 213.1411068,
+        "venus": 228.8862453,
+        "mars": 19.6913408,
+        "jupiter": 81.3085997,
+        "saturn": 58.1750013
+      }
+    },
+    "delhi_1900_lmt": {
+      "jd_ut": 2415185.7769675925,
+      "tropical": {
+        "sun": 83.6778558,
+        "moon": 290.6863294,
+        "mercury": 101.2334708,
+        "venus": 113.9482429,
+        "mars": 51.3089185,
+        "jupiter": 243.7373181,
+        "saturn": 272.3653573
+      }
+    },
+    "approx_time_noon": {
+      "jd_ut": 2449797.7708333335,
+      "tropical": {
+        "sun": 0.1762555,
+        "moon": 236.1400636,
+        "mercury": 339.5323444,
+        "venus": 321.7064258,
+        "mars": 133.2386402,
+        "jupiter": 255.1857179,
+        "saturn": 346.8682209
+      }
+    },
+    "sign_cusp_probe": {
+      "jd_ut": 2460389.7708333335,
+      "tropical": {
+        "sun": 0.1404471,
+        "moon": 125.5265884,
+        "mercury": 17.645968,
+        "venus": 340.3465349,
+        "mars": 327.8836015,
+        "jupiter": 44.9140938,
+        "saturn": 342.2421922
+      }
+    },
+    "london_2000": {
+      "jd_ut": 2451544.5,
+      "tropical": {
+        "sun": 279.8592049,
+        "moon": 217.2933209,
+        "mercury": 271.1117994,
+        "venus": 240.9614017,
+        "mars": 327.5754592,
+        "jupiter": 25.2331086,
+        "saturn": 40.4058374
+      }
+    }
+  }
+}

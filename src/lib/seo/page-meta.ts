@@ -55,9 +55,9 @@ export function buildPageMetadata({
       images: [
         {
           url: siteConfig.brandIcon,
-          width: 512,
-          height: 512,
-          alt: `${siteConfig.brandName} — Kundli, AI astrology & calculators`,
+          width: 1080,
+          height: 1080,
+          alt: `${siteConfig.brandName} — ${siteConfig.tagline.en}`,
         },
       ],
     },

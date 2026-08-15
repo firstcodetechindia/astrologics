@@ -6,18 +6,32 @@
  *  1) Swiss Ephemeris Lahiri planet-position goldens
  *  2) Jagannatha Hora–compatible goldens (SE SIDM_LAHIRI; JH uses SE ganita)
  *  3) DrikPanchang / published panchang limb expectations
+ *  4) NASA JPL Horizons (tropical ObsEcLon − engine Lahiri ayanamsa)
+ *
+ * Horizons lives in scripts/jpl-horizons.ts and is imported only here.
+ * Production Kundli / chart / API paths must never call Horizons.
  *
  * Categories covered: modern, southern_hemisphere, historical_pre1947,
  * approximate_time, boundary.
  *
  * Exit 0 only when all hard checks pass. Soft (documented) discrepancies
  * are printed with root-cause notes but do not fail the suite when within
- * the documented AE↔SE tolerance bands.
+ * the documented AE↔SE tolerance bands (reused for AE↔Horizons DE441).
+ *
+ * Horizons cache: scripts/fixtures/cross-validation/horizons-cache.json
+ * Refresh: HORIZONS_REFRESH=1 npm run test:cross-validate
+ * Offline: HORIZONS_OFFLINE=1 (fail if cache incomplete; no live HTTP)
  */
 import fs from "node:fs";
 import path from "node:path";
 import { computeKundli } from "../src/lib/astrology/compute";
-import { angleDelta, norm360 } from "../src/lib/astrology/math";
+import { SIGNS } from "../src/lib/astrology/constants";
+import { angleDelta, norm360, signIndexFromLongitude } from "../src/lib/astrology/math";
+import {
+  HORIZONS_BODIES,
+  ensureHorizonsCache,
+  type HorizonsPlanetId,
+} from "./jpl-horizons";
 
 const ROOT = path.join(__dirname, "fixtures", "cross-validation");
 
@@ -53,6 +67,7 @@ type SeCase = {
   lat: number;
   lon: number;
   timeZone: string;
+  jd_ut?: number;
   ayanamsa: number;
   lagna: LonMeta;
   planets: Record<string, LonMeta>;
@@ -154,7 +169,9 @@ function comparePlanet(
       expected: `${expected.sign} ${expected.longitude.toFixed(4)}°`,
       actual: `${actualSign} ${actualLon.toFixed(4)}°`,
       rootCause:
-        "astronomy-engine (VSOP87/ELP) vs Swiss Ephemeris (DE-series) ephemeris residual; still sign-aligned or cusp-adjacent",
+        source === "jpl_horizons"
+          ? "astronomy-engine (VSOP87/ELP) vs JPL Horizons (DE441) residual after Lahiri subtraction; still sign-aligned or cusp-adjacent"
+          : "astronomy-engine (VSOP87/ELP) vs Swiss Ephemeris (DE-series) ephemeris residual; still sign-aligned or cusp-adjacent",
     });
     return;
   }
@@ -169,7 +186,9 @@ function comparePlanet(
     actual: `${actualSign} ${actualLon.toFixed(4)}°`,
     rootCause: !signOk
       ? "sign-level mismatch — check ayanamsa, timezone/UTC instant, or node mode"
-      : "longitude beyond AE↔SE tolerance — investigate ephemeris or birth-instant conversion",
+      : source === "jpl_horizons"
+        ? "longitude beyond AE↔Horizons (DE441) tolerance — investigate ephemeris or birth-instant conversion"
+        : "longitude beyond AE↔SE tolerance — investigate ephemeris or birth-instant conversion",
   });
 }
 
@@ -299,6 +318,118 @@ function runDrik() {
   }
 }
 
+async function runHorizons() {
+  const raw = JSON.parse(
+    fs.readFileSync(path.join(ROOT, "swiss-ephemeris-goldens.json"), "utf8")
+  ) as { cases: SeCase[] };
+  const cases = raw.cases.map((c) => ({
+    id: c.id,
+    jd_ut: c.jd_ut,
+    name: c.name,
+    date: c.date,
+    time: c.time,
+    place: c.place,
+    lat: c.lat,
+    lon: c.lon,
+    timeZone: c.timeZone,
+    category: c.category,
+  }));
+
+  const missingJd = cases.filter((c) => typeof c.jd_ut !== "number");
+  if (missingJd.length) {
+    throw new Error(
+      `Horizons needs jd_ut on SE goldens; missing: ${missingJd.map((c) => c.id).join(", ")}`
+    );
+  }
+
+  console.log("\n=== jpl_horizons (NASA JPL Horizons API, test-only) ===");
+  console.log(
+    "Isolation: scripts/jpl-horizons.ts → this harness only. Not imported from src/."
+  );
+  console.log(
+    "Frame: tropical geocentric ObsEcLon (QUANTITIES=31) − engine Lahiri ayanamsa."
+  );
+  console.log(
+    "Bodies: Sun–Saturn + Moon. Rahu/Ketu skipped (no classical mean-node Horizons target)."
+  );
+
+  const { cache, fetched } = await ensureHorizonsCache({
+    cases: cases.map((c) => ({ id: c.id, jd_ut: c.jd_ut as number })),
+  });
+  console.log(
+    fetched
+      ? "  Live Horizons fetch completed; cache updated."
+      : `  Using cached Horizons rows from ${cache.fetchedAt} (no HTTP).`
+  );
+
+  const planets = Object.keys(HORIZONS_BODIES) as HorizonsPlanetId[];
+
+  for (const c of cases) {
+    console.log(`\n— ${c.id} [${c.category}] ${c.date} ${c.time} ${c.place}`);
+    const k = computeKundli({
+      name: c.name,
+      date: c.date,
+      time: c.time,
+      place: c.place,
+      lat: c.lat,
+      lon: c.lon,
+      timeZone: c.timeZone,
+    });
+    const trop = cache.cases[c.id]?.tropical;
+    if (!trop) {
+      push({
+        caseId: c.id,
+        source: "jpl_horizons",
+        field: "cache",
+        severity: "fail",
+        expected: "cached tropical longitudes",
+        actual: "missing",
+        rootCause: "Horizons cache has no row for this case",
+      });
+      continue;
+    }
+
+    for (const pid of planets) {
+      const tropical = trop[pid];
+      if (typeof tropical !== "number") {
+        push({
+          caseId: c.id,
+          source: "jpl_horizons",
+          field: `planet.${pid}`,
+          severity: "fail",
+          expected: "tropical longitude",
+          actual: "missing",
+          rootCause: "Horizons cache missing this body",
+        });
+        continue;
+      }
+      const sidereal = norm360(tropical - k.ayanamsa);
+      const sign = SIGNS[signIndexFromLongitude(sidereal)].en;
+      const p = k.planets.find((x) => x.id === pid);
+      if (!p) {
+        push({
+          caseId: c.id,
+          source: "jpl_horizons",
+          field: `planet.${pid}`,
+          severity: "fail",
+          expected: sign,
+          actual: "missing",
+          rootCause: "planet not present in kundli result",
+        });
+        continue;
+      }
+      comparePlanet(
+        c.id,
+        "jpl_horizons",
+        pid,
+        { longitude: sidereal, sign },
+        p.longitude,
+        p.sign.en
+      );
+    }
+  }
+}
+
 function writeReport() {
   const reportPath = path.join(ROOT, "last-report.json");
   const summary = {
@@ -315,16 +446,24 @@ function writeReport() {
   );
 }
 
-console.log("CosmicTalks Phase 2 cross-validation harness");
-console.log(`Fixtures: ${ROOT}`);
+async function main() {
+  console.log("CosmicTalks Phase 2 cross-validation harness");
+  console.log(`Fixtures: ${ROOT}`);
 
-runSeFamily("swiss-ephemeris-goldens.json", "swiss_ephemeris");
-runSeFamily("jagannatha-hora-goldens.json", "jagannatha_hora");
-runDrik();
-writeReport();
+  runSeFamily("swiss-ephemeris-goldens.json", "swiss_ephemeris");
+  runSeFamily("jagannatha-hora-goldens.json", "jagannatha_hora");
+  runDrik();
+  await runHorizons();
+  writeReport();
 
-if (hardFails > 0) {
-  console.error(`\nHarness FAILED with ${hardFails} hard discrepancy(ies).`);
-  process.exit(1);
+  if (hardFails > 0) {
+    console.error(`\nHarness FAILED with ${hardFails} hard discrepancy(ies).`);
+    process.exit(1);
+  }
+  console.log("\nHarness PASSED (no hard discrepancies).");
 }
-console.log("\nHarness PASSED (no hard discrepancies).");
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

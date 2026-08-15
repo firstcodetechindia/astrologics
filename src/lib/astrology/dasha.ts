@@ -244,3 +244,23 @@ export function computeVimshottari(moonLon: number, birthDate: Date) {
     startLord: planetName(lordId),
   };
 }
+
+/**
+ * Classical dasha remainder breakdown: 1 year = 12 months, 1 month = 30 days.
+ * Used to match published worked examples (not tropical 365.25-day civil time).
+ */
+export function dashaBalanceParts(years: number) {
+  const y = Math.max(0, years);
+  const wholeYears = Math.floor(y);
+  let rem = (y - wholeYears) * 12;
+  const months = Math.floor(rem + 1e-12);
+  rem = (rem - months) * 30;
+  const days = Math.floor(rem + 1e-12);
+  rem = (rem - days) * 24;
+  const hours = Math.floor(rem + 1e-12);
+  rem = (rem - hours) * 60;
+  const minutes = Math.floor(rem + 1e-12);
+  rem = (rem - minutes) * 60;
+  const seconds = rem;
+  return { years: wholeYears, months, days, hours, minutes, seconds };
+}
