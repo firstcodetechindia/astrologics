@@ -112,8 +112,8 @@ export default async function ServicesPage({
           </h2>
           <p>
             {hi
-              ? "CosmicGyan पर आप मुफ्त जन्म कुंडली (janam kundali) बना सकते हैं, गुण मिलान चला सकते हैं और एआई गुरु से प्रश्न पूछ सकते हैं — फिर गहन पढ़ाई के लिए व्यक्तिगत सत्र बुक करें।"
-              : "On CosmicGyan you can generate a free janam kundali, run gun milan and ask AI Guru — then book a personal session for a deeper reading."}
+              ? "CosmicTalks पर आप मुफ्त जन्म कुंडली (janam kundali) बना सकते हैं, गुण मिलान चला सकते हैं और एआई गुरु से प्रश्न पूछ सकते हैं — फिर गहन पढ़ाई के लिए व्यक्तिगत सत्र बुक करें।"
+              : "On CosmicTalks you can generate a free janam kundali, run gun milan and ask AI Guru — then book a personal session for a deeper reading."}
           </p>
           <p>
             {hi

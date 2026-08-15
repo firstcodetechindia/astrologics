@@ -33,8 +33,8 @@ export const CHAT_ASTROLOGER_FAQ: ChatFaqItem[] = [
   },
   {
     q: {
-      en: "Are the astrologers on CosmicGyan verified?",
-      hi: "क्या CosmicGyan के ज्योतिषी सत्यापित हैं?",
+      en: "Are the astrologers on CosmicTalks verified?",
+      hi: "क्या CosmicTalks के ज्योतिषी सत्यापित हैं?",
     },
     a: {
       en: "Profiles show experience years, ratings, languages and a verified badge where applicable. We highlight specialists in Vedic chart reading, KP, numerology and related areas so you can match expertise to your question.",
@@ -57,8 +57,8 @@ export const CHAT_ASTROLOGER_FAQ: ChatFaqItem[] = [
       hi: "क्या कुछ सूची एआई ज्योतिषी की हैं, मानव की नहीं?",
     },
     a: {
-      en: "Yes. REAL_HUMAN and AI_PERSONA profiles share this directory. Every AI listing uses the same badge: “AI astrologer — not a human,” on the card and in chat. CosmicGyan never presents an AI persona as a live person.",
-      hi: "हाँ। REAL_HUMAN और AI_PERSONA प्रोफ़ाइल एक ही निर्देशिका में हैं। हर एआई सूची पर एक ही बैज है: “एआई ज्योतिषी — मानव नहीं,” कार्ड और चैट दोनों पर। CosmicGyan एआई को जीवित व्यक्ति के रूप में नहीं दिखाता।",
+      en: "Yes. REAL_HUMAN and AI_PERSONA profiles share this directory. Every AI listing uses the same badge: “AI astrologer — not a human,” on the card and in chat. CosmicTalks never presents an AI persona as a live person.",
+      hi: "हाँ। REAL_HUMAN और AI_PERSONA प्रोफ़ाइल एक ही निर्देशिका में हैं। हर एआई सूची पर एक ही बैज है: “एआई ज्योतिषी — मानव नहीं,” कार्ड और चैट दोनों पर। CosmicTalks एआई को जीवित व्यक्ति के रूप में नहीं दिखाता।",
     },
   },
   {

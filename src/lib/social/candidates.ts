@@ -73,8 +73,8 @@ export function buildSocialCandidates(locale: "en" | "hi" = "en"): SocialCandida
           ? `पढ़ें: ${blog.title}\n${blog.description}\n${siteConfig.siteUrl}/hi/blog/${blog.slug}`
           : `Read: ${blog.title}\n${blog.description}\n${siteConfig.siteUrl}/en/blog/${blog.slug}`
         : hi
-          ? `CosmicGyan ब्लॉग पर कुंडली समझाइए। ${siteConfig.siteUrl}/hi/blog`
-          : `New on the CosmicGyan blog — calculated Kundli, not guesswork. ${siteConfig.siteUrl}/en/blog`,
+          ? `CosmicTalks ब्लॉग पर कुंडली समझाइए। ${siteConfig.siteUrl}/hi/blog`
+          : `New on the CosmicTalks blog — calculated Kundli, not guesswork. ${siteConfig.siteUrl}/en/blog`,
     },
     {
       kind: "festival_muhurta",

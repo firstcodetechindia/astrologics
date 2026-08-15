@@ -15,8 +15,8 @@ export async function generateMetadata(): Promise<Metadata> {
       ? `लॉगिन | ${siteConfig.brandName}`
       : `Login | ${siteConfig.brandName}`,
     description: hi
-      ? "मोबाइल OTP से CosmicGyan में लॉगिन या साइन अप करें।"
-      : "Login or sign up to CosmicGyan with mobile OTP.",
+      ? "मोबाइल OTP से CosmicTalks में लॉगिन या साइन अप करें।"
+      : "Login or sign up to CosmicTalks with mobile OTP.",
     noIndex: true,
   });
 }

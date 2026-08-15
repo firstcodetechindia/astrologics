@@ -72,8 +72,8 @@ export function AstrologerAuthShell({
             <h1 className="mt-4 max-w-md font-display text-[2rem] font-semibold leading-tight tracking-tight xl:text-[2.35rem]">
               {mode === "signup"
                 ? hi
-                  ? "CosmicGyan के साथ सत्यापित ज्योतिषी बनें"
-                  : "Become a verified CosmicGyan astrologer"
+                  ? "CosmicTalks के साथ सत्यापित ज्योतिषी बनें"
+                  : "Become a verified CosmicTalks astrologer"
                 : hi
                   ? "ज्योतिषी पार्टनर पोर्टल में साइन इन करें"
                   : "Sign in to the astrologer partner portal"}

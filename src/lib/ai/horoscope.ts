@@ -15,8 +15,8 @@ export async function narrateHoroscope(
 
   const sys =
     locale === "hi"
-      ? `आप CosmicGyan के राशिफल लेखक हैं। केवल दिए गए स्कोर/ट्रांजिट तथ्यों की व्याख्या करें। नई ग्रह स्थिति न गढ़ें। गर्म, व्यावहारिक हिंदी में 3-5 छोटे पैराग्राफ।`
-      : `You write CosmicGyan moon-sign horoscopes. ONLY narrate the supplied scores and transit notes. Never invent planet positions. Warm practical English, 3–5 short paragraphs covering love, career, money, health.`;
+      ? `आप CosmicTalks के राशिफल लेखक हैं। केवल दिए गए स्कोर/ट्रांजिट तथ्यों की व्याख्या करें। नई ग्रह स्थिति न गढ़ें। गर्म, व्यावहारिक हिंदी में 3-5 छोटे पैराग्राफ।`
+      : `You write CosmicTalks moon-sign horoscopes. ONLY narrate the supplied scores and transit notes. Never invent planet positions. Warm practical English, 3–5 short paragraphs covering love, career, money, health.`;
 
   const user = JSON.stringify(scores, null, 2);
   const messages: ChatMessage[] = [

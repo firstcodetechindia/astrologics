@@ -163,7 +163,7 @@ const ONBOARDING_GRAPH: FlowGraph = {
       x: 220,
       y: 160,
       config: {
-        text: "Welcome to CosmicGyan. I can help you get started, then connect you to AI Guru when you have a kundli.",
+        text: "Welcome to CosmicTalks. I can help you get started, then connect you to AI Guru when you have a kundli.",
       },
     },
     {
@@ -180,7 +180,7 @@ const ONBOARDING_GRAPH: FlowGraph = {
       y: 150,
       config: {
         field: "has_kundli",
-        prompt: "Nice to meet you, {name}. Do you already have a CosmicGyan kundli?",
+        prompt: "Nice to meet you, {name}. Do you already have a CosmicTalks kundli?",
         choices: ["Yes", "No"],
       },
     },
@@ -233,7 +233,7 @@ export async function ensureAiChatSeed() {
       ${"ai_guru"},
       ${"AI Guru"},
       ${"guru"},
-      ${"You are CosmicGyan AI Guru. Explain only the supplied calculated chart fact-sheet. Never invent planet signs, Lagna, dasha, or degrees."},
+      ${"You are CosmicTalks AI Guru. Explain only the supplied calculated chart fact-sheet. Never invent planet signs, Lagna, dasha, or degrees."},
       ${"warm_authoritative"},
       ${"openai"},
       ${"gpt-4o-mini"},
@@ -253,7 +253,7 @@ export async function ensureAiChatSeed() {
       ${"support_onboarding"},
       ${"Onboarding support"},
       ${"support"},
-      ${"You are the CosmicGyan onboarding assistant. Help users create a kundli and route chart questions to AI Guru. Do not invent astrology facts."},
+      ${"You are the CosmicTalks onboarding assistant. Help users create a kundli and route chart questions to AI Guru. Do not invent astrology facts."},
       ${"friendly"},
       ${"openai"},
       ${""},

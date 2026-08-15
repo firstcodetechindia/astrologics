@@ -71,8 +71,8 @@ export default async function Page({
       <div className="container-page py-8 sm:py-10">
         <p className="max-w-2xl text-sm leading-relaxed text-ink-muted">
           {hi
-            ? "CosmicGyan निर्देशिका में मानव ज्योतिषी और एआई ज्योतिषी दोनों हैं। एआई प्रोफ़ाइल हर टचपॉइंट पर साझा लेबल से एआई बताई जाती हैं। यह चिकित्सा या कानूनी सलाह नहीं है।"
-            : "The CosmicGyan directory lists both human astrologers and AI astrologers. AI profiles are disclosed with a shared “AI astrologer — not a human” label at every touchpoint. This is not medical or legal advice."}
+            ? "CosmicTalks निर्देशिका में मानव ज्योतिषी और एआई ज्योतिषी दोनों हैं। एआई प्रोफ़ाइल हर टचपॉइंट पर साझा लेबल से एआई बताई जाती हैं। यह चिकित्सा या कानूनी सलाह नहीं है।"
+            : "The CosmicTalks directory lists both human astrologers and AI astrologers. AI profiles are disclosed with a shared “AI astrologer — not a human” label at every touchpoint. This is not medical or legal advice."}
         </p>
         <div className="mt-6">
           <ConsultSessionClient slug={id} locale={locale} />

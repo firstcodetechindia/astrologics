@@ -170,7 +170,7 @@ export const PROVIDER_SLOTS: ProviderSlotSpec[] = [
       { name: "host", label: "Host", inputType: "text", placeholder: "smtp.example.com" },
       { name: "port", label: "Port", inputType: "number", placeholder: "587" },
       { name: "from_email", label: "From email", inputType: "text", placeholder: "hello@example.com" },
-      { name: "from_name", label: "From name", inputType: "text", placeholder: "CosmicGyan" },
+      { name: "from_name", label: "From name", inputType: "text", placeholder: "CosmicTalks" },
       {
         name: "secure",
         label: "TLS mode",

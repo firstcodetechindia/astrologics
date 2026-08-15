@@ -2,7 +2,7 @@
  * Phase 2 — Cross-validation harness
  * Run: npm run test:cross-validate
  *
- * Compares CosmicGyan (astronomy-engine) charts against:
+ * Compares CosmicTalks (astronomy-engine) charts against:
  *  1) Swiss Ephemeris Lahiri planet-position goldens
  *  2) Jagannatha Hora–compatible goldens (SE SIDM_LAHIRI; JH uses SE ganita)
  *  3) DrikPanchang / published panchang limb expectations
@@ -225,7 +225,7 @@ function runSeFamily(file: string, sourceLabel: string) {
       comparePlanet(c.id, sourceLabel, pid, exp, p.longitude, p.sign.en);
     }
 
-    // Lagna: CosmicGyan uses whole-sign from AE asc; golden stores SE Placidus ASC−Lahiri
+    // Lagna: CosmicTalks uses whole-sign from AE asc; golden stores SE Placidus ASC−Lahiri
     const lagD = lonDelta(c.lagna.longitude, k.lagna.longitude);
     const lagSignOk = c.lagna.sign === k.lagna.sign.en;
     push({
@@ -315,7 +315,7 @@ function writeReport() {
   );
 }
 
-console.log("CosmicGyan Phase 2 cross-validation harness");
+console.log("CosmicTalks Phase 2 cross-validation harness");
 console.log(`Fixtures: ${ROOT}`);
 
 runSeFamily("swiss-ephemeris-goldens.json", "swiss_ephemeris");

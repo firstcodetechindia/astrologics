@@ -29,7 +29,7 @@ function engagement(raw: string) {
 export function SocialQueueClient() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [policy, setPolicy] = useState("");
-  const [draft, setDraft] = useState("CosmicGyan sandbox test post — calculated Jyotish, not a prediction.");
+  const [draft, setDraft] = useState("CosmicTalks sandbox test post — calculated Jyotish, not a prediction.");
   const [busy, setBusy] = useState("");
 
   const load = useCallback(async () => {

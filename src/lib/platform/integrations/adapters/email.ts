@@ -1,6 +1,7 @@
 import net from "node:net";
 import type { AdapterContext, EmailProvider, ProviderAdapter, TestCallResult } from "../types";
 import { resolveTransport, timed } from "../transport";
+import { defaultNoreplyEmail, siteConfig } from "@/lib/site-config";
 
 async function tcpPing(host: string, port: number, timeoutMs = 4000): Promise<boolean> {
   return new Promise((resolve) => {
@@ -60,8 +61,8 @@ export const smtpAdapter: ProviderAdapter & EmailProvider = {
     const host = String(ctx.config.host || "");
     const port = Number(ctx.config.port || 587);
     const user = ctx.secrets.username || "";
-    const fromEmail = String(ctx.config.from_email || user || "noreply@cosmicgpt.in");
-    const fromName = String(ctx.config.from_name || "CosmicGyan");
+    const fromEmail = String(ctx.config.from_email || user || defaultNoreplyEmail());
+    const fromName = String(ctx.config.from_name || siteConfig.brandName);
     if (resolveTransport(ctx, password) === "mock" || !host) {
       return { messageId: `smtp_sandbox_${Date.now()}` };
     }
@@ -136,7 +137,7 @@ export const sendgridAdapter: ProviderAdapter & EmailProvider = {
     if (resolveTransport(ctx, key) === "mock") {
       return { messageId: `sg_sandbox_${Date.now()}` };
     }
-    const fromEmail = String(ctx.config.from_email || "noreply@cosmicgpt.in");
+    const fromEmail = String(ctx.config.from_email || defaultNoreplyEmail());
     const res = await fetch("https://api.sendgrid.com/v3/mail/send", {
       method: "POST",
       headers: {

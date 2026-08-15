@@ -314,7 +314,7 @@ export function glossaryTermArticle(
     return [
       `${term}: ${def}`,
       `${term} ज्योतिष पढ़ते समय बार-बार आता है — कुंडली, मिलान, दशा या पंचांग में। संक्षिप्त परिभाषा याद रखने से रिपोर्ट समझना आसान होता है।`,
-      `CosmicGyan पर मुफ्त जन्म कुंडली और कैलकुलेटर लाहिरी निरयण पद्धति का उपयोग करते हैं। ${term} की व्याख्या भी उसी परंपरा के संदर्भ में दी गई है।`,
+      `CosmicTalks पर मुफ्त जन्म कुंडली और कैलकुलेटर लाहिरी निरयण पद्धति का उपयोग करते हैं। ${term} की व्याख्या भी उसी परंपरा के संदर्भ में दी गई है।`,
       `यदि आपका प्रश्न ${term} से जुड़ा समय, दोष या मिलान का है, तो संबंधित कैलकुलेटर आज़माएँ और फिर एआई गुरु या सत्यापित ज्योतिषी से विस्तार पूछें।`,
       `यह पृष्ठ सामान्य शिक्षा हेतु है — व्यक्तिगत निर्णय के लिए जन्म विवरण सहित योग्य परामर्श लें। अंतिम समीक्षा: 11 Aug 2026।`,
     ];
@@ -322,7 +322,7 @@ export function glossaryTermArticle(
   return [
     `${term}: ${def}`,
     `You will see “${term}” repeatedly while reading a kundli, gun milan, dasha timeline or panchang. A clear working definition makes the rest of a report easier to follow.`,
-    `CosmicGyan free janam kundli and calculators use the Lahiri (Chitrapaksha) sidereal framework. Mentions of ${term} on this site stay aligned with that practical Jyotish context.`,
+    `CosmicTalks free janam kundli and calculators use the Lahiri (Chitrapaksha) sidereal framework. Mentions of ${term} on this site stay aligned with that practical Jyotish context.`,
     `If your question is about timing, dosha or matching involving ${term}, try the related calculator, then ask AI Guru or a verified astrologer with your birth details.`,
     `This page is for education and self-study — not medical, legal or financial advice. Last reviewed: 11 Aug 2026.`,
   ];

@@ -10,10 +10,15 @@ type Props = {
   animated?: boolean;
 };
 
-const WIDTH = { sm: 172, md: 252, lg: 336 } as const;
-const FONT = { sm: 28, md: 40, lg: 52 } as const;
+/**
+ * Slot widths sized for “CosmicTalks” (11 letters). The suffix is one letter
+ * longer and uses wider glyphs (T, k) than the previous 4-letter suffix —
+ * do not reuse that pixel budget.
+ */
+const WIDTH = { sm: 188, md: 286, lg: 392 } as const;
+const FONT = { sm: 26, md: 40, lg: 52 } as const;
 
-/** CosmicGyan mark + English tagline — CSS text (smooth), star locked to the “i”. */
+/** CosmicTalks mark + English tagline — CSS text (smooth), star locked to the “i”. */
 export function CosmicGPTWordmark({
   className,
   showTagline,
@@ -23,7 +28,7 @@ export function CosmicGPTWordmark({
   const withTag = showTagline ?? size !== "sm";
   const w = width ?? WIDTH[size];
   const fontPx = width
-    ? Math.max(22, Math.round(width * 0.185))
+    ? Math.max(20, Math.round(width / 6))
     : FONT[size];
   const label = `${siteConfig.brandName} — ${siteConfig.tagline.en}`;
   const tagClass =
@@ -35,13 +40,13 @@ export function CosmicGPTWordmark({
 
   return (
     <span
-      className={cn("inline-flex select-none flex-col items-center", className)}
+      className={cn("inline-flex max-w-full select-none flex-col items-center", className)}
       role="img"
       aria-label={label}
       style={{ width: w }}
     >
       <span
-        className="relative inline-flex items-baseline pt-[0.28em] font-ui font-bold tracking-[-0.03em] text-white"
+        className="relative inline-flex max-w-full items-baseline whitespace-nowrap pt-[0.28em] font-ui font-bold tracking-[-0.04em] text-white"
         style={{ fontSize: fontPx, lineHeight: 1.05 }}
       >
         <span>Cosm</span>
@@ -58,8 +63,10 @@ export function CosmicGPTWordmark({
           </span>
         </span>
         <span>c</span>
-        <span className="bg-[linear-gradient(90deg,#6C3CFF_0%,#FF5CA8_38%,#FF8A3D_72%,#FFC857_100%)] bg-clip-text pb-[0.08em] text-transparent">
-          Gyan
+        <span
+          className="bg-[linear-gradient(90deg,#6C3CFF_0%,#FF5CA8_32%,#FF8A3D_68%,#FFC857_100%)] bg-clip-text pb-[0.08em] tracking-[-0.05em] text-transparent"
+        >
+          Talks
         </span>
       </span>
 
@@ -69,7 +76,7 @@ export function CosmicGPTWordmark({
             "text-center font-ui font-semibold uppercase leading-normal text-white",
             tagClass
           )}
-          style={{ width: "90%" }}
+          style={{ width: "100%" }}
         >
           Let&apos;s Decode Your Stars
         </span>

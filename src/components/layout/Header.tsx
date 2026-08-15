@@ -362,7 +362,7 @@ export function Header() {
       )}
     >
       {/* Brand + actions — logo/tagline always stay */}
-      <div className="container-page flex h-[5.25rem] items-center justify-between gap-3 lg:h-[5.25rem]">
+      <div className="container-page flex h-[5.25rem] items-center justify-between gap-2 sm:gap-3 lg:h-[5.25rem]">
         <nav className="sr-only" aria-label={hi ? "मुख्य लिंक" : "Primary links"}>
           <ul>
             <li>
@@ -410,7 +410,7 @@ export function Header() {
           <CosmicGPTWordmark
             size="sm"
             showTagline
-            width={160}
+            width={168}
             className="group-hover:brightness-110"
           />
         </Link>

@@ -30,8 +30,8 @@ export function TransparencyBand({ locale }: { locale: string }) {
           </h2>
           <p className="mt-4 max-w-3xl text-[15px] leading-relaxed text-ink-muted sm:text-base">
             {hi
-              ? "CosmicGyan गणना और व्याख्या को अलग रखता है। जन्म कुंडली लाहिरी पद्धति से बनती है; पश्चिमी, केपी और अंक ज्योतिष अलग उपकरण हैं। एआई गणना परिणाम समझाने में मदद करता है—पद्धति गढ़ता नहीं।"
-              : "CosmicGyan separates calculation from interpretation. Janam Kundli uses the Lahiri method; Western, KP and numerology are separate toolsets. AI helps explain calculated results—it does not invent the method."}
+              ? "CosmicTalks गणना और व्याख्या को अलग रखता है। जन्म कुंडली लाहिरी पद्धति से बनती है; पश्चिमी, केपी और अंक ज्योतिष अलग उपकरण हैं। एआई गणना परिणाम समझाने में मदद करता है—पद्धति गढ़ता नहीं।"
+              : "CosmicTalks separates calculation from interpretation. Janam Kundli uses the Lahiri method; Western, KP and numerology are separate toolsets. AI helps explain calculated results—it does not invent the method."}
           </p>
         </Reveal>
         <ul className="mt-8 grid gap-3 sm:grid-cols-2">

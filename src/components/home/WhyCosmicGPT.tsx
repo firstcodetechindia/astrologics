@@ -67,7 +67,7 @@ export function WhyCosmicGPT({ locale }: { locale: string }) {
         <Reveal>
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              {hi ? "क्यों CosmicGyan?" : "Why Use CosmicGyan?"}
+              {hi ? "क्यों CosmicTalks?" : "Why Use CosmicTalks?"}
             </h2>
             <p className="mt-3 font-ui text-sm text-ink-muted sm:text-[15px]">
               {hi

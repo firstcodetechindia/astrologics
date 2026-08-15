@@ -1,4 +1,4 @@
-# CosmicGyan follow-ups
+# CosmicTalks follow-ups
 
 ## Social festival dates vs Panchang engine — engineering closed 2026-08-14
 

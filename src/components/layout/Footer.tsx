@@ -127,7 +127,7 @@ export function Footer() {
         <div className="border-b border-white/[0.08] pb-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="min-w-0">
-              <CosmicGPTWordmark showTagline width={220} />
+              <CosmicGPTWordmark showTagline width={252} />
             </div>
             <div className="flex shrink-0 flex-wrap gap-2">
               <a

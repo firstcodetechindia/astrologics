@@ -17,8 +17,8 @@ export const HOME_FAQ: HomeFaqItem[] = [
   },
   {
     q: {
-      en: "Which astrology systems does CosmicGyan cover?",
-      hi: "CosmicGyan किन ज्योतिष प्रणालियों को कवर करता है?",
+      en: "Which astrology systems does CosmicTalks cover?",
+      hi: "CosmicTalks किन ज्योतिष प्रणालियों को कवर करता है?",
     },
     a: {
       en: "Multiple traditions: free Janam Kundli (Lahiri sidereal), Western learning guides, KP calculators, numerology tools, daily horoscope and Panchang. Each area is labelled so you know which system you are using.",
@@ -31,8 +31,8 @@ export const HOME_FAQ: HomeFaqItem[] = [
       hi: "जन्म कुंडली की गणना कैसे होती है?",
     },
     a: {
-      en: "CosmicGyan converts your birth date, time and place into planetary longitudes using sidereal methods (Lahiri/Chitrapaksha ayanamsa), then places them in whole-sign houses with Nakshatras, dashas and related charts.",
-      hi: "CosmicGyan आपकी जन्म तिथि, समय और स्थान से निरयण पद्धति (लाहिरी/चित्रापक्ष अयनांश) से ग्रहीय देशांतर निकालता है, फिर उन्हें पूर्ण-राशि भावों, नक्षत्रों, दशा और संबंधित वर्ग चार्ट में रखता है।",
+      en: "CosmicTalks converts your birth date, time and place into planetary longitudes using sidereal methods (Lahiri/Chitrapaksha ayanamsa), then places them in whole-sign houses with Nakshatras, dashas and related charts.",
+      hi: "CosmicTalks आपकी जन्म तिथि, समय और स्थान से निरयण पद्धति (लाहिरी/चित्रापक्ष अयनांश) से ग्रहीय देशांतर निकालता है, फिर उन्हें पूर्ण-राशि भावों, नक्षत्रों, दशा और संबंधित वर्ग चार्ट में रखता है।",
     },
   },
   {
@@ -127,8 +127,8 @@ export const HOME_FAQ: HomeFaqItem[] = [
   },
   {
     q: {
-      en: "Is CosmicGyan Kundli free?",
-      hi: "क्या CosmicGyan कुंडली मुफ्त है?",
+      en: "Is CosmicTalks Kundli free?",
+      hi: "क्या CosmicTalks कुंडली मुफ्त है?",
     },
     a: {
       en: "Yes. You can generate a free Janam Kundli and use free calculators. Optional human consultation is available separately if you want personal guidance.",
@@ -171,8 +171,8 @@ export const HOME_FAQ: HomeFaqItem[] = [
       hi: "यदि सटीक जन्म समय न पता हो तो?",
     },
     a: {
-      en: "You can still explore Moon sign, Nakshatra, numerology and some transit themes. House-based readings (Lagna, houses, many yogas) become less reliable with approximate birth time. CosmicGyan also offers a birth-time rectification helper (event-based heuristic) — confirm any suggested time before generating a full kundli.",
-      hi: "आप फिर भी चंद्र राशि, नक्षत्र, अंक ज्योतिष और कुछ गोचर विषय देख सकते हैं। भाव-आधारित पठन (लग्न, भाव, कई योग) अनुमानित समय पर कम विश्वसनीय होते हैं। CosmicGyan जन्म समय सुधार सहायक भी देता है (घटना-आधारित अनुमान) — पूर्ण कुंडली से पहले सुझाए समय की पुष्टि करें।",
+      en: "You can still explore Moon sign, Nakshatra, numerology and some transit themes. House-based readings (Lagna, houses, many yogas) become less reliable with approximate birth time. CosmicTalks also offers a birth-time rectification helper (event-based heuristic) — confirm any suggested time before generating a full kundli.",
+      hi: "आप फिर भी चंद्र राशि, नक्षत्र, अंक ज्योतिष और कुछ गोचर विषय देख सकते हैं। भाव-आधारित पठन (लग्न, भाव, कई योग) अनुमानित समय पर कम विश्वसनीय होते हैं। CosmicTalks जन्म समय सुधार सहायक भी देता है (घटना-आधारित अनुमान) — पूर्ण कुंडली से पहले सुझाए समय की पुष्टि करें।",
     },
   },
 ];

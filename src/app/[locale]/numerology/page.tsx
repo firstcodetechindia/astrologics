@@ -208,7 +208,7 @@ export default async function NumerologyPage() {
         <p className="rounded-2xl border border-saffron/15 bg-surface px-5 py-4 text-[15px] leading-relaxed text-ink">
           {hi ? (
             <>
-              CosmicGyan का मुफ़्त अंक ज्योतिष कैलकुलेटर वैदिक मूलांक/भाग्यांक,
+              CosmicTalks का मुफ़्त अंक ज्योतिष कैलकुलेटर वैदिक मूलांक/भाग्यांक,
               कैल्डियन व पाइथागोरस नाम अंक, और लो शू ग्रिड एक ही स्थान पर
               गणना करता है — प्रत्येक प्रणाली स्पष्ट रूप से लेबल होती है, मिलाई
               नहीं जाती। गणना तर्क{" "}
@@ -222,7 +222,7 @@ export default async function NumerologyPage() {
             </>
           ) : (
             <>
-              CosmicGyan’s free numerology calculator computes Vedic Mulank and
+              CosmicTalks’s free numerology calculator computes Vedic Mulank and
               Bhagyank, Chaldean and Pythagorean name numbers, and a Lo Shu Grid
               in one place — every system clearly labelled, never mixed. The
               maths follows labelled traditional formulas; see our{" "}
@@ -232,7 +232,7 @@ export default async function NumerologyPage() {
               >
                 Methodology
               </Link>{" "}
-              page for how CosmicGyan separates calculation from interpretation.
+              page for how CosmicTalks separates calculation from interpretation.
             </>
           )}
         </p>
@@ -245,8 +245,8 @@ export default async function NumerologyPage() {
           </h2>
           <p className="text-[15px] leading-relaxed text-ink-muted">
             {hi
-              ? "अधिकांश ऐप्स बिना बताए सारणियाँ मिला देते हैं। CosmicGyan गणना को सिस्टम के अनुसार अलग रखता है — ताकि आप जाँच सकें कि कौन-सा अंक किस पद्धति से आया।"
-              : "Most apps silently mix letter tables. CosmicGyan keeps calculation labelled by system — so you can verify which number came from which method."}
+              ? "अधिकांश ऐप्स बिना बताए सारणियाँ मिला देते हैं। CosmicTalks गणना को सिस्टम के अनुसार अलग रखता है — ताकि आप जाँच सकें कि कौन-सा अंक किस पद्धति से आया।"
+              : "Most apps silently mix letter tables. CosmicTalks keeps calculation labelled by system — so you can verify which number came from which method."}
           </p>
           <div className="grid gap-4 sm:grid-cols-2">
             {SYSTEMS.map((s) => (

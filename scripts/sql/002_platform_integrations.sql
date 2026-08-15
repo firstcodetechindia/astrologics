@@ -1,4 +1,4 @@
--- CosmicGyan platform: Super Admin, encrypted secrets vault, integrations.
+-- CosmicTalks platform: Super Admin, encrypted secrets vault, integrations.
 -- Vendor API keys NEVER live in this schema as plaintext.
 
 CREATE EXTENSION IF NOT EXISTS pgcrypto;

@@ -26,8 +26,8 @@ export function FinalCta({ locale }: { locale: string }) {
         </h2>
         <p className="mx-auto mt-4 max-w-xl font-ui text-sm text-ink-muted sm:text-base">
           {hi
-            ? "CosmicGyan के साथ अपनी व्यक्तिगत ज्योतिष यात्रा शुरू करें।"
-            : "Start your personalized astrology journey with CosmicGyan."}
+            ? "CosmicTalks के साथ अपनी व्यक्तिगत ज्योतिष यात्रा शुरू करें।"
+            : "Start your personalized astrology journey with CosmicTalks."}
         </p>
         <Link
           href="/chat"

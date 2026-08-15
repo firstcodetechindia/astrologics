@@ -65,8 +65,8 @@ export function WhyAstrology({ locale }: { locale: string }) {
             </p>
             <p>
               {hi
-                ? "CosmicGyan गणना को पहले रखता है, फिर व्याख्या को सरल भाषा में—ताकि आप स्वयं सोच सकें।"
-                : "CosmicGyan puts calculation first, then explanation in plain language—so you can think for yourself."}
+                ? "CosmicTalks गणना को पहले रखता है, फिर व्याख्या को सरल भाषा में—ताकि आप स्वयं सोच सकें।"
+                : "CosmicTalks puts calculation first, then explanation in plain language—so you can think for yourself."}
             </p>
           </div>
         </Reveal>

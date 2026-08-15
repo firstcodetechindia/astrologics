@@ -1,6 +1,6 @@
-# CosmicGyan
+# CosmicTalks
 
-Bilingual (English / Hindi) Vedic astrology website at [cosmicgpt.in](https://cosmicgpt.in) — generate a full personalized kundli online, then convert to WhatsApp/call for detailed reading and guidance.
+Bilingual (English / Hindi) Vedic astrology website. Intended public origin: [thecosmictalks.com](https://www.thecosmictalks.com) (set `NEXT_PUBLIC_SITE_URL` to the host that actually serves the app until that domain’s DNS is live). Generate a full personalized kundli online, then convert to WhatsApp/call for detailed reading and guidance.
 
 ## Stack
 
@@ -25,11 +25,11 @@ Open [http://localhost:3000](http://localhost:3000).
 
 Edit `.env.local`:
 
-- `NEXT_PUBLIC_BRAND_NAME` — brand (default: CosmicGyan)
+- `NEXT_PUBLIC_BRAND_NAME` — brand (default: CosmicTalks). **Production:** set this in the Vercel dashboard; the build-time default is not enough if an old env value is already stored there.
 - `NEXT_PUBLIC_WHATSAPP_NUMBER` — digits only, country code (e.g. `9198XXXXXXXX`)
 - `NEXT_PUBLIC_PHONE_NUMBER` — e.g. `+9198XXXXXXXX`
-- `NEXT_PUBLIC_SITE_URL` — production URL (`https://cosmicgpt.in`)
-- `NEXT_PUBLIC_CONTACT_EMAIL` — e.g. `hello@cosmicgpt.in`
+- `NEXT_PUBLIC_SITE_URL` — public origin (`https://www.thecosmictalks.com` once DNS is live). Until then, keep this pointed at the host that currently serves the app so canonical URLs stay correct.
+- `NEXT_PUBLIC_CONTACT_EMAIL` — e.g. `hello@thecosmictalks.com`
 
 ## Scripts
 

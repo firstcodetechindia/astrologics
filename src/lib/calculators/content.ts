@@ -31,8 +31,8 @@ function genericContent(
   return {
     h1: title,
     intro: {
-      en: `${topic.en} — get a clear Lahiri sidereal result in seconds on CosmicGyan. Then open your full janam kundali or ask AI Guru for chart-specific guidance in English or Hindi.`,
-      hi: `${topic.hi} — CosmicGyan पर लाहिरी निरयण परिणाम सेकंडों में। फिर पूर्ण जन्म कुंडली खोलें या एआई गुरु से चार्ट-विशिष्ट मार्गदर्शन लें।`,
+      en: `${topic.en} — get a clear Lahiri sidereal result in seconds on CosmicTalks. Then open your full janam kundali or ask AI Guru for chart-specific guidance in English or Hindi.`,
+      hi: `${topic.hi} — CosmicTalks पर लाहिरी निरयण परिणाम सेकंडों में। फिर पूर्ण जन्म कुंडली खोलें या एआई गुरु से चार्ट-विशिष्ट मार्गदर्शन लें।`,
     },
     promo: {
       text: {
@@ -59,8 +59,8 @@ function genericContent(
           hi: `ऑनलाइन ${topic.hi} कैलकुलेटर क्यों?`,
         },
         body: {
-          en: `People search ${topic.en} online for instant clarity before a consultation. CosmicGyan keeps tools free, bilingual (EN & HI), and linked to panchang, moon sign, gun milan, mangal dosha, sade sati and more.`,
-          hi: `लोग परामर्श से पहले तुरंत स्पष्टता हेतु ${topic.hi} खोजते हैं। CosmicGyan उपकरण मुफ़्त, द्विभाषी हैं और पंचांग, चंद्र राशि, गुण मिलान, मंगल दोष, साढ़े साती से जुड़े हैं।`,
+          en: `People search ${topic.en} online for instant clarity before a consultation. CosmicTalks keeps tools free, bilingual (EN & HI), and linked to panchang, moon sign, gun milan, mangal dosha, sade sati and more.`,
+          hi: `लोग परामर्श से पहले तुरंत स्पष्टता हेतु ${topic.hi} खोजते हैं। CosmicTalks उपकरण मुफ़्त, द्विभाषी हैं और पंचांग, चंद्र राशि, गुण मिलान, मंगल दोष, साढ़े साती से जुड़े हैं।`,
         },
       },
       {
@@ -92,8 +92,8 @@ function genericContent(
           hi: "क्या यह कैलकुलेटर मुफ्त है?",
         },
         a: {
-          en: `Yes. CosmicGyan ${topic.en} tools are free online. Optional personal readings are available via AI Guru chat or WhatsApp.`,
-          hi: `हाँ। CosmicGyan ${topic.hi} उपकरण ऑनलाइन मुफ़्त हैं। वैकल्पिक व्यक्तिगत पढ़ाई एआई गुरु चैट या व्हाट्सऐप पर उपलब्ध है।`,
+          en: `Yes. CosmicTalks ${topic.en} tools are free online. Optional personal readings are available via AI Guru chat or WhatsApp.`,
+          hi: `हाँ। CosmicTalks ${topic.hi} उपकरण ऑनलाइन मुफ़्त हैं। वैकल्पिक व्यक्तिगत पढ़ाई एआई गुरु चैट या व्हाट्सऐप पर उपलब्ध है।`,
         },
       },
       {
@@ -147,8 +147,8 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
       hi: "दिनांकित जीवन घटनाओं व विंशोत्तरी दशा संरेखण से उम्मीदवार जन्म समय। अनुमानित सहायता — प्रमाण-पत्र स्तर नहीं।",
     },
     intro: {
-      en: "Unsure of your exact birth time? CosmicGyan sweeps around your approximate time and scores how well Vimshottari dasha lords align with dated life events (career, marriage, childbirth, and more). Results show confidence and event-match ratio — never a fake “% true birth time.” Prefer hospital records when available.",
-      hi: "सटीक जन्म समय नहीं पता? CosmicGyan आपके अनुमानित समय के आसपास खोजता है और विंशोत्तरी दशा स्वामियों का दिनांकित घटनाओं से मेल अंकित करता है। विश्वसनीयता व घटना-मेल अनुपात — गढ़ा “सही जन्म समय %” नहीं। उपलब्ध हो तो अस्पताल अभिलेख प्राथमिक।",
+      en: "Unsure of your exact birth time? CosmicTalks sweeps around your approximate time and scores how well Vimshottari dasha lords align with dated life events (career, marriage, childbirth, and more). Results show confidence and event-match ratio — never a fake “% true birth time.” Prefer hospital records when available.",
+      hi: "सटीक जन्म समय नहीं पता? CosmicTalks आपके अनुमानित समय के आसपास खोजता है और विंशोत्तरी दशा स्वामियों का दिनांकित घटनाओं से मेल अंकित करता है। विश्वसनीयता व घटना-मेल अनुपात — गढ़ा “सही जन्म समय %” नहीं। उपलब्ध हो तो अस्पताल अभिलेख प्राथमिक।",
     },
     promo: {
       text: {
@@ -552,8 +552,8 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
       {
         title: { en: "What Lagna means", hi: "लग्न का अर्थ" },
         body: {
-          en: "Lagna (Ascendant) describes how you meet the world — vitality, body, first impressions and the lens for the rest of the chart. In CosmicGyan whole-sign charts, the Lagna sign becomes the entire first house; the next sign is the second house, and so on through twelve.",
-          hi: "लग्न बताता है आप संसार से कैसे मिलते हैं — जीवन शक्ति, शरीर, प्रथम प्रभाव और शेष कुंडली का दृष्टिकोण। CosmicGyan पूर्ण-राशि चार्ट में लग्न राशि पूरा प्रथम भाव बनती है।",
+          en: "Lagna (Ascendant) describes how you meet the world — vitality, body, first impressions and the lens for the rest of the chart. In CosmicTalks whole-sign charts, the Lagna sign becomes the entire first house; the next sign is the second house, and so on through twelve.",
+          hi: "लग्न बताता है आप संसार से कैसे मिलते हैं — जीवन शक्ति, शरीर, प्रथम प्रभाव और शेष कुंडली का दृष्टिकोण। CosmicTalks पूर्ण-राशि चार्ट में लग्न राशि पूरा प्रथम भाव बनती है।",
         },
       },
       {
@@ -672,8 +672,8 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
       {
         title: { en: "Cancellations and exceptions", hi: "निवारण और अपवाद" },
         body: {
-          en: "Texts list cancellations such as Mars in certain signs, mutual Manglik status, or strong benefic influences. A dosha flag is a traditional indicator for deeper chart study — not a fixed life verdict. CosmicGyan explains results without fear-based jargon; for marriage decisions, review full charts and speak with a qualified astrologer.",
-          hi: "शास्त्रों में कुछ राशियों में मंगल, पारस्परिक मंगलिक स्थिति या शुभ प्रभाव जैसे निवारण बताए गए हैं। दोष संकेत गहन अध्ययन का पारंपरिक संकेत है — निश्चित जीवन फैसला नहीं। CosmicGyan भयभीत भाषा के बिना समझाता है; विवाह निर्णय हेतु पूर्ण कुंडली और योग्य ज्योतिषी से बात करें।",
+          en: "Texts list cancellations such as Mars in certain signs, mutual Manglik status, or strong benefic influences. A dosha flag is a traditional indicator for deeper chart study — not a fixed life verdict. CosmicTalks explains results without fear-based jargon; for marriage decisions, review full charts and speak with a qualified astrologer.",
+          hi: "शास्त्रों में कुछ राशियों में मंगल, पारस्परिक मंगलिक स्थिति या शुभ प्रभाव जैसे निवारण बताए गए हैं। दोष संकेत गहन अध्ययन का पारंपरिक संकेत है — निश्चित जीवन फैसला नहीं। CosmicTalks भयभीत भाषा के बिना समझाता है; विवाह निर्णय हेतु पूर्ण कुंडली और योग्य ज्योतिषी से बात करें।",
         },
       },
       {
@@ -822,8 +822,8 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
       hi: "पूछने के क्षण की मुफ्त प्रश्न (होररी) कुंडली। विषय कारक भाव व झुकाव/सावधानी — लाहिरी पूर्ण-राशि, %-संभावना नहीं।",
     },
     intro: {
-      en: "Prashna Kundli is a Vedic horary chart cast for the exact time and place you ask a question. CosmicGyan maps your topic to classical houses, shows significator lords, and returns lean / caution / insufficient clarity — each with basedOn citations. It is not a yes/no percentage oracle and does not replace a birth kundli.",
-      hi: "प्रश्न कुंडली उस क्षण और स्थान की वैदिक होररी कुंडली है जब आप प्रश्न पूछते हैं। CosmicGyan विषय को शास्त्रीय भावों से जोड़ता है, कारक स्वामी दिखाता है, और झुकाव / सावधानी / अपर्याप्त स्पष्टता देता है — प्रत्येक basedOn सहित। यह हाँ/नहीं प्रतिशत ऑरेकल नहीं और जन्म कुंडली का विकल्प नहीं।",
+      en: "Prashna Kundli is a Vedic horary chart cast for the exact time and place you ask a question. CosmicTalks maps your topic to classical houses, shows significator lords, and returns lean / caution / insufficient clarity — each with basedOn citations. It is not a yes/no percentage oracle and does not replace a birth kundli.",
+      hi: "प्रश्न कुंडली उस क्षण और स्थान की वैदिक होररी कुंडली है जब आप प्रश्न पूछते हैं। CosmicTalks विषय को शास्त्रीय भावों से जोड़ता है, कारक स्वामी दिखाता है, और झुकाव / सावधानी / अपर्याप्त स्पष्टता देता है — प्रत्येक basedOn सहित। यह हाँ/नहीं प्रतिशत ऑरेकल नहीं और जन्म कुंडली का विकल्प नहीं।",
     },
     promo: {
       text: {
@@ -844,7 +844,7 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
       {
         title: { en: "How to read the result", hi: "परिणाम कैसे पढ़ें" },
         body: {
-          en: "Use lean / caution / insufficient as a moment-sky screen — not fate rewrite. For health or litigation topics, CosmicGyan explicitly refuses medical diagnosis and legal win/lose claims. Prefer full janam kundli + dasha for life decisions; see Methodology for engine defaults.",
+          en: "Use lean / caution / insufficient as a moment-sky screen — not fate rewrite. For health or litigation topics, CosmicTalks explicitly refuses medical diagnosis and legal win/lose claims. Prefer full janam kundli + dasha for life decisions; see Methodology for engine defaults.",
           hi: "झुकाव / सावधानी / अपर्याप्त को क्षण-आकाश स्क्रीन मानें — भाग्य पुनर्लेखन नहीं। स्वास्थ्य या मुकदमा विषयों पर चिकित्सकीय निदान व कानूनी जीत/हार स्पष्ट रूप से अस्वीकार। जीवन निर्णयों हेतु जन्म कुंडली + दशा प्राथमिक; इंजन डिफ़ॉल्ट हेतु मेथडोलॉजी देखें।",
         },
         steps: [
@@ -865,7 +865,7 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
       {
         title: { en: "Prashna vs KP horary", hi: "प्रश्न बनाम केपी होररी" },
         body: {
-          en: "This page is Parashari Prashna (question-time chart + house significators). KP horary (1–249 number) is a separate CosmicGyan tool under the KP category — do not mix the two judgment systems silently.",
+          en: "This page is Parashari Prashna (question-time chart + house significators). KP horary (1–249 number) is a separate CosmicTalks tool under the KP category — do not mix the two judgment systems silently.",
           hi: "यह पृष्ठ पारंपरिक प्रश्न (प्रश्न-काल कुंडली + भाव कारक) है। केपी होररी (1–249) अलग उपकरण है — दोनों निर्णयन प्रणालियाँ चुपचाप न मिलाएँ।",
         },
       },
@@ -887,7 +887,7 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
           hi: "क्या यह हाँ/नहीं प्रतिशत देता है?",
         },
         a: {
-          en: "No. CosmicGyan only shows lean, caution, or insufficient clarity — each with chart-based citations.",
+          en: "No. CosmicTalks only shows lean, caution, or insufficient clarity — each with chart-based citations.",
           hi: "नहीं। केवल झुकाव, सावधानी या अपर्याप्त स्पष्टता — प्रत्येक चार्ट आधारित citation के साथ।",
         },
       },
@@ -907,8 +907,8 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
           hi: "गणना पद्धति कहाँ दर्ज है?",
         },
         a: {
-          en: "See CosmicGyan Methodology (Lahiri, whole-sign, IANA at instant) and the Prashna section describing topic→house maps and lean screens.",
-          hi: "CosmicGyan मेथडोलॉजी (लाहिरी, पूर्ण-राशि, क्षण पर IANA) और प्रश्न अनुभाग देखें — विषय→भाव मानचित्र व झुकाव स्क्रीन।",
+          en: "See CosmicTalks Methodology (Lahiri, whole-sign, IANA at instant) and the Prashna section describing topic→house maps and lean screens.",
+          hi: "CosmicTalks मेथडोलॉजी (लाहिरी, पूर्ण-राशि, क्षण पर IANA) और प्रश्न अनुभाग देखें — विषय→भाव मानचित्र व झुकाव स्क्रीन।",
         },
       },
     ],
@@ -977,7 +977,7 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
       hi: "यात्रा, विवाह चर्चा, गृह प्रवेश या व्यवसाय हेतु मुहूर्त — दिन चौघड़िया + पंचांग, भाग्य प्रतिशत नहीं।",
     },
     intro: {
-      en: "Muhurta Finder scores daytime Choghadiya segments over up to 14 days as pass, caution, or avoid for your activity — using Rahu Kaal, Vishti karana, Rikta tithis, yoga and hora rules. CosmicGyan does not invent luck percentages; every window carries basedOn citations.",
+      en: "Muhurta Finder scores daytime Choghadiya segments over up to 14 days as pass, caution, or avoid for your activity — using Rahu Kaal, Vishti karana, Rikta tithis, yoga and hora rules. CosmicTalks does not invent luck percentages; every window carries basedOn citations.",
       hi: "मुहूर्त खोज 14 दिनों तक दिन चौघड़िया खंडों को आपकी गतिविधि हेतु पास, सावधानी या बचें में अंकित करता है — राहु काल, विष्टि करण, रिक्त तिथि, योग व होरा नियमों से। भाग्य प्रतिशत नहीं; प्रत्येक खिड़की basedOn सहित।",
     },
     promo: {
@@ -1042,8 +1042,8 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
           hi: "प्रतिशत स्कोर क्यों नहीं?",
         },
         a: {
-          en: "CosmicGyan uses pass / caution / avoid with cited factors instead of invented luck percentages.",
-          hi: "CosmicGyan गढ़े भाग्य-% के बजाय basedOn कारकों सहित पास / सावधानी / बचें उपयोग करता है।",
+          en: "CosmicTalks uses pass / caution / avoid with cited factors instead of invented luck percentages.",
+          hi: "CosmicTalks गढ़े भाग्य-% के बजाय basedOn कारकों सहित पास / सावधानी / बचें उपयोग करता है।",
         },
       },
       {
@@ -1052,8 +1052,8 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
           hi: "क्या यह चिकित्सा प्रक्रियाओं के लिए है?",
         },
         a: {
-          en: "No. CosmicGyan does not clear medical or surgical timing — consult qualified professionals.",
-          hi: "नहीं। CosmicGyan चिकित्सकीय/सर्जिकल समय स्वीकृत नहीं करता — योग्य पेशेवरों से परामर्श लें।",
+          en: "No. CosmicTalks does not clear medical or surgical timing — consult qualified professionals.",
+          hi: "नहीं। CosmicTalks चिकित्सकीय/सर्जिकल समय स्वीकृत नहीं करता — योग्य पेशेवरों से परामर्श लें।",
         },
       },
     ],

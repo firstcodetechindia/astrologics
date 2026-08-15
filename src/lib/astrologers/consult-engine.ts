@@ -65,7 +65,7 @@ export async function ensurePhase5Astrologers() {
         ${1500},
         ${"ai-guru@upi"},
         ${true},
-        ${"AI astrologer persona powered by CosmicGyan AI Guru. Chart answers are fact-filtered. Clearly labeled AI — not a human."},
+        ${"AI astrologer persona powered by CosmicTalks AI Guru. Chart answers are fact-filtered. Clearly labeled AI — not a human."},
         ${JSON.stringify(["Vedic", "Kundli", "AI Guru"])},
         ${1500},
         ${true},

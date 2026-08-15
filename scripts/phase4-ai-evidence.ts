@@ -143,7 +143,7 @@ async function main() {
       b?.click();
     });
     await page.waitForFunction(
-      () => document.body.innerText.includes("already have a CosmicGyan kundli"),
+      () => document.body.innerText.includes("already have a CosmicTalks kundli"),
       { timeout: 20000 }
     );
     await page.screenshot({ path: path.join(outDir, "playground-live.png"), fullPage: true });
@@ -154,7 +154,7 @@ async function main() {
       b?.click();
     });
     await page.waitForFunction(
-      () => document.body.innerText.includes("Welcome to CosmicGyan"),
+      () => document.body.innerText.includes("Welcome to CosmicTalks"),
       { timeout: 20000 }
     );
     const detail = path.join(outDir, "logs-detail.png");

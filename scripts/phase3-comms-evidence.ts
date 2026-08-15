@@ -43,13 +43,13 @@ function renderChecks() {
     user_name: "Ananya",
     invoice_no: "CG-INV-2026-0008",
     amount: "₹499.00",
-    brand_name: "CosmicGyan",
+    brand_name: "CosmicTalks",
   };
   const out = renderTemplate(source, vars);
   assert(out.rendered.includes("Ananya"), "user_name not substituted");
   assert(out.rendered.includes("CG-INV-2026-0008"), "invoice_no not substituted");
   assert(out.rendered.includes("₹499.00"), "amount not substituted");
-  assert(out.rendered.includes("CosmicGyan"), "brand_name not substituted");
+  assert(out.rendered.includes("CosmicTalks"), "brand_name not substituted");
   assert(!out.rendered.includes("{{user_name}}"), "placeholder left in body");
   assert(out.missing.length === 0, `unexpected missing: ${out.missing.join(",")}`);
   const leftover = renderTemplate("Hi {{user_name}} {{missing_key}}", { user_name: "Ananya" });

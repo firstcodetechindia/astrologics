@@ -14,8 +14,8 @@ import { SILENT_SETTINGS } from "@/lib/astrology/silent-settings";
 const FAQS = [
   {
     q: {
-      en: "What ayanamsa does CosmicGyan use?",
-      hi: "CosmicGyan कौन-सा अयनांश उपयोग करता है?",
+      en: "What ayanamsa does CosmicTalks use?",
+      hi: "CosmicTalks कौन-सा अयनांश उपयोग करता है?",
     },
     a: {
       en: "Lahiri (Chitrapaksha) ayanamsa — the standard used in India’s Rashtriya Panchang and most Vedic software.",
@@ -34,8 +34,8 @@ const FAQS = [
   },
   {
     q: {
-      en: "Does CosmicGyan sell my birth data?",
-      hi: "क्या CosmicGyan मेरा जन्म डेटा बेचता है?",
+      en: "Does CosmicTalks sell my birth data?",
+      hi: "क्या CosmicTalks मेरा जन्म डेटा बेचता है?",
     },
     a: {
       en: "No. Birth details are used to calculate your chart and are not sold to third parties, including remedy or gemstone sellers. You can request deletion via Contact.",
@@ -61,24 +61,24 @@ export async function generateMetadata(): Promise<Metadata> {
     locale,
     path: "/methodology",
     title: hi
-      ? "हमारी पद्धति — CosmicGyan कुंडली कैसे गणना करता है"
-      : "Our Methodology — How CosmicGyan Calculates Your Chart",
+      ? "हमारी पद्धति — CosmicTalks कुंडली कैसे गणना करता है"
+      : "Our Methodology — How CosmicTalks Calculates Your Chart",
     description: hi
-      ? "देखें CosmicGyan आपकी कुंडली कैसे गणना करता है — अयनांश, भाव पद्धति, इफेमेरिस स्रोत और एआई दृष्टिकोण, पारदर्शी रूप से।"
-      : "See exactly how CosmicGyan calculates your Kundli — ayanamsa, house system, ephemeris source and AI approach, explained transparently.",
+      ? "देखें CosmicTalks आपकी कुंडली कैसे गणना करता है — अयनांश, भाव पद्धति, इफेमेरिस स्रोत और एआई दृष्टिकोण, पारदर्शी रूप से।"
+      : "See exactly how CosmicTalks calculates your Kundli — ayanamsa, house system, ephemeris source and AI approach, explained transparently.",
     keywords: hi
       ? [
           "ज्योतिष पद्धति",
           "लाहिरी अयनांश",
           "कुंडली गणना",
-          "CosmicGyan methodology",
+          "CosmicTalks methodology",
         ]
       : [
           "astrology methodology",
           "lahiri ayanamsa",
           "how kundli is calculated",
           "vedic house system",
-          "CosmicGyan calculation method",
+          "CosmicTalks calculation method",
         ],
   });
 }
@@ -125,8 +125,8 @@ export default async function MethodologyPage() {
           </h2>
           <p>
             {hi
-              ? "अधिकांश ज्योतिष प्लेटफ़ॉर्म गणना का तरीका बताए बिना विश्वास माँगते हैं। हम इसे उल्टा मानते हैं — खासकर जन्म कुंडली जैसी व्यक्तिगत चीज़ के लिए। यह पृष्ठ बताता है कि CosmicGyan किन गणना विधियों, डेटा स्रोतों और एआई दृष्टिकोण का उपयोग करता है, ताकि आप हमारे काम की जाँच कर सकें — केवल हमारे शब्द पर भरोसा न करें।"
-              : "Most astrology platforms ask you to trust their calculations without ever showing how they arrived at them. We think that's backwards — especially for something as personal as your birth chart. This page explains exactly which calculation methods, data sources and AI approach CosmicGyan uses, so you can verify our work instead of just taking our word for it."}
+              ? "अधिकांश ज्योतिष प्लेटफ़ॉर्म गणना का तरीका बताए बिना विश्वास माँगते हैं। हम इसे उल्टा मानते हैं — खासकर जन्म कुंडली जैसी व्यक्तिगत चीज़ के लिए। यह पृष्ठ बताता है कि CosmicTalks किन गणना विधियों, डेटा स्रोतों और एआई दृष्टिकोण का उपयोग करता है, ताकि आप हमारे काम की जाँच कर सकें — केवल हमारे शब्द पर भरोसा न करें।"
+              : "Most astrology platforms ask you to trust their calculations without ever showing how they arrived at them. We think that's backwards — especially for something as personal as your birth chart. This page explains exactly which calculation methods, data sources and AI approach CosmicTalks uses, so you can verify our work instead of just taking our word for it."}
           </p>
         </section>
 
@@ -422,8 +422,8 @@ export default async function MethodologyPage() {
           </h2>
           <p>
             {hi
-              ? "CosmicGyan पर ज्योतिषी सूचीबद्ध होने से पहले समीक्षा से गुजरते हैं — दस्तावेज़ी प्रशिक्षण या वंश और वर्षों के अभ्यास के आधार पर। हम प्रत्येक प्रोफ़ाइल पर सत्यापित अनुभव और विशेषज्ञता स्पष्ट दिखाते हैं, केवल अविश्वसनीय स्टार रेटिंग के बजाय।"
-              : "Astrologers on CosmicGyan are reviewed before being listed, based on documented training or lineage, and years of practice. We show verified experience and specialization clearly on every profile rather than unverifiable star-only ratings."}
+              ? "CosmicTalks पर ज्योतिषी सूचीबद्ध होने से पहले समीक्षा से गुजरते हैं — दस्तावेज़ी प्रशिक्षण या वंश और वर्षों के अभ्यास के आधार पर। हम प्रत्येक प्रोफ़ाइल पर सत्यापित अनुभव और विशेषज्ञता स्पष्ट दिखाते हैं, केवल अविश्वसनीय स्टार रेटिंग के बजाय।"
+              : "Astrologers on CosmicTalks are reviewed before being listed, based on documented training or lineage, and years of practice. We show verified experience and specialization clearly on every profile rather than unverifiable star-only ratings."}
           </p>
         </section>
 

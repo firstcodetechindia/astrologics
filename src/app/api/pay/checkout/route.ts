@@ -56,7 +56,7 @@ export async function POST(req: Request) {
       astrologerId: body.astrologerId,
       planId: body.planId,
       productId: body.productId,
-      description: String(body.description || "CosmicGyan payment"),
+      description: String(body.description || "CosmicTalks payment"),
     });
     return NextResponse.json({ ok: true, ...result });
   } catch (e) {

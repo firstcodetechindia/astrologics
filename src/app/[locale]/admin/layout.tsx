@@ -8,7 +8,7 @@ export async function generateMetadata(): Promise<Metadata> {
     locale: "en",
     path: "/admin",
     title: `Super Admin | ${siteConfig.brandName}`,
-    description: "CosmicGyan Super Admin control plane.",
+    description: "CosmicTalks Super Admin control plane.",
     noIndex: true,
   });
 }

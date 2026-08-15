@@ -83,8 +83,8 @@ export function filterAiScope(text: string, locale: "en" | "hi" = "en"): {
   if (reasons.length) {
     const note =
       locale === "hi"
-        ? "\n\n⚠️ चिकित्सा/कानूनी दावे हटा दिए गए। CosmicGyan चिकित्सा या कानूनी सलाह नहीं देता।"
-        : "\n\n⚠️ Medical/legal advice claims were removed. CosmicGyan does not provide medical or legal advice.";
+        ? "\n\n⚠️ चिकित्सा/कानूनी दावे हटा दिए गए। CosmicTalks चिकित्सा या कानूनी सलाह नहीं देता।"
+        : "\n\n⚠️ Medical/legal advice claims were removed. CosmicTalks does not provide medical or legal advice.";
     if (!out) {
       out =
         locale === "hi"

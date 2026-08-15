@@ -67,6 +67,7 @@ next-env.d.ts
 /scripts/fixtures/phase7-rbac-evidence/
 /scripts/fixtures/phase7-e2e-evidence/
 /scripts/fixtures/go-live-evidence/
+/scripts/fixtures/wordmark-talks/
 /scripts/fixtures/admin-load-evidence/
 /scripts/fixtures/phase4-ai-evidence/
 /scripts/fixtures/phase4-safety-evidence/

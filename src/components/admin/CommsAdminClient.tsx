@@ -730,7 +730,7 @@ function sampleValue(key: string) {
     plan_name: "Monthly Insight",
     expiry_date: "17 Aug 2026",
     product_name: "Rudraksha kit",
-    brand_name: "CosmicGyan",
+    brand_name: "CosmicTalks",
   };
   return map[key] || key;
 }

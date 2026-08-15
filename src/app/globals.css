@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  /* CosmicGyan brand system */
+  /* CosmicTalks brand system */
   --cosmic-navy: #0b0f1f;
   /* Fixed header height — brand row (mobile) / brand + nav (desktop) */
   --site-header-h: 5.25rem;

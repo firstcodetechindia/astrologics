@@ -108,8 +108,8 @@ export default async function ChatWithAstrologerPage({
               </h2>
               <p>
                 {hi
-                  ? "CosmicGyan पर आप मुफ्त जन्म कुंडली बना सकते हैं और एआई गुरु से अपनी गणना की गई कुंडली पर त्वरित प्रश्न पूछ सकते हैं। यह स्व-अध्ययन और स्पष्टीकरण के लिए उपयुक्त है — ग्रह स्थिति पहले इंजन से निकलती है, एआई उन परिणामों की भाषा में व्याख्या करता है।"
-                  : "On CosmicGyan you can generate a free birth chart and ask AI Guru quick follow-up questions on your calculated results. That suits self-study and clarification — planetary positions come from the calculation engine first; AI interprets those results in plain language."}
+                  ? "CosmicTalks पर आप मुफ्त जन्म कुंडली बना सकते हैं और एआई गुरु से अपनी गणना की गई कुंडली पर त्वरित प्रश्न पूछ सकते हैं। यह स्व-अध्ययन और स्पष्टीकरण के लिए उपयुक्त है — ग्रह स्थिति पहले इंजन से निकलती है, एआई उन परिणामों की भाषा में व्याख्या करता है।"
+                  : "On CosmicTalks you can generate a free birth chart and ask AI Guru quick follow-up questions on your calculated results. That suits self-study and clarification — planetary positions come from the calculation engine first; AI interprets those results in plain language."}
               </p>
               <p>
                 {hi

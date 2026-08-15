@@ -12,7 +12,7 @@ import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 import { useHydratedReducedMotion } from "@/hooks/useHydratedReducedMotion";
 
-/** Animated CosmicGyan lockup for the auth brand panel. */
+/** Animated CosmicTalks lockup for the auth brand panel. */
 function AuthBrandOrbit() {
   return (
     <div className="relative flex items-center justify-center px-2">
