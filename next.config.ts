@@ -17,6 +17,16 @@ const nextConfig: NextConfig = {
         destination: "/:locale/panchang",
         permanent: true,
       },
+      {
+        source: "/cosmicgpt-icon-512.png",
+        destination: "/cosmictalks-icon-512.png",
+        permanent: true,
+      },
+      {
+        source: "/cosmicgpt-logo.png",
+        destination: "/cosmictalks-logo.png",
+        permanent: true,
+      },
     ];
   },
   async headers() {

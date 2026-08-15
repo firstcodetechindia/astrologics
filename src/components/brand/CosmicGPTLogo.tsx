@@ -1,5 +1,6 @@
 /** CosmicTalks brand mark — zodiac wheel, sun, crescent, orbits. */
 import Image from "next/image";
+import { siteConfig } from "@/lib/site-config";
 
 export function CosmicGPTLogo({
   className = "h-9 w-9",
@@ -10,7 +11,7 @@ export function CosmicGPTLogo({
 }) {
   return (
     <Image
-      src="/cosmicgpt-logo.png"
+      src={siteConfig.brandLogo}
       alt={title}
       width={44}
       height={44}

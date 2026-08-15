@@ -54,7 +54,7 @@ export function buildPageMetadata({
       type,
       images: [
         {
-          url: "/cosmicgpt-icon-512.png",
+          url: siteConfig.brandIcon,
           width: 512,
           height: 512,
           alt: `${siteConfig.brandName} — Kundli, AI astrology & calculators`,
@@ -65,7 +65,7 @@ export function buildPageMetadata({
       card: "summary_large_image",
       title,
       description: desc,
-      images: ["/cosmicgpt-icon-512.png"],
+      images: [siteConfig.brandIcon],
     },
     robots: noIndex
       ? { index: false, follow: false, googleBot: { index: false, follow: false } }
@@ -94,7 +94,7 @@ export function organizationJsonLd() {
     "@type": "Organization",
     name: siteConfig.brandName,
     url: siteConfig.siteUrl,
-    logo: `${siteConfig.siteUrl}/cosmicgpt-icon-512.png`,
+    logo: `${siteConfig.siteUrl}${siteConfig.brandIcon}`,
     email: siteConfig.email,
     telephone: siteConfig.phone,
     sameAs: [

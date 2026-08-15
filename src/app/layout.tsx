@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     url: siteConfig.siteUrl,
     images: [
       {
-        url: "/cosmicgpt-icon-512.png",
+        url: siteConfig.brandIcon,
         width: 512,
         height: 512,
         alt: siteConfig.brandName,
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     title: `${siteConfig.brandName} — ${siteConfig.tagline.en}`,
     description:
       "Let's Decode Your Stars — free kundli, Western, KP, numerology, horoscope and AI chart guidance in EN & HI.",
-    images: ["/cosmicgpt-icon-512.png"],
+    images: [siteConfig.brandIcon],
   },
   robots: {
     index: true,

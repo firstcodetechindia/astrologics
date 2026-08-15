@@ -87,7 +87,7 @@ export default async function BlogPostPage({
             url: siteConfig.siteUrl,
             logo: {
               "@type": "ImageObject",
-              url: `${siteConfig.siteUrl}/cosmicgpt-icon-512.png`,
+              url: `${siteConfig.siteUrl}${siteConfig.brandIcon}`,
             },
           },
           mainEntityOfPage: url,

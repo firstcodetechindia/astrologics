@@ -102,8 +102,8 @@ export default async function HomePage({
                   ? siteConfig.tagline.hi
                   : siteConfig.tagline.en,
               url: siteConfig.siteUrl,
-              logo: `${siteConfig.siteUrl}/cosmicgpt-icon-512.png`,
-              image: `${siteConfig.siteUrl}/cosmicgpt-icon-512.png`,
+              logo: `${siteConfig.siteUrl}${siteConfig.brandIcon}`,
+              image: `${siteConfig.siteUrl}${siteConfig.brandIcon}`,
               email: siteConfig.email,
               telephone: siteConfig.phone,
               sameAs: [`https://wa.me/${siteConfig.whatsapp}`],
