@@ -76,3 +76,5 @@ next-env.d.ts
 /scripts/fixtures/observatory-phase2-evidence/
 /scripts/fixtures/observatory-time-evidence/
 /scripts/fixtures/observatory-ambient-evidence/
+/scripts/fixtures/observatory-realtime-evidence/
+/scripts/fixtures/observatory-ambient-audio-evidence/

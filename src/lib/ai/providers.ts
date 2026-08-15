@@ -107,14 +107,42 @@ export function buildChartSummary(k: KundliResult): string {
     })(),
     (() => {
       const tr = k.transits as
-        | { asOf?: string; planets?: { id: string; sign: { en: string }; houseFromLagna: number; isRetrograde: boolean }[] }
+        | {
+            asOf?: string;
+            planets?: {
+              id: string;
+              sign: { en: string };
+              houseFromLagna: number;
+              isRetrograde: boolean;
+              degreeInSign?: number;
+              savBindus?: number;
+              savSupport?: boolean;
+              kaksha?: { number: number; lord: string };
+              kakshaBindu?: boolean | null;
+            }[];
+          }
         | undefined;
       if (!tr?.planets?.length) return "";
       return `Current transits (${tr.asOf}): ${tr.planets
-        .map(
-          (p) =>
-            `${p.id} ${p.sign.en} H${p.houseFromLagna}${p.isRetrograde ? " R" : ""}`
-        )
+        .map((p) => {
+          const kak =
+            p.kaksha != null
+              ? ` kaksha ${p.kaksha.number}/${p.kaksha.lord}`
+              : "";
+          const sav =
+            p.savBindus != null
+              ? ` SAV ${p.savBindus}${p.savSupport ? "≥25" : "<25"}`
+              : "";
+          const bindu =
+            p.kakshaBindu === true
+              ? " bindu yes"
+              : p.kakshaBindu === false
+                ? " bindu no"
+                : "";
+          const deg =
+            p.degreeInSign != null ? ` ${p.degreeInSign.toFixed(1)}°` : "";
+          return `${p.id} ${p.sign.en}${deg} H${p.houseFromLagna}${kak}${sav}${bindu}${p.isRetrograde ? " R" : ""}`;
+        })
         .join("; ")}`;
     })(),
     `Graha Drishti (sample): ${aspectSample || "none"}`,

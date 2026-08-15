@@ -63,7 +63,7 @@ const FEATURES = [
   },
   {
     href: "/observatory",
-    icon: "🔭",
+    icon: "🪐",
     title: { en: "Cosmic Observatory", hi: "कॉस्मिक ऑब्ज़र्वेटरी" },
     text: {
       en: "Live 3D solar system from the same engine as Kundli — any date, Sun- or Earth-centered.",

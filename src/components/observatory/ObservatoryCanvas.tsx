@@ -7,11 +7,8 @@ import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import {
   BufferAttribute,
   BufferGeometry,
-  Color,
   DoubleSide,
   Group,
-  Line as ThreeLine,
-  LineBasicMaterial,
   Points,
   Vector3,
 } from "three";
@@ -21,7 +18,6 @@ import {
   type ObservatoryBodyId,
   type ObservatoryFrame,
 } from "@/lib/astrology/observatory-ephemeris";
-import { AMBIENT_SIM_MS_PER_SEC } from "@/lib/astrology/observatory-time";
 import { BODY_COLOR } from "./observatory-colors";
 
 const MESH_SIZE: Record<string, number> = {
@@ -37,10 +33,6 @@ const MESH_SIZE: Record<string, number> = {
   moon: 0.08,
 };
 
-const TRAIL_MAX = 96;
-const TRAIL_MIN_DIST2 = 0.00035;
-const PURPLE = new Color("#6c3cff");
-const GOLD = new Color("#ffc857");
 const FULL_VIEW_CAM = new Vector3(0, 7.5, 18);
 const FULL_VIEW_TARGET = new Vector3(0, 0, 0);
 
@@ -68,17 +60,6 @@ export type ObservatoryHudLabel = {
   visible: boolean;
 };
 
-type TrailBuf = {
-  geo: BufferGeometry;
-  pos: Float32Array;
-  col: Float32Array;
-  count: number;
-  start: number;
-  lastX: number;
-  lastY: number;
-  lastZ: number;
-};
-
 function publishFps(fps: number) {
   if (typeof window === "undefined") return;
   (window as Window & { __observatoryFps?: number }).__observatoryFps = fps;
@@ -88,60 +69,13 @@ function publishFps(fps: number) {
   }
 }
 
-function originId(frame: ObservatoryFrame): ObservatoryBodyId {
-  return frame === "heliocentric" ? "sun" : "earth";
-}
-
-function pushTrail(buf: TrailBuf, x: number, y: number, z: number, hex: string) {
-  if (buf.count > 0) {
-    const dx = x - buf.lastX;
-    const dy = y - buf.lastY;
-    const dz = z - buf.lastZ;
-    if (dx * dx + dy * dy + dz * dz < TRAIL_MIN_DIST2) return;
+function applyBodies(
+  bodies: ObservatoryBody[],
+  groupMap: React.MutableRefObject<Map<ObservatoryBodyId, Group>>
+) {
+  for (const b of bodies) {
+    groupMap.current.get(b.id)?.position.set(b.x, b.y, b.z);
   }
-  buf.lastX = x;
-  buf.lastY = y;
-  buf.lastZ = z;
-
-  const slot =
-    buf.count < TRAIL_MAX
-      ? buf.count
-      : (buf.start + buf.count) % TRAIL_MAX;
-  if (buf.count < TRAIL_MAX) buf.count += 1;
-  else buf.start = (buf.start + 1) % TRAIL_MAX;
-
-  buf.pos[slot * 3] = x;
-  buf.pos[slot * 3 + 1] = y;
-  buf.pos[slot * 3 + 2] = z;
-
-  const planet = new Color(hex);
-  planet.lerp(PURPLE, 0.32);
-  buf.col[slot * 3] = planet.r;
-  buf.col[slot * 3 + 1] = planet.g;
-  buf.col[slot * 3 + 2] = planet.b;
-
-  const { count, start, pos, col, geo } = buf;
-  const attr = geo.getAttribute("position") as BufferAttribute;
-  const cattr = geo.getAttribute("color") as BufferAttribute;
-  const scratch = new Color();
-  for (let k = 0; k < count; k++) {
-    const i = (start + k) % TRAIL_MAX;
-    const t = count < 2 ? 1 : k / (count - 1);
-    attr.setXYZ(k, pos[i * 3], pos[i * 3 + 1], pos[i * 3 + 2]);
-    scratch.setRGB(col[i * 3], col[i * 3 + 1], col[i * 3 + 2]);
-    scratch.lerp(GOLD, t * 0.18);
-    scratch.multiplyScalar(0.22 + 0.78 * t);
-    cattr.setXYZ(k, scratch.r, scratch.g, scratch.b);
-  }
-  attr.needsUpdate = true;
-  cattr.needsUpdate = true;
-  geo.setDrawRange(0, count);
-}
-
-function clearTrail(buf: TrailBuf) {
-  buf.count = 0;
-  buf.start = 0;
-  buf.geo.setDrawRange(0, 0);
 }
 
 function PerfAndHud({
@@ -295,60 +229,6 @@ function OrbitRing({ radius }: { radius: number }) {
   );
 }
 
-function OrbitTrail({
-  id,
-  trails,
-}: {
-  id: ObservatoryBodyId;
-  trails: React.MutableRefObject<Map<ObservatoryBodyId, TrailBuf>>;
-}) {
-  const geo = useMemo(() => {
-    const g = new BufferGeometry();
-    const pos = new Float32Array(TRAIL_MAX * 3);
-    const col = new Float32Array(TRAIL_MAX * 3);
-    g.setAttribute("position", new BufferAttribute(pos, 3));
-    g.setAttribute("color", new BufferAttribute(col, 3));
-    g.setDrawRange(0, 0);
-    return g;
-  }, []);
-
-  useEffect(() => {
-    const buf: TrailBuf = {
-      geo,
-      pos: new Float32Array(TRAIL_MAX * 3),
-      col: new Float32Array(TRAIL_MAX * 3),
-      count: 0,
-      start: 0,
-      lastX: Number.NaN,
-      lastY: Number.NaN,
-      lastZ: Number.NaN,
-    };
-    trails.current.set(id, buf);
-    return () => {
-      trails.current.delete(id);
-      geo.dispose();
-    };
-  }, [geo, id, trails]);
-
-  const line = useMemo(() => {
-    const mat = new LineBasicMaterial({
-      vertexColors: true,
-      transparent: true,
-      opacity: 0.48,
-      depthWrite: false,
-    });
-    const line = new ThreeLine(geo, mat);
-    line.frustumCulled = false;
-    return line;
-  }, [geo]);
-
-  useEffect(() => () => {
-    (line.material as LineBasicMaterial).dispose();
-  }, [line]);
-
-  return <primitive object={line} />;
-}
-
 function TwinklingStars({ reduced }: { reduced: boolean }) {
   const ref = useRef<Points>(null);
   const count = 160;
@@ -410,60 +290,46 @@ function TwinklingStars({ reduced }: { reduced: boolean }) {
 
 function SimulationDriver({
   dateIso,
+  live,
   frame,
   includeOuter,
-  trailEpoch,
   groupMap,
-  trails,
   bodiesRef,
   onSimClock,
 }: {
   dateIso: string;
+  live: boolean;
   frame: ObservatoryFrame;
   includeOuter: boolean;
-  trailEpoch: number;
   groupMap: React.MutableRefObject<Map<ObservatoryBodyId, Group>>;
-  trails: React.MutableRefObject<Map<ObservatoryBodyId, TrailBuf>>;
   bodiesRef: React.MutableRefObject<ObservatoryBody[]>;
   onSimClock?: (iso: string) => void;
 }) {
-  const simMs = useRef(Date.parse(dateIso) || Date.now());
   const clockAge = useRef(0);
 
   useLayoutEffect(() => {
-    simMs.current = Date.parse(dateIso) || Date.now();
-    const instant = new Date(simMs.current);
-    const next = queryObservatoryScene(instant, frame, includeOuter);
+    const instant = live ? new Date() : new Date(dateIso);
+    const next = queryObservatoryScene(
+      Number.isNaN(instant.getTime()) ? new Date() : instant,
+      frame,
+      includeOuter
+    );
     bodiesRef.current = next;
-    for (const b of next) {
-      groupMap.current.get(b.id)?.position.set(b.x, b.y, b.z);
-    }
-  }, [dateIso, frame, includeOuter, bodiesRef, groupMap]);
-
-  useEffect(() => {
-    for (const buf of trails.current.values()) clearTrail(buf);
-  }, [frame, includeOuter, trailEpoch, trails]);
+    applyBodies(next, groupMap);
+    onSimClock?.(instant.toISOString());
+  }, [dateIso, live, frame, includeOuter, bodiesRef, groupMap, onSimClock]);
 
   useFrame((_, delta) => {
+    if (!live) return;
     if (typeof document !== "undefined" && document.hidden) return;
-    const dt = Math.min(delta, 0.05);
-    simMs.current += dt * AMBIENT_SIM_MS_PER_SEC;
-    const instant = new Date(simMs.current);
+    clockAge.current += Math.min(delta, 0.05);
+    if (clockAge.current < 1) return;
+    clockAge.current = 0;
+    const instant = new Date();
     const bodies = queryObservatoryScene(instant, frame, includeOuter);
     bodiesRef.current = bodies;
-    const skip = originId(frame);
-    for (const b of bodies) {
-      const g = groupMap.current.get(b.id);
-      if (g) g.position.set(b.x, b.y, b.z);
-      if (b.id === skip) continue;
-      const buf = trails.current.get(b.id);
-      if (buf) pushTrail(buf, b.x, b.y, b.z, BODY_COLOR[b.id] ?? "#ffffff");
-    }
-    clockAge.current += dt;
-    if (clockAge.current >= 0.2) {
-      clockAge.current = 0;
-      onSimClock?.(instant.toISOString());
-    }
+    applyBodies(bodies, groupMap);
+    onSimClock?.(instant.toISOString());
   });
   return null;
 }
@@ -581,8 +447,8 @@ function SceneContent({
   onSelect,
   onHud,
   dateIso,
+  live,
   includeOuter,
-  trailEpoch,
   viewReset,
   onSimClock,
   reducedMotion,
@@ -593,14 +459,13 @@ function SceneContent({
   onSelect: (id: ObservatoryBodyId) => void;
   onHud?: (labels: ObservatoryHudLabel[], fps: number, simIso?: string) => void;
   dateIso: string;
+  live: boolean;
   includeOuter: boolean;
-  trailEpoch: number;
   viewReset: number;
   onSimClock?: (iso: string) => void;
   reducedMotion: boolean;
 }) {
   const groupMap = useRef(new Map<ObservatoryBodyId, Group>());
-  const trails = useRef(new Map<ObservatoryBodyId, TrailBuf>());
   const bodiesRef = useRef(bodies);
   const controlsRef = useRef<OrbitControlsImpl | null>(null);
 
@@ -673,11 +538,6 @@ function SceneContent({
       {rings.map((r) => (
         <OrbitRing key={r.toFixed(3)} radius={r} />
       ))}
-      {bodies.map((b) =>
-        b.id === originId(frame) ? null : (
-          <OrbitTrail key={`trail-${b.id}`} id={b.id} trails={trails} />
-        )
-      )}
       {bodies.map((b) => (
         <PlanetMesh
           key={b.id}
@@ -689,11 +549,10 @@ function SceneContent({
       ))}
       <SimulationDriver
         dateIso={dateIso}
+        live={live}
         frame={frame}
         includeOuter={includeOuter}
-        trailEpoch={trailEpoch}
         groupMap={groupMap}
-        trails={trails}
         bodiesRef={bodiesRef}
         onSimClock={onSimClock}
       />
@@ -722,22 +581,22 @@ function SceneContent({
 
 export default function ObservatoryCanvas({
   dateIso,
+  live,
   frame,
   includeOuter,
   selectedId,
   onSelect,
   onHud,
-  trailEpoch,
   viewReset,
   onSimClock,
 }: {
   dateIso: string;
+  live: boolean;
   frame: ObservatoryFrame;
   includeOuter: boolean;
   selectedId: ObservatoryBodyId | null;
   onSelect: (id: ObservatoryBodyId) => void;
   onHud?: (labels: ObservatoryHudLabel[], fps: number, simIso?: string) => void;
-  trailEpoch: number;
   viewReset: number;
   onSimClock?: (iso: string) => void;
 }) {
@@ -770,8 +629,8 @@ export default function ObservatoryCanvas({
         onSelect={onSelect}
         onHud={onHud}
         dateIso={dateIso}
+        live={live}
         includeOuter={includeOuter}
-        trailEpoch={trailEpoch}
         viewReset={viewReset}
         onSimClock={onSimClock}
         reducedMotion={reducedMotion}

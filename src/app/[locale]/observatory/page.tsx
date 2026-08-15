@@ -55,12 +55,12 @@ const FAQS = [
   },
     {
       q: {
-        en: "Do the planets actually move?",
-        hi: "क्या ग्रह सच में चलते हैं?",
+        en: "Do the planets move in real time?",
+        hi: "क्या ग्रह वास्तविक समय में चलते हैं?",
       },
       a: {
-        en: "Yes, automatically. The scene starts at the live instant and keeps advancing — a gentle ambient drift so Mercury, Venus and the Moon visibly creep within about 10–20 seconds of watching, with faint orbit trails. There is no play button. Jump to now returns to the real current instant. Pick a birth date and the same drift continues from there.",
-        hi: "हाँ, अपने आप। दृश्य वर्तमान क्षण से शुरू होता है और चलता रहता है — हल्की सतत गति ताकि बुध, शुक्र और चंद्र 10–20 सेकंड में खिसकते दिखें, हल्की कक्षा-रेखाओं के साथ। चलाएँ बटन नहीं है। ‘अभी जाएँ’ वास्तविक वर्तमान क्षण पर लौटाता है। जन्म तिथि चुनें तो वही गति वहीं से जारी रहती है।",
+        en: "Yes — at true speed. The default view is the live sky: one real second is one second of planetary motion, so nothing visibly races. That is honest astronomy, not a sped-up orrery. Pick any past or future date for a still snapshot of that instant. Jump to now returns to the live clock.",
+        hi: "हाँ — वास्तविक गति से। डिफ़ॉल्ट लाइव आकाश है: एक वास्तविक सेकंड ग्रह गति का एक सेकंड है, इसलिए कुछ दौड़ता नहीं दिखता। यह ईमानदार खगोल है, तेज़ ऑरेरी नहीं। किसी भी अतीत या भविष्य की तिथि पर उस क्षण का स्थिर दृश्य देखें। ‘अभी जाएँ’ लाइव घड़ी पर लौटाता है।",
       },
     },
   {
@@ -191,12 +191,12 @@ export default async function ObservatoryPage() {
                 : "Neptune sits near 30 astronomical units from the Sun; Mercury near 0.4. At 1:1 the inner planets vanish. Distances are compressed on a logarithmic artistic scale so orbits fit one screen while angles stay real. This is a telescope-style view, not a mission-planning model."}
             </p>
             <h2 className="font-display text-xl font-bold text-ink">
-              {hi ? "आकाश अपने आप चलता है" : "The sky keeps moving"}
+              {hi ? "वास्तविक समय, कोई त्वरण नहीं" : "Real time, no acceleration"}
             </h2>
             <p>
               {hi
-                ? "डिफ़ॉल्ट अभी है, और दृश्य रुकता नहीं — हल्की सतत गति से भीतरी ग्रह कुछ सेकंड में खिसकते दिखते हैं, कक्षा-रेखाओं के साथ। कोई चलाएँ या गति बटन नहीं। तिथि चुनकर जन्म के आकाश से वही गति जारी रहती है। ‘अभी जाएँ’ वास्तविक वर्तमान क्षण पर लौटाता है। स्थितियाँ प्रत्येक फ्रेम पर उसी ऑब्ज़र्वेटरी हेल्पर से आती हैं।"
-                : "The default is now, and the scene never pauses — a gentle continuous drift lets the inner planets creep within seconds, with faint orbit trails. There is no play or speed control. Pick a date to start from a birth sky; the same drift continues. Jump to now returns to the live instant. Positions are recomputed each frame from the same observatory helper."}
+                ? "डिफ़ॉल्ट अभी है, और घड़ी दीवार की घड़ी जितनी चलती है — एक सेकंड, एक सेकंड। छोटी बैठक में ग्रह लगभग रुके लगते हैं; यही वास्तविक गति है। कोई चलाएँ बटन या तेज़ कक्षा नहीं। तिथि-समय चुनें तो उस क्षण का स्थिर चित्र दिखता है — जन्म के आकाश के लिए। ‘अभी जाएँ’ लाइव क्षण पर लौटाता है। स्थितियाँ उसी ऑब्ज़र्वेटरी हेल्पर से आती हैं।"
+                : "The default is now, and the clock runs like a wall clock — one second is one second. Over a short visit the planets barely appear to move; that is their real pace. There is no play button and no sped-up orbit. Pick a date and time for a still of that instant — the sky at birth. Jump to now returns to the live moment. Positions come from the same observatory helper."}
             </p>
             <h2 className="font-display text-xl font-bold text-ink">
               {hi ? "दूरबीन की तरह देखें" : "Look through it like a telescope"}

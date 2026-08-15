@@ -1,14 +1,8 @@
 /**
- * Observatory ambient clock.
- * Positions always come from queryObservatoryScene — this file only
- * defines how the simulated instant advances vs real seconds.
- *
- * Real elapsed time (1:1) plus a gentle time-lapse so inner planets
- * read as motion over ~10–20 seconds of watching. Not a user-facing speed.
+ * Observatory clock display only.
+ * Positions always come from queryObservatoryScene at a real instant —
+ * live wall-clock time, or a user-picked snapshot. No acceleration.
  */
-
-/** One mean day of sky motion every 4 real seconds, plus live 1:1. */
-export const AMBIENT_SIM_MS_PER_SEC = 1000 + Math.round(86_400_000 / 4);
 
 export function formatObservatoryClock(iso: string, hi: boolean): string {
   const d = new Date(iso);

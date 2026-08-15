@@ -4,6 +4,7 @@ import { siteConfig } from "@/lib/site-config";
 type Props = {
   className?: string;
   showTagline?: boolean;
+  taglineClassName?: string;
   size?: "sm" | "md" | "lg";
   width?: number;
   variant?: "light" | "dark";
@@ -22,6 +23,7 @@ const FONT = { sm: 26, md: 40, lg: 52 } as const;
 export function CosmicGPTWordmark({
   className,
   showTagline,
+  taglineClassName,
   size = "md",
   width,
 }: Props) {
@@ -30,6 +32,7 @@ export function CosmicGPTWordmark({
   const fontPx = width
     ? Math.max(20, Math.round(width / 6))
     : FONT[size];
+  const smFluid = size === "sm" && !width;
   const label = `${siteConfig.brandName} — ${siteConfig.tagline.en}`;
   const tagClass =
     size === "lg"
@@ -40,14 +43,23 @@ export function CosmicGPTWordmark({
 
   return (
     <span
-      className={cn("inline-flex max-w-full select-none flex-col items-center", className)}
+      className={cn(
+        "inline-flex w-full max-w-full select-none flex-col items-center",
+        className
+      )}
       role="img"
       aria-label={label}
-      style={{ width: w }}
+      style={{ maxWidth: w }}
     >
       <span
-        className="relative inline-flex max-w-full items-baseline whitespace-nowrap pt-[0.28em] font-ui font-bold tracking-[-0.04em] text-white"
-        style={{ fontSize: fontPx, lineHeight: 1.05 }}
+        className={cn(
+          "relative inline-flex max-w-full items-baseline whitespace-nowrap pt-[0.28em] font-ui font-bold tracking-[-0.04em] text-white",
+          smFluid && "text-[clamp(1.125rem,4.8vw,1.625rem)]"
+        )}
+        style={{
+          fontSize: smFluid ? undefined : fontPx,
+          lineHeight: 1.05,
+        }}
       >
         <span>Cosm</span>
         {/* Dotless stem + star tittle (always on the i, never drifts) */}
@@ -73,8 +85,9 @@ export function CosmicGPTWordmark({
       {withTag ? (
         <span
           className={cn(
-            "text-center font-ui font-semibold uppercase leading-normal text-white",
-            tagClass
+            "max-w-full truncate text-center font-ui font-semibold uppercase leading-normal text-white",
+            tagClass,
+            taglineClassName
           )}
           style={{ width: "100%" }}
         >

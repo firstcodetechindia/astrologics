@@ -81,7 +81,10 @@ export function UserAccountMenu({
       <Link
         href="/login"
         aria-label={hi ? "लॉगिन" : "Login"}
-        className={quietClassName ?? HEADER_QUIET_BTN}
+        className={cn(
+          quietIconClassName ?? HEADER_QUIET_ICON,
+          "sm:w-auto sm:gap-1.5 sm:px-3"
+        )}
       >
         <User className="h-3.5 w-3.5 shrink-0" strokeWidth={2.1} />
         <span className="hidden sm:inline">{hi ? "लॉगिन" : "Login"}</span>

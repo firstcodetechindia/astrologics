@@ -218,7 +218,6 @@ export function computeKundli(input: BirthInput): KundliResult {
   const pitra = pitraDosha(planets);
 
   const vargas = computeAllVargas(planets, lagnaLon);
-  const transits = computeTransits(new Date(), lagnaLon, moon.longitude);
 
   const panchang = computePanchang(date, {
     timezoneOffsetMinutes: tzMeta.offsetMinutes,
@@ -239,6 +238,11 @@ export function computeKundli(input: BirthInput): KundliResult {
   const ashtakvarga = applyAshtakvargaShodhana(ashtakRaw, {
     lagnaSignIndex: lagnaSign,
     planetSigns,
+  });
+  const transits = computeTransits(new Date(), lagnaLon, moon.longitude, {
+    lagnaSignIndex: lagnaSign,
+    planetSigns,
+    sarva: ashtakRaw.sarva,
   });
 
   const sripati = computeSripatiCusps(date, input.lat, input.lon, ayanamsa);

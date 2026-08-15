@@ -18,6 +18,7 @@ import { LocaleSwitcher } from "./LocaleSwitcher";
 import { UserAccountMenu } from "./UserAccountMenu";
 import { whatsappLink } from "@/lib/site-config";
 import { CosmicGPTWordmark } from "@/components/brand/CosmicGPTWordmark";
+import { SaurmandalIcon } from "@/components/icons/SaurmandalIcon";
 import { cn } from "@/lib/utils";
 import {
   HEADER_ASK_AI,
@@ -182,6 +183,7 @@ export function Header() {
       "/horoscope",
       "/numerology",
       "/vastu",
+      "/observatory",
     ]),
     calculators: pathMatches(pathname, ["/calculators"]),
     learn: pathMatches(pathname, ["/learn", "/blog"]),
@@ -362,9 +364,12 @@ export function Header() {
       )}
     >
       {/* Brand + actions — logo/tagline always stay */}
-      <div className="container-page flex h-[5.25rem] items-center justify-between gap-2 sm:gap-3 lg:h-[5.25rem]">
+      <div className="container-page flex h-[5.25rem] items-center justify-between gap-1.5 sm:gap-3 lg:h-[5.25rem]">
         <nav className="sr-only" aria-label={hi ? "मुख्य लिंक" : "Primary links"}>
           <ul>
+            <li>
+              <Link href="/observatory">{hi ? "ऑब्ज़र्वेटरी" : "Observatory"}</Link>
+            </li>
             <li>
               <Link href="/kundli">{hi ? "मुफ़्त कुंडली" : "Free kundli"}</Link>
             </li>
@@ -405,18 +410,33 @@ export function Header() {
         </nav>
         <Link
           href="/"
-          className="group flex min-w-0 flex-1 items-center py-0.5 sm:max-w-none sm:flex-none"
+          className="group flex min-w-0 flex-1 items-center overflow-hidden py-0.5 sm:max-w-none sm:flex-none"
         >
           <CosmicGPTWordmark
             size="sm"
             showTagline
-            width={168}
+            taglineClassName="hidden sm:block"
             className="group-hover:brightness-110"
           />
         </Link>
 
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex shrink-0 items-center gap-1 sm:gap-2">
           <LocaleSwitcher />
+          <Link
+            href="/observatory"
+            aria-label={hi ? "ऑब्ज़र्वेटरी" : "Observatory"}
+            title={hi ? "ऑब्ज़र्वेटरी" : "Observatory"}
+            aria-current={
+              pathMatches(pathname, ["/observatory"]) ? "page" : undefined
+            }
+            className={cn(
+              HEADER_QUIET_ICON,
+              pathMatches(pathname, ["/observatory"]) &&
+                "border-white/40 bg-white/[0.08] text-white"
+            )}
+          >
+            <SaurmandalIcon className="h-4 w-4" strokeWidth={2.1} />
+          </Link>
           <UserAccountMenu
             quietClassName={HEADER_QUIET_BTN}
             quietIconClassName={HEADER_QUIET_ICON}
@@ -426,7 +446,7 @@ export function Header() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={tc("talkNow")}
-            className={HEADER_QUIET_BTN}
+            className={cn(HEADER_QUIET_BTN, "hidden sm:inline-flex")}
           >
             <MessageCircle className="h-3.5 w-3.5 shrink-0 opacity-90" />
             <span className="hidden sm:inline">{tc("talkNow")}</span>
@@ -435,10 +455,15 @@ export function Header() {
             href="/chat"
             aria-label={hi ? "एआई से बात करें" : "Talk to AI"}
             title={hi ? "एआई से बात करें" : "Talk to AI"}
-            className={HEADER_ASK_AI}
+            className={cn(
+              HEADER_ASK_AI,
+              "max-sm:h-11 max-sm:w-11 max-sm:min-w-11 max-sm:justify-center max-sm:gap-0 max-sm:px-0"
+            )}
           >
             <Sparkles className="h-3.5 w-3.5 shrink-0" strokeWidth={2.1} />
-            <span className="md:hidden">{hi ? "एआई" : "AI"}</span>
+            <span className="hidden sm:inline md:hidden">
+              {hi ? "एआई" : "AI"}
+            </span>
             <span className="hidden md:inline">
               {hi ? "एआई से पूछें" : "Ask AI"}
             </span>

@@ -1,5 +1,5 @@
 /**
- * Sample Observatory WebGL FPS while always-on ambient drift is running.
+ * Observatory FPS while the default live (1:1) scene is running.
  * Chrome on this Mac (Metal) — not a physical mid-range phone.
  * npx tsx scripts/observatory-fps.ts
  */
@@ -62,7 +62,7 @@ async function runViewport(
     };
   });
 
-  const ambient = stats(await sampleFps(page, 4500));
+  const live = stats(await sampleFps(page, 4000));
 
   let moving = stats([]);
   const canvas = await page.$("[data-observatory-canvas] canvas");
@@ -70,11 +70,10 @@ async function runViewport(
   if (box) {
     const cx = box.x + box.width * 0.55;
     const cy = box.y + box.height * 0.45;
-    const orbit = sampleFps(page, 3500);
+    const orbit = sampleFps(page, 3000);
     await page.mouse.move(cx, cy);
     await page.mouse.down();
-    await page.mouse.move(cx + 180, cy + 24, { steps: 36 });
-    await page.mouse.move(cx - 70, cy + 70, { steps: 36 });
+    await page.mouse.move(cx + 160, cy + 20, { steps: 30 });
     await page.mouse.up();
     moving = stats(await orbit);
   }
@@ -85,21 +84,18 @@ async function runViewport(
   await page.waitForSelector("[aria-labelledby='observatory-detail-title']", {
     timeout: 8000,
   });
-  const focused = stats(await sampleFps(page, 3500));
+  const focused = stats(await sampleFps(page, 3000));
 
-  return {
-    width,
-    height,
-    dsf,
-    renderer,
-    ambient,
-    moving,
-    focused,
-  };
+  const liveAttr = await page.$eval(
+    "[data-observatory-canvas]",
+    (el) => (el as HTMLElement).dataset.observatoryLive
+  );
+
+  return { width, height, dsf, renderer, live, moving, focused, liveAttr };
 }
 
 async function main() {
-  const outDir = path.join(process.cwd(), "scripts/fixtures/observatory-ambient-evidence");
+  const outDir = path.join(process.cwd(), "scripts/fixtures/observatory-realtime-evidence");
   fs.mkdirSync(outDir, { recursive: true });
 
   const browser = await puppeteer.launch({
@@ -120,7 +116,7 @@ async function main() {
     const report = {
       measuredAt: new Date().toISOString(),
       honesty:
-        "Chrome on this Mac, GPU-backed. Not a physical mid-range phone. `ambient` is the default always-on drift (queryObservatoryScene each frame + trails). `focused` is ambient plus a planet fly-to. deviceScaleFactor 2/3 approximates phone fill-rate, not phone GPU.",
+        "Chrome on this Mac, GPU-backed. Not a physical mid-range phone. `live` is default 1:1 wall-clock (no acceleration). deviceScaleFactor 2/3 approximates phone fill-rate, not phone GPU.",
       desktop,
       phoneViewportDsf2: phone2x,
       phoneViewportDsf3: phone3x,

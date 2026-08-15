@@ -1,6 +1,6 @@
 /**
- * Ambient Observatory recording: auto-drift on load (no play button),
- * planet focus + knowledge panel, full view, Sun/Earth toggle, mobile widths.
+ * Real-time Observatory recording: live default, past-date snapshot, planet focus,
+ * full view, mobile widths. No speed controls.
  * npx tsx scripts/observatory-ambient-recording.ts
  */
 import fs from "node:fs";
@@ -13,16 +13,8 @@ const CHROME =
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 const BASE = process.env.BASE_URL || "http://127.0.0.1:3000";
 
-async function sampleFps(
-  page: Awaited<ReturnType<Awaited<ReturnType<typeof puppeteer.launch>>["newPage"]>>
-) {
-  return page.evaluate(
-    () => (window as Window & { __observatoryFps?: number }).__observatoryFps ?? 0
-  );
-}
-
 async function main() {
-  const outDir = path.join(process.cwd(), "scripts/fixtures/observatory-ambient-evidence");
+  const outDir = path.join(process.cwd(), "scripts/fixtures/observatory-realtime-evidence");
   fs.mkdirSync(outDir, { recursive: true });
   if (!ffmpegStatic || !fs.existsSync(ffmpegStatic)) {
     throw new Error("ffmpeg-static missing");
@@ -42,14 +34,12 @@ async function main() {
   const page = await browser.newPage();
   await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 });
 
-  const videoPath = path.join(outDir, "observatory-ambient.mp4");
+  const videoPath = path.join(outDir, "observatory-realtime.mp4");
   const recorder = await page.screencast({
     path: videoPath,
     ffmpegPath: ffmpegStatic,
     overwrite: true,
   });
-
-  const fpsLog: { t: string; label: string; fps: number }[] = [];
 
   try {
     await page.goto(`${BASE}/en/observatory?fps=1`, {
@@ -57,12 +47,41 @@ async function main() {
       timeout: 90000,
     });
     await page.waitForSelector("[data-observatory-canvas] canvas", { timeout: 30000 });
-    await page.waitForSelector("[data-observatory-full-view]", { timeout: 15000 });
-    await new Promise((r) => setTimeout(r, 4500));
-    fpsLog.push({ t: new Date().toISOString(), label: "ambient-load", fps: await sampleFps(page) });
-    await page.screenshot({
-      path: path.join(outDir, "observatory-ambient-load.png"),
+    await page.waitForSelector("[data-observatory-date]", { timeout: 15000 });
+    await new Promise((r) => setTimeout(r, 1500));
+
+    const liveDefault = await page.$eval(
+      "[data-observatory-canvas]",
+      (el) => (el as HTMLElement).dataset.observatoryLive
+    );
+    if (liveDefault !== "1") throw new Error("default is not live");
+    if (await page.$("[data-observatory-play]")) throw new Error("play control still present");
+    if (await page.$("[data-observatory-speed]")) throw new Error("speed control still present");
+
+    await page.screenshot({ path: path.join(outDir, "observatory-live.png") });
+
+    await page.$eval("[data-observatory-date]", (el) => {
+      const input = el as HTMLInputElement;
+      const proto = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value");
+      proto?.set?.call(input, "1990-05-15");
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      input.dispatchEvent(new Event("change", { bubbles: true }));
     });
+    await page.$eval("[data-observatory-time]", (el) => {
+      const input = el as HTMLInputElement;
+      const proto = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value");
+      proto?.set?.call(input, "06:30");
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      input.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+    await page.waitForFunction(
+      () =>
+        document.querySelector("[data-observatory-canvas]")?.getAttribute("data-observatory-live") ===
+        "0",
+      { timeout: 5000 }
+    );
+    await new Promise((r) => setTimeout(r, 800));
+    await page.screenshot({ path: path.join(outDir, "observatory-snapshot.png") });
 
     await page.$eval("[data-observatory-legend='saturn']", (el) =>
       (el as HTMLButtonElement).click()
@@ -70,26 +89,13 @@ async function main() {
     await page.waitForSelector("[aria-labelledby='observatory-detail-title']", {
       timeout: 10000,
     });
-    await new Promise((r) => setTimeout(r, 1800));
-    fpsLog.push({ t: new Date().toISOString(), label: "focus-saturn", fps: await sampleFps(page) });
-    await page.screenshot({
-      path: path.join(outDir, "observatory-ambient-focus.png"),
-    });
+    await new Promise((r) => setTimeout(r, 1600));
+    await page.screenshot({ path: path.join(outDir, "observatory-focus.png") });
 
     await page.$eval("[data-observatory-full-view]", (el) =>
       (el as HTMLButtonElement).click()
     );
-    await new Promise((r) => setTimeout(r, 1500));
-    fpsLog.push({ t: new Date().toISOString(), label: "full-view", fps: await sampleFps(page) });
-
-    await page.$eval("[data-observatory-frame='geocentric']", (el) =>
-      (el as HTMLButtonElement).click()
-    );
-    await new Promise((r) => setTimeout(r, 1400));
-    fpsLog.push({ t: new Date().toISOString(), label: "earth-centered", fps: await sampleFps(page) });
-    await page.screenshot({
-      path: path.join(outDir, "observatory-ambient-geo.png"),
-    });
+    await new Promise((r) => setTimeout(r, 1200));
 
     for (const w of [360, 390, 430] as const) {
       await page.setViewport({ width: w, height: 800, deviceScaleFactor: 1 });
@@ -98,7 +104,7 @@ async function main() {
         () => document.documentElement.scrollWidth > window.innerWidth + 1
       );
       await page.screenshot({
-        path: path.join(outDir, `observatory-ambient-${w}.png`),
+        path: path.join(outDir, `observatory-realtime-${w}.png`),
       });
       if (overflow) throw new Error(`horizontal overflow at ${w}px`);
     }
@@ -107,9 +113,7 @@ async function main() {
     await browser.close();
   }
 
-  fs.writeFileSync(path.join(outDir, "recording-fps.json"), JSON.stringify(fpsLog, null, 2));
   console.log(`Wrote ${videoPath}`);
-  console.log(JSON.stringify(fpsLog, null, 2));
 }
 
 main().catch((err) => {

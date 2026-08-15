@@ -38,7 +38,9 @@ import {
 import { computeVimshottari, dashaBalanceParts } from "../src/lib/astrology/dasha";
 import { combustionInfo, combustOrb } from "../src/lib/astrology/dignity";
 import { neechaBhangaForPlanet } from "../src/lib/astrology/neecha-bhanga";
-import { kakshaFromDegreeInSign, savTransitSupport } from "../src/lib/astrology/ashtakvarga";
+import { kakshaFromDegreeInSign, savTransitSupport, assessTransitKaksha } from "../src/lib/astrology/ashtakvarga";
+import { computeTransits } from "../src/lib/astrology/transits";
+import { transitOnHouse } from "../src/lib/astrology/prediction/helpers";
 import { ashtottariApplies, ASHTOTTARI_YEARS } from "../src/lib/astrology/ashtottari";
 import {
   naisargikaBala,
@@ -295,6 +297,95 @@ console.log("\n=== 10d. ASHTAKVARGA kaksha + ASHTOTTARI applicability ===");
     !ashtottariApplies({ rahuHouseFromLagnaLord: 2, isDayBirth: true, waxingMoon: true }).applies,
     "neither condition"
   );
+}
+
+console.log("\n=== 10d2. ASHTAKVARGA kaksha wired into transit commentary ===");
+{
+  const natal = computeKundli({
+    name: "Validation",
+    date: "1990-05-15",
+    time: "06:30",
+    place: "New Delhi",
+    lat: 28.6139,
+    lon: 77.209,
+    timezoneOffsetMinutes: 330,
+  });
+  const ashtak = natal.ashtakvarga as {
+    sarva: number[];
+    houses: { number: number; bindus: number }[];
+  };
+  assert(ashtak.sarva[1] === 24, "H2 SAV 24 (below transit threshold)");
+  assert(ashtak.sarva[4] === 25, "H5 SAV 25 (at transit threshold)");
+  assert(!savTransitSupport(ashtak.sarva[1]), "H2 not transit-supportive");
+  assert(savTransitSupport(ashtak.sarva[4]), "H5 transit-supportive at 25");
+  assert(savTransitSupport(ashtak.sarva[10]), "H11 SAV ≥25");
+
+  const planetSigns: Record<string, number> = {};
+  for (const p of natal.planets) planetSigns[p.id] = p.signIndex;
+  const asOf = new Date("2026-08-15T12:00:00.000Z");
+  const frozen = computeTransits(
+    asOf,
+    natal.lagna.longitude,
+    natal.planets.find((p) => p.id === "moon")!.longitude,
+    {
+      lagnaSignIndex: natal.lagna.signIndex,
+      planetSigns,
+      sarva: ashtak.sarva,
+    }
+  );
+  natal.transits = frozen;
+
+  const venus = frozen.planets.find((p) => p.id === "venus")!;
+  const saturn = frozen.planets.find((p) => p.id === "saturn")!;
+  const mars = frozen.planets.find((p) => p.id === "mars")!;
+  const rahu = frozen.planets.find((p) => p.id === "rahu")!;
+
+  assert(venus.houseFromLagna === 5, "Venus transits H5");
+  assert(venus.kaksha?.number === 4 && venus.kaksha.lord === "sun", "Venus kaksha 4 Sun");
+  assert(venus.savBindus === 25 && venus.savSupport === true, "Venus house SAV 25 supportive");
+  assert(typeof venus.kakshaBindu === "boolean", "Venus kaksha bindu is boolean");
+
+  assert(saturn.houseFromLagna === 11, "Saturn transits H11");
+  assert(saturn.kaksha?.number === 6 && saturn.kaksha.lord === "mercury", "Saturn kaksha 6 Mercury");
+  assert(saturn.savBindus === 34 && saturn.savSupport === true, "Saturn house SAV 34 supportive");
+
+  assert(mars.savBindus === 24 && mars.savSupport === false, "Mars H2 SAV 24 not supportive");
+  assert(rahu.kakshaBindu === null && rahu.ashtakTone === "no_bav", "Rahu has no BAV");
+
+  const recon = assessTransitKaksha({
+    transitingPlanet: "venus",
+    houseFromLagna: venus.houseFromLagna,
+    degreeInSign: venus.degreeInSign,
+    lagnaSignIndex: natal.lagna.signIndex,
+    planetSigns,
+    savBindus: venus.savBindus!,
+  });
+  assert(recon.kakshaBindu === venus.kakshaBindu, "assessTransitKaksha matches snapshot");
+
+  const venusFactor = transitOnHouse(natal, 5, ["venus"])[0];
+  const saturnFactor = transitOnHouse(natal, 11, ["saturn"])[0];
+  const marsFactor = transitOnHouse(natal, 2, ["mars"])[0];
+  assert(!!venusFactor, "Venus H5 commentary present");
+  assert(venusFactor.detail.en.includes("kaksha 4"), "Venus commentary cites kaksha 4");
+  assert(venusFactor.detail.en.includes("SAV H5 = 25"), "Venus commentary cites SAV 25");
+  assert(
+    venusFactor.detail.en.includes(venus.kakshaBindu ? "contributes a bindu" : "contributes no bindu"),
+    "Venus commentary cites kaksha contribution"
+  );
+  assert(!!saturnFactor && saturnFactor.detail.en.includes("kaksha 6"), "Saturn commentary cites kaksha 6");
+  assert(saturnFactor.detail.en.includes("SAV H11 = 34"), "Saturn commentary cites SAV 34");
+  assert(!!marsFactor && marsFactor.detail.en.includes("<25 not supportive"), "Mars commentary uses SAV <25");
+
+  console.log("--- Transit commentary dump (natal 15 May 1990 06:30 Delhi · asOf 2026-08-15T12:00Z) ---");
+  console.log(`Venus  kakshaBindu=${venus.kakshaBindu} tone=${venus.ashtakTone}`);
+  console.log(`  [${venusFactor.type}/${venusFactor.strength}] ${venusFactor.label.en}`);
+  console.log(`  ${venusFactor.detail.en}`);
+  console.log(`Saturn kakshaBindu=${saturn.kakshaBindu} tone=${saturn.ashtakTone}`);
+  console.log(`  [${saturnFactor.type}/${saturnFactor.strength}] ${saturnFactor.label.en}`);
+  console.log(`  ${saturnFactor.detail.en}`);
+  console.log(`Mars   kakshaBindu=${mars.kakshaBindu} tone=${mars.ashtakTone}`);
+  console.log(`  [${marsFactor.type}/${marsFactor.strength}] ${marsFactor.label.en}`);
+  console.log(`  ${marsFactor.detail.en}`);
 }
 
 console.log("\n=== 10e. SHADBALA Naisargika (BPHS 60×n/7) ===");

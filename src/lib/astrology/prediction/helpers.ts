@@ -1,4 +1,9 @@
 import { SIGN_LORDS } from "../constants";
+import {
+  kakshaLordLabel,
+  savTransitSupport,
+} from "../ashtakvarga";
+import type { KakshaSlice } from "../ashtakvarga";
 import type { KundliResult, PlanetPosition } from "../types";
 import type {
   FactorPolarity,
@@ -181,11 +186,79 @@ export type TransitPlanet = {
   houseFromLagna: number;
   houseFromMoon: number;
   isRetrograde: boolean;
+  degreeInSign?: number;
+  savBindus?: number;
+  savSupport?: boolean;
+  kaksha?: KakshaSlice;
+  kakshaBindu?: boolean | null;
+  ashtakTone?: "supporting" | "challenging" | "mixed" | "no_bav";
 };
 
 export function transitPlanets(k: KundliResult): TransitPlanet[] {
   const tr = k.transits as { planets?: TransitPlanet[] } | undefined;
   return tr?.planets || [];
+}
+
+function transitPolarity(t: TransitPlanet): FactorPolarity {
+  if (t.ashtakTone === "supporting") return "supporting";
+  if (t.ashtakTone === "challenging") return "challenging";
+  if (t.ashtakTone === "mixed") {
+    // Empty kaksha in a SAV≥25 house is barren for this 3°45′ slice.
+    // A bindu in a weak house is still a fruitful slice.
+    return t.kakshaBindu ? "supporting" : "challenging";
+  }
+  if (t.ashtakTone === "no_bav") {
+    return t.savSupport ? "supporting" : "challenging";
+  }
+  const supportive = ["jupiter", "venus", "mercury", "moon"].includes(t.id);
+  return supportive ? "supporting" : "challenging";
+}
+
+function transitStrength(t: TransitPlanet): FactorStrength {
+  if (t.kakshaBindu === true && t.savSupport) {
+    return (t.savBindus ?? 0) >= 30 ? "strong" : "moderate";
+  }
+  if (t.kakshaBindu === true && t.savSupport === false) return "weak";
+  if (t.kakshaBindu === false && t.savSupport) return "moderate";
+  if (t.ashtakTone === "no_bav") return "moderate";
+  return t.id === "jupiter" || t.id === "saturn" ? "strong" : "moderate";
+}
+
+function transitDetail(t: TransitPlanet): { en: string; hi: string } {
+  const retro = t.isRetrograde ? " (R)" : "";
+  const deg =
+    t.degreeInSign != null ? `${t.degreeInSign.toFixed(2)}°` : "";
+  if (!t.kaksha || t.savBindus == null) {
+    return {
+      en: `${t.sign.en}${retro} from Lagna — read with natal + dasha, not alone.`,
+      hi: `लग्न से ${t.sign.hi}${retro} — अकेले नहीं, जन्म कुंडली + दशा के साथ देखें।`,
+    };
+  }
+  const lordEn = kakshaLordLabel(t.kaksha.lord, "en");
+  const lordHi = kakshaLordLabel(t.kaksha.lord, "hi");
+  const span = `${t.kaksha.startDeg}°–${t.kaksha.endDeg}°`;
+  const savEn = `SAV H${t.houseFromLagna} = ${t.savBindus} (${
+    savTransitSupport(t.savBindus) ? "≥25 supportive" : "<25 not supportive"
+  })`;
+  const savHi = `SAV भाव ${t.houseFromLagna} = ${t.savBindus} (${
+    savTransitSupport(t.savBindus) ? "≥25 सहायक" : "<25 सहायक नहीं"
+  })`;
+  if (t.kakshaBindu == null) {
+    return {
+      en: `${t.sign.en} ${deg}${retro} · kaksha ${t.kaksha.number} (${lordEn}, ${span}). No BAV for nodes — house SAV only. ${savEn}. Read with natal + dasha, not alone.`,
+      hi: `${t.sign.hi} ${deg}${retro} · कक्ष ${t.kaksha.number} (${lordHi}, ${span})। राहु/केतु का भिन्नाष्टकवर्ग नहीं — केवल भाव SAV. ${savHi}। जन्म कुंडली + दशा के साथ देखें।`,
+    };
+  }
+  const contribEn = t.kakshaBindu
+    ? `${lordEn} contributes a bindu in this BAV house (fruitful kaksha)`
+    : `${lordEn} contributes no bindu in this BAV house (empty kaksha)`;
+  const contribHi = t.kakshaBindu
+    ? `${lordHi} इस भिन्नाष्टकवर्ग भाव में बिंदु देते हैं (फलदायी कक्ष)`
+    : `${lordHi} इस भिन्नाष्टकवर्ग भाव में बिंदु नहीं देते (रिक्त कक्ष)`;
+  return {
+    en: `${t.sign.en} ${deg}${retro} · kaksha ${t.kaksha.number} (${lordEn}, ${span}) · ${contribEn}. ${savEn}. Read with natal + dasha, not alone.`,
+    hi: `${t.sign.hi} ${deg}${retro} · कक्ष ${t.kaksha.number} (${lordHi}, ${span}) · ${contribHi}। ${savHi}। जन्म कुंडली + दशा के साथ देखें।`,
+  };
 }
 
 export function transitOnHouse(
@@ -197,20 +270,19 @@ export function transitOnHouse(
   for (const t of transitPlanets(k)) {
     if (!planetIds.includes(t.id)) continue;
     if (t.houseFromLagna !== house) continue;
-    const supportive = ["jupiter", "venus", "mercury", "moon"].includes(t.id);
+    const polarity = transitPolarity(t);
+    const kakshaBit =
+      t.kaksha != null ? ` kaksha ${t.kaksha.number}` : "";
     out.push(
       factor({
         category: "transit",
-        type: supportive ? "supporting" : "challenging",
-        strength: t.id === "jupiter" || t.id === "saturn" ? "strong" : "moderate",
+        type: polarity,
+        strength: transitStrength(t),
         label: {
-          en: `${t.id} transit on house ${house}`,
-          hi: `${t.id} गोचर भाव ${house} पर`,
+          en: `${t.id} transit on house ${house}${kakshaBit}`,
+          hi: `${t.id} गोचर भाव ${house} पर${t.kaksha != null ? ` कक्ष ${t.kaksha.number}` : ""}`,
         },
-        detail: {
-          en: `${t.sign.en}${t.isRetrograde ? " (R)" : ""} from Lagna — read with natal + dasha, not alone.`,
-          hi: `लग्न से ${t.sign.hi}${t.isRetrograde ? " (R)" : ""} — अकेले नहीं, जन्म कुंडली + दशा के साथ देखें।`,
-        },
+        detail: transitDetail(t),
       })
     );
   }

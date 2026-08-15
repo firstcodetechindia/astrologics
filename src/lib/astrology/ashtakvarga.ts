@@ -180,7 +180,7 @@ export function ashtakPlanetLabel(id: string, locale: "en" | "hi") {
   return PLANET_META[id]?.[locale] ?? id;
 }
 
-/** 8 kakshas of 3°45′ within each rasi (BPHS transit-timing subdivision). */
+/** 8 kakshas of 3°45′ within each rasi (BPHS Prastara / transit-timing subdivision). */
 export const KAKSHA_SPAN_DEG = 3.75;
 export const KAKSHA_LORDS = [
   "saturn",
@@ -193,7 +193,16 @@ export const KAKSHA_LORDS = [
   "lagna",
 ] as const;
 
-export function kakshaFromDegreeInSign(degreeInSign: number) {
+export type KakshaLord = (typeof KAKSHA_LORDS)[number];
+
+export type KakshaSlice = {
+  number: number;
+  lord: KakshaLord;
+  startDeg: number;
+  endDeg: number;
+};
+
+export function kakshaFromDegreeInSign(degreeInSign: number): KakshaSlice {
   const d = ((degreeInSign % 30) + 30) % 30;
   const index = Math.min(7, Math.floor(d / KAKSHA_SPAN_DEG + 1e-12));
   return {
@@ -207,4 +216,81 @@ export function kakshaFromDegreeInSign(degreeInSign: number) {
 /** Classical SAV transit threshold: 25+ bindus considered supportive. */
 export function savTransitSupport(bindus: number) {
   return bindus >= 25;
+}
+
+export function isBavPlanet(id: string): id is PlanetId {
+  return (PLANETS as readonly string[]).includes(id);
+}
+
+export function kakshaLordLabel(lord: string, locale: "en" | "hi" = "en") {
+  if (lord === "lagna") return locale === "hi" ? "लग्न" : "Lagna";
+  return PLANET_META[lord]?.[locale] ?? lord;
+}
+
+/**
+ * Prastara Ashtakvarga: did the kaksha lord contribute a bindu in this
+ * planet's (unreduced) Bhinnashtakvarga for the occupied house-from-Lagna?
+ * Null when the transiting body has no BAV (Rahu/Ketu).
+ *
+ * Uses the same BPHS bindu tables as computeAshtakvarga — not Shodhana.
+ */
+export function bhinnaKakshaBindu(opts: {
+  transitingPlanet: string;
+  houseFromLagna: number;
+  kakshaLord: string;
+  lagnaSignIndex: number;
+  planetSigns: Record<string, number>;
+}): boolean | null {
+  if (!isBavPlanet(opts.transitingPlanet)) return null;
+  const table = ASHTAK_TABLES[opts.transitingPlanet];
+  const lord = opts.kakshaLord;
+  const refSign = lord === "lagna" ? opts.lagnaSignIndex : opts.planetSigns[lord];
+  if (refSign == null || Number.isNaN(refSign)) return null;
+  const housesFromRef = table[lord] ?? [];
+  const house = opts.houseFromLagna;
+  return housesFromRef.some((fromRef) => {
+    const targetSign = (refSign + (fromRef - 1)) % 12;
+    const houseFromLagna = ((targetSign - opts.lagnaSignIndex + 12) % 12) + 1;
+    return houseFromLagna === house;
+  });
+}
+
+export type TransitKakshaAssessment = {
+  savBindus: number;
+  savSupport: boolean;
+  kaksha: KakshaSlice;
+  kakshaBindu: boolean | null;
+  /** supporting = SAV≥25 and bindu; challenging = neither; mixed = one of the two. */
+  tone: "supporting" | "challenging" | "mixed" | "no_bav";
+};
+
+export function assessTransitKaksha(opts: {
+  transitingPlanet: string;
+  houseFromLagna: number;
+  degreeInSign: number;
+  lagnaSignIndex: number;
+  planetSigns: Record<string, number>;
+  savBindus: number;
+}): TransitKakshaAssessment {
+  const kaksha = kakshaFromDegreeInSign(opts.degreeInSign);
+  const savSupport = savTransitSupport(opts.savBindus);
+  const kakshaBindu = bhinnaKakshaBindu({
+    transitingPlanet: opts.transitingPlanet,
+    houseFromLagna: opts.houseFromLagna,
+    kakshaLord: kaksha.lord,
+    lagnaSignIndex: opts.lagnaSignIndex,
+    planetSigns: opts.planetSigns,
+  });
+  let tone: TransitKakshaAssessment["tone"];
+  if (kakshaBindu === null) tone = "no_bav";
+  else if (savSupport && kakshaBindu) tone = "supporting";
+  else if (!savSupport && !kakshaBindu) tone = "challenging";
+  else tone = "mixed";
+  return {
+    savBindus: opts.savBindus,
+    savSupport,
+    kaksha,
+    kakshaBindu,
+    tone,
+  };
 }

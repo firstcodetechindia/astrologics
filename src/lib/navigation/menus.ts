@@ -90,7 +90,7 @@ export const FEATURES_MENU: MegaColumn[] = [
       },
       {
         href: "/observatory",
-        icon: "🔭",
+        icon: "🪐",
         title: { en: "Cosmic Observatory", hi: "कॉस्मिक ऑब्ज़र्वेटरी" },
         description: {
           en: "Live 3D solar system from the engine.",
@@ -139,7 +139,7 @@ export const FREE_TOOLS_MENU: MegaColumn[] = [
     links: [
       {
         href: "/observatory",
-        icon: "🔭",
+        icon: "🪐",
         title: { en: "Observatory", hi: "ऑब्ज़र्वेटरी" },
         description: {
           en: "Live 3D planet positions.",
