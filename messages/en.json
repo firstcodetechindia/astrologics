@@ -175,5 +175,13 @@
     "colLearn": "Learn",
     "colConnect": "Connect",
     "connectNote": "Personal reading & remedies — talk with us anytime."
+  },
+  "chatGuru": {
+    "thinking": "AI Guru is gathering a few words from your chart…",
+    "perkSaved": "Save this kundli and return to it later.",
+    "perkHuman": "Chat with a real human astrologer when you want a live reading.",
+    "cta": "Log in or create a free account",
+    "ctaNote": "No payment required to save charts.",
+    "fallback": "Those three free questions are complete. A free account lets you save charts and chat with a human astrologer."
   }
 }

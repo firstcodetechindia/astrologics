@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocale } from "next-intl";
-import { Compass, HeartHandshake, MoonStar, RotateCcw, Send, Sparkles } from "lucide-react";
+import { RotateCcw, Send, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { FormField } from "@/components/ui/FormField";
 import { GlassCard } from "@/components/ui/GlassCard";
@@ -10,7 +10,9 @@ import { PageHero } from "@/components/ui/PageHero";
 import { PlaceAutocomplete } from "@/components/ui/PlaceAutocomplete";
 import { ContactCTA } from "@/components/kundli/ContactCTA";
 import { KundliChart } from "@/components/kundli/KundliChart";
-import { Link, useRouter } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
+import { AiAstrologerLabel } from "@/components/talk/AiAstrologerLabel";
+import { GuruReveal, type GuruClosingFilter } from "@/components/chat/GuruReveal";
 import type { City } from "@/lib/astrology/cities";
 import { formatPlaceLabel } from "@/lib/astrology/cities";
 import { timeZoneForPlace } from "@/lib/astrology/timezone";
@@ -60,7 +62,8 @@ function writeFreeUsed(n: number) {
   localStorage.setItem(FREE_USAGE_KEY, String(Math.min(n, FREE_CHAT_LIMIT)));
 }
 
-function GuruAvatar({ hi }: { hi: boolean }) {
+function GuruAvatar({ locale }: { locale: string }) {
+  const hi = locale === "hi";
   const label = hi ? "एआई गुरु" : "AI Guru";
   return (
     <div
@@ -102,94 +105,9 @@ function UserAvatar({ hi }: { hi: boolean }) {
   );
 }
 
-function FreeGateCard({
-  hi,
-  onContinue,
-}: {
-  hi: boolean;
-  onContinue: () => void;
-}) {
-  const perks = hi
-    ? [
-        {
-          icon: MoonStar,
-          text: "वर्तमान चंद्र-दशा का व्यावहारिक अर्थ — स्पष्ट भाषा में",
-        },
-        {
-          icon: Compass,
-          text: "करियर, विवाह और घर के लिए कौन-से भाव अभी सक्रिय हैं",
-        },
-        {
-          icon: HeartHandshake,
-          text: "आपकी लग्न-चंद्र जोड़ी के अनुरूप सरल, रोज़मर्रा के उपाय",
-        },
-      ]
-    : [
-        {
-          icon: MoonStar,
-          text: "A plain-language read of your current Moon–dasha rhythm",
-        },
-        {
-          icon: Compass,
-          text: "Which houses are lighting up career, love, and home right now",
-        },
-        {
-          icon: HeartHandshake,
-          text: "Gentle, everyday remedies matched to your lagna–Moon pair",
-        },
-      ];
-
-  return (
-    <div className="flex items-end gap-2">
-      <GuruAvatar hi={hi} />
-      <div className="min-w-0 flex-1 space-y-3 rounded-2xl rounded-bl-md bg-surface p-3.5 text-ink shadow-sm ring-1 ring-black/[0.06]">
-        <div>
-          <p className="mb-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-saffron-deep">
-            {hi ? "एआई गुरु" : "AI Guru"}
-          </p>
-          <h3 className="font-display text-[15px] font-bold leading-snug text-ink">
-            {hi
-              ? "मुफ़्त सीमा यहीं तक थी — आगे और गहराई है।"
-              : "That wraps your free peek — deeper layers await."}
-          </h3>
-          <p className="mt-1.5 text-[12px] leading-relaxed text-ink-muted">
-            {hi
-              ? "आपका प्रश्न नोट हो गया। खाता बनाएँ (मुफ़्त) और हम उसी थ्रेड में जवाब देंगे — कुंडली यहीं सुरक्षित रहेगी।"
-              : "Got your question. Create a free account and we’ll answer in this same thread — your kundli stays right here."}
-          </p>
-        </div>
-
-        <ul className="space-y-2">
-          {perks.map((p) => (
-            <li
-              key={p.text}
-              className="flex items-start gap-2.5 text-[12px] leading-snug text-ink"
-            >
-              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-cosmic-purple/20 text-saffron-deep">
-                <p.icon className="h-3 w-3" />
-              </span>
-              <span className="pt-0.5">{p.text}</span>
-            </li>
-          ))}
-        </ul>
-
-        <Button type="button" className="w-full !py-2.5 !text-[13px]" onClick={onContinue}>
-          {hi ? "अकाउंट बनाकर आगे बढ़ें" : "Unlock the rest — free account"}
-        </Button>
-        <p className="text-center text-[10px] text-ink-muted">
-          {hi
-            ? "लगभग एक मिनट · भुगतान की ज़रूरत नहीं"
-            : "About a minute · No payment required"}
-        </p>
-      </div>
-    </div>
-  );
-}
-
 export function ChatClient() {
   const locale = useLocale();
   const hi = locale === "hi";
-  const router = useRouter();
   const listRef = useRef<HTMLDivElement>(null);
 
   const [step, setStep] = useState<"kundli" | "chat">("kundli");
@@ -213,6 +131,18 @@ export function ChatClient() {
   const [freeUsed, setFreeUsed] = useState(0);
   const [shakeKey, setShakeKey] = useState(0);
   const [triedBirth, setTriedBirth] = useState(false);
+  const [revealOpen, setRevealOpen] = useState(false);
+  const [revealLoading, setRevealLoading] = useState(false);
+  const [revealSentences, setRevealSentences] = useState<string[]>([]);
+  const [revealCueMs, setRevealCueMs] = useState<number[]>([]);
+  const [revealFilter, setRevealFilter] = useState<GuruClosingFilter | null>(
+    null
+  );
+  const closingCache = useRef<{
+    sentences: string[];
+    cueMs: number[];
+    filter: GuruClosingFilter;
+  } | null>(null);
 
   const freeExhausted = freeUsed >= FREE_CHAT_LIMIT;
   const userQuestionCount = useMemo(
@@ -256,8 +186,67 @@ export function ChatClient() {
     };
   }
 
-  function goAuth() {
-    router.push("/login?next=/chat");
+  async function fetchClosing(question: string) {
+    if (!birth) return null;
+    if (closingCache.current) return closingCache.current;
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        intent: "closing",
+        message: question,
+        locale,
+        history: messages,
+        birth,
+        chartKey,
+      }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data?.ok) return null;
+    const sentences = Array.isArray(data.sentences)
+      ? data.sentences.map((s: unknown) => String(s)).filter(Boolean)
+      : String(data.text || "")
+          .split(/(?<=[.!?।])\s+/)
+          .map((s: string) => s.trim())
+          .filter(Boolean);
+    const cueMs = Array.isArray(data.cueMs)
+      ? data.cueMs.map((n: unknown) => Number(n) || 0)
+      : sentences.map((_: string, i: number) => 700 + i * 2200);
+    const filter: GuruClosingFilter = {
+      factFilterRan: true,
+      scopeFlagged: Boolean(data.filter?.scopeFlagged),
+      flagged: Boolean(data.filter?.flagged),
+    };
+    if (data.filter?.factFilterRan !== true) return null;
+    const packed = { sentences, cueMs, filter };
+    closingCache.current = packed;
+    return packed;
+  }
+
+  async function openGuruReveal(question: string) {
+    setMessages((m) => [...m, { role: "user", content: question }]);
+    setInput("");
+    setFollowUps([]);
+    setStarterSuggestions([]);
+    setRevealOpen(true);
+    setRevealLoading(true);
+    try {
+      const packed = await fetchClosing(question);
+      if (packed) {
+        setRevealSentences(packed.sentences);
+        setRevealCueMs(packed.cueMs);
+        setRevealFilter(packed.filter);
+      } else {
+        setRevealSentences([]);
+        setRevealCueMs([]);
+        setRevealFilter(null);
+      }
+    } catch {
+      setRevealSentences([]);
+      setRevealFilter(null);
+    } finally {
+      setRevealLoading(false);
+    }
   }
 
   async function startChat() {
@@ -327,14 +316,7 @@ export function ChatClient() {
   }
 
   function showSignupGate(question: string) {
-    setMessages((m) => [
-      ...m,
-      { role: "user", content: question },
-      { role: "assistant", content: "", kind: "gate" },
-    ]);
-    setInput("");
-    setFollowUps([]);
-    setStarterSuggestions([]);
+    void openGuruReveal(question);
   }
 
   async function send(textRaw?: string) {
@@ -446,8 +428,11 @@ export function ChatClient() {
         });
       }
 
-      // Always offer next suggestions — after 3 free, taps open signup gate
+      // Always offer next suggestions — after 3 free, taps open the Guru reveal
       setFollowUps(followUpQuestions(hi ? "hi" : "en", nextUsed));
+      if (nextUsed >= FREE_CHAT_LIMIT) {
+        void fetchClosing("").catch(() => null);
+      }
     } catch (e) {
       setMessages((m) => {
         const copy = [...m];
@@ -477,9 +462,13 @@ export function ChatClient() {
     setCard(null);
     setFollowUps([]);
     setStarterSuggestions([]);
+    setRevealOpen(false);
+    setRevealSentences([]);
+    setRevealFilter(null);
+    closingCache.current = null;
   }
 
-  const hasGate = messages.some((m) => m.kind === "gate");
+  const hasGate = revealOpen;
   const showStarter =
     !loading &&
     userQuestionCount === 0 &&
@@ -495,8 +484,8 @@ export function ChatClient() {
         title={hi ? "एआई एस्ट्रो चैट" : "AI Astro Chat"}
         description={
           hi
-            ? `पहले कुंडली बनाएँ, फिर हमारे एआई से पूछें — ${FREE_CHAT_LIMIT} मुफ़्त प्रश्न।`
-            : `Build your kundli, then ask our AI — ${FREE_CHAT_LIMIT} free questions.`
+            ? "एआई गुरु से अपनी लाहिरी जन्म कुंडली पर तीन मुफ्त प्रश्न पूछें — एआई ज्योतिषी, मानव नहीं।"
+            : "Ask AI Guru about your Lahiri janam kundli — three free questions. AI astrologer, not a human."
         }
         crumbs={[
           { label: hi ? "होम" : "Home", href: "/" },
@@ -694,12 +683,13 @@ export function ChatClient() {
 
             <section className="space-y-2.5">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="flex min-w-0 flex-wrap items-center gap-2">
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-saffron/25 bg-surface px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-saffron-deep">
                     <Sparkles className="h-3 w-3" />
                     {hi ? "एआई गुरु" : "AI Guru"}
                   </span>
-                  <p className="text-[11px] text-ink-muted">
+                  <AiAstrologerLabel locale={locale} size="sm" />
+                  <p className="min-w-0 text-[11px] text-ink-muted">
                     {hi
                       ? "आपकी कुंडली पर आधारित मार्गदर्शन"
                       : "Guidance grounded in your kundli"}
@@ -739,12 +729,6 @@ export function ChatClient() {
                   className="max-h-[min(62vh,560px)] min-h-[280px] space-y-2.5 overflow-y-auto p-3"
                 >
                   {messages.map((m, i) => {
-                    if (m.kind === "gate") {
-                      return (
-                        <FreeGateCard key={i} hi={hi} onContinue={goAuth} />
-                      );
-                    }
-
                     const isUser = m.role === "user";
                     const isLastAssistant =
                       !isUser &&
@@ -765,7 +749,7 @@ export function ChatClient() {
                         {isUser ? (
                           <UserAvatar hi={hi} />
                         ) : (
-                          <GuruAvatar hi={hi} />
+                          <GuruAvatar locale={locale} />
                         )}
 
                         <div
@@ -777,9 +761,9 @@ export function ChatClient() {
                           )}
                         >
                           {!isUser ? (
-                            <p className="mb-0.5 text-[9px] font-bold uppercase tracking-[0.12em] text-saffron-deep">
-                              {hi ? "एआई गुरु" : "AI Guru"}
-                            </p>
+                            <div className="mb-1">
+                              <AiAstrologerLabel locale={locale} size="sm" />
+                            </div>
                           ) : (
                             <p className="mb-0.5 text-[9px] font-bold uppercase tracking-[0.12em] text-white/80">
                               {hi ? "आप" : "You"}
@@ -891,6 +875,15 @@ export function ChatClient() {
           <ContactCTA />
         </div>
       </div>
+      {revealOpen ? (
+        <GuruReveal
+          locale={locale}
+          sentences={revealSentences}
+          cueMs={revealCueMs}
+          filter={revealFilter}
+          loading={revealLoading}
+        />
+      ) : null}
     </div>
   );
 }

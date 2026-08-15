@@ -18,6 +18,8 @@
     "test:cross-validate": "npx tsx scripts/cross-validation-harness.ts",
     "test:fact-cache": "npx tsx scripts/fact-cache-consistency.ts",
     "test:public-chat-safety": "npx tsx scripts/public-chat-safety-evidence.ts",
+    "test:guru-closing-safety": "npx tsx scripts/guru-closing-safety-evidence.ts",
+    "test:guru-reveal-record": "npx tsx scripts/guru-reveal-recording.ts",
     "test:lal-kitab": "npx tsx scripts/lal-kitab-validate.ts",
     "test:sade-sati": "npx tsx scripts/sade-sati-validate.ts",
     "test:varshphal": "npx tsx scripts/varshphal-validate.ts",

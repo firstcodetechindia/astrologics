@@ -190,9 +190,47 @@ export function closingCues(text: string): {
   sentences: string[];
   cueMs: number[];
 } {
-  const sentences = splitGuruSentences(text).slice(0, 6);
+  const sentences = splitGuruSentences(text)
+    .filter(
+      (s) =>
+        !s.startsWith("⚠️") &&
+        !/did not match your calculated chart|मेल नहीं खाते थे|Medical\/legal advice claims were removed|चिकित्सा\/कानूनी दावे हटा|CosmicTalks does not provide medical or legal advice|चिकित्सा या कानूनी सलाह नहीं/i.test(
+          s
+        )
+    )
+    .slice(0, 4);
   const cueMs = sentences.map((_, i) => 700 + i * 2200);
   return { sentences, cueMs };
+}
+
+export function closingFallbackText(locale: "en" | "hi"): string {
+  return locale === "hi"
+    ? "तीन मुफ्त प्रश्न पूरे हो चुके हैं। मुफ्त खाते से कुंडली सहेज सकते हैं और मानव ज्योतिषी से बात कर सकते हैं।"
+    : "Those three free questions are complete. A free account lets you save charts and chat with a human astrologer.";
+}
+
+export async function runGuruClosing(
+  opts: Omit<RunGuruTurnInput, "extraSystem">
+): Promise<GuruTurnResult & { sentences: string[]; cueMs: number[] }> {
+  const locale = opts.locale === "hi" ? "hi" : "en";
+  const provider = resolveProvider();
+  const turn = await runGuruTurn({
+    ...opts,
+    extraSystem: GURU_CLOSING_SYSTEM,
+    rawOverride:
+      typeof opts.rawOverride === "string"
+        ? opts.rawOverride
+        : provider
+          ? undefined
+          : closingFallbackText(locale),
+    userMessage:
+      opts.userMessage.trim() ||
+      (locale === "hi"
+        ? "कृपया मुफ्त-सीमा समाप्ति का संक्षिप्त संदेश लिखें।"
+        : "Please write the short quota-exhausted closing now."),
+  });
+  const cues = closingCues(turn.text);
+  return { ...turn, ...cues };
 }
 
 export async function runGuruTurn(

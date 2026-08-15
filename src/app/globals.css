@@ -1506,3 +1506,129 @@ main textarea::placeholder {
   }
 }
 
+/* AI Guru quota-exhausted reveal — brand orb, not a third-party assistant clone */
+.guru-reveal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  overflow: hidden;
+}
+
+.guru-reveal-dock {
+  padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
+}
+
+@media (min-width: 1024px) {
+  .guru-reveal-overlay {
+    bottom: 0;
+  }
+  .guru-reveal-dock {
+    padding-bottom: 1.25rem;
+  }
+}
+
+.guru-reveal-presence {
+  animation: guru-reveal-rise 1.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes guru-reveal-rise {
+  from {
+    opacity: 0;
+    transform: translate(calc(-42vw + 1.25rem), calc(38vh - 1rem)) scale(0.22);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+.guru-orb {
+  position: relative;
+  width: min(46vw, 16.5rem);
+  height: min(46vw, 16.5rem);
+}
+
+@media (min-width: 400px) {
+  .guru-orb {
+    width: min(56vw, 18.5rem);
+    height: min(56vw, 18.5rem);
+  }
+}
+
+.guru-orb-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(28px);
+  mix-blend-mode: screen;
+  opacity: 0.85;
+  animation: guru-orb-shift 9s ease-in-out infinite;
+}
+
+.guru-orb-blob-a {
+  inset: 6% 18% 22% 8%;
+  background: #6c3cff;
+}
+
+.guru-orb-blob-b {
+  inset: 18% 6% 8% 22%;
+  background: #ff5ca8;
+  animation-delay: -2.4s;
+}
+
+.guru-orb-blob-c {
+  inset: 28% 22% 6% 10%;
+  background: #ff8a3d;
+  animation-delay: -4.8s;
+}
+
+.guru-orb-blob-d {
+  inset: 10% 10% 30% 30%;
+  background: #ffc857;
+  animation-delay: -6.2s;
+  opacity: 0.65;
+}
+
+@keyframes guru-orb-shift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  40% {
+    transform: translate(8%, -6%) scale(1.12);
+  }
+  70% {
+    transform: translate(-6%, 8%) scale(0.92);
+  }
+}
+
+.guru-reveal-line {
+  animation: guru-reveal-line-in 0.7s ease-out both;
+}
+
+@keyframes guru-reveal-line-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .guru-reveal-presence,
+  .guru-orb-blob,
+  .guru-reveal-line {
+    animation: none !important;
+  }
+  .guru-reveal-presence {
+    opacity: 1;
+    transform: none;
+  }
+  .guru-reveal-line {
+    opacity: 1;
+    transform: none;
+  }
+}
+

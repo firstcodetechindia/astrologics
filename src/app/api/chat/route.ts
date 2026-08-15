@@ -3,7 +3,7 @@ import { resolvePlace } from "@/lib/astrology/geocode";
 import type { BirthInput } from "@/lib/astrology/types";
 import { buildChartCard, resolveProvider, suggestedQuestions } from "@/lib/ai/providers";
 import { getOrComputeChart } from "@/lib/ai/chart-fact-cache";
-import { runGuruTurn } from "@/lib/ai/run-guru-turn";
+import { runGuruClosing, runGuruTurn } from "@/lib/ai/run-guru-turn";
 import { hasDatabaseUrl } from "@/lib/db";
 import { assertChatQuota, consumeChatQuota } from "@/lib/ai/chat-quota";
 import { FREE_CHAT_LIMIT } from "@/lib/ai/chat-limits";
@@ -114,10 +114,77 @@ export async function POST(req: Request) {
     if (!rl.ok) return rateLimitResponse(rl.retryAfterSec);
 
     const body = await req.json();
+    const intent = body.intent === "closing" ? "closing" : "turn";
     const message = String(body.message || "").trim();
     const history = Array.isArray(body.history) ? body.history.slice(-10) : [];
     const locale = body.locale === "hi" ? "hi" : "en";
     const chartKey = body.chartKey ? String(body.chartKey) : null;
+
+    if (intent === "closing") {
+      const rlClose = rateLimit(`chat-close:${ip}`, 8, 60_000);
+      if (!rlClose.ok) return rateLimitResponse(rlClose.retryAfterSec);
+
+      const input = await resolveBirthInput(body.birth || {});
+      try {
+        getOrComputeChart({ chartKey, input });
+      } catch {
+        return NextResponse.json(
+          {
+            error:
+              locale === "hi"
+                ? "पहले अपनी कुंडली बनाएँ — जन्म विवरण आवश्यक हैं।"
+                : "Create your kundli first — birth details are required.",
+          },
+          { status: 400 }
+        );
+      }
+
+      let personaSlug = String(body.personaSlug || "ai_guru");
+      let personaPrompt: string | null = null;
+      let personaTone: string | undefined;
+      try {
+        if (hasDatabaseUrl()) {
+          const { getPersona } = await import("@/lib/ai/chat-agent-store");
+          const persona = await getPersona(personaSlug);
+          if (persona?.enabled && persona.systemPrompt) {
+            personaSlug = persona.slug;
+            personaPrompt = persona.systemPrompt;
+            personaTone = persona.tone;
+          }
+        }
+      } catch {
+        /* Phase 4 tables may not exist yet */
+      }
+
+      const turn = await runGuruClosing({
+        locale,
+        userMessage: message,
+        chartKey,
+        birth: input,
+        history: history.map((h: { role?: string; content?: string }) => ({
+          role: h.role === "assistant" ? "assistant" : "user",
+          content: String(h.content || ""),
+        })),
+        personaSlug,
+        personaPrompt,
+        personaTone,
+      });
+
+      return NextResponse.json({
+        ok: true,
+        text: turn.text,
+        sentences: turn.sentences,
+        cueMs: turn.cueMs,
+        chartKey: turn.chartKey,
+        filter: {
+          flagged: turn.flagged,
+          violationCount: turn.violations.length,
+          violations: turn.violations.slice(0, 8),
+          factFilterRan: true as const,
+          scopeFlagged: turn.scopeFlagged,
+        },
+      });
+    }
 
     if (!message || message.length > 2000) {
       return NextResponse.json({ error: "Invalid message" }, { status: 400 });

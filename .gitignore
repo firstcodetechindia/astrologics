@@ -72,6 +72,8 @@ next-env.d.ts
 /scripts/fixtures/phase4-ai-evidence/
 /scripts/fixtures/phase4-safety-evidence/
 /scripts/fixtures/public-chat-safety-evidence/
+/scripts/fixtures/guru-closing-safety-evidence/
+/scripts/fixtures/guru-reveal-evidence/
 /scripts/fixtures/phase5-astrologer-evidence/
 /scripts/fixtures/observatory-phase1-evidence/
 /scripts/fixtures/observatory-phase2-evidence/
