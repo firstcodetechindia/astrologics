@@ -494,8 +494,8 @@ export const CALC_CONTENT: Record<string, CalcPageContent> = {
       hi: "जन्म तिथि-समय-स्थान से मुफ्त वैदिक जन्म नक्षत्र जानें। पद, स्वामी ग्रह और विंशोत्तरी दशा आरंभ समझें।",
     },
     intro: {
-      en: "Your birth Nakshatra is usually the lunar mansion occupied by the Moon at birth — one of 27 segments of 13°20′ each. It refines temperament and starts the Vimshottari dasha sequence.",
-      hi: "जन्म नक्षत्र प्रायः जन्म के समय चंद्र की नक्षत्र मंज़िल है — 27 खंड, प्रत्येक 13°20′। यह स्वभाव परिष्कृत करता है और विंशोत्तरी दशा शुरू करता है।",
+      en: "A birth Nakshatra is the 13°20′ lunar mansion the Moon occupied at birth (27 in all). CosmicTalks returns the star, pada and dasha-starting planet from Lahiri Moon longitude.",
+      hi: "जन्म नक्षत्र जन्म के समय चंद्र की 13°20′ नक्षत्र मंज़िल है (कुल 27)। CosmicTalks लाहिरी चंद्र देशांतर से नक्षत्र, पद और दशा-आरंभ ग्रह बताता है।",
     },
     promo: {
       text: { en: "Want a full birth chart with houses, yogas and dasha?", hi: "भाव, योग और दशा सहित पूरी जन्म कुंडली चाहिए?" },

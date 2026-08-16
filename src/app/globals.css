@@ -793,6 +793,10 @@ h3.leading-tight {
   }
 }
 
+.ai-typing-dot {
+  animation: ai-typing 1.2s ease-in-out infinite;
+}
+
 .astrology-spin {
   animation: astrology-spin 2.8s linear infinite;
 }
@@ -1109,7 +1113,8 @@ h3.leading-tight {
   .cosmic-float,
   .page-hero-milky-way,
   .page-hero-galaxy-spin,
-  .page-hero-star-dust {
+  .page-hero-star-dust,
+  .ai-typing-dot {
     animation: none !important;
   }
   .field-shake {

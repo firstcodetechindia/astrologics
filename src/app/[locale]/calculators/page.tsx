@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import {
-  CALCULATORS,
   CATEGORY_LABELS,
   calculatorsByCategory,
   type CalcCategory,
@@ -10,6 +9,7 @@ import {
 import { RelatedSidebar } from "@/components/calculators/RelatedSidebar";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { PageHero } from "@/components/ui/PageHero";
+import { DirectAnswer } from "@/components/seo/DirectAnswer";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { siteConfig } from "@/lib/site-config";
 import {
@@ -118,8 +118,8 @@ export default async function CalculatorsPage() {
         title={hi ? "सभी कैलकुलेटर" : "All Calculators"}
         description={
           hi
-            ? `${CALCULATORS.length} मुफ्त उपकरण — तुरंत ब्राउज़र में। प्रत्येक पृष्ठ पर मार्गदर्शन, FAQ और संबंधित लिंक।`
-            : `${CALCULATORS.length} free tools — instant in your browser. Every page includes guides, FAQs and related links.`
+            ? "CosmicTalks पर 30+ मुफ्त ज्योतिष व अंक कैलकुलेटर ब्राउज़र में चलते हैं — चंद्र राशि, लग्न, नक्षत्र, दशा, मंगल दोष, कुंडली मिलान, पंचांग और केपी; जहाँ ज्योतिष लागू हो वहाँ लाहिरी निरयण गणित।"
+            : "CosmicTalks runs 30+ free astrology and numerology calculators in the browser — Moon sign, Lagna, Nakshatra, dasha, Mangal dosha, kundli matching, Panchang and KP — using Lahiri sidereal math where Jyotish applies."
         }
         crumbs={[
           { label: hi ? "होम" : "Home", href: "/" },
@@ -135,6 +135,15 @@ export default async function CalculatorsPage() {
         }
       />
       <div className="container-page py-8 sm:py-10">
+        <div className="mb-8">
+          <DirectAnswer>
+            <p>
+              {hi
+                ? "कोई भी उपकरण बिना खाते के खोलें — प्रत्येक पृष्ठ फ़ॉर्म से पहले बताता है कि वह क्या गणना करता है।"
+                : "Open any tool without an account — each page states what it calculates before the form."}
+            </p>
+          </DirectAnswer>
+        </div>
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-10">
           <div>
             <div className="space-y-10">

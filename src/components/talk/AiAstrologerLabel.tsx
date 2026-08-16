@@ -17,9 +17,10 @@ export function AiAstrologerLabel({
   return (
     <span
       role="status"
+      data-ai-persona-label=""
       className={
         size === "sm"
-          ? "inline-flex items-center rounded-full bg-violet-500/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-violet-200 ring-1 ring-violet-400/40"
+          ? "inline-flex max-w-full items-center rounded-full bg-violet-500/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-violet-200 ring-1 ring-violet-400/40"
           : "inline-flex min-h-11 items-center rounded-full bg-violet-500/20 px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-violet-100 ring-1 ring-violet-400/50"
       }
     >

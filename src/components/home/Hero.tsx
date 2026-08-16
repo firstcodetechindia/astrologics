@@ -71,8 +71,8 @@ export function Hero() {
 
             <p className="mt-5 max-w-lg font-ui text-[15px] leading-[1.7] text-ink-muted sm:text-base lg:mx-0">
               {hi
-                ? "प्रेम, करियर, संबंध, भविष्य और अधिक के बारे में पूछें — और अपनी जन्म कुंडली पर आधारित व्यक्तिगत मार्गदर्शन पाएँ।"
-                : "Ask questions about your love, career, relationships, future and more — and get personalized guidance based on your birth chart."}
+                ? "CosmicTalks जन्म तिथि, समय और स्थान से लाहिरी निरयण मुफ्त जन्म कुंडली बनाता है, फिर वैदिक, पश्चिमी, केपी, अंक ज्योतिष और पंचांग उपकरणों से जन्म चार्ट समझाता है — हिंदी व अंग्रेज़ी में। कुंडली फ़ॉर्म से शुरू करें या एआई गुरु से चार्ट प्रश्न पूछें।"
+                : "CosmicTalks generates a free janam kundli from your birth date, time and place using Lahiri sidereal astrology, then explains that birth chart with Vedic, Western, KP, numerology and Panchang tools — in English and Hindi. Start with the kundli form or ask AI Guru a chart question."}
             </p>
 
             <div className="mt-7 flex w-full max-w-lg flex-wrap items-center justify-center gap-3 lg:justify-start">

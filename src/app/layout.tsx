@@ -4,11 +4,11 @@ import { siteConfig } from "@/lib/site-config";
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
   title: {
-    default: `${siteConfig.brandName} — ${siteConfig.tagline.en}`,
+    default: "Free Kundli Online — AI Vedic Astrology Hub | CosmicTalks",
     template: `%s | ${siteConfig.brandName}`,
   },
   description:
-    "Let's Decode Your Stars — free kundli, AI astrology chat, Western guides, KP tools, numerology, daily horoscope, Panchang and 30+ calculators in English & Hindi.",
+    "Generate your free Janam Kundli. Explore Vedic, Western & KP astrology, numerology and Panchang. Get AI-powered birth-chart answers in English & Hindi.",
   applicationName: siteConfig.brandName,
   keywords: [
     "free kundli online",
@@ -33,24 +33,24 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: siteConfig.brandName,
-    title: `${siteConfig.brandName} — ${siteConfig.tagline.en}`,
+    title: "Free Kundli Online — AI Vedic Astrology Hub | CosmicTalks",
     description:
-      "Let's Decode Your Stars — generate free janam kundali, explore Western, KP and numerology tools, read horoscope and chat with AI — English & Hindi.",
+      "Generate your free Janam Kundli. Explore Vedic, Western & KP astrology, numerology and Panchang. Get AI-powered birth-chart answers in English & Hindi.",
     url: siteConfig.siteUrl,
     images: [
       {
         url: siteConfig.brandIcon,
         width: 1080,
         height: 1080,
-        alt: `${siteConfig.brandName} — ${siteConfig.tagline.en}`,
+        alt: `${siteConfig.brandName} — free kundli and AI Vedic astrology`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.brandName} — ${siteConfig.tagline.en}`,
+    title: "Free Kundli Online — AI Vedic Astrology Hub | CosmicTalks",
     description:
-      "Let's Decode Your Stars — free kundli, Western, KP, numerology, horoscope and AI chart guidance in EN & HI.",
+      "Generate your free Janam Kundli. Explore Vedic, Western & KP astrology, numerology and Panchang. Get AI-powered birth-chart answers in English & Hindi.",
     images: [siteConfig.brandIcon],
   },
   robots: {

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { PageHero } from "@/components/ui/PageHero";
+import { DirectAnswer } from "@/components/seo/DirectAnswer";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { siteConfig } from "@/lib/site-config";
 import {
@@ -108,8 +109,8 @@ export default async function MethodologyPage() {
         title={hi ? "हमारी पद्धति" : "Our Methodology"}
         description={
           hi
-            ? "गणना, व्याख्या और एआई — स्पष्ट रूप से अलग, ताकि आप जाँच सकें।"
-            : "Calculation, interpretation and AI — clearly separated, so you can verify our work."
+            ? "CosmicTalks जन्म कुंडली लाहिरी (चित्रापक्ष) अयनांश, पूर्ण-राशि भाव और astronomy-engine से गणना करता है; एआई गुरु केवल उन्हीं पदों की व्याख्या करता है।"
+            : "CosmicTalks calculates janam kundli with Lahiri (Chitrapaksha) ayanamsa, whole-sign houses, and astronomy-engine ephemeris; AI Guru only explains those computed positions."
         }
         crumbs={[
           { label: hi ? "होम" : "Home", href: "/" },
@@ -119,6 +120,25 @@ export default async function MethodologyPage() {
 
       <article className="container-page py-10 sm:py-12 text-[15px] leading-relaxed text-ink-muted">
         <div className="space-y-10">
+        <section className="space-y-3">
+          <DirectAnswer>
+            {hi ? (
+              <p>
+                CosmicTalks जन्म कुंडली लाहिरी (चित्रापक्ष) अयनांश, पूर्ण-राशि
+                भाव और astronomy-engine इफेमेरिस से गणना करता है; एआई गुरु केवल
+                उन्हीं गणना पदों की व्याख्या करता है, ग्रह स्थिति गढ़ता नहीं।
+              </p>
+            ) : (
+              <p>
+                CosmicTalks calculates janam kundli with Lahiri (Chitrapaksha)
+                ayanamsa, whole-sign houses, and astronomy-engine ephemeris; AI
+                Guru only explains those computed positions and does not invent
+                grahas.
+              </p>
+            )}
+          </DirectAnswer>
+        </section>
+
         <section className="space-y-3">
           <h2 className="font-display text-xl font-bold text-ink">
             {hi ? "हम यह पृष्ठ क्यों प्रकाशित करते हैं" : "Why we publish this"}

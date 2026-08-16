@@ -23,6 +23,7 @@ const staticPaths = [
   "/pricing",
   "/about",
   "/methodology",
+  "/brand",
   "/services",
   "/faq",
   "/contact",
@@ -41,6 +42,7 @@ function priorityFor(path: string): number {
   if (path === "/kundli" || path === "/calculators" || path === "/horoscope") return 0.95;
   if (path === "/panchang" || path === "/observatory") return 0.9;
   if (path === "/chat" || path === "/chat-with-astrologer") return 0.9;
+  if (path === "/brand") return 0.5;
   return 0.75;
 }
 

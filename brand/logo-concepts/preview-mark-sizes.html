@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>CosmicTalks mark — size review</title>
+  <style>
+    body { margin: 0; font-family: ui-sans-serif, "Avenir Next", "Segoe UI", sans-serif; background: #eceae4; color: #16141f; }
+    header { padding: 22px 28px; background: #fff; border-bottom: 1px solid #ddd; }
+    h1 { margin: 0 0 6px; font-size: 20px; letter-spacing: -0.03em; }
+    p { margin: 0; color: #5c5870; font-size: 13px; max-width: 74ch; line-height: 1.45; }
+    section { padding: 22px 28px; }
+    h2 { margin: 0 0 12px; font-size: 14px; }
+    .row { display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-end; }
+    .cell { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .cell span { font-size: 11px; color: #5c5870; }
+    .navy { background: #0B0F1F; padding: 16px; border-radius: 10px; }
+    .white { background: #fff; padding: 16px; border-radius: 10px; border: 1px solid #ddd; }
+    .tab {
+      display: flex; align-items: center; gap: 6px;
+      background: #1a1f33; color: #c9c6d4; padding: 6px 12px 6px 6px;
+      border-radius: 8px 8px 0 0; font-size: 12px; width: max-content;
+    }
+    .tab.light { background: #e8e6e1; color: #333; }
+    img { display: block; image-rendering: auto; }
+    .note { font-size: 12px; color: #5c5870; max-width: 72ch; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>CosmicTalks mark — size review (not live)</h1>
+    <p>Original 8-point interlocking star/flower (two 4-point stars at 45°, over/under weave, open portal). Brand radial gradient gold → orange → pink → purple. Approve these actual pixel sizes before any rollout.</p>
+  </header>
+
+  <section>
+    <h2>Full weave — 512px</h2>
+    <div class="row">
+      <div class="cell"><div class="navy"><img src="cosmictalks-mark.svg" width="512" height="512" alt="512 navy" /></div><span>512 on navy</span></div>
+      <div class="cell"><div class="white"><img src="cosmictalks-mark.svg" width="512" height="512" alt="512 white" /></div><span>512 on white</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Full weave — 180px (apple-touch-icon)</h2>
+    <div class="row">
+      <div class="cell"><div class="navy"><img src="cosmictalks-mark.svg" width="180" height="180" alt="180 navy" /></div><span>180 on navy</span></div>
+      <div class="cell"><div class="white"><img src="cosmictalks-mark.svg" width="180" height="180" alt="180 white" /></div><span>180 on white</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>32px — full vs mini</h2>
+    <div class="row">
+      <div class="cell"><div class="navy"><img src="cosmictalks-mark.svg" width="32" height="32" alt="32 full navy" /></div><span>32 full navy</span></div>
+      <div class="cell"><div class="white"><img src="cosmictalks-mark.svg" width="32" height="32" alt="32 full white" /></div><span>32 full white</span></div>
+      <div class="cell"><div class="navy"><img src="cosmictalks-mark-mini.svg" width="32" height="32" alt="32 mini navy" /></div><span>32 mini navy</span></div>
+      <div class="cell"><div class="white"><img src="cosmictalks-mark-mini.svg" width="32" height="32" alt="32 mini white" /></div><span>32 mini white</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>16px favicon — full vs mini (actual pixels)</h2>
+    <div class="row">
+      <div class="cell"><div class="navy"><img src="cosmictalks-mark.svg" width="16" height="16" alt="16 full navy" /></div><span>16 full navy</span></div>
+      <div class="cell"><div class="white"><img src="cosmictalks-mark.svg" width="16" height="16" alt="16 full white" /></div><span>16 full white</span></div>
+      <div class="cell"><div class="navy"><img src="cosmictalks-mark-mini.svg" width="16" height="16" alt="16 mini navy" /></div><span>16 mini navy</span></div>
+      <div class="cell"><div class="white"><img src="cosmictalks-mark-mini.svg" width="16" height="16" alt="16 mini white" /></div><span>16 mini white</span></div>
+      <div class="tab"><img src="cosmictalks-mark-mini.svg" width="16" height="16" alt="" /> CosmicTalks</div>
+      <div class="tab light"><img src="cosmictalks-mark-mini.svg" width="16" height="16" alt="" /> CosmicTalks</div>
+    </div>
+    <p class="note">Recommendation: use the mini mark at 16px (and maybe 32px). Keep the full weave for 180 / 192 / 512 / loader.</p>
+  </section>
+</body>
+</html>

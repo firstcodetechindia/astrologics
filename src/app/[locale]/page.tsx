@@ -5,6 +5,7 @@ import { ServiceCards } from "@/components/home/ServiceCards";
 import { WhyCosmicGPT } from "@/components/home/WhyCosmicGPT";
 import { HowAstrologyWorks } from "@/components/home/HowAstrologyWorks";
 import { TrustSection } from "@/components/home/TrustSection";
+import { HomeSeoIntro } from "@/components/home/HomeSeoIntro";
 import { HomeFaq } from "@/components/home/HomeFaq";
 import { FinalCta } from "@/components/home/FinalCta";
 import { siteConfig } from "@/lib/site-config";
@@ -28,34 +29,32 @@ export async function generateMetadata({
       locale === "hi"
         ? [
             "मुफ्त कुंडली ऑनलाइन",
+            "मुफ्त कुंडली",
             "जन्म कुंडली",
-            "ज्योतिष",
+            "जनम कुंडली",
+            "वैदिक ज्योतिष",
             "एआई ज्योतिष",
             "पश्चिमी ज्योतिष",
             "केपी ज्योतिष",
             "अंक ज्योतिष",
-            "कुंडली कैलकुलेटर",
-            "लग्न कैलकुलेटर",
-            "चंद्र राशि",
-            "गुण मिलान",
-            "राशिफल",
-            "free kundli",
-            "AI astrology",
+            "पंचांग",
+            "कुंडली मिलान",
+            "जन्म चार्ट",
           ]
         : [
             "free kundli",
+            "free kundli online",
             "free kundali",
             "janam kundli",
             "online kundli",
+            "Vedic astrology",
             "astrology",
             "AI astrology",
             "birth chart",
             "western astrology",
             "KP astrology",
             "numerology",
-            "kundli calculator",
-            "lagna calculator",
-            "moon sign calculator",
+            "Panchang",
             "kundli matching",
             "daily horoscope",
           ],
@@ -97,10 +96,7 @@ export default async function HomePage({
                 "आइए अपने सितारों को समझें",
                 "CosmicTalks AI Astrology",
               ],
-              description:
-                locale === "hi"
-                  ? siteConfig.tagline.hi
-                  : siteConfig.tagline.en,
+              description: tm("description"),
               url: siteConfig.siteUrl,
               logo: `${siteConfig.siteUrl}${siteConfig.brandIcon}`,
               image: `${siteConfig.siteUrl}${siteConfig.brandIcon}`,
@@ -159,6 +155,7 @@ export default async function HomePage({
       <Hero />
       <ServiceCards locale={locale} />
       <WhyCosmicGPT locale={locale} />
+      <HomeSeoIntro locale={locale} />
       <HowAstrologyWorks locale={locale} />
       <TrustSection locale={locale} />
       <HomeFaq locale={locale} />

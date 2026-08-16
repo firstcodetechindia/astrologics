@@ -110,6 +110,16 @@ export default async function AboutPage({
                 : "Read our full methodology →"}
             </Link>
           </p>
+          <p>
+            <Link
+              href="/brand"
+              className="inline-flex font-semibold text-saffron-deep hover:underline"
+            >
+              {hi
+                ? "ब्रांड दिशानिर्देश पढ़ें →"
+                : "Read our brand guidelines →"}
+            </Link>
+          </p>
         </section>
         <section className="space-y-3 text-[15px] leading-relaxed text-ink-muted">
           <h2 className="font-display text-xl font-bold text-ink">

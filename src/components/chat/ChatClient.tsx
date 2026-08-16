@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { RotateCcw, Send, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { FormField } from "@/components/ui/FormField";
@@ -24,6 +24,32 @@ import {
 import { cn } from "@/lib/utils";
 
 const FREE_USAGE_KEY = "cosmicgpt_free_chats_used";
+/** Same key BirthForm.tsx writes to sessionStorage after generating a kundli. */
+const SAVED_KUNDLI_KEY = "cosmicgpt_kundli";
+
+/** Reads the kundli generated on /kundli in this tab, if any, as a chat-ready payload. */
+function readSavedKundliPayload(): BirthPayload | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = sessionStorage.getItem(SAVED_KUNDLI_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as { input?: KundliResult["input"] };
+    const input = parsed?.input;
+    if (!input?.name || !input.date || !input.time || !input.place) return null;
+    return {
+      name: input.name,
+      date: input.date,
+      time: input.time,
+      place: input.place,
+      lat: input.lat,
+      lon: input.lon,
+      timezoneOffsetMinutes: input.timezoneOffsetMinutes,
+      timeZone: input.timeZone,
+    };
+  } catch {
+    return null;
+  }
+}
 
 type Msg = {
   role: "user" | "assistant";
@@ -84,30 +110,20 @@ function GuruAvatar({ locale }: { locale: string }) {
   );
 }
 
-function UserAvatar({ hi }: { hi: boolean }) {
-  const label = hi ? "आप" : "You";
+function ThinkingDots() {
   return (
-    <div
-      className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-[#5b9bd5] shadow-sm ring-2 ring-white"
-      title={label}
-      aria-label={label}
-    >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/icons/user-avatar.png"
-        alt=""
-        width={40}
-        height={40}
-        className="h-full w-full object-cover"
-        decoding="async"
-      />
-    </div>
+    <span className="inline-flex items-center gap-1.5" aria-hidden>
+      <span className="ai-typing-dot h-1.5 w-1.5 rounded-full bg-cosmic-purple" />
+      <span className="ai-typing-dot h-1.5 w-1.5 rounded-full bg-cosmic-pink [animation-delay:0.15s]" />
+      <span className="ai-typing-dot h-1.5 w-1.5 rounded-full bg-cosmic-orange [animation-delay:0.3s]" />
+    </span>
   );
 }
 
 export function ChatClient() {
   const locale = useLocale();
   const hi = locale === "hi";
+  const tGuru = useTranslations("chatGuru");
   const listRef = useRef<HTMLDivElement>(null);
 
   const [step, setStep] = useState<"kundli" | "chat">("kundli");
@@ -131,6 +147,7 @@ export function ChatClient() {
   const [freeUsed, setFreeUsed] = useState(0);
   const [shakeKey, setShakeKey] = useState(0);
   const [triedBirth, setTriedBirth] = useState(false);
+  const [usedSavedKundli, setUsedSavedKundli] = useState(false);
   const [revealOpen, setRevealOpen] = useState(false);
   const [revealLoading, setRevealLoading] = useState(false);
   const [revealSentences, setRevealSentences] = useState<string[]>([]);
@@ -145,6 +162,13 @@ export function ChatClient() {
   } | null>(null);
 
   const freeExhausted = freeUsed >= FREE_CHAT_LIMIT;
+  const freeLeft = Math.max(0, FREE_CHAT_LIMIT - freeUsed);
+  const remainingCopy =
+    freeLeft <= 0
+      ? tGuru("leftNone")
+      : freeLeft === 1
+        ? tGuru("leftOne")
+        : tGuru("leftMany", { count: freeLeft });
   const userQuestionCount = useMemo(
     () => messages.filter((m) => m.role === "user").length,
     [messages]
@@ -152,6 +176,28 @@ export function ChatClient() {
 
   useEffect(() => {
     setFreeUsed(readFreeUsed());
+  }, []);
+
+  // If a kundli was just generated on /kundli in this tab, skip Step 1 and use it directly.
+  useEffect(() => {
+    const saved = readSavedKundliPayload();
+    if (!saved) return;
+    setName(saved.name);
+    setDate(saved.date);
+    setTime(saved.time);
+    setPlace(saved.place);
+    if (saved.lat != null && saved.lon != null) {
+      setCity({
+        name: saved.place.split(",")[0]?.trim() || saved.place,
+        state: "",
+        lat: saved.lat,
+        lon: saved.lon,
+        timezoneOffsetMinutes: saved.timezoneOffsetMinutes ?? 330,
+      });
+    }
+    setUsedSavedKundli(true);
+    void startChat(saved);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -249,8 +295,8 @@ export function ChatClient() {
     }
   }
 
-  async function startChat() {
-    const payload = birthPayload();
+  async function startChat(overridePayload?: BirthPayload) {
+    const payload = overridePayload ?? birthPayload();
     if (!payload) {
       setTriedBirth(true);
       setShakeKey((k) => k + 1);
@@ -517,6 +563,13 @@ export function ChatClient() {
                   ? `हमारा एआई आपकी कुंडली पर आधारित है — ${FREE_CHAT_LIMIT} मुफ़्त प्रश्न, फिर लॉगिन / साइन अप।`
                   : `Our AI is grounded in your kundli — ${FREE_CHAT_LIMIT} free questions, then login / signup.`}
               </p>
+              {usedSavedKundli ? (
+                <p className="mt-2 rounded-lg border border-saffron/20 bg-saffron/10 px-2.5 py-1.5 text-[12px] text-saffron-deep">
+                  {hi
+                    ? "आपकी अभी बनाई कुंडली का उपयोग किया जा रहा है — ज़रूरत हो तो नीचे विवरण बदलें।"
+                    : "Using the kundli you just generated — edit the details below if needed."}
+                </p>
+              ) : null}
             </div>
 
             <div className="grid gap-3 sm:grid-cols-2">
@@ -681,193 +734,171 @@ export function ChatClient() {
               </GlassCard>
             </aside>
 
-            <section className="space-y-2.5">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <div className="flex min-w-0 flex-wrap items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-saffron/25 bg-surface px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-saffron-deep">
-                    <Sparkles className="h-3 w-3" />
-                    {hi ? "एआई गुरु" : "AI Guru"}
-                  </span>
-                  <AiAstrologerLabel locale={locale} size="sm" />
-                  <p className="min-w-0 text-[11px] text-ink-muted">
-                    {hi
-                      ? "आपकी कुंडली पर आधारित मार्गदर्शन"
-                      : "Guidance grounded in your kundli"}
-                  </p>
-                </div>
-                <p
-                  className={cn(
-                    "text-[11px] font-semibold",
-                    freeExhausted ? "text-maroon" : "text-ink-muted"
-                  )}
-                >
-                  {hi
-                    ? `${freeUsed}/${FREE_CHAT_LIMIT} मुफ़्त प्रश्न उपयोग`
-                    : `${freeUsed}/${FREE_CHAT_LIMIT} free questions used`}
-                </p>
-              </div>
-
-              {showStarter ? (
-                <div className="grid gap-1.5 sm:grid-cols-2">
-                  {starterSuggestions.slice(0, 4).map((q) => (
-                    <button
-                      key={q}
-                      type="button"
-                      disabled={loading}
-                      onClick={() => void send(q)}
-                      className="rounded-lg border border-saffron/25 bg-surface px-2.5 py-2 text-left text-[11px] font-medium leading-snug text-ink transition hover:border-saffron/50 hover:bg-cosmic-purple/15 disabled:opacity-50"
-                    >
-                      {q}
-                    </button>
-                  ))}
-                </div>
-              ) : null}
-
-              <GlassCard strong className="!overflow-hidden !p-0">
+            <section className="min-w-0 overflow-x-clip">
+              <div className="relative">
+                <div className="pointer-events-none absolute -inset-3 rounded-[1.75rem] bg-[radial-gradient(circle_at_30%_20%,rgba(108,60,255,0.35),transparent_55%),radial-gradient(circle_at_80%_80%,rgba(255,138,61,0.2),transparent_50%)] blur-2xl" />
                 <div
-                  ref={listRef}
-                  className="max-h-[min(62vh,560px)] min-h-[280px] space-y-2.5 overflow-y-auto p-3"
+                  data-chat-panel=""
+                  className="relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-[rgba(26,31,59,0.78)] shadow-[0_24px_64px_-24px_rgba(0,0,0,0.65)] backdrop-blur-xl"
                 >
-                  {messages.map((m, i) => {
-                    const isUser = m.role === "user";
-                    const isLastAssistant =
-                      !isUser &&
-                      i === messages.length - 1 &&
-                      Boolean(m.content) &&
-                      !loading &&
-                      userQuestionCount > 0 &&
-                      !hasGate;
-
-                    return (
-                      <div
-                        key={i}
+                  <div
+                    data-chat-header=""
+                    className="flex flex-wrap items-center justify-between gap-2 border-b border-white/[0.07] px-4 py-3"
+                  >
+                    <div className="flex min-w-0 items-center gap-2.5">
+                      <GuruAvatar locale={locale} />
+                      <div className="min-w-0">
+                        <p className="font-ui text-sm font-semibold text-white">
+                          {hi ? "एआई गुरु" : "AI Guru"}
+                        </p>
+                        <p className="font-ui text-[11px] text-ink-muted">
+                          {tGuru("contextOn")}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex min-w-0 flex-wrap items-center justify-end gap-2">
+                      <AiAstrologerLabel locale={locale} size="sm" />
+                      <span
+                        data-free-left={freeLeft}
                         className={cn(
-                          "flex items-end gap-2",
-                          isUser ? "flex-row-reverse" : "flex-row"
+                          "rounded-full border px-2.5 py-1 font-ui text-[11px] font-semibold",
+                          freeExhausted
+                            ? "border-cosmic-pink/40 bg-cosmic-pink/10 text-cosmic-pink"
+                            : "border-cosmic-purple/40 bg-cosmic-purple/15 text-cosmic-gold"
                         )}
                       >
-                        {isUser ? (
-                          <UserAvatar hi={hi} />
-                        ) : (
-                          <GuruAvatar locale={locale} />
-                        )}
+                        {remainingCopy}
+                      </span>
+                    </div>
+                  </div>
 
+                  <div
+                    ref={listRef}
+                    className="max-h-[min(52vh,28rem)] min-h-[16rem] space-y-3 overflow-y-auto px-4 py-4"
+                  >
+                    {messages.map((m, i) => {
+                      const isUser = m.role === "user";
+                      const thinking =
+                        !isUser &&
+                        !m.content &&
+                        loading &&
+                        i === messages.length - 1;
+
+                      return (
                         <div
+                          key={i}
                           className={cn(
-                            "max-w-[min(100%,26rem)] rounded-2xl px-3 py-2 text-[12.5px] leading-relaxed whitespace-pre-wrap shadow-sm",
-                            isUser
-                              ? "rounded-br-md bg-saffron text-white"
-                              : "rounded-bl-md bg-surface text-ink ring-1 ring-black/[0.06]"
+                            "flex gap-2",
+                            isUser ? "justify-end" : "items-start"
                           )}
                         >
-                          {!isUser ? (
-                            <div className="mb-1">
-                              <AiAstrologerLabel locale={locale} size="sm" />
-                            </div>
-                          ) : (
-                            <p className="mb-0.5 text-[9px] font-bold uppercase tracking-[0.12em] text-white/80">
-                              {hi ? "आप" : "You"}
-                            </p>
-                          )}
-
-                          {!isUser && !m.content && loading ? (
-                            <span className="inline-flex items-center gap-1.5 text-ink-muted">
-                              <Sparkles className="h-3.5 w-3.5 animate-pulse" />
-                              {hi ? "सोच रहा है…" : "Thinking…"}
-                            </span>
-                          ) : (
-                            m.content
-                          )}
-
-                          {isLastAssistant ? (
-                            <p className="mt-2 border-t border-white/10 pt-1.5 text-[10px] text-ink-muted">
-                              {hi
-                                ? `${freeUsed}/${FREE_CHAT_LIMIT} मुफ़्त प्रश्न उपयोग`
-                                : `${freeUsed}/${FREE_CHAT_LIMIT} free questions used`}
-                            </p>
-                          ) : null}
+                          {!isUser ? <GuruAvatar locale={locale} /> : null}
+                          <div
+                            className={cn(
+                              "min-w-0 max-w-[min(100%,22rem)] px-3.5 py-2.5 font-ui text-[13px] leading-relaxed whitespace-pre-wrap",
+                              isUser
+                                ? "rounded-2xl rounded-br-md bg-cosmic-purple/25 text-white"
+                                : "rounded-2xl rounded-bl-md border border-white/[0.08] bg-white/[0.04] text-ink-muted"
+                            )}
+                          >
+                            {!isUser ? (
+                              <div className="mb-1.5">
+                                <AiAstrologerLabel locale={locale} size="sm" />
+                              </div>
+                            ) : null}
+                            {thinking ? (
+                              <span className="inline-flex items-center gap-2">
+                                <ThinkingDots />
+                                <span className="sr-only">
+                                  {hi ? "सोच रहा है…" : "Thinking…"}
+                                </span>
+                              </span>
+                            ) : (
+                              m.content
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
-                </div>
+                      );
+                    })}
+                  </div>
 
-                <div className="flex gap-2 border-t border-saffron/15 p-2.5">
-                  <input
-                    className="flex-1 rounded-xl border border-saffron/25 bg-surface px-3 py-2 text-[13px] outline-none focus:ring-2 focus:ring-saffron/20 disabled:bg-cosmic-navy"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={(e) =>
-                      e.key === "Enter" && !e.shiftKey && void send()
-                    }
-                    placeholder={
-                      hasGate
-                        ? hi
-                          ? "जारी रखने के लिए साइन अप करें…"
-                          : "Sign up to continue…"
-                        : freeExhausted
-                          ? hi
-                            ? "कोई सुझाया प्रश्न चुनें…"
-                            : "Pick a suggested question…"
-                          : hi
-                            ? "अपना प्रश्न लिखें…"
-                            : "Ask about your kundli…"
-                    }
-                    disabled={loading || hasGate}
-                  />
-                  <Button
-                    type="button"
-                    onClick={() => void send()}
-                    disabled={loading || hasGate || !input.trim()}
-                    className="!px-3.5 !py-2"
-                  >
-                    {loading ? (
-                      "…"
-                    ) : (
-                      <>
-                        <Send className="h-4 w-4" />
-                        <span className="sr-only">
-                          {hi ? "भेजें" : "Send"}
-                        </span>
-                      </>
-                    )}
-                  </Button>
-                </div>
-                <p className="px-2.5 pb-2 text-[11px] text-ink-muted">
-                  <Link
-                    href="/methodology"
-                    className="font-semibold text-saffron-deep hover:underline"
-                  >
-                    {hi ? "यह कैसे काम करता है" : "How this works"}
-                  </Link>
-                  {hi
-                    ? " — एआई ग्रह स्थिति गढ़ता नहीं; केवल गणना चार्ट की व्याख्या करता है।"
-                    : " — AI does not invent planets; it only explains your calculated chart."}
-                </p>
-              </GlassCard>
-
-              {showFollowUps ? (
-                <div className="grid gap-1.5 sm:grid-cols-2">
-                  {followUps.map((q) => (
-                    <button
-                      key={q}
-                      type="button"
-                      disabled={loading}
-                      onClick={() => void send(q)}
-                      className="rounded-lg border border-white/10 bg-surface px-2.5 py-2 text-left text-[11px] font-medium leading-snug text-ink transition hover:border-saffron/40 hover:bg-cosmic-purple/15"
+                  {showStarter || showFollowUps ? (
+                    <div
+                      data-chat-chips=""
+                      className="flex flex-wrap gap-1.5 border-t border-white/[0.07] px-4 pt-3"
                     >
-                      {q}
-                    </button>
-                  ))}
-                </div>
-              ) : null}
+                      {(showStarter
+                        ? starterSuggestions.slice(0, 4)
+                        : followUps
+                      ).map((q) => (
+                        <button
+                          key={q}
+                          type="button"
+                          data-chat-chip=""
+                          disabled={loading}
+                          onClick={() => void send(q)}
+                          className="inline-flex min-h-11 min-w-0 max-w-full items-center rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-left font-ui text-[13px] leading-snug text-ink-muted transition hover:border-cosmic-purple/40 hover:text-white disabled:opacity-50"
+                        >
+                          <span className="min-w-0 break-words">{q}</span>
+                        </button>
+                      ))}
+                    </div>
+                  ) : null}
 
-              <p className="text-center text-[10px] text-ink-muted lg:text-left">
+                  <div className="px-3 pb-3 pt-3">
+                    <div
+                      data-chat-composer=""
+                      className="flex items-center gap-2 rounded-2xl border border-white/10 bg-[#0B0F1F]/70 px-3 py-2"
+                    >
+                      <input
+                        data-chat-input=""
+                        className="min-h-11 min-w-0 flex-1 bg-transparent px-1 font-ui text-base text-white outline-none placeholder:text-ink-muted/80 disabled:opacity-60"
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        onKeyDown={(e) =>
+                          e.key === "Enter" && !e.shiftKey && void send()
+                        }
+                        placeholder={
+                          hasGate
+                            ? tGuru("signUpPlaceholder")
+                            : freeExhausted
+                              ? tGuru("pickPlaceholder")
+                              : tGuru("askPlaceholder")
+                        }
+                        disabled={loading || hasGate}
+                      />
+                      <button
+                        type="button"
+                        data-chat-send=""
+                        onClick={() => void send()}
+                        disabled={loading || hasGate || !input.trim()}
+                        className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(90deg,#6C3CFF,#FF8A3D)] text-white shadow-[0_0_16px_rgba(108,60,255,0.45)] disabled:opacity-50"
+                        aria-label={hi ? "भेजें" : "Send"}
+                      >
+                        <Send className="h-4 w-4" />
+                      </button>
+                    </div>
+                    <p className="mt-2 px-1 font-ui text-[11px] text-ink-muted">
+                      <Link
+                        href="/methodology"
+                        className="font-semibold text-saffron-deep hover:underline"
+                      >
+                        {hi ? "यह कैसे काम करता है" : "How this works"}
+                      </Link>
+                      {hi
+                        ? " — एआई ग्रह स्थिति गढ़ता नहीं; केवल गणना चार्ट की व्याख्या करता है।"
+                        : " — AI does not invent planets; it only explains your calculated chart."}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <p className="mt-3 text-center text-[10px] text-ink-muted lg:text-left">
                 {hi
                   ? "मार्गदर्शन हेतु। चिकित्सा / कानूनी / वित्तीय सलाह नहीं।"
                   : "For guidance only — not medical, legal or financial advice."}
               </p>
-            </section>
+                        </section>
           </div>
         )}
 

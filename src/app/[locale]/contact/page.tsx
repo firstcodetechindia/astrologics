@@ -5,6 +5,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { ButtonLink } from "@/components/ui/Button";
 import { PageHero } from "@/components/ui/PageHero";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { Link } from "@/i18n/navigation";
 import { siteConfig, telLink, whatsappLink } from "@/lib/site-config";
 import {
   breadcrumbJsonLd,
@@ -100,6 +101,31 @@ export default async function ContactPage({
                 {siteConfig.email}
               </a>
             </span>
+          </p>
+          <p className="text-sm text-ink-muted">
+            {hi ? (
+              <>
+                नाम, लोगो या प्रेस चिह्न के नियम{" "}
+                <Link
+                  href="/brand"
+                  className="font-semibold text-saffron-deep hover:underline"
+                >
+                  ब्रांड दिशानिर्देश
+                </Link>{" "}
+                पर हैं।
+              </>
+            ) : (
+              <>
+                Rules for the name, logo, and press marks are on{" "}
+                <Link
+                  href="/brand"
+                  className="font-semibold text-saffron-deep hover:underline"
+                >
+                  Brand Guidelines
+                </Link>
+                .
+              </>
+            )}
           </p>
           <p className="text-sm text-ink-muted">
             Talk With Us: +{siteConfig.whatsapp} · Phone: {siteConfig.phone}

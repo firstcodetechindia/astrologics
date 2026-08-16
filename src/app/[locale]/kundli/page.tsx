@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { BirthForm } from "@/components/kundli/BirthForm";
 import { PageHero } from "@/components/ui/PageHero";
+import { DirectAnswer } from "@/components/seo/DirectAnswer";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Link } from "@/i18n/navigation";
 import { KUNDLI_PAGE_FAQS } from "@/lib/seo/kundli-page-content";
@@ -56,7 +57,6 @@ export default async function KundliPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("kundliForm");
   const tc = await getTranslations("nav");
   const hi = locale === "hi";
   const faqs = KUNDLI_PAGE_FAQS.map((f) => ({
@@ -79,14 +79,18 @@ export default async function KundliPage({
         title={
           hi ? "अपनी मुफ्त जन्म कुंडली बनाएँ" : "Generate Your Free Janam Kundli"
         }
-        description={t("subtitle")}
+        description={
+          hi
+            ? "जन्म तिथि, समय और स्थान भरें — लाहिरी निरयण जन्म कुंडली सेकंडों में: लग्न, ग्रह, भाव, नक्षत्र, योग और विंशोत्तरी दशा एक रिपोर्ट में।"
+            : "Enter birth date, time and place to generate a Lahiri sidereal janam kundali in seconds — Lagna, planets, houses, Nakshatras, yogas and Vimshottari dasha in one report."
+        }
         crumbs={[
           { label: hi ? "होम" : "Home", href: "/" },
           { label: tc("kundli") },
         ]}
       />
       <div className="container-page space-y-6 py-6 sm:py-8">
-          <div className="rounded-2xl border border-saffron/20 bg-surface/90 px-4 py-4 text-[14px] leading-relaxed text-ink sm:px-5 sm:text-[15px]">
+          <DirectAnswer>
             {hi ? (
               <p>
                 <strong>सीधे उत्तर:</strong> जन्म तिथि, समय और स्थान भरकर लाहिरी
@@ -101,7 +105,7 @@ export default async function KundliPage({
                 report.
               </p>
             )}
-          </div>
+          </DirectAnswer>
 
           <Suspense
             fallback={

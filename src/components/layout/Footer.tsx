@@ -98,6 +98,10 @@ export function Footer() {
       href: "/methodology",
       label: hi ? "पद्धति" : "Methodology",
     },
+    {
+      href: "/brand",
+      label: hi ? "ब्रांड दिशानिर्देश" : "Brand Guidelines",
+    },
     { href: "/contact", label: n("contact") },
     { href: "/faq", label: n("faq") },
     { href: "/services", label: n("services") },

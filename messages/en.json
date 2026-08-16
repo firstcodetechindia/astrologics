@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "CosmicTalks — Let's Decode Your Stars | Free Kundli & Calculators",
-    "description": "Let's Decode Your Stars — generate free Janam Kundli, explore Western & KP astrology, numerology and Panchang, and get AI answers about your chart — in English & Hindi."
+    "title": "Free Kundli Online — AI Vedic Astrology Hub | CosmicTalks",
+    "description": "Generate your free Janam Kundli. Explore Vedic, Western & KP astrology, numerology and Panchang. Get AI-powered birth-chart answers in English & Hindi."
   },
   "nav": {
     "home": "Home",
@@ -182,6 +182,13 @@
     "perkHuman": "Chat with a real human astrologer when you want a live reading.",
     "cta": "Log in or create a free account",
     "ctaNote": "No payment required to save charts.",
-    "fallback": "Those three free questions are complete. A free account lets you save charts and chat with a human astrologer."
+    "fallback": "Those three free questions are complete. A free account lets you save charts and chat with a human astrologer.",
+    "leftOne": "1 free question left",
+    "leftMany": "{count} free questions left",
+    "leftNone": "0 free questions left",
+    "contextOn": "Birth-chart context on",
+    "askPlaceholder": "Ask your question…",
+    "signUpPlaceholder": "Sign up to continue…",
+    "pickPlaceholder": "Pick a suggested question…"
   }
 }

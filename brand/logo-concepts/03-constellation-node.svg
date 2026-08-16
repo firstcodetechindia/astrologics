@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="CosmicTalks Saptarishi constellation mark">
+  <defs>
+    <linearGradient id="ct3-g" x1="8" y1="52" x2="56" y2="12" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6C3CFF"/>
+      <stop offset="32%" stop-color="#FF5CA8"/>
+      <stop offset="68%" stop-color="#FF8A3D"/>
+      <stop offset="100%" stop-color="#FFC857"/>
+    </linearGradient>
+    <filter id="ct3-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="0.85" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <g stroke="url(#ct3-g)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M11.2 29.4 L12.4 47.2 L26.6 52.8 L28.6 32.8 Z"/>
+    <path d="M28.6 32.8 L38.2 30 L47.4 25.6 L52.8 18.8"/>
+  </g>
+  <g fill="url(#ct3-g)" filter="url(#ct3-glow)">
+    <circle cx="11.2" cy="29.4" r="3.6"/>
+    <circle cx="12.4" cy="47.2" r="3.3"/>
+    <circle cx="26.6" cy="52.8" r="3.2"/>
+    <circle cx="28.6" cy="32.8" r="2.8"/>
+    <circle cx="38.2" cy="30" r="3.4"/>
+    <circle cx="47.4" cy="25.6" r="3.3"/>
+  </g>
+  <path
+    fill="url(#ct3-g)"
+    filter="url(#ct3-glow)"
+    d="M52.8 12.6 L54.2 17.6 L59.2 18.8 L54.2 20 L52.8 25 L51.4 20 L46.4 18.8 L51.4 17.6 Z"
+  />
+</svg>

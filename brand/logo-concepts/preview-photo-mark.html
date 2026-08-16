@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>CosmicTalks mark — photo source, three plates</title>
+  <style>
+    body { margin: 0; font-family: ui-sans-serif, sans-serif; background: #eceae4; color: #16141f; }
+    header { padding: 20px 28px; background: #fff; border-bottom: 1px solid #ddd; }
+    h1 { margin: 0 0 6px; font-size: 20px; }
+    p { margin: 0; color: #5c5870; font-size: 13px; max-width: 70ch; line-height: 1.45; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; }
+    .col { padding: 24px; min-height: 420px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    h2 { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; margin: 0 0 14px; }
+    .navy { background: #0B0F1F; color: #c9c6d4; }
+    .white { background: #fff; }
+    .check {
+      background-color: #ddd;
+      background-image:
+        linear-gradient(45deg, #eee 25%, transparent 25%),
+        linear-gradient(-45deg, #eee 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #eee 75%),
+        linear-gradient(-45deg, transparent 75%, #eee 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+    }
+    img { width: 280px; height: 280px; display: block; }
+    .sizes { display: flex; gap: 10px; align-items: flex-end; padding: 16px 28px 28px; }
+    .chip { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .chip span { font-size: 10px; color: #5c5870; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Your mark, unchanged — three plates</h1>
+    <p>Same pixels as the uploaded image. Transparent for dark UI / favicon. Navy plate for OG, apple-touch, PWA. White plate for light surfaces.</p>
+  </header>
+  <div class="grid">
+    <div class="col check">
+      <h2>Transparent</h2>
+      <img src="from-photo/cosmictalks-mark.png" alt="Transparent mark" />
+    </div>
+    <div class="col navy">
+      <h2>Navy plate #0B0F1F</h2>
+      <img src="from-photo/cosmictalks-mark-navy.png" alt="Navy mark" />
+    </div>
+    <div class="col white">
+      <h2>White plate</h2>
+      <img src="from-photo/cosmictalks-mark-white.png" alt="White mark" />
+    </div>
+  </div>
+  <div class="sizes">
+    <div class="chip"><img src="from-photo/cosmictalks-mark-32.png" width="32" height="32" alt="" style="width:32px;height:32px;background:#0B0F1F;padding:6px;border-radius:6px" /><span>32 trans</span></div>
+    <div class="chip"><img src="from-photo/cosmictalks-mark-16.png" width="16" height="16" alt="" style="width:16px;height:16px;background:#0B0F1F;padding:6px;border-radius:6px" /><span>16 trans</span></div>
+    <div class="chip"><img src="from-photo/cosmictalks-mark-32-navy.png" width="32" height="32" alt="" style="width:32px;height:32px;border-radius:6px" /><span>32 navy</span></div>
+    <div class="chip"><img src="from-photo/cosmictalks-mark-180-navy.png" width="64" height="64" alt="" style="width:64px;height:64px;border-radius:10px" /><span>180 navy (shown 64)</span></div>
+  </div>
+</body>
+</html>

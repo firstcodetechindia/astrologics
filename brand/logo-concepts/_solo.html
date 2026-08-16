@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><style>
+  html,body{margin:0;background:var(--bg,#0B0F1F)}
+  .wrap{width:512px;height:512px;display:flex;align-items:center;justify-content:center}
+  img{width:400px;height:400px}
+</style></head>
+<body>
+  <div class="wrap"><img id="m" alt="" /></div>
+  <script>
+    const q = new URLSearchParams(location.search);
+    document.body.style.setProperty('--bg', q.get('bg') === 'w' ? '#ffffff' : '#0B0F1F');
+    document.getElementById('m').src = q.get('src') || '01-starred-i.svg';
+  </script>
+</body></html>

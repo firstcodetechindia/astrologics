@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 import { TodayPanchangView } from "@/components/panchang/TodayPanchangView";
 import { PageHero } from "@/components/ui/PageHero";
+import { DirectAnswer } from "@/components/seo/DirectAnswer";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   absoluteUrl,
@@ -108,6 +109,13 @@ export default async function PanchangPage() {
           ]}
         />
         <div className="container-page py-6 sm:py-8">
+          <div className="mb-6">
+            <DirectAnswer>
+              <p>
+                <strong>{hi ? "सीधे उत्तर:" : "Direct answer:"}</strong> {intro}
+              </p>
+            </DirectAnswer>
+          </div>
           <TodayPanchangView />
           <article className="mx-auto mt-10 max-w-3xl space-y-4 text-[15px] leading-relaxed text-ink-muted">
             <h2 className="font-display text-xl font-bold text-ink">

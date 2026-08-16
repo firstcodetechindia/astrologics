@@ -9,6 +9,7 @@ import { ChoghadiyaBoard } from "./ChoghadiyaBoard";
 import { RectifyClient } from "./RectifyClient";
 import { RelatedSidebar } from "./RelatedSidebar";
 import { PageHero } from "@/components/ui/PageHero";
+import { DirectAnswer } from "@/components/seo/DirectAnswer";
 import { TodayPanchangView } from "@/components/panchang/TodayPanchangView";
 
 export function CalculatorPageView({
@@ -54,13 +55,11 @@ export function CalculatorPageView({
       <div className="container-page py-6 sm:py-8">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-10">
           <div className="min-w-0 space-y-6">
-            {content.promo && !isChoghadiya && !isTodayPanchang && !isRectify ? (
-              <PromoBanner
-                text={content.promo.text}
-                cta={content.promo.cta}
-                href={content.promo.href}
-              />
-            ) : null}
+            <DirectAnswer>
+              <p>
+                <strong>{hi ? "सीधे उत्तर:" : "Direct answer:"}</strong> {intro}
+              </p>
+            </DirectAnswer>
 
             {isTodayPanchang ? (
               <TodayPanchangView />
@@ -71,6 +70,14 @@ export function CalculatorPageView({
             ) : (
               <CalculatorClient meta={meta} toolTitle={toolTitle} />
             )}
+
+            {content.promo && !isChoghadiya && !isTodayPanchang && !isRectify ? (
+              <PromoBanner
+                text={content.promo.text}
+                cta={content.promo.cta}
+                href={content.promo.href}
+              />
+            ) : null}
 
             <CalculatorSeo content={content} />
           </div>

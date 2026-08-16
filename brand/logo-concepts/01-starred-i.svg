@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="CosmicTalks starred-i mark">
+  <defs>
+    <linearGradient id="ct1-g" x1="10" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6C3CFF"/>
+      <stop offset="32%" stop-color="#FF5CA8"/>
+      <stop offset="68%" stop-color="#FF8A3D"/>
+      <stop offset="100%" stop-color="#FFC857"/>
+    </linearGradient>
+    <radialGradient id="ct1-hot" cx="32" cy="27" r="8" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="70%" stop-color="#FFE7B0"/>
+      <stop offset="100%" stop-color="#FFC857"/>
+    </radialGradient>
+    <filter id="ct1-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.15" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <path
+    d="M51 44.5 A22 22 0 1 1 47.2 12.6"
+    stroke="url(#ct1-g)"
+    stroke-width="3.8"
+    stroke-linecap="round"
+  />
+  <path
+    filter="url(#ct1-glow)"
+    fill="url(#ct1-g)"
+    d="M32 9.5 L35.1 25.2 L51 28.2 L35.1 31.2 L32 46.9 L28.9 31.2 L13 28.2 L28.9 25.2 Z"
+  />
+  <path
+    fill="url(#ct1-hot)"
+    d="M32 18.8 L33.4 26.2 L41 28.2 L33.4 30.2 L32 37.6 L30.6 30.2 L23 28.2 L30.6 26.2 Z"
+  />
+  <rect x="28.6" y="40.4" width="6.8" height="15.4" rx="3.4" fill="url(#ct1-g)"/>
+</svg>

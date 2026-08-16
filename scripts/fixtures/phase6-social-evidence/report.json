@@ -1,0 +1,33 @@
+{
+  "ok": true,
+  "unapprovedBlocked": "Refuse to publish: post is not human-approved. Generate/compose items stay in pending_review until an admin approves.",
+  "published": {
+    "id": "72c3494d-df91-42c6-9a20-09b008428f7c",
+    "status": "published",
+    "kind": "daily_horoscope",
+    "transport": "mock",
+    "providerPostId": "mock_meta_1786693885025",
+    "engagement": "{\"likes\":3,\"comments\":1,\"shares\":0,\"source\":\"mock\",\"note\":\"Likes/comments/shares come from the Page Graph. Reach/impressions Insights need extra Meta permissions and can be cost/rate-limited — not pulled here.\"}"
+  },
+  "candidates": [
+    {
+      "id": "72c3494d-df91-42c6-9a20-09b008428f7c",
+      "kind": "daily_horoscope",
+      "status": "pending_review"
+    },
+    {
+      "id": "6acbe457-7707-4626-ba1d-2044ee857094",
+      "kind": "blog_promo",
+      "status": "pending_review"
+    },
+    {
+      "id": "181179fc-bf2a-4645-87e4-e46acff71611",
+      "kind": "festival_muhurta",
+      "status": "pending_review"
+    }
+  ],
+  "honesty": "Sandbox Meta credentials are mock (sandbox_meta_page_*). Publish used mock transport, not live Graph. Reach/impressions Insights are not pulled.",
+  "shots": {
+    "queue": "/Volumes/My Work/Development/vedic/scripts/fixtures/phase6-social-evidence/queue.png"
+  }
+}

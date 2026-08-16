@@ -404,6 +404,11 @@ export function Header() {
               <Link href="/about">{t("about")}</Link>
             </li>
             <li>
+              <Link href="/brand">
+                {hi ? "ब्रांड दिशानिर्देश" : "Brand Guidelines"}
+              </Link>
+            </li>
+            <li>
               <Link href="/contact">{t("contact")}</Link>
             </li>
           </ul>
@@ -415,7 +420,7 @@ export function Header() {
           <CosmicGPTWordmark
             size="sm"
             showTagline
-            taglineClassName="hidden sm:block"
+            taglineClassName="text-[8px] tracking-[0.08em] sm:text-[9px] sm:tracking-[0.11em]"
             className="group-hover:brightness-110"
           />
         </Link>

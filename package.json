@@ -20,6 +20,7 @@
     "test:public-chat-safety": "npx tsx scripts/public-chat-safety-evidence.ts",
     "test:guru-closing-safety": "npx tsx scripts/guru-closing-safety-evidence.ts",
     "test:guru-reveal-record": "npx tsx scripts/guru-reveal-recording.ts",
+    "test:guru-chat-panel-record": "npx tsx scripts/guru-chat-panel-recording.ts",
     "test:lal-kitab": "npx tsx scripts/lal-kitab-validate.ts",
     "test:sade-sati": "npx tsx scripts/sade-sati-validate.ts",
     "test:varshphal": "npx tsx scripts/varshphal-validate.ts",

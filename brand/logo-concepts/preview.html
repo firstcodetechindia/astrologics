@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CosmicTalks mark concepts — review only, not live</title>
+  <style>
+    :root {
+      --navy: #0B0F1F;
+      --paper: #f4f2ee;
+      --ink: #16141f;
+      --muted: #5c5870;
+      --line: rgba(22, 20, 31, 0.12);
+      --brand: linear-gradient(90deg, #6C3CFF 0%, #FF5CA8 32%, #FF8A3D 68%, #FFC857 100%);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+    }
+    header {
+      padding: 28px 32px 20px;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+    h1 {
+      margin: 0 0 6px;
+      font-size: 22px;
+      letter-spacing: -0.03em;
+    }
+    .wordmark {
+      font-weight: 750;
+      letter-spacing: -0.04em;
+    }
+    .wordmark .i { position: relative; display: inline-block; }
+    .wordmark .i .stem { opacity: 1; }
+    .wordmark .star {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translate(-50%, -42%);
+      font-size: 0.42em;
+      line-height: 1;
+    }
+    .talks {
+      background: var(--brand);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .lede {
+      margin: 8px 0 0;
+      max-width: 68ch;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .note {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #8a3b00;
+    }
+    main { padding: 24px 32px 48px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+    @media (max-width: 980px) { .grid { grid-template-columns: 1fr; } }
+    article {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    article h2 {
+      margin: 0;
+      padding: 16px 18px 4px;
+      font-size: 16px;
+      letter-spacing: -0.02em;
+    }
+    article p {
+      margin: 0;
+      padding: 0 18px 14px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .boards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border-top: 1px solid var(--line);
+    }
+    .board {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 220px;
+      padding: 24px;
+    }
+    .board.navy { background: var(--navy); }
+    .board.white { background: #fff; }
+    .board img { width: 140px; height: 140px; display: block; }
+    .sizes {
+      display: flex;
+      gap: 16px;
+      align-items: flex-end;
+      padding: 14px 18px 16px;
+      border-top: 1px solid var(--line);
+      background: #faf9f7;
+    }
+    .size {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .chip {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+    }
+    .chip.navy { background: var(--navy); }
+    .chip.white { background: #fff; border: 1px solid var(--line); }
+    .chip img { display: block; }
+    .size span { font-size: 10px; color: var(--muted); }
+    .tabs {
+      display: flex;
+      gap: 10px;
+      padding: 0 18px 16px;
+    }
+    .tab {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px 6px 6px;
+      border-radius: 8px 8px 0 0;
+      font-size: 11px;
+      color: #c9c6d4;
+      background: #1a1f33;
+      border: 1px solid #2a3050;
+      border-bottom: 0;
+    }
+    .tab.light {
+      background: #e8e6e1;
+      color: #333;
+      border-color: #d4d1c9;
+    }
+    .tab img { width: 16px; height: 16px; }
+    footer {
+      padding: 8px 32px 32px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>
+      <span class="wordmark">Cosm<span class="i"><span class="stem">ı</span><span class="star">✦</span></span>c<span class="talks">Talks</span></span>
+      mark concepts
+    </h1>
+    <p class="lede">
+      Four directions built from the live wordmark star, brand gradient
+      (#6C3CFF → #FF5CA8 → #FF8A3D → #FFC857), comet trails, and the Saptarishi
+      motif already in the galaxy hero. No zodiac wheel. Not deployed.
+    </p>
+    <p class="note">Review only — pick a direction before any production export or live swap.</p>
+  </header>
+  <main>
+    <div class="grid">
+      <article>
+        <h2>1. Starred-ı mark</h2>
+        <p>The wordmark’s ownable flourish, extracted: white ✦ over a dotless stem, with one open gradient orbit. Strongest continuity with the header you already shipped.</p>
+        <div class="boards">
+          <div class="board navy"><img src="01-starred-i.svg" alt="Starred-i on navy" /></div>
+          <div class="board white"><img src="01-starred-i.svg" alt="Starred-i on white" /></div>
+        </div>
+        <div class="sizes">
+          <div class="size"><div class="chip navy" style="width:48px;height:48px"><img src="01-starred-i.svg" width="32" height="32" alt="" /></div><span>32 navy</span></div>
+          <div class="size"><div class="chip white" style="width:48px;height:48px"><img src="01-starred-i.svg" width="32" height="32" alt="" /></div><span>32 white</span></div>
+          <div class="size"><div class="chip navy" style="width:28px;height:28px"><img src="01-starred-i.svg" width="16" height="16" alt="" /></div><span>16 navy</span></div>
+          <div class="size"><div class="chip white" style="width:28px;height:28px"><img src="01-starred-i.svg" width="16" height="16" alt="" /></div><span>16 white</span></div>
+        </div>
+        <div class="tabs">
+          <div class="tab"><img src="01-starred-i.svg" alt="" /> CosmicTalks</div>
+          <div class="tab light"><img src="01-starred-i.svg" alt="" /> CosmicTalks</div>
+        </div>
+      </article>
+
+      <article>
+        <h2>2. Comet + orbit</h2>
+        <p>One shooting star on a partial orbit. Gradient trail = motion and “talk” energy without a chat-app cliché or a sun/moon lockup.</p>
+        <div class="boards">
+          <div class="board navy"><img src="02-comet-orbit.svg" alt="Comet on navy" /></div>
+          <div class="board white"><img src="02-comet-orbit.svg" alt="Comet on white" /></div>
+        </div>
+        <div class="sizes">
+          <div class="size"><div class="chip navy" style="width:48px;height:48px"><img src="02-comet-orbit.svg" width="32" height="32" alt="" /></div><span>32 navy</span></div>
+          <div class="size"><div class="chip white" style="width:48px;height:48px"><img src="02-comet-orbit.svg" width="32" height="32" alt="" /></div><span>32 white</span></div>
+          <div class="size"><div class="chip navy" style="width:28px;height:28px"><img src="02-comet-orbit.svg" width="16" height="16" alt="" /></div><span>16 navy</span></div>
+          <div class="size"><div class="chip white" style="width:28px;height:28px"><img src="02-comet-orbit.svg" width="16" height="16" alt="" /></div><span>16 white</span></div>
+        </div>
+        <div class="tabs">
+          <div class="tab"><img src="02-comet-orbit.svg" alt="" /> CosmicTalks</div>
+          <div class="tab light"><img src="02-comet-orbit.svg" alt="" /> CosmicTalks</div>
+        </div>
+      </article>
+
+      <article>
+        <h2>3. Constellation node</h2>
+        <p>The same Saptarishi (Dubhe→Alkaid) already drawn in the page-hero galaxy, tightened into a mark. Alkaid becomes the wordmark spark. Asymmetric, so it won’t read as clipart.</p>
+        <div class="boards">
+          <div class="board navy"><img src="03-constellation-node.svg" alt="Constellation on navy" /></div>
+          <div class="board white"><img src="03-constellation-node.svg" alt="Constellation on white" /></div>
+        </div>
+        <div class="sizes">
+          <div class="size"><div class="chip navy" style="width:48px;height:48px"><img src="03-constellation-node.svg" width="32" height="32" alt="" /></div><span>32 navy</span></div>
+          <div class="size"><div class="chip white" style="width:48px;height:48px"><img src="03-constellation-node.svg" width="32" height="32" alt="" /></div><span>32 white</span></div>
+          <div class="size"><div class="chip navy" style="width:28px;height:28px"><img src="03-constellation-node.svg" width="16" height="16" alt="" /></div><span>16 navy</span></div>
+          <div class="size"><div class="chip white" style="width:28px;height:28px"><img src="03-constellation-node.svg" width="16" height="16" alt="" /></div><span>16 white</span></div>
+        </div>
+        <div class="tabs">
+          <div class="tab"><img src="03-constellation-node.svg" alt="" /> CosmicTalks</div>
+          <div class="tab light"><img src="03-constellation-node.svg" alt="" /> CosmicTalks</div>
+        </div>
+      </article>
+
+      <article>
+        <h2>4. Speech + star</h2>
+        <p>The only direction that says “Talks” in the silhouette: a rounded cosmic bubble with the same ✦ inside. Ties the product (AI conversation) to the name without a Messenger clone.</p>
+        <div class="boards">
+          <div class="board navy"><img src="04-speech-star.svg" alt="Speech star on navy" /></div>
+          <div class="board white"><img src="04-speech-star.svg" alt="Speech star on white" /></div>
+        </div>
+        <div class="sizes">
+          <div class="size"><div class="chip navy" style="width:48px;height:48px"><img src="04-speech-star.svg" width="32" height="32" alt="" /></div><span>32 navy</span></div>
+          <div class="size"><div class="chip white" style="width:48px;height:48px"><img src="04-speech-star.svg" width="32" height="32" alt="" /></div><span>32 white</span></div>
+          <div class="size"><div class="chip navy" style="width:28px;height:28px"><img src="04-speech-star.svg" width="16" height="16" alt="" /></div><span>16 navy</span></div>
+          <div class="size"><div class="chip white" style="width:28px;height:28px"><img src="04-speech-star.svg" width="16" height="16" alt="" /></div><span>16 white</span></div>
+        </div>
+        <div class="tabs">
+          <div class="tab"><img src="04-speech-star.svg" alt="" /> CosmicTalks</div>
+          <div class="tab light"><img src="04-speech-star.svg" alt="" /> CosmicTalks</div>
+        </div>
+      </article>
+    </div>
+  </main>
+  <footer>
+    Sources in <code>vedic/brand/logo-concepts/</code>. Production files, favicon links, and live OG tags stay unchanged until you pick a direction.
+  </footer>
+</body>
+</html>

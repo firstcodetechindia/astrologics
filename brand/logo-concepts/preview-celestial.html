@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>CosmicTalks — celestial wheel</title>
+  <style>
+    body { margin: 0; font-family: ui-sans-serif, "Avenir Next", "Segoe UI", sans-serif; background: #eceae4; color: #16141f; }
+    header { padding: 20px 28px; background: #fff; border-bottom: 1px solid #ddd; }
+    h1 { margin: 0 0 6px; font-size: 20px; letter-spacing: -0.03em; }
+    p { margin: 0; color: #5c5870; font-size: 13px; max-width: 72ch; line-height: 1.45; }
+    .row { display: flex; }
+    .col { flex: 1; min-height: 540px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; }
+    .col h2 { margin: 0 0 14px; font-size: 12px; font-weight: 650; letter-spacing: 0.06em; text-transform: uppercase; }
+    .navy { background: #0B0F1F; color: #c9c6d4; }
+    .white { background: #fff; }
+    .check {
+      background-image:
+        linear-gradient(45deg, #ddd 25%, transparent 25%),
+        linear-gradient(-45deg, #ddd 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #ddd 75%),
+        linear-gradient(-45deg, transparent 75%, #ddd 75%);
+      background-size: 24px 24px;
+      background-position: 0 0, 0 12px, 12px -12px, -12px 0;
+    }
+    img { width: min(360px, 90%); height: auto; display: block; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Celestial wheel — CosmicTalks colors only</h1>
+    <p>Same layout as your last gold reference: 16-point sun, crescent, orbital beads, 12-sign band. Only the brand gradient changed. No wordmark. Not deployed.</p>
+  </header>
+  <div class="row">
+    <div class="col white">
+      <h2>Your reference</h2>
+      <img src="_reference-celestial.png" alt="Gold celestial reference" />
+    </div>
+    <div class="col white">
+      <h2>Ours on light</h2>
+      <img src="07-celestial-wheel.svg" alt="CosmicTalks celestial wheel" />
+    </div>
+    <div class="col navy">
+      <h2>Ours on navy</h2>
+      <img src="07-celestial-wheel.svg" alt="CosmicTalks celestial wheel on navy" />
+    </div>
+  </div>
+</body>
+</html>
