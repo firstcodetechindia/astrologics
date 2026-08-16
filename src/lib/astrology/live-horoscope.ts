@@ -64,24 +64,24 @@ export function synthesizeMoonSignForecast(
   const highlights: { en: string; hi: string }[] = [];
   if (career >= 70)
     highlights.push({
-      en: "Jupiter supports career/visibility houses this period.",
-      hi: "इस अवधि में गुरु करियर/दृश्यता भावों का समर्थन करते हैं।",
+      en: "Career and work matters get extra support right now — a good window to take initiative.",
+      hi: "अभी करियर और काम के मामलों को अतिरिक्त समर्थन मिल रहा है — पहल करने का अच्छा समय है।",
     });
   if (love >= 70)
     highlights.push({
-      en: "Venus aspect pattern favours relationship ease.",
-      hi: "शुक्र पैटर्न संबंधों में सहजता का संकेत।",
+      en: "Relationships feel warmer and easier than usual — a good time to connect with people you care about.",
+      hi: "रिश्तों में सामान्य से ज़्यादा गर्मजोशी और सहजता महसूस होगी — अपनों से जुड़ने का अच्छा समय है।",
     });
   if (saturn?.isRetrograde)
     highlights.push({
-      en: "Saturn retrograde — review commitments before expanding.",
-      hi: "शनि वक्री — विस्तार से पहले प्रतिबद्धताएँ जाँचें।",
+      en: "Saturn is moving backward through the sky for a while (astrologers call this \"retrograde\") — a gentle nudge to review old promises before making new ones.",
+      hi: "शनि कुछ समय के लिए आकाश में पीछे की ओर बढ़ रहा है (ज्योतिष में इसे \"वक्री\" कहते हैं) — नई शुरुआत से पहले पुरानी प्रतिबद्धताओं को एक बार जाँच लें।",
     });
 
   const transitNotes = [
     {
-      en: `Transit Moon house from your sign: ${moonH}. Jupiter H${jH}, Saturn H${sH}, Venus H${vH}.`,
-      hi: `आपकी राशि से गोचर चंद्र भाव ${moonH}। गुरु H${jH}, शनि H${sH}, शुक्र H${vH}।`,
+      en: `Based on where the Moon, Jupiter, Saturn and Venus are positioned relative to this sign today.`,
+      hi: `यह आज के दिन चंद्र, गुरु, शनि और शुक्र की इस राशि के सापेक्ष स्थिति पर आधारित है।`,
     },
   ];
 

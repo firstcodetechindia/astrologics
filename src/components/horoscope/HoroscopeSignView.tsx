@@ -31,6 +31,7 @@ import {
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { PageHero } from "@/components/ui/PageHero";
+import { DirectAnswer } from "@/components/seo/DirectAnswer";
 import { ZodiacIcon } from "@/components/ui/ZodiacIcon";
 import {
   HOROSCOPE_SIGNS,
@@ -86,6 +87,31 @@ function GlassPanel({
       <div className="relative">{children}</div>
     </div>
   );
+}
+
+function moodLabel(score: number, hi: boolean): string {
+  if (hi) {
+    if (score >= 75) return "बेहतरीन";
+    if (score >= 60) return "अच्छा";
+    if (score >= 45) return "सामान्य";
+    if (score >= 30) return "थोड़ा धीमा";
+    return "आराम से लें";
+  }
+  if (score >= 75) return "Excellent";
+  if (score >= 60) return "Good";
+  if (score >= 45) return "Steady";
+  if (score >= 30) return "A bit slow";
+  return "Take it easy";
+}
+
+/** Strips stray markdown (asterisks, headings) an LLM may still emit. */
+function stripMarkdown(text: string): string {
+  return text
+    .replace(/^#{1,6}\s*/gm, "")
+    .replace(/\*\*(.*?)\*\*/g, "$1")
+    .replace(/\*(.*?)\*/g, "$1")
+    .replace(/^[-*]\s+/gm, "")
+    .trim();
 }
 
 /** Best-effort colour chip from lucky-colour text */
@@ -321,6 +347,15 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
       />
 
       <div className="container-page relative py-6 sm:py-8">
+        <div className="mb-5">
+          <DirectAnswer>
+            <p>
+              <strong>{hi ? "सीधे उत्तर:" : "Direct answer:"}</strong>{" "}
+              {pickL(locale, sign.summary)}
+            </p>
+          </DirectAnswer>
+        </div>
+
         {/* AI status strip */}
         <GlassPanel className="mb-5 flex flex-wrap items-center justify-between gap-3 px-4 py-3">
           <div className="flex items-center gap-2.5">
@@ -398,7 +433,12 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
 
               <div className="mt-4 rounded-xl border border-saffron/25 bg-cosmic-navy/80 p-4">
                 <p className="text-[11px] font-semibold uppercase tracking-wide text-saffron-deep">
-                  {hi ? "लाइव गोचर आधारित" : "Live transit-based"}
+                  {hi ? "आज का मिज़ाज" : "Today's mood check"}
+                </p>
+                <p className="mt-1 text-[11px] text-ink-muted">
+                  {hi
+                    ? "आज के ग्रह-गोचर पर आधारित सरल संकेत — हर जीवन क्षेत्र में मूड कैसा रहेगा।"
+                    : "A plain-language read of today's planetary movement — how each part of life may feel."}
                 </p>
                 {liveLoading ? (
                   <p className="mt-2 text-sm text-ink-muted">
@@ -421,15 +461,16 @@ export function HoroscopeSignView({ sign }: { sign: HoroscopeSign }) {
                           <span
                             key={k}
                             className="rounded-full border border-saffron/15 bg-surface/85 px-2.5 py-1"
+                            title={`${liveScores[k]}/100`}
                           >
-                            {label} {liveScores[k]}
+                            {label}: {moodLabel(liveScores[k], hi)}
                           </span>
                         ))}
                       </div>
                     )}
                     {liveText && (
                       <p className="mt-3 whitespace-pre-wrap text-[14px] leading-relaxed text-ink">
-                        {liveText}
+                        {stripMarkdown(liveText)}
                       </p>
                     )}
                   </>

@@ -525,8 +525,8 @@ function summaries(i: number): { summary: LocaleText; rulerBlurb: LocaleText } {
   const ruler = SIGN_LORDS[i];
   return {
     summary: L(
-      `${name.en} forecasts blend temperament with the sky’s current weather. Read them as guidance for timing and tone — not as fixed fate.`,
-      `${name.hi} भविष्यवाणी स्वभाव और वर्तमान ग्रह मौसम को मिलाती है। इसे समय व स्वर का मार्गदर्शन मानें — तय किस्मत नहीं।`
+      `${name.en} horoscope combines your sign's core personality with today's planetary movements to give you simple guidance on love, career, money and health. Think of it as general direction for your day, week or month — not a fixed prediction.`,
+      `${name.hi} राशिफल आपकी राशि के स्वभाव को आज के ग्रह-गोचर से जोड़कर प्रेम, करियर, धन और स्वास्थ्य पर सरल मार्गदर्शन देता है। इसे अपने दिन, सप्ताह या महीने की सामान्य दिशा मानें — तय भविष्यवाणी नहीं।`
     ),
     rulerBlurb: L(
       `${name.en} is ruled by ${ruler.en}. When ${ruler.en} is strong, the sign’s gifts flow easily; when stressed, the same traits need extra care. Tracking that planetary weather is the heart of a ${name.en} horoscope.`,

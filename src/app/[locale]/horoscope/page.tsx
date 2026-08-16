@@ -95,12 +95,12 @@ export default async function HoroscopeIndexPage() {
         <div className="mb-6 rounded-2xl border border-white/12 bg-surface/90 p-4 text-[13px] leading-relaxed text-ink-muted shadow-sm backdrop-blur-xl sm:p-5">
           <p className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-saffron-deep">
             <Sparkles className="h-3 w-3" />
-            {hi ? "खोजने योग्य ज्योतिष सामग्री" : "Crawl-ready astrology content"}
+            {hi ? "हर राशि पृष्ठ पर क्या मिलेगा" : "What's on every sign page"}
           </p>
           <p className="mt-2">
             {hi
-              ? "प्रत्येक राशि पृष्ठ पर व्यक्तित्व प्रोफ़ाइल, करियर संकेत, अनुकूलता, करें/न करें, सरल उपाय, FAQ और एआई अंतर्दृष्टि है — ताकि पाठक और सर्च इंजन दोनों को स्पष्ट संरचना मिले।"
-              : "Each sign page includes personality profile, career cues, compatibility, do/don’t lists, remedies, FAQs and AI insight — structured clearly for readers and search engines."}
+              ? "सरल भाषा में व्यक्तित्व, करियर संकेत, अनुकूलता, करें/न करें, आसान उपाय और अक्सर पूछे प्रश्न — बिना कठिन ज्योतिष शब्दावली के।"
+              : "Personality profile, career cues, compatibility, simple do/don’t lists, easy remedies and FAQs — written in plain language, no astrology degree required."}
           </p>
         </div>
 
