@@ -4,6 +4,8 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { SiteChrome } from "@/components/layout/SiteChrome";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
+import { CookieConsentBanner } from "@/components/analytics/CookieConsentBanner";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo/page-meta";
 import { cn } from "@/lib/utils";
@@ -59,8 +61,10 @@ export default async function LocaleLayout({
       >
         <JsonLd data={organizationJsonLd()} />
         <JsonLd data={websiteJsonLd()} />
+        <GoogleAnalytics />
         <NextIntlClientProvider messages={messages}>
           <SiteChrome>{children}</SiteChrome>
+          <CookieConsentBanner />
         </NextIntlClientProvider>
       </body>
     </html>
